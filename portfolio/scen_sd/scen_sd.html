@@ -55,8 +55,11 @@ Ting Xu  (tingx) <br>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
+
+
 <h2> <a name="usecase1" id="usecase1"></a>Use Case 1: Passenger Makes
 A Hall Call </h2>
+
 <h3> <a name="scenario1a" id="scenario1a"></a>Scenario 1A: Passenger
 arrives at a hallway while elevator is elsewhere. </h3>
 <h3> Pre-Conditions: </h3>
@@ -82,6 +85,7 @@ desired direction d. </li>
  style="border: 0px solid ; width: 602px; height: 237px;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
+
 <h3> <a name="scenario1b" id="scenario1b"></a>Scenario 1B: Passenger
 arrives at a hallway when elevator is already there and the car is
 traveling in the same direction as desired by passenger. </h3>
@@ -116,6 +120,7 @@ it's OK to do that for this project assignment.)</i> </li>
  style="border: 0px solid ; width: 1042px; height: 338px;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
+
 <h3> <a name="scenario1c" id="scenario1c"></a>Scenario 1C: Passenger
 arrives at a hallway when elevator is already there and the car is
 traveling in opposite direction as desired by passenger. </h3>
@@ -149,17 +154,16 @@ but after doors are too fully closed for passenger to enter. </li>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
-<h2> <a name="usecase2" id="usecase2"></a>Use Case 2: Passenger Makes
-A Car Call </h2>
+
+
+<h2> <a name="usecase2" id="usecase2"></a>Use Case 2: Passenger Makes A Car Call </h2>
+
 <h3> <a name="scenario2a" id="scenario2a"></a>Scenario 2A: Passenger
 is in the car and elevator is not at the desired destination floor. </h3>
 <h3> Author name: Ting Xu </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
-  <li>Car is at floor <b>f</b>, with at least one Door[<b>b</b>,<b>r</b>]
-open.
-
-  </li>
+  <li>Car is at floor <b>f</b>, with at least one Door[<b>b</b>,<b>r</b>] open.</li>
   <li>Passenger is in the car and elevator is not at the desired
 destination [<b>g</b>,<b>c</b>], where <b>f</b> != <b>g</b>. Also, <b>
 b</b> might or might not be equal to <b>c</b>. </li>
@@ -179,10 +183,10 @@ b</b> might or might not be equal to <b>c</b>. </li>
 </ul>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd2a.png"><img src="sd2a.png" alt="2A"
- style="border: 0px solid ; width: 1102; height: 302;"></a> </p>
-</a> </p>
+ style="border: 0px solid ; width: 1102; height: 419;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
+
 <h3> <a name="scenario2b" id="scenario2b"></a>2B: Passenger is in the
 car and the elevator has arrived at the passenger's desired floor, but
 passenger has not yet exited the car as the doors begin to close. </h3>
@@ -200,7 +204,6 @@ has not yet exited the car. </li>
    <li>Passenger presses the car call button for the current floor</li>
    <li>Door[b,r] begins to open</li>
    <li>Door[b,r] completes opening</li>
-
 </ol>
 <h3> Post-Conditions: </h3>
 <ul type="disc">
@@ -209,14 +212,15 @@ has not yet exited the car. </li>
 </ul>	
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd2b.png"><img src="sd2b.png" alt="2B"
- style="border: 0px solid ; width: 1102; height: 302;"></a> </p>
-</a> </p>
-</a> </p>
+ style="border: 0px solid ; width: 1102; height: 428;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
+
+
 <h2> <a name="usecase3" id="usecase3"></a>Use Case 3: Passenger Enters
 Elevator </h2>
+
 <h3> Scenario 3A: Passenger is waiting at a hallway for the elevator
 and has already pressed the hall call button. </h3>
 <h3> Author name: Ting Xu </h3>
@@ -248,13 +252,14 @@ has already been pressed </li>
 </ul>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd3a.png"><img src="sd3a.png" alt="3A"
- style="border: 0px solid ; width: 1537; height: 363;"></a> </p>
-</a> </p>
+ style="border: 0px solid ; width: 1537; height: 474;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
-<h2> <a name="usecase4" id="usecase4"></a>Use Case 4: Passenger Exits
-Elevator </h2>
+
+
+<h2> <a name="usecase4" id="usecase4"></a>Use Case 4: Passenger Exits Elevator </h2>
+
 <h3> Scenario 4A: Passenger is in the elevator as it arrives at the
 passenger's desired hallway. </h3>
 <h3> Author name: Mengzhe Li </h3>
@@ -281,24 +286,23 @@ and hallway <b>b</b>. </li>
   <li>Passenger is outside the car.</li>
 </ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="sd4.png"><img src="sd4.png" alt="4"
- style="border: 0px solid ; width: 1243px; height: 345px;"></a> </p>
-</a> </p>
+<p> <a href="sd4a.png"><img src="sd4a.png" alt="4A"
+ style="border: 0px solid ; width: 1250px; height: 436px;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
+
+
 <h2> <a name="usecase5" id="usecase5"></a>Use Case 5: Passenger
 Triggers Door Reversal </h2>
+
 <h3> <a name="scenario5a" id="scenario5a"></a>Scenario 5A: Passenger
 attempts to enter the car as the doors begin to close. </h3>
 <h3> Author name: Mengzhe Li </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Passenger is outside the car. </li>
-  <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>.
-
-
-  </li>
+  <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>. </li>
   <li>At least one door[<b>b</b>,<b>r</b>] is open. </li>
 </ul>
 <h3> Scenario: </h3>
@@ -314,10 +318,10 @@ attempts to enter the car as the doors begin to close. </h3>
 </ul>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd5a.png"><img src="sd5a.png" alt="5A"
- style="border: 0px solid ; width: 602px; height: 237px;"></a> </p>
-</a> </p>
+ style="border: 0px solid ; width: 749px; height: 383px;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
+
 <h3> <a name="scenario5b" id="scenario5b"></a>Scenario 5B: Passenger
 attempts to exit the car as the doors begin to close. </h3>
 <h3> Author name: Mengzhe Li </h3>
@@ -342,13 +346,15 @@ attempts to exit the car as the doors begin to close. </h3>
 </ul>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd5b.png"><img src="sd5b.png" alt="5B"
- style="border: 0px solid ; width: 602px; height: 237px;"></a> </p>
-</a> </p>
+ style="border: 0px solid ; width: 749px; height: 398px;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
+
+
 <h2> <a name="usecase6" id="usecase6"></a>Use Case 6: Determine Car
 Position </h2>
+
 <h3> Scenario 6A: Car moves from hallway f on floor x to adjacent hallway g 
 on floor y and stops. </h3>
 <p> Note: Recall that the Drive of the elevator we provided is
@@ -379,10 +385,13 @@ suffice.</p>
 </ul>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd6a.png"><img src="sd6a.png" alt="6A" name="_x0000_i1027"
- style="border: 0px solid ; width: 542px; height: 242px;"></a> </p>
+ style="border: 0px solid ; width: 721px; height: 315px;"></a> </p>
 <p> &nbsp; </p>
+
+
 <h2> <a name="usecase7" id="usecase7"></a>Use Case 7: Determine Car
 Direction </h2>
+
 <h3> <a name="scenario7a" id="scenario7a"></a>Scenario 7A: Elevator
 opens doors when Dispatcher's intended direction is Up or Down. </h3>
 <h3> Author name: Example Solutions </h3>
@@ -412,11 +421,10 @@ hallway <b>b</b>. </li>
 </ul>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd7a.png"><img src="sd7a.png" alt="5B"
- style="border: 0px solid ; width: 602px; height: 237px;"></a> </p>
-</a> </p>
-</a> </p>
+ style="border: 0px solid ; width: 980px; height: 491px;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
+
 <h3> <a name="scenario7b" id="scenario7b"></a>Scenario 7B: Elevator
 arrives at a hallway and the desired direction is Stop. </h3>
 <h3> Author name: Example Solutions </h3>
@@ -444,12 +452,11 @@ direction), with enabled pickup in hallway <b>b</b>. </li>
 <li>Both Car Lanterns are off.</li>
 </ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="sd7b.png"><img src="sd7b.png" alt="5B"
- style="border: 0px solid ; width: 602px; height: 237px;"></a> </p>
-</a> </p>
-</a> </p>
+<p> <a href="sd7b.png"><img src="sd7b.png" alt="7B"
+ style="border: 0px solid ; width: 519px; height: 498;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
+
 <h3> <a name="scenario7c" id="scenario7c"></a>Scenario 7C: Elevator
 doors close on a hallway. </h3>
 <h3> Author name: Example Solutions </h3>
@@ -468,13 +475,13 @@ doors close on a hallway. </h3>
 <li>lanterns are set </li>
 </ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="sd7c.png"><img src="sd7c.png" alt="5B"
- style="border: 0px solid ; width: 602px; height: 237px;"></a> </p>
-</a> </p>
-</a> </p>
+<p> <a href="sd7c.png"><img src="sd7c.png" alt="7C"
+ style="border: 0px solid ; width: 876px; height: 555px;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
+
+
 <h2> <a name="usecase8" id="usecase8"></a>Use Case 8: Move Car to NextFloor </h2>
 <h3> Scenario 8A: Elevator moves from {floor f, hallway b} to {floor g,hallway c} in direction d. </h3>
 <p> Note: You will want to create other scenarios that involve fast speed for your elevator, but this is a starting point. </p>
@@ -496,10 +503,12 @@ doors close on a hallway. </h3>
 </ul>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd8a.png"><img src="sd8a.png" alt="8A" name="_x0000_i1027"
- style="border: 0px solid ; width: 822px; height: 302px;"></a> </p>
+ style="border: 0px solid ; width: 822px; height: 378px;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
+
+
 <h2> <a name="usecase9" id="usecase9"></a>Use Case 9: Cycle Doors </h2>
 <h3> Scenario 9A: Elevator stops at hallway and doors open. Dispatcher computes next desired floor just as doors open. Doors close. </h3>
 <p> Note: This dispatcher is really dumb and stops at every floor, in order. It would be much better to stop only at floors with people on them or that people want to go to. </p>
@@ -525,7 +534,7 @@ doors close on a hallway. </h3>
 </ul>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd9a.png"><img src="sd9a.png" alt="9A" name="_x0000_i1027"
- style="border: 0px solid ; width: 682px; height: 362px;"></a> </p>
+ style="border: 0px solid ; width: 721px; height: 441px;"></a> </p>
 <br>
 </div>
 </body>
