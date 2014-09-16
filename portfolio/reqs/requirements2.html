@@ -1313,11 +1313,46 @@ pair of bulbs as a single actuator.</li>
 based on comparing CurrentFloor with Floor desired by Dispatcher.&nbsp;
 This is implicitly computed and used as a macro in the behavior
 descriptions. </li>
+  <li>DesiredFloor = {f} is the most recent message recieved from mDesiredFloor</li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 7.1&nbsp;&nbsp;&nbsp; Both CarLanterns[d] shall not be On at the same
 time.
 <h3> EVENT-TRIGGERED BEHAVIORS: </h3>
+<ul>
+  <li>7.1 mDoorClosed[b,r] and DesiredDirection == Down shall 
+    <ul>
+    <li>7.1a Command CarLantern[Down] to On and CarLantern[Up] to Off</li>
+    <li>7.1b Send mCarLantern[Down](On) and mCarLantern[Up](Off)</li>
+    </ul></li>
+  <li>7.2 mDoorClosed[b,r] and DesiredDirection == Up shall
+    <ul>
+    <li>7.2a Command CarLantern[Up] to On and CarLantern[Down] to Off</li>
+    <li>7.2b Send mCarLantern[Up](On) and mCarLantern[Down](Off) </li>
+    </ul></li>
+  <li>7.3 mDoorClosed[b,r] and DesiredDirection == Stop shall 
+    <ul>
+    <li>7.3a Command CarLantern[Up] to Off and CarLantern[Down] to Off</li>
+    <li>7.3b Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </li>
+    </ul></li>  
+  <li>7.4 mDesiredFloor shall set DesiredFloor == mDesiredFloor</li>
+  <li>7.5 mAtFloor == DesiredFloor and DesiredDirection == Down shall
+    <ul>
+    <li>7.5a Command CarLantern[Down] to On and CarLantern[Up] to Off</li>
+    <li>7.5b Send mCarLantern[Down](On) and mCarLantern[Up](Off)</li>
+    </ul></li>
+  <li>7.6 mAtFloor == DesiredFloor and DesiredDirection == Up shall
+    <ul>
+    <li>7.6a Command CarLantern[Up] to On and CarLantern[Down] to Off</li>
+    <li>7.6b Send mCarLantern[Up](On) and mCarLantern[Down](Off) </li>
+    </ul></li>
+  <li>7.7 mAtFloor == DesiredFloor and DesiredDirection == Stop shall
+    <ul>
+    <li>7.7a Command CarLantern[Up] to Off and CarLantern[Down] to Off</li>
+    <li>7.7b Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </li>
+    </ul></li>  
+  
+</ol>
 <br>
 <h2><a name="hallbuttoncontrol"></a> 8. HallButtonControl[f, b, d] </h2>
 <h3> Replication: </h3>
