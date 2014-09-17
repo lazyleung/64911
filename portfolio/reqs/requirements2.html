@@ -1389,6 +1389,8 @@ None
   <li>CurrentFloor, is a shorthand notation for the value f of
 whichever mAtFloor[f, b] is True, if any.&nbsp; If CurrentFloor is
 invalid it has a mnemonic value of None. </li>
+  <li>CurrentDirection, is a shorthand notation for the value d of
+whichever mDesiredFloor[f, b, d] is True, if any.&nbsp; </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 None
@@ -1401,6 +1403,10 @@ true; <br>
 8.2 &nbsp;&nbsp; If mDesiredFloor[f, b, d] is True, and CurrentFloor is f, then: <br>
 &nbsp;&nbsp;&nbsp; 8.2.1&nbsp; HallLight[f, b, d] should be set to false;<br>
 &nbsp;&nbsp;&nbsp; 8.2.2&nbsp; mHallLight[f, b, d] should be set to false.<br>
+8.3 &nbsp;&nbsp; If mDoorClosed[b, r] is False, and HallCall[CurrentFloor, b, CurrentDirection] is true, then: <br>
+&nbsp;&nbsp;&nbsp; 8.3.1&nbsp; mHallCall[f, b, d] should be set to false;<br>
+&nbsp;&nbsp;&nbsp; 8.3.2&nbsp; HallLight[f, b, d] should be set to false;<br>
+&nbsp;&nbsp;&nbsp; 8.3.3&nbsp; mHallLight[f, b, d] should be set to false.<br>
 <br>
 <h2><a name="carbuttoncontrol"></a> 9. CarButtonControl[f, b] </h2>
 <h3> Replication: </h3>
