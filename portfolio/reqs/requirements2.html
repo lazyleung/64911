@@ -1071,6 +1071,7 @@ with a floor. </li>
 based on comparing current floor position with Floor desired by
 Dispatcher.&nbsp; This is implicitly computed and used as a macro in
 the behavior descriptions. </li>
+  <li>Direction = {Up, Down, Level, Stop} movement state car is currently in.</li>
   <li>CurrentFloor, is a shorthand notation for the value of whichever
 mAtFloor[f, b] is True, if any.&nbsp; If CurrentFloor is invalid it has
 a mnemonic value of None. </li>
@@ -1259,17 +1260,19 @@ Down<br>
 6.5&nbsp;&nbsp;&nbsp; If mCarWeight(x) &gt;= MaxCarCapacity, the drive shall not be commanded to {Slow, d} or {Fast, d} until the car is no longer overloaded.
 
 <h3> EVENT-TRIGGERED BEHAVIORS: </h3>
-6.6 &nbsp;&nbsp; mDesiredFloor.f is equal to CurrentFloor and DesiredDirection is d and SlowSpeed &gt;= DriveSpeed and CommitPoint[f] is Not Reached shall result in:<br>
+6.6 &nbsp;&nbsp; mDesiredFloor.f is equal to CurrentFloor and Direction is d and SlowSpeed &gt;= DriveSpeed and CommitPoint[f] is Not Reached shall result in:<br>
 &nbsp;&nbsp;&nbsp;6.6.1 &nbsp;&nbsp; Drive being commanded to {Level, d}.<br>
-&nbsp;&nbsp;&nbsp;6.6.2 &nbsp;&nbsp; DesiredDirection being set to Stop.<br>
-6.7 &nbsp;&nbsp; mLevel[d] is true and DesiredDirection is Stop and LevelSpeed &gt;= DriveSpeed shall result in Drive being commanded to {Stop, Stop}.<br>
+&nbsp;&nbsp;&nbsp;6.6.2 &nbsp;&nbsp; Direction being set to Level.<br>
+6.7 &nbsp;&nbsp; mLevel[d] is true and Direction is Level and LevelSpeed &gt;= DriveSpeed shall result in:<br>
+&nbsp;&nbsp;&nbsp;6.7.1 &nbsp;&nbsp; Drive being commanded to {Stop, Stop}.<br>
+&nbsp;&nbsp;&nbsp;6.7.2 &nbsp;&nbsp; Direction being set to Stop.<br>
 
 6.8 &nbsp;&nbsp; DriveSpeed is {0, Stop} shall result in mDriveSpeed transmitted as {0, Stop}.<br>
-6.9 &nbsp;&nbsp; mDesiredFloor is {f, h, d} shall result in DesiredDirection set to d.<br>
+6.9 &nbsp;&nbsp; mDesiredFloor is {f, h, d} and DesiredDirection is d' shall result in Direction set to d'.<br>
 
 6.10&nbsp;&nbsp;mDoorClosed[b, r] is true and DesiredDirection is d shall result in Drive being commanded to {Slow, d}.<br>
 
-6.11&nbsp;&nbsp;mCarWeight &gt;= MaxCarCapacity shall result in DesiredDirection set to Stop.<br>
+6.11&nbsp;&nbsp;mCarWeight &gt;= MaxCarCapacity shall result in Direction set to Stop.<br>
 6.12&nbsp;&nbsp;mEmergencyBrake is true shall result in Drive being commanded to {Stop, Stop}.<br>
 <br>
 <h2><a name="lanterncontrol"></a> 7. LanternControl[d] </h2>
