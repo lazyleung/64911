@@ -1103,31 +1103,14 @@ Values<br>
       </td>
     </tr>
     <tr>
-      <td
- style="vertical-align: bottom; background-color: rgb(221, 221, 221); font-weight: bold; text-align: center;">Drive
-Command
-Values<br>
-      </td>
-      <td style="vertical-align: top; font-weight: bold;">FastSpeed
-&gt;= DriveSpeed &gt;= SlowSpeed, UP<br>
-      </td>
-      <td style="vertical-align: top; font-weight: bold;">SlowSpeed
-&gt;= DriveSpeed &gt; LevelSpeed, UP<br>
-      </td>
-      <td style="vertical-align: top; font-weight: bold;">LevelSpeed
-&gt;= DriveSpeed &gt; 0, UP <br>
-      </td>
-      <td style="vertical-align: top; font-weight: bold;">DriveSpeed ==
-0,STOP<br>
-      </td>
-      <td style="vertical-align: top; font-weight: bold;">LevelSpeed
-&gt;= DriveSpeed &gt; 0, DOWN </td>
-      <td style="vertical-align: top; font-weight: bold;">SlowSpeed
-&gt;= DriveSpeed &gt; 0, DOWN<br>
-      </td>
-      <td style="vertical-align: top; font-weight: bold;">FastSpeed
-&gt;= DriveSpeed &gt;= SlowSpeed, DOWN<br>
-      </td>
+      <td style="vertical-align: bottom; background-color: rgb(221, 221, 221); font-weight: bold; text-align: center;">Drive Command Values</td>
+      <td style="vertical-align: top; font-weight: bold;">FastSpeed &gt;= DriveSpeed &gt;= SlowSpeed, UP</td>
+      <td style="vertical-align: top; font-weight: bold;">SlowSpeed &gt;= DriveSpeed &gt; LevelSpeed, UP</td>
+      <td style="vertical-align: top; font-weight: bold;">LevelSpeed &gt;= DriveSpeed &gt; 0, UP </td>
+      <td style="vertical-align: top; font-weight: bold;">DriveSpeed ==0,STOP</td>
+      <td style="vertical-align: top; font-weight: bold;">LevelSpeed &gt;= DriveSpeed &gt; 0, DOWN</td>
+      <td style="vertical-align: top; font-weight: bold;">SlowSpeed &gt;= DriveSpeed &gt; 0, DOWN</td>
+      <td style="vertical-align: top; font-weight: bold;">FastSpeed &gt;= DriveSpeed &gt;= SlowSpeed, DOWN</td>
     </tr>
     <tr>
       <td
@@ -1274,12 +1257,20 @@ Down<br>
 <br>
 6.4&nbsp;&nbsp;&nbsp; Drive should be Stopped whenever mEmergencyBrake is activated.<br>
 6.5&nbsp;&nbsp;&nbsp; If mCarWeight(x) &gt;= MaxCarCapacity, the drive shall not be commanded to {Slow, d} or {Fast, d} until the car is no longer overloaded.
+
 <h3> EVENT-TRIGGERED BEHAVIORS: </h3>
-6.6 &nbsp;&nbsp; DesiredDirection is d and CurrentFloor !equals mDesiredFloor.f and mDoorMotor[b,r] is Stop and mDoorClosed is True and DriveSpeed < SlowSpeed shall result in Drive being commanded to {Slow, d}.<br>
-6.7 &nbsp;&nbsp; DesiredDirection is Stop and CurrentFloor equals mDesiredFloor.f and CommitPoint[f] is Not Reached and SlowSpeed >= DriveSpeed > LevelSpeed shall result in Drive being commanded to {Level, d}.<br>
-6.8 &nbsp;&nbsp; DesiredDirection is Stop and CurrentFloor equals mDesiredFloor.f and DriveSpeed <= LevelSpeed and mLevel[d] is true shall result in Drive being commanded to {Stop, d}.<br>
-6.9 &nbsp;&nbsp; mLevel[d] is true and mAtFloor[f,b] is true and f equals mDesiredFloor.f shall result in Drive being commanded to {Stop, Stop}.<br>
-6.10&nbsp;&nbsp;DriveSpeed is {0, Stop} shall result in mDriveSpeed transmitted as {0, Stop}.<br>
+6.6 &nbsp;&nbsp; mDesiredFloor.f is equal to CurrentFloor and DesiredDirection is d and SlowSpeed &gt;= DriveSpeed and CommitPoint[f] is Not Reached shall result in:<br>
+&nbsp;&nbsp;&nbsp;6.6.1 &nbsp;&nbsp; Drive being commanded to {Level, d}.<br>
+&nbsp;&nbsp;&nbsp;6.6.2 &nbsp;&nbsp; DesiredDirection being set to Stop.<br>
+6.7 &nbsp;&nbsp; mLevel[d] is true and DesiredDirection is Stop and LevelSpeed &gt;= DriveSpeed shall result in Drive being commanded to {Stop, Stop}.<br>
+
+6.8 &nbsp;&nbsp; DriveSpeed is {0, Stop} shall result in mDriveSpeed transmitted as {0, Stop}.<br>
+6.9 &nbsp;&nbsp; mDesiredFloor is {f, h, d} shall result in DesiredDirection set to d.<br>
+
+6.10&nbsp;&nbsp;mDoorClosed[b, r] is true and DesiredDirection is d shall result in Drive being commanded to {Slow, d}.<br>
+
+6.11&nbsp;&nbsp;mCarWeight &gt;= MaxCarCapacity shall result in DesiredDirection set to Stop.<br>
+6.12&nbsp;&nbsp;mEmergencyBrake is true shall result in Drive being commanded to {Stop, Stop}.<br>
 <br>
 <h2><a name="lanterncontrol"></a> 7. LanternControl[d] </h2>
 <h3> Replication: </h3>
