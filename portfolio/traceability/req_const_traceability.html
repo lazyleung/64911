@@ -250,7 +250,7 @@ Stop<br>
     </tr>
     <tr>
       <td style="vertical-align: top;"><span style="font-weight: bold;">DriveControl</span><span
- style="font-weight: bold;"> - Completed by (Name, andrewid)</span> </td>
+ style="font-weight: bold;"> - Completed by (Eric Newhall, enewhall)</span> </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -711,7 +711,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;"><span style="font-weight: bold;">Dispatcher</span><span
- style="font-weight: bold;"> - Completed by (Name, andrewid)</span> </td>
+ style="font-weight: bold;"> - Completed by (Eric Newhall, enewhall)</span> </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -724,12 +724,12 @@ Requirements/Constraints</b></u></td>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">11.4 (add requirement summary) </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">11.4 mDesiredFloor.f = Target </td>
+      <td style="vertical-align: top;">~<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -737,13 +737,96 @@ Requirements/Constraints</b></u></td>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">...<br>
+      <td style="vertical-align: top;">11.5 mDesiredFloor.d = Stop<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">11.6.1 Door Opened -> Target = ((f mod MaxFloors) + 1)<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
       <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">11.6.2 Door Opened -> mDesiredFloor.b = b where f, b is whichever mAtFloor[f, b] is True<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">11.7.1 If all mAtFloor[f, b] are False and any mDoorClosed [b, r] is False -> Target = 1<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    <tr>
+      <td style="vertical-align: top;">11.7.2 If all mAtFloor[f, b] are False and any mDoorClosed [b, r] is False -> mDesiredFloor.b shall be set to None<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">11.8 If two mAtFloor[f, b] values are True with the same value f -> mDesiredFloor.b shall be set to Both.<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">11.9 mDesiredDwell shall always be set to a constant appropriate value for door open dwell. <br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
