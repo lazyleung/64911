@@ -1321,36 +1321,36 @@ descriptions. </li>
 time.
 <h3> EVENT-TRIGGERED BEHAVIORS: </h3>
 <ul>
-  <li>7.1 mDoorClosed[b,r] and DesiredDirection == Down shall 
+  <li>7.2 mDoorClosed[b,r] and DesiredDirection == Down shall 
     <ul>
-    <li>7.1a Command CarLantern[Down] to On and CarLantern[Up] to Off</li>
-    <li>7.1b Send mCarLantern[Down](On) and mCarLantern[Up](Off)</li>
+    <li>7.2.1 Command CarLantern[Down] to On and CarLantern[Up] to Off</li>
+    <li>7.2.2 Send mCarLantern[Down](On) and mCarLantern[Up](Off)</li>
     </ul></li>
-  <li>7.2 mDoorClosed[b,r] and DesiredDirection == Up shall
+  <li>7.3 mDoorClosed[b,r] and DesiredDirection == Up shall
     <ul>
-    <li>7.2a Command CarLantern[Up] to On and CarLantern[Down] to Off</li>
-    <li>7.2b Send mCarLantern[Up](On) and mCarLantern[Down](Off) </li>
+    <li>7.3.1 Command CarLantern[Up] to On and CarLantern[Down] to Off</li>
+    <li>7.3.2 Send mCarLantern[Up](On) and mCarLantern[Down](Off) </li>
     </ul></li>
-  <li>7.3 mDoorClosed[b,r] and DesiredDirection == Stop shall 
+  <li>7.4 mDoorClosed[b,r] and DesiredDirection == Stop shall 
     <ul>
-    <li>7.3a Command CarLantern[Up] to Off and CarLantern[Down] to Off</li>
-    <li>7.3b Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </li>
+    <li>7.4.1 Command CarLantern[Up] to Off and CarLantern[Down] to Off</li>
+    <li>7.4.2 Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </li>
     </ul></li>  
-  <li>7.4 mDesiredFloor shall set DesiredFloor == mDesiredFloor</li>
-  <li>7.5 mAtFloor == DesiredFloor and DesiredDirection == Down shall
+  <li>7.5 mDesiredFloor shall set DesiredFloor == mDesiredFloor</li>
+  <li>7.6 mAtFloor == DesiredFloor and DesiredDirection == Down shall
     <ul>
-    <li>7.5a Command CarLantern[Down] to On and CarLantern[Up] to Off</li>
-    <li>7.5b Send mCarLantern[Down](On) and mCarLantern[Up](Off)</li>
+    <li>7.6.1 Command CarLantern[Down] to On and CarLantern[Up] to Off</li>
+    <li>7.7.1 Send mCarLantern[Down](On) and mCarLantern[Up](Off)</li>
     </ul></li>
-  <li>7.6 mAtFloor == DesiredFloor and DesiredDirection == Up shall
+  <li>7.7 mAtFloor == DesiredFloor and DesiredDirection == Up shall
     <ul>
-    <li>7.6a Command CarLantern[Up] to On and CarLantern[Down] to Off</li>
-    <li>7.6b Send mCarLantern[Up](On) and mCarLantern[Down](Off) </li>
+    <li>7.7.1 Command CarLantern[Up] to On and CarLantern[Down] to Off</li>
+    <li>7.7.2 Send mCarLantern[Up](On) and mCarLantern[Down](Off) </li>
     </ul></li>
-  <li>7.7 mAtFloor == DesiredFloor and DesiredDirection == Stop shall
+  <li>7.8 mAtFloor == DesiredFloor and DesiredDirection == Stop shall
     <ul>
-    <li>7.7a Command CarLantern[Up] to Off and CarLantern[Down] to Off</li>
-    <li>7.7b Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </li>
+    <li>7.8.1 Command CarLantern[Up] to Off and CarLantern[Down] to Off</li>
+    <li>7.8.2b Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </li>
     </ul>
   </li>  
 </ul>
