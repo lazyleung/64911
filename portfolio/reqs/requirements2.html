@@ -1326,41 +1326,26 @@ descriptions. </li>
 7.1&nbsp;&nbsp;&nbsp; Both CarLanterns[d] shall not be On at the same
 time.
 <h3> EVENT-TRIGGERED BEHAVIORS: </h3>
-<ul>
-  <li>7.2 mDoorClosed[b,r] and DesiredDirection == Down shall 
-    <ul>
-    <li>7.2.1 Command CarLantern[Down] to On and CarLantern[Up] to Off</li>
-    <li>7.2.2 Send mCarLantern[Down](On) and mCarLantern[Up](Off)</li>
-    </ul></li>
-  <li>7.3 mDoorClosed[b,r] and DesiredDirection == Up shall
-    <ul>
-    <li>7.3.1 Command CarLantern[Up] to On and CarLantern[Down] to Off</li>
-    <li>7.3.2 Send mCarLantern[Up](On) and mCarLantern[Down](Off) </li>
-    </ul></li>
-  <li>7.4 mDoorClosed[b,r] and DesiredDirection == Stop shall 
-    <ul>
-    <li>7.4.1 Command CarLantern[Up] to Off and CarLantern[Down] to Off</li>
-    <li>7.4.2 Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </li>
-    </ul></li>  
-  <li>7.5 mDesiredFloor shall set DesiredFloor == mDesiredFloor</li>
-  <li>7.6 mAtFloor == DesiredFloor and DesiredDirection == Down shall
-    <ul>
-    <li>7.6.1 Command CarLantern[Down] to On and CarLantern[Up] to Off</li>
-    <li>7.7.1 Send mCarLantern[Down](On) and mCarLantern[Up](Off)</li>
-    </ul></li>
-  <li>7.7 mAtFloor == DesiredFloor and DesiredDirection == Up shall
-    <ul>
-    <li>7.7.1 Command CarLantern[Up] to On and CarLantern[Down] to Off</li>
-    <li>7.7.2 Send mCarLantern[Up](On) and mCarLantern[Down](Off) </li>
-    </ul></li>
-  <li>7.8 mAtFloor == DesiredFloor and DesiredDirection == Stop shall
-    <ul>
-    <li>7.8.1 Command CarLantern[Up] to Off and CarLantern[Down] to Off</li>
-    <li>7.8.2b Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </li>
-    </ul>
-  </li>  
-</ul>
-  
+ 7.2 mDoorClosed[b,r] and DesiredDirection = Down shall </br>
+ &nbsp;&nbsp;&nbsp;7.2.1 Command CarLantern[Down] to On and CarLantern[Up] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.2.2 Send mCarLantern[Down](On) and mCarLantern[Up](Off)</br>
+7.3 mDoorClosed[b,r] and DesiredDirection = Up shall</br>
+ &nbsp;&nbsp;&nbsp;7.3.1 Command CarLantern[Up] to On and CarLantern[Down] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.3.2 Send mCarLantern[Up](On) and mCarLantern[Down](Off) </br>
+7.4 mDoorClosed[b,r] and DesiredDirection = Stop shall </br>
+ &nbsp;&nbsp;&nbsp;7.4.1 Command CarLantern[Up] to Off and CarLantern[Down] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.4.2 Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </br>
+7.5 mDesiredFloor shall set DesiredFloor = mDesiredFloor</br>
+7.6 mAtFloor = DesiredFloor and DesiredDirection = Down shall</br>
+ &nbsp;&nbsp;&nbsp;7.6.1 Command CarLantern[Down] to On and CarLantern[Up] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.7.1 Send mCarLantern[Down](On) and mCarLantern[Up](Off)</br>
+7.7 mAtFloor = DesiredFloor and DesiredDirection = Up shall</br>
+ &nbsp;&nbsp;&nbsp;7.7.1 Command CarLantern[Up] to On and CarLantern[Down] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.7.2 Send mCarLantern[Up](On) and mCarLantern[Down](Off) </br>
+7.8 mAtFloor = DesiredFloor and DesiredDirection = Stop shall</br>
+ &nbsp;&nbsp;&nbsp;7.8.1 Command CarLantern[Up] to Off and CarLantern[Down] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.8.2b Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </br>
+    
 <h2><a name="hallbuttoncontrol"></a> 8. HallButtonControl[f, b, d] </h2>
 <h3> Replication: </h3>
 <ul>
@@ -1401,15 +1386,14 @@ whichever mDesiredFloor[f, b, d] is True, if any.&nbsp; </li>
 <h3> CONSTRAINTS: </h3>
 None
 <h3> EVENT-TRIGGERED BEHAVIORS: </h3>
-8.1 &nbsp;&nbsp; If any HallCall[f, b, d] is True, then: <br>
-&nbsp;&nbsp;&nbsp; 8.1.1&nbsp; mHallCall[f, b, d] shall be set to
-true; <br>
-&nbsp;&nbsp;&nbsp; 8.1.2&nbsp; HallLight[f, b, d] shall be set to true;<br>
-&nbsp;&nbsp;&nbsp; 8.1.3&nbsp; mHallLight[f, b, d] shall be set to true.<br>
-8.2 &nbsp;&nbsp; If mDesiredFloor[f, b, d] is True, and CurrentFloor is f, then: <br>
+8.1 &nbsp;&nbsp; HallCall[f, b, d] is Pressed shall <br>
+&nbsp;&nbsp;&nbsp; 8.1.1&nbsp; Send mHallCall[f, b, d]<br>
+&nbsp;&nbsp;&nbsp; 8.1.2&nbsp; Set HallLight[f, b, d] to On<br>
+&nbsp;&nbsp;&nbsp; 8.1.3&nbsp; Send mHallLight[f, b, d]<br>
+8.2 &nbsp;&nbsp;mDesiredFloor[f, b, d] is True, and CurrentFloor is f, then: <br>
 &nbsp;&nbsp;&nbsp; 8.2.1&nbsp; HallLight[f, b, d] should be set to false;<br>
 &nbsp;&nbsp;&nbsp; 8.2.2&nbsp; mHallLight[f, b, d] should be set to false.<br>
-8.3 &nbsp;&nbsp; If any mDoorClosed[b, r] is False, and HallCall[CurrentFloor, b, CurrentDirection] is true, then: <br>
+8.3 &nbsp;&nbsp;  If any mDoorClosed[b, r] is False, and HallCall[CurrentFloor, b, CurrentDirection] is true, then: <br>
 &nbsp;&nbsp;&nbsp; 8.3.1&nbsp; mHallCall[CurrentFloor, b, CurrentDirection] should be set to false;<br>
 &nbsp;&nbsp;&nbsp; 8.3.2&nbsp; HallLight[CurrentFloor, b, CurrentDirection] should be set to false;<br>
 &nbsp;&nbsp;&nbsp; 8.3.3&nbsp; mHallLight[CurrentFloor, b, CurrentDirection] should be set to false.<br>
