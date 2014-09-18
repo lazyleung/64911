@@ -263,48 +263,146 @@ Stop<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">6.6 (add requirement summary)<br>
+      <td style="vertical-align: top;">6.6.1 at mDesiredFloor, DriveSpeed Slow, and not CommitPoint --> drive {Level, d}<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">~<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">~<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">~<br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">...<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">~<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">6.6.2 at mDesiredFloor, DriveSpeed Slow, and not CommitPoint --> dir = Level<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">~<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">~<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">~<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">~<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">~<br>
       </td>
     </tr>
     <tr>
+      <td style="vertical-align: top;">6.7.1 mLevel[d], direction = Level, and Drivespeed <= Levelspeed -> drive stop<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">6.7.2 mLevel[d], direction = Level, and Drivespeed <= Levelspeed -> dir = stop<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">6.7.3 mLevel[d], direction = Level, and Drivespeed <= Levelspeed -> send mDriveSpeed stop<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">6.8 mDesiredFloor{f,h,d} and DesiredDirection d' --> Direction = d'.<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">6.9 mDoorClosed[b, r] and DesiredDirection d --> Drive{Slow, d}<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">6.10 mCarWeight >= MaxCarCapacity --> Direction = Stop<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">6.11 mEmergencyBrake --> Drive = {Stop, Stop}<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">6.12 mDoorOpen --> Drive = {Stop, Stop} <br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+    </tr>
+	<tr>
       <td style="vertical-align: top;"><u><b>Behavioral
 Requirements/Constraints</b></u></td>
       <td style="vertical-align: top;">7.1 Both lanterns not on at same
