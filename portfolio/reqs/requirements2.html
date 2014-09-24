@@ -1356,31 +1356,29 @@ pair of bulbs as a single actuator.</li>
 based on comparing CurrentFloor with Floor desired by Dispatcher.&nbsp;
 This is implicitly computed and used as a macro in the behavior
 descriptions. </li>
-  <li>DesiredFloor = {f} is the most recent message recieved from mDesiredFloor</li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 7.1&nbsp;&nbsp;&nbsp; Both CarLanterns[d] shall not be On at the same
 time.
-<h3> EVENT-TRIGGERED BEHAVIORS: </h3>
- 7.2 mDoorClosed[b,r] and DesiredDirection = Down shall </br>
- &nbsp;&nbsp;&nbsp;7.2.1 Command CarLantern[Down] to On and CarLantern[Up] to Off</br>
- &nbsp;&nbsp;&nbsp;7.2.2 Send mCarLantern[Down](On) and mCarLantern[Up](Off)</br>
-7.3 mDoorClosed[b,r] and DesiredDirection = Up shall</br>
- &nbsp;&nbsp;&nbsp;7.3.1 Command CarLantern[Up] to On and CarLantern[Down] to Off</br>
- &nbsp;&nbsp;&nbsp;7.3.2 Send mCarLantern[Up](On) and mCarLantern[Down](Off) </br>
-7.4 mDoorClosed[b,r] and DesiredDirection = Stop shall </br>
- &nbsp;&nbsp;&nbsp;7.4.1 Command CarLantern[Up] to Off and CarLantern[Down] to Off</br>
- &nbsp;&nbsp;&nbsp;7.4.2 Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </br>
-7.5 mDesiredFloor shall set DesiredFloor = mDesiredFloor</br>
-7.6 mAtFloor = DesiredFloor and DesiredDirection = Down shall</br>
- &nbsp;&nbsp;&nbsp;7.6.1 Command CarLantern[Down] to On and CarLantern[Up] to Off</br>
- &nbsp;&nbsp;&nbsp;7.7.1 Send mCarLantern[Down](On) and mCarLantern[Up](Off)</br>
-7.7 mAtFloor = DesiredFloor and DesiredDirection = Up shall</br>
- &nbsp;&nbsp;&nbsp;7.7.1 Command CarLantern[Up] to On and CarLantern[Down] to Off</br>
- &nbsp;&nbsp;&nbsp;7.7.2 Send mCarLantern[Up](On) and mCarLantern[Down](Off) </br>
-7.8 mAtFloor = DesiredFloor and DesiredDirection = Stop shall</br>
- &nbsp;&nbsp;&nbsp;7.8.1 Command CarLantern[Up] to Off and CarLantern[Down] to Off</br>
- &nbsp;&nbsp;&nbsp;7.8.2b Send mCarLantern[Up](Off) and mCarLantern[Down](Off) </br>
+<h3> TIME-TRIGGERED BEHAVIORS: </h3>
+7.2 If mDoorClosed[b,r] = True and DesiredDirection = Down Then </br>
+ &nbsp;&nbsp;&nbsp;7.2.1 CarLantern[Down] shall be commanded to On and CarLantern[Up] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.2.2 mCarLantern[Down](On) and mCarLantern[Up](Off) shall be sent</br>
+7.3 If mDoorClosed[b,r] = True and DesiredDirection = Up Then</br>
+ &nbsp;&nbsp;&nbsp;7.3.1 CarLantern[Up] shall be commanded to On and CarLantern[Down] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.3.2 mCarLantern[Up](On) and mCarLantern[Down](Off) shall be sent</br>
+7.4 If mDoorClosed[b,r] = True and DesiredDirection = Stop Then</br>
+ &nbsp;&nbsp;&nbsp;7.4.1 CarLantern[Up] shall be commanded to Off and CarLantern[Down] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.4.2 mCarLantern[Up](Off) and mCarLantern[Down](Off) shall be sent</br>
+7.5 If mAtFloor[f].f = mDesiredFloor[f,b,d].f and DesiredDirection = Down Then</br>
+ &nbsp;&nbsp;&nbsp;7.5.1 CarLantern[Down] shall be commanded to On and CarLantern[Up] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.5.1 mCarLantern[Down](On) and mCarLantern[Up](Off) shall be sent</br>
+7.6 If mAtFloor[f].f = mDesiredFloor[f,b,d].f and DesiredDirection = Up Then</br>
+ &nbsp;&nbsp;&nbsp;7.6.1 CarLantern[Up] shall be commanded to On and CarLantern[Down] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.6.2 mCarLantern[Up](On) and mCarLantern[Down](Off) shall be sent</br>
+7.7 If mAtFloor[f].f = mDesiredFloor[f,b,d].f and DesiredDirection = Stop Then</br>
+ &nbsp;&nbsp;&nbsp;7.7.1 CarLantern[Up] shall be commanded to Off and CarLantern[Down] to Off</br>
+ &nbsp;&nbsp;&nbsp;7.7.2 mCarLantern[Up](Off) and mCarLantern[Down](Off) shall be sent</br>
     
 <h2><a name="hallbuttoncontrol"></a> 8. HallButtonControl[f, b, d] </h2>
 <h3> Replication: </h3>
