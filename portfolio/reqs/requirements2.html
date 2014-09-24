@@ -1017,22 +1017,29 @@ then: <br>
 &nbsp;&nbsp;&nbsp; 5.6.1&nbsp; DoorMotor[b, r] shall be commanded to
 Open; <br>
 &nbsp;&nbsp;&nbsp; 5.6.2&nbsp; CountDown shall be set to Dwell.<br>
-5.7 &nbsp;&nbsp; If mDoorOpened[b, r] is True, then<br>
-&nbsp;&nbsp;&nbsp; 5.7.1&nbsp; DoorMotor[b,r] shall be commanded to
+
+5.7 &nbsp;&nbsp; If any mAtFloor[f, b] is True AND mCarCall[f,b] is true AND mDoorClosed[b,r] is false, AND mDriveSpeed = (0, d) OR mDriveSpeed = (s, Stop)
+then: <br>
+&nbsp;&nbsp;&nbsp; 5.7.1&nbsp; DoorMotor[b, r] shall be commanded to
+Open; <br>
+&nbsp;&nbsp;&nbsp; 5.7.2&nbsp; CountDown shall be set to Dwell.<br>
+
+5.8 &nbsp;&nbsp; If mDoorOpened[b, r] is True, then<br>
+&nbsp;&nbsp;&nbsp; 5.8.1&nbsp; DoorMotor[b,r] shall be commanded to
 Stop.<br>
-&nbsp;&nbsp;&nbsp; 5.7.2&nbsp; CountDown shall be decremented.<br>
-5.8&nbsp; If mDoorClosed[b, r] is True, then DoorMotor[b,r] should be
+&nbsp;&nbsp;&nbsp; 5.8.2&nbsp; CountDown shall be decremented.<br>
+5.9&nbsp; If mDoorClosed[b, r] is True, then DoorMotor[b,r] should be
 commanded to Stop.<br>
-5.9&nbsp; When CountDown &lt;= 0, DoorMotor[b,r] should be commanded
+5.10&nbsp; When CountDown &lt;= 0, DoorMotor[b,r] should be commanded
 to Nudge.<br>
-5.10 If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorOpened[b, r] is
+5.11 If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorOpened[b, r] is
 False, DoorMotor[b, r] shall be commanded to Open.<br>
-5.11 Dwell shall be set to an appropriate value based on
+5.12 Dwell shall be set to an appropriate value based on
 mDesiredDwell[b].<br>
-5.12 mDoorMotor[b,r] shall be set to the current value of DoorMotor[b,r]<br>
-5.13 If any mDoorReversal[b,*] is true, then: <br>
-&nbsp;&nbsp;&nbsp; 5.13.1&nbsp;DoorMotor[b,*] shall be commanded to Open.<br>
-&nbsp;&nbsp;&nbsp; 5.13.2&nbsp;CountDown shall be set to Dwell.<br>
+5.13 mDoorMotor[b,r] shall be set to the current value of DoorMotor[b,r]<br>
+5.14 If any mDoorReversal[b,*] is true, then: <br>
+&nbsp;&nbsp;&nbsp; 5.14.1&nbsp;DoorMotor[b,*] shall be commanded to Open.<br>
+&nbsp;&nbsp;&nbsp; 5.14.2&nbsp;CountDown shall be set to Dwell.<br>
 
 
 
@@ -1465,18 +1472,18 @@ None
 <h3> CONSTRAINTS: </h3>
 None
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
-9.1&nbsp;&nbsp; If CarCall[f,b] is True OR (mCarCall[f,b] is True AND mAtFloor[f,b] is False), then: <br>
+9.1&nbsp;&nbsp; If CarCall[f,b] is True, then: <br>
 &nbsp;&nbsp;&nbsp; 9.1.1&nbsp; CarLight[f,b] shall be commanded to On.<br>
 &nbsp;&nbsp;&nbsp; 9.1.2&nbsp; mCarLight[f,b] shall be set to True.<br>
 &nbsp;&nbsp;&nbsp; 9.1.2&nbsp; mCarCall[f,b] shall be set to True.<br>
-9.2&nbsp;&nbsp; If mCarCall[f,b] is True AND mAtFloor[f,b] is True, then: <br>
+9.2&nbsp;&nbsp; If CarCall[f,b] is False AND mAtFloor[f,b] is True, then: <br>
 &nbsp;&nbsp;&nbsp; 9.2.1&nbsp; CarLight[f,b] shall be commanded to Off <br>
 &nbsp;&nbsp;&nbsp; 9.2.2&nbsp; mCarLight[f,b] shall be set to False.<br>
 &nbsp;&nbsp;&nbsp; 9.2.3&nbsp; mCarCall[f,b] shall be set to False <br>
 <br>
 <p><a href="CarButtonControl_state_diagram.png"><img
  alt="pCarButtonControl_state_diagram.png" src="CarButtonControl_state_diagram.png"
- style="border: 0px solid ; width: 218px; height: 240px;"></a><br>
+ style="border: 0px solid ; width: 167px; height: 240px;"></a><br>
 </p>
 <table style="text-align: left; width: 450px;" border="1"
  cellpadding="2" cellspacing="2">
@@ -1494,11 +1501,7 @@ None
     </tr>
     <tr>
       <td style="vertical-align: top;">9.T.2</td>
-      <td style="vertical-align: top;">mCarCall[f,b] == true &amp;&amp; mAtFloor[f,b] == false</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">9.T.3</td>
-      <td style="vertical-align: top;">mCarCall[f,b] == true &amp;&amp; mAtFloor[f,b] == true</td>
+      <td style="vertical-align: top;">CarCall[f,b] == false &amp; &amp; mAtFloor[f,b] == true</td>
     </tr>
   </tbody>
 </table>
