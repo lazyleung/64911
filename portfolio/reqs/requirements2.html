@@ -1496,11 +1496,11 @@ None
     </tr>
 
     <tr>
-      <td style="vertical-align: top;">9.T.1<br> </td>
+      <td style="vertical-align: top;">T9.1<br> </td>
       <td style="vertical-align: top;">CarCall[f,b] == true</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">9.T.2</td>
+      <td style="vertical-align: top;">T9.2</td>
       <td style="vertical-align: top;">CarCall[f,b] == false &amp; &amp; mAtFloor[f,b] == true</td>
     </tr>
   </tbody>
@@ -1584,6 +1584,58 @@ distance in the direction of motion.
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 10.4 &nbsp;&nbsp;&nbsp; Whenever any mAtFloor[f, b] is True,
 CarPositionIndicator shall be commanded to display CurrentFloor.&nbsp;
+<br>
+<p><a href="CarButtonControl_state_diagram.png"><img
+ alt="pCarButtonControl_state_diagram.png" src="CarPositionControl_state_diagram.png"
+ style="border: 0px solid ; width: 151px; height: 239px;"></a><br>
+</p>
+<table style="text-align: left; width: 450px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Transition<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Conditions<br>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">T10.1<br> </td>
+      <td style="vertical-align: top;">mAtFloor[f, b] == true</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T10.2</td>
+      <td style="vertical-align: top;">Unconditional</td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+<table style="text-align: left; width: 750px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">State<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Description<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Actions<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">INIT<br> </td>
+      <td style="vertical-align: top;">Default state</td>
+      <td style="vertical-align: top;">None<br> 
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">CAR_AT_FLOOR<br> </td>
+      <td style="vertical-align: top;">The car is currently at floor f, hallway b</td>
+      <td style="vertical-align: top;">CarPositionIndicator = f<br> 
+    </tr>
+  </tbody>
+</table>
+
 <h2><a name="dispatcher"></a> 11. Dispatcher </h2>
 <h3> Replication: </h3>
 <ul>
