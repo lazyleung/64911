@@ -1463,21 +1463,17 @@ None
   <li>mCarCall[f, b] </li>
 </ul>
 <h3> State: </h3>
-<ul>
-  <li>CurrentFloor, is a shorthand notation for the value f of
-whichever mAtFloor[f, b] is True, if any.&nbsp; If CurrentFloor is
-invalid it has a mnemonic value of None. </li>
-  <li>DesiredFloor, is a shorthand notation for the value of whichever mDesiredFloor is True, if any.&nbsp; If DesiredFloor is
-invalid it has a mnemonic value of None.</li>
-</ul>
 <h3> CONSTRAINTS: </h3>
 None
 <h3> EVENT-TRIGGERED BEHAVIORS: </h3>
-9.1&nbsp;&nbsp;&nbsp; If CarCall[f,b] is received True then:
-<br>
-&nbsp;&nbsp;&nbsp; 9.1.1 &nbsp; mCarCall[f,b] shall be set to True.<br>
-&nbsp;&nbsp;&nbsp; 9.1.2 &nbsp; If CurrentFloor != DesiredFloor then CarLight[f,b] shall be commanded to On.<br>
-9.2&nbsp;&nbsp;&nbsp; mCarLight[f,b] shall be set to the current value of CarLight[f,b].
+9.1&nbsp;&nbsp; If CarCall[f,b] is True then mCarCall[f,b] shall be set to True.<br>
+9.2&nbsp;&nbsp; If mCarCall[f,b] is True AND mAtFloor[f,b] is False, then: <br>
+&nbsp;&nbsp;&nbsp; 9.2.1&nbsp; CarLight[f,b] shall be commanded to On.<br>
+&nbsp;&nbsp;&nbsp; 9.2.2&nbsp; mCarLight[f,b] shall be set to True.<br>
+9.3&nbsp;&nbsp; If mCarCall[f,b] is True AND mAtFloor[f,b] is True, then: <br>
+&nbsp;&nbsp;&nbsp; 9.3.1&nbsp; CarLight[f,b] shall be commanded to Off <br>
+&nbsp;&nbsp;&nbsp; 9.3.2&nbsp; mCarLight[f,b] shall be set to False.<br>
+&nbsp;&nbsp;&nbsp; 9.3.3&nbsp; mCarCall[f,b] should be set to False <br>
 <br>
 <h2><a name="carpositioncontrol"></a> 10. CarPositionControl </h2>
 <h3> Replication: </h3>
