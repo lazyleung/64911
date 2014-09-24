@@ -1422,18 +1422,19 @@ whichever mDesiredFloor[f, b, d] is True, if any.&nbsp; </li>
 <h3> CONSTRAINTS: </h3>
 None
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
-8.1 &nbsp;&nbsp; If mDoorClosed[b, r](True) AND HallCall[f, b, d](True), then: <br>
+8.1 &nbsp;&nbsp; If HallCall[f, b, d](True) AND mAtFloor[f, b](False), then: <br>
 &nbsp;&nbsp;&nbsp; 8.1.1&nbsp; mHallCall[f, b, d] shall be set to true<br>
 &nbsp;&nbsp;&nbsp; 8.1.2&nbsp; HallLight[f, b, d] shall be set to true<br>
 &nbsp;&nbsp;&nbsp; 8.1.3&nbsp; mHallLight[f, b, d] shall be set to true<br>
-8.2 &nbsp;&nbsp;If mDesiredFloor[f, b, d](True) AND mAtFloor[f,b](True), then: <br>
+8.3 &nbsp;&nbsp;If HallCall[f, b, d](True) AND mAtFloor[f, b](True) AND mDesiredFloor[f, b, d](False), then: <br>
+&nbsp;&nbsp;&nbsp; 8.2.1&nbsp; mHallCall[f, b, d] shall be set to true;<br>
+&nbsp;&nbsp;&nbsp; 8.2.2&nbsp; HallLight[f, b, d] shall be set to true;<br>
+&nbsp;&nbsp;&nbsp; 8.2.3&nbsp; mHallLight[f, b, d] shall be set to true.<br>
+8.2 &nbsp;&nbsp;If mDesiredFloor[f, b, d](True) AND mAtFloor[f,b](True) AND mDoorClosed[b, r](False), then: <br>
 &nbsp;&nbsp;&nbsp; 8.2.1&nbsp; mHallCall[f, b, d] shall be set to false;<br>
-&nbsp;&nbsp;&nbsp; 8.2.2&nbsp; HallLight[f, b, d] should be set to false;<br>
-&nbsp;&nbsp;&nbsp; 8.2.3&nbsp; mHallLight[f, b, d] should be set to false.<br>
-8.3 &nbsp;&nbsp;  If mDoorClosed[b, r](False) and HallCall[f, b, d](True) and mAtFloor[f,b](True) AND mDoorClosed[b,r](False) AND HallCall[f, b, r](True), then: <br>
-&nbsp;&nbsp;&nbsp; 8.3.1&nbsp; mHallCall[CurrentFloor, b, CurrentDirection] should be set to false;<br>
-&nbsp;&nbsp;&nbsp; 8.3.2&nbsp; HallLight[CurrentFloor, b, CurrentDirection] should be set to false;<br>
-&nbsp;&nbsp;&nbsp; 8.3.3&nbsp; mHallLight[CurrentFloor, b, CurrentDirection] should be set to false.<br>
+&nbsp;&nbsp;&nbsp; 8.2.2&nbsp; HallLight[f, b, d] shall be set to false;<br>
+&nbsp;&nbsp;&nbsp; 8.2.3&nbsp; mHallLight[f, b, d] shall be set to false.<br>
+
 <br>
 <h2><a name="carbuttoncontrol"></a> 9. CarButtonControl[f, b] </h2>
 <h3> Replication: </h3>
