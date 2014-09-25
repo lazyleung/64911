@@ -1547,17 +1547,224 @@ None
     <tr>
       <td style="vertical-align: top;">S8.1 IDLE<br> </td>
       <td style="vertical-align: top;">Idle state, waiting for </td>
-      <td style="vertical-align: top;">mHallCall[f,b,d]=True; HallLight[f,b,d]=True, mHallLight[f,b,d]=True<br> 
+      <td style="vertical-align: top;">mHallCall[f,b,d]=False; HallLight[f,b,d]=Off, mHallLight[f,b,d]=False<br> 
     </tr>
     <tr>
       <td style="vertical-align: top;">S8.2 REGISTER_CALL<br> </td>
       <td style="vertical-align: top;">A HallCall at floor f, Hall b, Direction d needs to be registered.</td>
-      <td style="vertical-align: top;">mHallCall[f,b,d]=False; HallLight[f,b,d]=False, mHallLight[f,b,d]=False<br> 
+      <td style="vertical-align: top;">mHallCall[f,b,d]=True; HallLight[f,b,d]=On, mHallLight[f,b,d]=True<br> 
     </tr>
   </tbody>
 </table>
 
-
+<h3>Requirements to Statechart Traceability</h3>
+completed by Ting Xu (tingx)<br>
+<table style="text-align: left; width: 409px; height: 312px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr style="font-weight: bold;">
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><br>
+      </td>
+      <td colspan="12" rowspan="1" style="vertical-align: top; background-color: rgb(204, 204, 204);">Requirements<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">States</span><br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.1<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.1.1<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.1.2<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.1.3<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.2<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.2.1<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.2.2<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.2.3<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.3<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.3.1<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.3.2<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">8.3.3<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S8.1 IDLE<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S8.2 REGISTER_CALL<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">Transitions</span><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T8.1<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T8.2<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T8.3<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <br>
 <h2><a name="carbuttoncontrol"></a> 9. CarButtonControl[f, b] </h2>
 <h3> Replication: </h3>
@@ -1652,16 +1859,16 @@ None
     <tr>
       <td style="vertical-align: top;">S9.2 CARCALL_PLACED<br> </td>
       <td style="vertical-align: top;">There is currently a car call PLACED for floor f, hallway b</td>
-      <td style="vertical-align: top;">CarLight[f,b] = On <br> 
-      mCarLight[f,b] = true <br> 
-      mCarCall[f,b] = true <br> </td>
+      <td style="vertical-align: top;">CarLight[f,b] = Off <br> 
+      mCarLight[f,b] = false <br> 
+      mCarCall[f,b] = false <br> </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">S9.3 CARCALL_SERVED<br> </td>
       <td style="vertical-align: top;">The car call for floor f, hallway b is SERVED</td>
-      <td style="vertical-align: top;">CarLight[f,b] = Off <br> 
-      mCarLight[f,b] = false <br> 
-      mCarCall[f,b] = false <br> </td>
+      <td style="vertical-align: top;">CarLight[f,b] = On <br> 
+      mCarLight[f,b] = true <br> 
+      mCarCall[f,b] = true <br> </td>
     </tr>
   </tbody>
 </table>
@@ -2096,12 +2303,8 @@ appropriate value for door open dwell. &nbsp; &nbsp;
       <td style="vertical-align: top;">T11.3<br> </td>
       <td style="vertical-align: top;">(mAtFloor[f,b] == False for all f) && mDoorClosed[b, r] == False</td>
     </tr>
-    <tr>
-      <td style="vertical-align: top;">T11.4</td>
-      <td style="vertical-align: top;">mDoorClosed[b, r] == False && mAtFloor[f, b] == True</td>
-    </tr>
      <tr>
-      <td style="vertical-align: top;">T11.5<br> </td>
+      <td style="vertical-align: top;">T11.4<br> </td>
       <td style="vertical-align: top;">(mAtFloor[f,b] == False for all f) && mDoorClosed[b, r] == False</td>
     </tr>
   </tbody>
@@ -2134,6 +2337,236 @@ appropriate value for door open dwell. &nbsp; &nbsp;
       <td style="vertical-align: top;">S11.3 EMERGENCY<br> </td>
       <td style="vertical-align: top;">Increment Target</td>
       <td style="vertical-align: top;">Target=1, mDesiredFloor=[1,NONE,STOP], mDesiredDwell=constant<br> 
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<h3>Requirements to Statechart Traceability</h3>
+completed by Ting Xu (tingx)<br>
+<table style="text-align: left; width: 409px; height: 312px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr style="font-weight: bold;">
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><br>
+      </td>
+      <td colspan="10" rowspan="1" style="vertical-align: top; background-color: rgb(204, 204, 204);">Requirements<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">States</span><br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.4<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.5<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.6<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.6.1<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.6.2<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.7<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.7.1<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.7.2<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.8<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.9<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.1 INIT<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.2 GOTO_NEXT_FLOOR<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+        <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.3 EMERGENCY<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">Transitions</span><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.1<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.2<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.3<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+        <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.4<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
   </tbody>
 </table>
