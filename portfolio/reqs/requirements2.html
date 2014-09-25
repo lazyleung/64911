@@ -1829,6 +1829,76 @@ shall be set to None .<br>
 f, then mDesiredFloor.b shall be set to Both.<br>
 11.9 &nbsp;&nbsp; mDesiredDwell shall always be set to a constant
 appropriate value for door open dwell. &nbsp; &nbsp;
+<p><a href="stateChart11.png"><img
+ alt="stateChart11.png" src="stateChart11.png"
+ style="border: 0px solid ; width: 428px; height: 309px;"></a><br>
+</p>
+
+<table style="text-align: left; width: 650px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Transition<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Conditions<br>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">T11.1<br> </td>
+      <td style="vertical-align: top;">mDoorClosed[b, r] == False && mAtFloor[f, b] == True</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T11.2</td>
+      <td style="vertical-align: top;">mDoorClosed[b, r] == False && mAtFloor[f, b] == True</td>
+    </tr>
+    
+     <tr>
+      <td style="vertical-align: top;">T11.3<br> </td>
+      <td style="vertical-align: top;">(mAtFloor[f,b] == False for all f) && mDoorClosed[b, r] == False</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T11.4</td>
+      <td style="vertical-align: top;">mDoorClosed[b, r] == False && mAtFloor[f, b] == True</td>
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">T11.5<br> </td>
+      <td style="vertical-align: top;">(mAtFloor[f,b] == False for all f) && mDoorClosed[b, r] == False</td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+<table style="text-align: left; width: 750px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">State<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Description<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Actions<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S11.1 INIT<br> </td>
+      <td style="vertical-align: top;">Initial State</td>
+      <td style="vertical-align: top;">Target=1, mDesiredFloor.f=Target, mDesiredFloor.b=[Front and Back], mDesiredDirection=STOP, mDesiredDwell=constant<br> 
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S11.2 GOTO_NEXT_FLOOR<br> </td>
+      <td style="vertical-align: top;">Increment Target</td>
+      <td style="vertical-align: top;">Target=((f mod MaxFloor)+1), mDesiredFloor=[Target,mAtFloor.b,STOP], mDesiredDwell=constant<br> 
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">S11.3 EMERGENCY<br> </td>
+      <td style="vertical-align: top;">Increment Target</td>
+      <td style="vertical-align: top;">Target=1, mDesiredFloor=[1,NONE,STOP], mDesiredDwell=constant<br> 
+    </tr>
+  </tbody>
+</table>
+
 <p> &nbsp;<br>
 &nbsp;<br>
 &nbsp;<br>
