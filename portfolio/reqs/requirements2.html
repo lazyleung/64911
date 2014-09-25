@@ -1041,7 +1041,89 @@ mDesiredDwell[b].<br>
 &nbsp;&nbsp;&nbsp; 5.14.1&nbsp;DoorMotor[b,*] shall be commanded to Open.<br>
 &nbsp;&nbsp;&nbsp; 5.14.2&nbsp;CountDown shall be set to Dwell.<br>
 
-
+<p> <img style="width: 419px; height: 289x;" alt="DoorControl Statechart" src="DoorControl_state_diagram.png"><br clear="left"> </p>
+<table style="text-align: left; width: 555px; height: 172px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Transition<br></td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">Condition</span><br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T5.1<br> </td>
+      <td style="vertical-align: top;">mDoorOpen[b,r] = Open</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T5.2</td>
+      <td style="vertical-align: top;">CountDown <= 0</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T5.3</td>
+      <td style="vertical-align: top;">mDoorClose[b,r] = Closed</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T5.4</td>
+      <td style="vertical-align: top;">mDoorReversal[b,r] = true</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T5.5<br>
+      </td>
+      <td style="vertical-align: top;">mCarWeight >= MaxCarCapacity or (mAtFloor[f, b] = True and f = mDesiredFloor.f, and (mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop)))</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T5.6</td>
+      <td style="vertical-align: top;">(mDoorClosed[b,r] = true OR mAtFloor[f].f = mDesiredFloor[f,b,d].f ) AND DesiredDirection = Down</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="text-align: left; width: 750px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">State<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Description<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Actions<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S5.1 OPENING<br> </td>
+      <td style="vertical-align: top;">Car doors are in the process of opening</td>
+      <td style="vertical-align: top;">
+        DoorMotor[b,r] = Open <br>
+	mDoorMotor[b,r] = Open <br>
+	CountDown = mDesiredDwell <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S5.2 OPEN<br> </td>
+      <td style="vertical-align: top;">Car doors are open and stopped</td>
+      <td style="vertical-align: top;">
+        DoorMotor[b,r] = Stop <br>
+	mDoorMotor[b,r] = Stop <br>
+	CountDown = CountDown - 1 <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S5.3 CLOSING<br> </td>
+      <td style="vertical-align: top;">Car doors are in the process of closing</td>
+      <td style="vertical-align: top;">
+        DoorMotor[b,r] = Nudge <br>
+	mDoorMotor[b,r] = Nudge <br>
+	CountDown = CountDown <br>
+      </td>
+    </tr>
+  <tr>
+      <td style="vertical-align: top;">S5.4 CLOSED<br> </td>
+      <td style="vertical-align: top;">Car doors are closed and stopped</td>
+      <td style="vertical-align: top;">
+        DoorMotor[b,r] = Stop <br>
+	mDoorMotor[b,r] = Stop <br>
+	CountDown = CountDown <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <h2><a name="drivecontrol"></a> 6. DriveControl </h2>
 <h3> Replication: </h3>
@@ -1388,6 +1470,7 @@ Down<br>
   </tbody>
 </table>
 
+
 <h2><a name="lanterncontrol"></a> 7. LanternControl[d] </h2>
 <h3> Replication: </h3>
 <ul>
@@ -1456,7 +1539,83 @@ time.
  &nbsp;&nbsp;&nbsp;7.7.2 CarLantern[Down] shall be set to Off</br>
  &nbsp;&nbsp;&nbsp;7.7.3 mCarLantern[Up] shall be set to False </br>
  &nbsp;&nbsp;&nbsp;7.7.4 mCarLantern[Down] shall be set to False</br>
-
+<p> <img style="width: 386px; height: 334px;" alt="Lantern Statechart" src="LanternControl_state_diagram.png"><br clear="left"> </p>
+<table style="text-align: left; width: 525px; height: 172px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Transition<br></td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">Condition</span><br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T7.1<br> </td>
+      <td style="vertical-align: top;">(mDoorClosed[b,r] = true OR mAtFloor[f].f = mDesiredFloor[f,b,d].f ) AND DesiredDirection = Up </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T7.2</td>
+      <td style="vertical-align: top;">(mDoorClosed[b,r] = true OR mAtFloor[f].f = mDesiredFloor[f,b,d].f) AND DesiredDirection = Stop</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T7.3</td>
+      <td style="vertical-align: top;">(mDoorClosed[b,r] = true OR mAtFloor[f].f = mDesiredFloor[f,b,d].f ) AND DesiredDirection = Down</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T7.4</td>
+      <td style="vertical-align: top;">(mDoorClosed[b,r] = true OR mAtFloor[f].f = mDesiredFloor[f,b,d].f ) AND DesiredDirection = Stop</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T7.5<br>
+      </td>
+      <td style="vertical-align: top;">(mDoorClosed[b,r] = true OR mAtFloor[f].f = mDesiredFloor[f,b,d].f ) AND DesiredDirection = Up </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T7.6</td>
+      <td style="vertical-align: top;">(mDoorClosed[b,r] = true OR mAtFloor[f].f = mDesiredFloor[f,b,d].f ) AND DesiredDirection = Down</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="text-align: left; width: 750px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">State<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Description<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Actions<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S7.1 OFF<br> </td>
+      <td style="vertical-align: top;">Both car lanterns are off</td>
+      <td style="vertical-align: top;">
+        CarLantern[up] = Off <br>
+        CarLantern[Down] = Off <br>
+        mCarLantern[up] = Off <br>
+        mCarLantern[Down] = Off <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S7.2 DOWN<br> </td>
+      <td style="vertical-align: top;">Down lantern is on and Up lantern is off</td>
+      <td style="vertical-align: top;">
+        CarLantern[up] = Off <br>
+        CarLantern[Down] = On <br>
+        mCarLantern[up] = Off <br>
+        mCarLantern[Down] = On <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S7.3 UP<br> </td>
+      <td style="vertical-align: top;">Up lantern is on and Down lantern is off</td>
+      <td style="vertical-align: top;">
+        CarLantern[up] = On <br>
+        CarLantern[Down] = Off <br>
+        mCarLantern[up] = On <br>
+        mCarLantern[Down] = Off <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <h2><a name="hallbuttoncontrol"></a> 8. HallButtonControl[f, b, d] </h2>
 <h3> Replication: </h3>
 <ul>
