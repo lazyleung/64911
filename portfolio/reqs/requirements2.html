@@ -8,12 +8,12 @@
   <meta name="Author" content="Charles P. Shelton">
   <meta name="GENERATOR"
  content="Mozilla/4.77 [en] (Windows NT 5.0; U) [Netscape]">
-  <title>18-649 Requirements II - Distributed Controller Requirements</title>
+  <title>TEST 18-649 Requirements II - Distributed Controller Requirements</title>
 </head>
 <body>
 <center>
-<h1> 18649 - Behavioral Requirements II</h1>
-<h1>Distributed Controller Requirements</h1>
+<h1> TEST 18649 - Behavioral Requirements II</h1>
+<h1>TEST Distributed Controller Requirements</h1>
 </center>
 <hr style="width: 100%; height: 2px;">18649 F14<br>
 Group 11 <br>
@@ -1344,45 +1344,45 @@ Down<br>
       <td style="vertical-align: top;">S6.1 STOP<br> </td>
       <td style="vertical-align: top;">Car is stopped</td>
       <td style="vertical-align: top;">
-        Drive = {Stop, Stop} <br> 
-        mDrive = Drive <br> 
-        mDriveSpeed = DriveSpeed <br> 
+        Drive = {Stop, Stop} <br>
+        mDrive = Drive <br>
+        mDriveSpeed = DriveSpeed <br>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">S6.2 SLOW_UP<br> </td>
       <td style="vertical-align: top;">Car is going slow, up</td>
       <td style="vertical-align: top;">
-        Drive = {Slow, Up} <br> 
-        mDrive = Drive <br> 
-        mDriveSpeed = DriveSpeed <br> 
+        Drive = {Slow, Up} <br>
+        mDrive = Drive <br>
+        mDriveSpeed = DriveSpeed <br>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">S6.3 LEVEL_UP<br> </td>
       <td style="vertical-align: top;">Car is going level, up</td>
       <td style="vertical-align: top;">
-        Drive = {Level, Up} <br> 
-        mDrive = Drive <br> 
-        mDriveSpeed = DriveSpeed <br> 
+        Drive = {Level, Up} <br>
+        mDrive = Drive <br>
+        mDriveSpeed = DriveSpeed <br>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">S6.4 SLOW_DOWN<br> </td>
       <td style="vertical-align: top;">Car is going slow, down</td>
       <td style="vertical-align: top;">
-        Drive = {Slow, Down} <br> 
-        mDrive = Drive <br> 
-        mDriveSpeed = DriveSpeed <br> 
+        Drive = {Slow, Down} <br>
+        mDrive = Drive <br>
+        mDriveSpeed = DriveSpeed <br>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">S6.5 LEVEL_DOWN<br> </td>
       <td style="vertical-align: top;">Car is going level, down</td>
       <td style="vertical-align: top;">
-        Drive = {Level, Down} <br> 
-        mDrive = Drive <br> 
-        mDriveSpeed = DriveSpeed <br> 
+        Drive = {Level, Down} <br>
+        mDrive = Drive <br>
+        mDriveSpeed = DriveSpeed <br>
       </td>
     </tr>
   </tbody>
@@ -1444,7 +1444,7 @@ time.
 7.7 If mAtFloor[f].f = mDesiredFloor[f,b,d].f and DesiredDirection = Stop Then</br>
  &nbsp;&nbsp;&nbsp;7.7.1 CarLantern[Up] shall be commanded to Off and CarLantern[Down] to Off</br>
  &nbsp;&nbsp;&nbsp;7.7.2 mCarLantern[Up](Off) and mCarLantern[Down](Off) shall be sent</br>
-    
+
 <h2><a name="hallbuttoncontrol"></a> 8. HallButtonControl[f, b, d] </h2>
 <h3> Replication: </h3>
 <ul>
@@ -1547,12 +1547,12 @@ None
     <tr>
       <td style="vertical-align: top;">S8.1 IDLE<br> </td>
       <td style="vertical-align: top;">Idle state, waiting for </td>
-      <td style="vertical-align: top;">mHallCall[f,b,d]=False; HallLight[f,b,d]=Off, mHallLight[f,b,d]=False<br> 
+      <td style="vertical-align: top;">mHallCall[f,b,d]=False; HallLight[f,b,d]=Off, mHallLight[f,b,d]=False<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S8.2 REGISTER_CALL<br> </td>
       <td style="vertical-align: top;">A HallCall at floor f, Hall b, Direction d needs to be registered.</td>
-      <td style="vertical-align: top;">mHallCall[f,b,d]=True; HallLight[f,b,d]=On, mHallLight[f,b,d]=True<br> 
+      <td style="vertical-align: top;">mHallCall[f,b,d]=True; HallLight[f,b,d]=On, mHallLight[f,b,d]=True<br>
     </tr>
   </tbody>
 </table>
@@ -1859,15 +1859,15 @@ None
     <tr>
       <td style="vertical-align: top;">S9.2 CARCALL_PLACED<br> </td>
       <td style="vertical-align: top;">There is currently a car call PLACED for floor f, hallway b</td>
-      <td style="vertical-align: top;">CarLight[f,b] = Off <br> 
-      mCarLight[f,b] = false <br> 
+      <td style="vertical-align: top;">CarLight[f,b] = Off <br>
+      mCarLight[f,b] = false <br>
       mCarCall[f,b] = false <br> </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">S9.3 CARCALL_SERVED<br> </td>
       <td style="vertical-align: top;">The car call for floor f, hallway b is SERVED</td>
-      <td style="vertical-align: top;">CarLight[f,b] = On <br> 
-      mCarLight[f,b] = true <br> 
+      <td style="vertical-align: top;">CarLight[f,b] = On <br>
+      mCarLight[f,b] = true <br>
       mCarCall[f,b] = true <br> </td>
     </tr>
   </tbody>
@@ -2156,12 +2156,12 @@ CarPositionIndicator shall be commanded to display CurrentFloor.&nbsp;
     <tr>
       <td style="vertical-align: top;">S10.1 IDLE<br> </td>
       <td style="vertical-align: top;">Idle state</td>
-      <td style="vertical-align: top;">None<br> 
+      <td style="vertical-align: top;">None<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S10.2 CAR_AT_FLOOR<br> </td>
       <td style="vertical-align: top;">The car is currently at floor f, hallway b</td>
-      <td style="vertical-align: top;">CarPositionIndicator = f<br> 
+      <td style="vertical-align: top;">CarPositionIndicator = f<br>
     </tr>
   </tbody>
 </table>
@@ -2298,7 +2298,7 @@ appropriate value for door open dwell. &nbsp; &nbsp;
       <td style="vertical-align: top;">T11.2</td>
       <td style="vertical-align: top;">mDoorClosed[b, r] == False && mAtFloor[f, b] == True</td>
     </tr>
-    
+
      <tr>
       <td style="vertical-align: top;">T11.3<br> </td>
       <td style="vertical-align: top;">(mAtFloor[f,b] == False for all f) && mDoorClosed[b, r] == False</td>
@@ -2326,17 +2326,17 @@ appropriate value for door open dwell. &nbsp; &nbsp;
     <tr>
       <td style="vertical-align: top;">S11.1 INIT<br> </td>
       <td style="vertical-align: top;">Initial State</td>
-      <td style="vertical-align: top;">Target=1, mDesiredFloor.f=Target, mDesiredFloor.b=[Front and Back], mDesiredDirection=STOP, mDesiredDwell=constant<br> 
+      <td style="vertical-align: top;">Target=1, mDesiredFloor.f=Target, mDesiredFloor.b=[Front and Back], mDesiredDirection=STOP, mDesiredDwell=constant<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S11.2 GOTO_NEXT_FLOOR<br> </td>
       <td style="vertical-align: top;">Increment Target</td>
-      <td style="vertical-align: top;">Target=((f mod MaxFloor)+1), mDesiredFloor=[Target,mAtFloor.b,STOP], mDesiredDwell=constant<br> 
+      <td style="vertical-align: top;">Target=((f mod MaxFloor)+1), mDesiredFloor=[Target,mAtFloor.b,STOP], mDesiredDwell=constant<br>
     </tr>
      <tr>
       <td style="vertical-align: top;">S11.3 EMERGENCY<br> </td>
       <td style="vertical-align: top;">Increment Target</td>
-      <td style="vertical-align: top;">Target=1, mDesiredFloor=[1,NONE,STOP], mDesiredDwell=constant<br> 
+      <td style="vertical-align: top;">Target=1, mDesiredFloor=[1,NONE,STOP], mDesiredDwell=constant<br>
     </tr>
   </tbody>
 </table>
