@@ -1501,8 +1501,61 @@ None
 &nbsp;&nbsp;&nbsp; 8.3.1&nbsp; mHallCall[f, b, d] shall be set to false;<br>
 &nbsp;&nbsp;&nbsp; 8.3.2&nbsp; HallLight[f, b, d] shall be set to false;<br>
 &nbsp;&nbsp;&nbsp; 8.3.3&nbsp; mHallLight[f, b, d] shall be set to false.<br>
+<br>
+<p><a href="stateChart8.png"><img
+ alt="pCarButtonControl_state_diagram.png" src="stateChart8.png"
+ style="border: 0px solid ; width: 428px; height: 209px;"></a><br>
+</p>
+<table style="text-align: left; width: 1000px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Transition<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Conditions<br>
+      </td>
+    </tr>
 
+    <tr>
+      <td style="vertical-align: top;">T8.1<br> </td>
+      <td style="vertical-align: top;">{HallCall[f, b, d]=True && mDoorClosed=True} || {HallCall[f, b, d]=True && mDoorClosed[b, r]=False && mAtFloor[f, b]=True && DesiredDirection!=d}</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T8.2</td>
+      <td style="vertical-align: top;">{HallCall[f, b, d]=True && mDoorClosed=True} || {HallCall[f, b, d]=True && mDoorClosed[b, r]=False && mAtFloor[f, b]=True && DesiredDirection!=d}</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T8.3</td>
+      <td style="vertical-align: top;">mAtFloor[f, b](True) AND DesiredDirection = d AND mDoorClosed[b, r](False)</td>
+    </tr>
+  </tbody>
+</table>
 
+<br>
+
+<table style="text-align: left; width: 1000px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">State<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Description<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Actions<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S8.1 IDLE<br> </td>
+      <td style="vertical-align: top;">Idle state, waiting for </td>
+      <td style="vertical-align: top;">mHallCall[f,b,d]=True; HallLight[f,b,d]=True, mHallLight[f,b,d]=True<br> 
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S8.2 REGISTER_CALL<br> </td>
+      <td style="vertical-align: top;">A HallCall at floor f, Hall b, Direction d needs to be registered.</td>
+      <td style="vertical-align: top;">mHallCall[f,b,d]=False; HallLight[f,b,d]=False, mHallLight[f,b,d]=False<br> 
+    </tr>
+  </tbody>
+</table>
 
 
 <br>
