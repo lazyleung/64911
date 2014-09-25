@@ -1423,6 +1423,10 @@ whichever mAtFloor[f, b] is True, if any.&nbsp; If CurrentFloor is
 invalid it has a mnemonic value of None. </li>
   <li>CurrentDirection, is a shorthand notation for the value d of
 whichever mDesiredFloor[f, b, d] is True, if any.&nbsp; </li>
+  <li>DesiredDirection = {Up, Down, Stop} computed desired direction
+based on comparing the mAtFloor.f with mDesiredFloor.f.&nbsp;
+This is implicitly computed and used as a macro in the behavior
+descriptions. </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 None
@@ -1431,14 +1435,18 @@ None
 &nbsp;&nbsp;&nbsp; 8.1.1&nbsp; mHallCall[f, b, d] shall be set to true<br>
 &nbsp;&nbsp;&nbsp; 8.1.2&nbsp; HallLight[f, b, d] shall be set to true<br>
 &nbsp;&nbsp;&nbsp; 8.1.3&nbsp; mHallLight[f, b, d] shall be set to true<br>
-8.2 &nbsp;&nbsp;If HallCall[f, b, d](True) AND mAtFloor[f, b](True) AND mDesiredFloor[f, b, d](False) AND mDoorClosed[b, r](False), then: <br>
+8.2 &nbsp;&nbsp; If HallCall[f, b, d](True) AND mDoorClosed[b, r](False) AND mAtFloor[f, b](True) AND DesiredDirection != d, then: <br>
 &nbsp;&nbsp;&nbsp; 8.2.1&nbsp; mHallCall[f, b, d] shall be set to true;<br>
 &nbsp;&nbsp;&nbsp; 8.2.2&nbsp; HallLight[f, b, d] shall be set to true;<br>
 &nbsp;&nbsp;&nbsp; 8.2.3&nbsp; mHallLight[f, b, d] shall be set to true.<br>
-8.3 &nbsp;&nbsp;If mAtFloor[f, b](True) AND mDesiredFloor[f, b, d](True) AND mDoorClosed[b, r](False), then: <br>
+8.3 &nbsp;&nbsp; If mAtFloor[f, b](True) AND DesiredDirection = d AND mDoorClosed[b, r](False), then: <br>
 &nbsp;&nbsp;&nbsp; 8.3.1&nbsp; mHallCall[f, b, d] shall be set to false;<br>
 &nbsp;&nbsp;&nbsp; 8.3.2&nbsp; HallLight[f, b, d] shall be set to false;<br>
 &nbsp;&nbsp;&nbsp; 8.3.3&nbsp; mHallLight[f, b, d] shall be set to false.<br>
+
+
+
+
 <br>
 <h2><a name="carbuttoncontrol"></a> 9. CarButtonControl[f, b] </h2>
 <h3> Replication: </h3>
