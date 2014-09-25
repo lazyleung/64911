@@ -1,4 +1,4 @@
-p<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
   <meta http-equiv="content-type"
@@ -209,10 +209,8 @@ has not yet exited the car. </li>
 	<li>Elevator is at the passenger's desired floor</li>
 </ul>	
 <h3> Sequence Diagram: </h3>
-<p> <a href="header.png"><img src="header.png" alt="header"
- style="width: 451; height: 94;"></a> </p>
 <p> <a href="sd2b.png"><img src="sd2b.png" alt="2B"
- style="border: 0px solid ; width: 1102; height: 301;"></a> </p>
+ style="border: 0px solid ; width: 1102; height: 428;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
@@ -257,41 +255,6 @@ has already been pressed </li>
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
 
-<h3> Scenario 3B: Car is overweight </h3>
-<h3> Author name: Ting Xu </h3>
-<h3> Pre-Conditions: </h3>
-<ul type="disc">
-  <li>Car is already at a hallway [<b>f</b>,<b>b</b>] at which
-passenger is waiting. </li>
-  <li>Passenger is outside the car. </li>
-  <li>All doors are open. </li>
-</ul>
-<h3> Scenario: </h3>
-<ol start="1" type="1">
-  <li>The Passenger enters</li>  
-  <li>Doors begin to close</li>
-  <li>Car weight exceeds maximum capacity</li>
-  <li>Overweight alarm sounds</li>
-  <li>Doors begin to open</li>
-</ol>	
-<h3> Post-Conditions: </h3>
-<ul type="disc">
-  <li>Passenger is inside the car </li>
-  <li>Door[b,r] is open</li>
-  <li>Overweight alarm is on</li>
-  <li>The elevator is at hallway[f,b]</li>
-</ul>
-
-
-<h3> Sequence Diagram: </h3>
-<p> <a href="header.png"><img src="header.png" alt="header"
- style="width: 451; height: 94;"></a> </p>
-<p> <a href="sd3b.png"><img src="sd3b.png" alt="3B"
- style="border: 0px solid ; width: 950; height: 347;"></a> </p>
-<div align="center">
-<hr size="2" width="100%" align="center"> </div>
-<p> &nbsp; </p>
-
 
 <h2> <a name="usecase4" id="usecase4"></a>Use Case 4: Passenger Exits Elevator </h2>
 
@@ -320,7 +283,6 @@ and hallway <b>b</b>. </li>
   <li>Doors on the passenger's desired hallway <b>b</b> side are fully open. </li>
   <li>Passenger is outside the car.</li>
 </ul>
-
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd4a.png"><img src="sd4a.png" alt="4A"
  style="border: 0px solid ; width: 1250px; height: 436px;"></a> </p>
@@ -352,7 +314,6 @@ attempts to enter the car as the doors begin to close. </h3>
   <li>Doors are fully open. </li>
   <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>.</li>
 </ul>
-
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd5a.png"><img src="sd5a.png" alt="5A"
  style="border: 0px solid ; width: 749px; height: 383px;"></a> </p>
@@ -381,13 +342,7 @@ attempts to exit the car as the doors begin to close. </h3>
   <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>.
   </li>
 </ul>
-
 <h3> Sequence Diagram: </h3>
-<p> <a href="header.png"><img src="header.png" alt="header"
- style="width: 451; height: 94;"></a> </p>
- <br>
- <br>
-
 <p> <a href="sd5b.png"><img src="sd5b.png" alt="5B"
  style="border: 0px solid ; width: 749px; height: 398px;"></a> </p>
 <div align="center">
@@ -427,7 +382,6 @@ suffice.</p>
   <li>All elevator doors are closed. </li>
   <li>Drive is stopped. </li>
 </ul>
-
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd6a.png"><img src="sd6a.png" alt="6A" name="_x0000_i1027"
  style="border: 0px solid ; width: 716px; height: 323px;"></a> </p>
@@ -464,7 +418,6 @@ hallway <b>b</b>. </li>
 <li>doors[b] are open.</li>
 <li>car lanterns for desired direction are on.</li>
 </ul>
-
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd7a.png"><img src="sd7a.png" alt="5B"
  style="border: 0px solid ; width: 834px; height: 420px;"></a> </p>
@@ -498,7 +451,6 @@ direction), with enabled pickup in hallway <b>b</b>. </li>
 <li>Door[b,r] are closed</li>
 <li>Both Car Lanterns are off.</li>
 </ul>
-
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd7b.png"><img src="sd7b.png" alt="7B"
  style="border: 0px solid ; width:818px; height:568 ;"></a> </p>
@@ -522,7 +474,6 @@ doors close on a hallway. </h3>
 <li>All doors are closed</li>
 <li>lanterns are set </li>
 </ul>
-
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd7c.png"><img src="sd7c.png" alt="7C"
  style="border: 0px solid ; width:732px; height:334px;"></a> </p>
@@ -552,31 +503,9 @@ doors close on a hallway. </h3>
 <ul type="disc">
   <li>Elevator is at floor <b>g</b> with doors opening. </li>
 </ul>
-
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd8a.png"><img src="sd8a.png" alt="8A" name="_x0000_i1027"
  style="border: 0px solid ; width: 822px; height: 415px;"></a> </p>
-<div align="center">
-<hr size="2" width="100%" align="center"> </div>
-
-<h3> Scenario 8B: Send Elevator to Lobby when Doors are Open outside of Landing Zone </h3>
-<h3> Author name: Jonathan Leung(jkleung1) </h3>
-<h3> Pre-Conditions: </h3>
-<ul type="disc">
-  <li>Elevator is in hoistway, with at least one Door[<b>b</b>,<b>r</b>]open. </li>
-</ul>
-<h3> Scenario: </h3>
-<ol start="1" type="1">
-  <li>Dispatcher detects car is not in a landing zone with doors open</li>
-  <li>Dispatcher sets DesiredFloor of car to floor 1</li>
-</ol>
-<h3> Post-Conditions: </h3>
-<ul type="disc">
-  <li>Elevator is in hoistway, with at least one Door[<b>b</b>,<b>r</b>]open. </li>
-</ul>
-<h3> Sequence Diagram: </h3>
-<p> <a href="sd8b.png"><img src="sd8b.png" alt="8A" name="_x0000_i1027"
- style="border: 0px solid ; width: 709px; height: 273px;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
@@ -605,7 +534,6 @@ doors close on a hallway. </h3>
   <li>AtFloor[f,b] was last received as True. </li>
   <li>All doors are closed. </li>
 </ul>
-
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd9a.png"><img src="sd9a.png" alt="9A" name="_x0000_i1027"
  style="border: 0px solid ; width: 711px; height: 458px;"></a> </p>
@@ -617,8 +545,7 @@ doors close on a hallway. </h3>
 
 
 <h2> <a name="usecase10" id="usecase10"></a>Use Case 10: Emergency Brake </h2>
-<h3> Scenario 10A: Elevator stops at hallway and doors open. Dispatcher computes next desired floor just as doors open. Doors close. </h3>
-<p> Note: This dispatcher is really dumb and stops at every floor, in order. It would be much better to stop only at floors with people on them or that people want to go to. </p>
+<h3> Scenario 10A: Elevator attempts to move with open doors </h3>
 <h3> Author name: Eric Newhall(enewhall) </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
@@ -637,7 +564,7 @@ doors close on a hallway. </h3>
 </ul>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd10a.png"><img src="sd10a.png" alt="10A" name="_x0000_i1027"
- style="border: 0px solid ; width: 711px; height: 458px;"></a> </p>
+ style="border: 0px solid ; width: 552px; height: 312px;"></a> </p>
 <br>
 </div>
 </body>
