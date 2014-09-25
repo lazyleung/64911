@@ -1276,11 +1276,11 @@ Down<br>
 6.5&nbsp;&nbsp;&nbsp; If mCarWeight(x) &gt;= MaxCarCapacity, the drive shall not be commanded to {Slow, d} or {Fast, d} until the car is no longer overloaded.
 
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
-6.6 &nbsp;&nbsp; If mDoorClosed[b, r] is true and mCarWeight &lt; MaxCarCapacity and DesiredDirection is d then Drive shall be commanded to {Slow, d}.<br>
+6.6 &nbsp;&nbsp; If mDoorClosed[b, r] is true AND mCarWeight &lt; MaxCarCapacity AND DesiredDirection is d then Drive shall be commanded to {Slow, d}.<br>
 
-6.7 &nbsp;&nbsp; If mDesiredFloor.f is equal to CurrentFloor and DesiredDirection is d and SlowSpeed &gt;= DriveSpeed.s and CommitPoint[f] is Not Reached then Drive shall be commanded to {Level, d}.<br>
+6.7 &nbsp;&nbsp; If mDesiredFloor.f is equal to CurrentFloor AND DesiredDirection is d AND SlowSpeed &gt;= DriveSpeed.s AND CommitPoint[f] is Not Reached then Drive shall be commanded to {Level, d}.<br>
 
-6.8 &nbsp;&nbsp; If mLevel[up] is true and mLevel[down] is true and DesiredDirection is Stop and LevelSpeed &gt;= DriveSpeed.s then Drive shall be commanded to {Stop, Stop}.<br>
+6.8 &nbsp;&nbsp; If mLevel[up] is true AND mLevel[down] is true AND DesiredDirection is Stop AND LevelSpeed &gt;= DriveSpeed.s then Drive shall be commanded to {Stop, Stop}.<br>
 
 6.9 &nbsp;&nbsp; If mEmergencyBrake is true then Drive shall be commanded to {Stop, Stop}.<br>
 
