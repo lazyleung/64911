@@ -1287,7 +1287,7 @@ Down<br>
 6.10&nbsp;&nbsp;mDriveSpeed shall be set to DriveSpeed.<br>
 6.11&nbsp;&nbsp;mDrive shall be set to Drive.<br>
 <br>
-<p> <img style="width: 710px; height: 499px;" alt="Testlight Statechart" src="DriveControl_state_diagram.png"><br clear="left"> </p>
+<p> <img style="width: 707px; height: 312px;" alt="Testlight Statechart" src="DriveControl_state_diagram.png"><br clear="left"> </p>
 <table style="text-align: left; width: 525px; height: 172px;" border="1" cellpadding="2" cellspacing="2">
   <tbody>
     <tr>
@@ -1295,37 +1295,95 @@ Down<br>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">Condition</span><br></td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">6.T.1<br> </td>
+      <td style="vertical-align: top;">T6.1<br> </td>
       <td style="vertical-align: top;">mDoorClosed[b, r] == true &amp;&amp; mCarWeight &lt; MaxCarCapacity &amp;&amp; DesiredDirection == Up</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">6.T.2</td>
+      <td style="vertical-align: top;">T6.2</td>
       <td style="vertical-align: top;">mDesiredFloor.f == CurrentFloor &amp;&amp; SlowSpeed >= DriveSpeed.s &amp;&amp; CommitPoint[f] == Not Reached</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">6.T.3</td>
-      <td style="vertical-align: top;">mEmergencyBrake == true || (mLevel[up] == true &amp;&amp; mLevel[down] == true &amp;&amp; DesiredDirection == Stop &amp;&amp; LevelSpeed &gt;= DriveSpeed.s)</td>
+      <td style="vertical-align: top;">T6.3</td>
+      <td style="vertical-align: top;">mEmergencyBrake == true || (mLevel[up] == true &amp;&amp; mLevel[down] == true &amp;&amp; LevelSpeed &gt;= DriveSpeed.s)</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">6.T.4</td>
+      <td style="vertical-align: top;">T6.4</td>
       <td style="vertical-align: top;">mEmergencyBrake == true || DesiredDirection == Down</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">6.T.5<br>
+      <td style="vertical-align: top;">T6.5<br>
       </td>
       <td style="vertical-align: top;">mDoorClosed[b, r] == true &amp;&amp; mCarWeight &lt; MaxCarCapacity &amp;&amp; DesiredDirection == Down</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">6.T.6</td>
+      <td style="vertical-align: top;">T6.6</td>
       <td style="vertical-align: top;">mDesiredFloor.f == CurrentFloor &amp;&amp; SlowSpeed >= DriveSpeed.s &amp;&amp; CommitPoint[f] == Not Reached</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">6.T.7</td>
-      <td style="vertical-align: top;">mEmergencyBrake == true || (mLevel[up] == true &amp;&amp; mLevel[down] == true &amp;&amp; DesiredDirection == Stop &amp;&amp; LevelSpeed &gt;= DriveSpeed.s)</td>
+      <td style="vertical-align: top;">T6.7</td>
+      <td style="vertical-align: top;">mEmergencyBrake == true || (mLevel[up] == true &amp;&amp; mLevel[down] == true &amp;&amp; LevelSpeed &gt;= DriveSpeed.s)</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">6.T.8</td>
-      <td style="vertical-align: top;">mEmergencyBrake == true || DesiredDirection == Down</td>
+      <td style="vertical-align: top;">T6.8</td>
+      <td style="vertical-align: top;">mEmergencyBrake == true || DesiredDirection == Up</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="text-align: left; width: 750px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">State<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Description<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">Actions<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S6.1 STOP<br> </td>
+      <td style="vertical-align: top;">Car is stopped</td>
+      <td style="vertical-align: top;">
+        Drive = {Stop, Stop} <br> 
+        mDrive = Drive <br> 
+        mDriveSpeed = DriveSpeed <br> 
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S6.2 SLOW_UP<br> </td>
+      <td style="vertical-align: top;">Car is going slow, up</td>
+      <td style="vertical-align: top;">
+        Drive = {Slow, Up} <br> 
+        mDrive = Drive <br> 
+        mDriveSpeed = DriveSpeed <br> 
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S6.3 LEVEL_UP<br> </td>
+      <td style="vertical-align: top;">Car is going level, up</td>
+      <td style="vertical-align: top;">
+        Drive = {Level, Up} <br> 
+        mDrive = Drive <br> 
+        mDriveSpeed = DriveSpeed <br> 
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S6.4 SLOW_DOWN<br> </td>
+      <td style="vertical-align: top;">Car is going slow, down</td>
+      <td style="vertical-align: top;">
+        Drive = {Slow, Down} <br> 
+        mDrive = Drive <br> 
+        mDriveSpeed = DriveSpeed <br> 
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S6.5 LEVEL_DOWN<br> </td>
+      <td style="vertical-align: top;">Car is going level, down</td>
+      <td style="vertical-align: top;">
+        Drive = {Level, Down} <br> 
+        mDrive = Drive <br> 
+        mDriveSpeed = DriveSpeed <br> 
+      </td>
     </tr>
   </tbody>
 </table>
