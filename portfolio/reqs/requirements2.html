@@ -1600,9 +1600,7 @@ None
 &nbsp;&nbsp;&nbsp; 9.2.2&nbsp; mCarLight[f,b] shall be set to False.<br>
 &nbsp;&nbsp;&nbsp; 9.2.3&nbsp; mCarCall[f,b] shall be set to False <br>
 <br>
-<p><a href="CarButtonControl_state_diagram.png"><img
- alt="pCarButtonControl_state_diagram.png" src="CarButtonControl_state_diagram.png"
- style="border: 0px solid ; width: 371px; height: 238px;"></a><br>
+<p><a href="CarButtonControl_state_diagram.png"><img alt="CarButtonControl_state_diagram.png" src="CarButtonControl_state_diagram.png" style="border: 0px solid ; width: 371px; height: 238px;"></a><br>
 </p>
 <table style="text-align: left; width: 450px;" border="1"
  cellpadding="2" cellspacing="2">
@@ -1665,7 +1663,199 @@ None
       mCarLight[f,b] = false <br> 
       mCarCall[f,b] = false <br> </td>
     </tr>
+  </tbody>
+</table>
 
+<h3>Requirements to Statechart Traceability</h3>
+completed by Jonathan Leung (jkleung1)<br>
+<table style="text-align: left; width: 409px; height: 312px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr style="font-weight: bold;">
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><br>
+      </td>
+      <td colspan="8" rowspan="1" style="vertical-align: top; background-color: rgb(204, 204, 204);">Requirements<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">States</span><br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">9.1<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">9.1.1<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">9.1.2<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">9.1.3<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">9.2<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">9.2.1<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">9.2.2<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">9.2.3<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S9.1 IDLE<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S9.2 CARCALL_PLACED<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S9.3 CARCALL_SERVED<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">Transitions</span><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T9.1<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T9.2<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T9.3<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T9.4<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -1765,6 +1955,55 @@ CarPositionIndicator shall be commanded to display CurrentFloor.&nbsp;
       <td style="vertical-align: top;">S10.2 CAR_AT_FLOOR<br> </td>
       <td style="vertical-align: top;">The car is currently at floor f, hallway b</td>
       <td style="vertical-align: top;">CarPositionIndicator = f<br> 
+    </tr>
+  </tbody>
+</table>
+
+<h3>Requirements to Statechart Traceability</h3>
+completed by Jonathan Leung (jkleung1)<br>
+<table style="text-align: left; width: 409px; height: 312px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr style="font-weight: bold;">
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><br>
+      </td>
+      <td colspan="1" rowspan="1" style="vertical-align: top; background-color: rgb(204, 204, 204);">Requirements<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">States</span><br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">10.4<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S10.1 IDLE<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S10.2 CAR_AT_FLOOR<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">Transitions</span><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T10.1<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T10.2<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
     </tr>
   </tbody>
 </table>
