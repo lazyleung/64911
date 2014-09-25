@@ -47,10 +47,6 @@ Ting Xu  (tingx) <br>
     <li><a href="#scenario7c">Scenario 7C</a> </li>
   </ul>
   <li><a href="#usecase8">8. Move Car to Next Floor</a> </li>
-  <ul>
-    <li><a href="#scenario8a">Scenario 8A</a> </li>
-    <li><a href="#scenario8b">Scenario 8B</a> </li>
-  </ul>
   <li><a href="#usecase9">9. Cycle Doors</a></li>
   <li><a href="#usecase10">10. Emergency Brake</a></li>
 </ul>
@@ -255,41 +251,6 @@ has already been pressed </li>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd3a.png"><img src="sd3a.png" alt="3A"
  style="border: 0px solid ; width: 1537; height: 474;"></a> </p>
-<div align="center">
-<hr size="2" width="100%" align="center"> </div>
-<p> &nbsp; </p>
-
-<h3> Scenario 3B: Car is overweight </h3>
-<h3> Author name: Ting Xu </h3>
-<h3> Pre-Conditions: </h3>
-<ul type="disc">
-  <li>Car is already at a hallway [<b>f</b>,<b>b</b>] at which
-passenger is waiting. </li>
-  <li>Passenger is outside the car. </li>
-  <li>All doors are open. </li>
-</ul>
-<h3> Scenario: </h3>
-<ol start="1" type="1">
-  <li>The Passenger enters</li>  
-  <li>Doors begin to close</li>
-  <li>Car weight exceeds maximum capacity</li>
-  <li>Overweight alarm sounds</li>
-  <li>Doors begin to open</li>
-</ol>	
-<h3> Post-Conditions: </h3>
-<ul type="disc">
-  <li>Passenger is inside the car </li>
-  <li>Door[b,r] is open</li>
-  <li>Overweight alarm is on</li>
-  <li>The elevator is at hallway[f,b]</li>
-</ul>
-
-
-<h3> Sequence Diagram: </h3>
-<p> <a href="header.png"><img src="header.png" alt="header"
- style="width: 451; height: 94;"></a> </p>
-<p> <a href="sd3b.png"><img src="sd3b.png" alt="3B"
- style="border: 0px solid ; width: 950; height: 347;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
@@ -522,7 +483,7 @@ doors close on a hallway. </h3>
 
 
 <h2> <a name="usecase8" id="usecase8"></a>Use Case 8: Move Car to NextFloor </h2>
-<h3> <a name="scenario8a" id="scenario8a">Scenario 8A: Elevator moves from {floor f, hallway b} to {floor g,hallway c} in direction d. </h3>
+<h3> Scenario 8A: Elevator moves from {floor f, hallway b} to {floor g,hallway c} in direction d. </h3>
 <p> Note: You will want to create other scenarios that involve fast speed for your elevator, but this is a starting point. </p>
 <h3> Author name: Jonathan Leung(jkleung1) </h3>
 <h3> Pre-Conditions: </h3>
@@ -542,31 +503,9 @@ doors close on a hallway. </h3>
 <ul type="disc">
   <li>Elevator is at floor <b>g</b> with doors opening. </li>
 </ul>
-
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd8a.png"><img src="sd8a.png" alt="8A" name="_x0000_i1027"
  style="border: 0px solid ; width: 822px; height: 415px;"></a> </p>
-<div align="center">
-<hr size="2" width="100%" align="center"> </div>
-
-<h3> <a name="scenario8b" id="scenario8b">Scenario 8B: Send Elevator to Lobby when Doors are Open outside of Landing Zone </h3>
-<h3> Author name: Jonathan Leung(jkleung1) </h3>
-<h3> Pre-Conditions: </h3>
-<ul type="disc">
-  <li>Elevator is in hoistway, with at least one Door[<b>b</b>,<b>r</b>]open. </li>
-</ul>
-<h3> Scenario: </h3>
-<ol start="1" type="1">
-  <li>Dispatcher detects car is not in a landing zone with doors open</li>
-  <li>Dispatcher sets DesiredFloor of car to floor 1</li>
-</ol>
-<h3> Post-Conditions: </h3>
-<ul type="disc">
-  <li>Elevator is in hoistway, with at least one Door[<b>b</b>,<b>r</b>]open. </li>
-</ul>
-<h3> Sequence Diagram: </h3>
-<p> <a href="sd8b.png"><img src="sd8b.png" alt="8A" name="_x0000_i1027"
- style="border: 0px solid ; width: 709px; height: 273px;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
