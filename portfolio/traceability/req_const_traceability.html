@@ -432,7 +432,20 @@ time<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">7.2.1 Door close and Direction=Down --> down lantern on, up lantern off</td>
+      <td style="vertical-align: top;">7.2.1 Door close and Direction=Down --> down lantern on</td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+	<tr>
+      <td style="vertical-align: top;">7.2.2 Door close and Direction=Down --> up lantern off</td>
       <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -445,7 +458,7 @@ time<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">7.2.2 Door close and Direction=Down --> send mCarLantern[down](on) </td>
+      <td style="vertical-align: top;">7.2.3 Door close and Direction=Down --> send mCarLantern[down](on) </td>
       <td style="vertical-align: top;">~<br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -458,7 +471,33 @@ time<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">7.3.1 Door close and Direction=Up --> up lantern on, down lantern off </td>
+      <td style="vertical-align: top;">7.2.4 Door close and Direction=Down --> send mCarLantern[up](off) </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">7.3.1 Door close and Direction=Up --> up lantern on </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+	<tr>
+      <td style="vertical-align: top;">7.3.1 Door close and Direction=Up --> down lantern off </td>
       <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -471,7 +510,7 @@ time<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">7.3.2 Door close and Direction=Up --> send mCarLantern[up](on)<br>
+      <td style="vertical-align: top;">7.3.3 Door close and Direction=Up --> send mCarLantern[up](on)<br>
       </td>
       <td style="vertical-align: top;">~<br>
       </td>
@@ -485,7 +524,34 @@ time<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">7.4.1 Door close and Direction=Stop --> both lanterns off </td>
+      <td style="vertical-align: top;">7.3.4 Door close and Direction=Up --> send mCarLantern[down](off)<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">7.4.1 Door close and Direction=Stop --> Lantern[up](off) </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+	<tr>
+      <td style="vertical-align: top;">7.4.2 Door close and Direction=Stop --> Lantern[down](off) </td>
       <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -498,7 +564,21 @@ time<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">7.4.2 Door close and Direction=Stop --> send mCarLantern[both](off)<br>
+      <td style="vertical-align: top;">7.4.3 Door close and Direction=Stop --> send mCarLantern[down](off)<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">7.4.4 Door close and Direction=Stop --> send mCarLantern[up](off)<br>
       </td>
       <td style="vertical-align: top;">~<br>
       </td>
@@ -512,23 +592,9 @@ time<br>
       </td>
     </tr>
         <tr>
-      <td style="vertical-align: top;">7.5.1 mDesiredFloor --> set DesiredFloor =mDesiredFloor<br>
+      <td style="vertical-align: top;">7.5.1 mAtFloor=Desired Floor and Direction = Down --> down lantern on<br>
       </td>
-      <td style="vertical-align: top;">~<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-    </tr>
-        <tr>
-      <td style="vertical-align: top;">7.6.1 mAtFloor=Desired Floor and Direction = Down --> down lantern on<br>
-      </td>
-      <td style="vertical-align: top;">~<br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -539,50 +605,8 @@ time<br>
       <td style="vertical-align: top;"><br>
       </td>
     </tr>
-        <tr>
-      <td style="vertical-align: top;">7.6.2 mAtFloor=Desired Floor and Direction = Down --> send mCarLantern[down](on)<br>
-      </td>
-      <td style="vertical-align: top;">~<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-    </tr>
-        <tr>
-      <td style="vertical-align: top;">7.7.1 mAtFloor=Desired Floor and Direction = Up --> Up lantern on <br>
-      </td>
-      <td style="vertical-align: top;">~<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-    </tr>
-        <tr>
-      <td style="vertical-align: top;">7.7.2 mAtFloor=Desired Floor and Direction = Up --> send mCarLantern[up](on) <br>
-      </td>
-      <td style="vertical-align: top;">~<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-    </tr>
-        <tr>
-      <td style="vertical-align: top;">7.8.1 mAtFloor=Desired Floor and Direction = Stop --> both lanterns off <br>
+	<tr>
+      <td style="vertical-align: top;">7.5.2 mAtFloor=Desired Floor and Direction = Down --> up lantern off<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -596,7 +620,135 @@ time<br>
       </td>
     </tr>
         <tr>
-      <td style="vertical-align: top;">7.8.2 mAtFloor=Desired Floor and Direction = Stop --> send mCarLantern[both](off) <br>
+      <td style="vertical-align: top;">7.5.3 mAtFloor=Desired Floor and Direction = Down --> send mCarLantern[down](on)<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+        <tr>
+      <td style="vertical-align: top;">7.5.4 mAtFloor=Desired Floor and Direction = Down --> send mCarLantern[up](off)<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+        <tr>
+      <td style="vertical-align: top;">7.6.1 mAtFloor=Desired Floor and Direction = Up --> Up lantern on <br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+	<tr>
+      <td style="vertical-align: top;">7.6.2 mAtFloor=Desired Floor and Direction = Up --> down lantern off <br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+        <tr>
+      <td style="vertical-align: top;">7.6.3 mAtFloor=Desired Floor and Direction = Up --> send mCarLantern[up](on) <br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+	 
+        <tr>
+      <td style="vertical-align: top;">7.6.4 mAtFloor=Desired Floor and Direction = Up --> send mCarLantern[down](off) <br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+        <tr>
+      <td style="vertical-align: top;">7.7.1 mAtFloor=Desired Floor and Direction = Stop --> up lanterns off <br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+		<tr>
+      <td style="vertical-align: top;">7.7.2 mAtFloor=Desired Floor and Direction = Stop --> down lanterns off <br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+        <tr>
+      <td style="vertical-align: top;">7.7.3 mAtFloor=Desired Floor and Direction = Stop --> send mCarLantern[up](off) <br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+
+        <tr>
+      <td style="vertical-align: top;">7.7.4 mAtFloor=Desired Floor and Direction = Stop --> send mCarLantern[down](off) <br>
       </td>
       <td style="vertical-align: top;">~<br>
       </td>
