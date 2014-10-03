@@ -27,6 +27,7 @@
 1.2s I CARBTN_PER F CarCall 2 BACK = false
 
 ;#state 'S9.2 CARCALL_PLACED'
+;CarCall and CarLight uses generic BooleanCanPayloadTranslator
 1.5s A F CarLight 2 BACK : lighted == true
 1.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
 1.5s A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
@@ -37,6 +38,7 @@
 2.0s I CARBTN_PER F CarCall 2 BACK = true
 
 ;#state 'S9.2 CARCALL_PLACED'
+;CarCall and CarLight uses generic BooleanCanPayloadTranslator
 2.5s A F CarLight 2 BACK : lighted == true
 2.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
 2.5s A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
@@ -46,6 +48,7 @@
 3.2s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
 
 ;#state 'S9.1 IDLE
+;CarCall and CarLight uses generic BooleanCanPayloadTranslator
 3.5s A F CarLight 2 BACK : lighted == false
 3.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
 3.5s A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == false
