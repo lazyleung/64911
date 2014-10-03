@@ -117,36 +117,36 @@ public class DriveControl extends Controller implements TimeSensitive {
         canInterface.registerTimeTriggered(r);
 
         // Up Down Message pairs
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.LEVELING_BASE_CAN_ID);
+        r = CanMailbox.getReadableCanMailbox(MessageDictionary.LEVELING_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Direction.UP));
         mLevelU = new LevelingCanPayloadTranslator(r, Direction.UP);
         canInterface.registerTimeTriggered(r);
 
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.LEVELING_BASE_CAN_ID);
+        r = CanMailbox.getReadableCanMailbox(MessageDictionary.LEVELING_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Direction.DOWN));
         mLevelD = new LevelingCanPayloadTranslator(r, Direction.DOWN);
         canInterface.registerTimeTriggered(r);
 
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.HOISTWAY_LIMIT_BASE_CAN_ID);
+        r = CanMailbox.getReadableCanMailbox(MessageDictionary.HOISTWAY_LIMIT_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Direction.UP));
         mHoistwayLimitU = new HoistwayLimitSensorCanPayloadTranslator(r, Direction.UP);
         canInterface.registerTimeTriggered(r);
 
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.HOISTWAY_LIMIT_BASE_CAN_ID);
+        r = CanMailbox.getReadableCanMailbox(MessageDictionary.HOISTWAY_LIMIT_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Direction.DOWN));
         mHoistwayLimitD = new HoistwayLimitSensorCanPayloadTranslator(r, Direction.DOWN);
         canInterface.registerTimeTriggered(r);
 
         // Front Back Left Right Message pairs
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID);
+        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Hallway.FRONT, Side.LEFT));
         mDoorClosedFL = new DoorClosedCanPayloadTranslator(r, Hallway.FRONT, Side.LEFT);
         canInterface.registerTimeTriggered(r);
 
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID);
+        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Hallway.FRONT, Side.RIGHT));
         mDoorClosedFR = new DoorClosedCanPayloadTranslator(r, Hallway.FRONT, Side.RIGHT);
         canInterface.registerTimeTriggered(r);
 
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID);
+        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Hallway.BACK, Side.LEFT));
         mDoorClosedBL = new DoorClosedCanPayloadTranslator(r, Hallway.BACK, Side.LEFT);
         canInterface.registerTimeTriggered(r);
 
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID);
+        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Hallway.BACK, Side.RIGHT));
         mDoorClosedBR = new DoorClosedCanPayloadTranslator(r, Hallway.BACK, Side.RIGHT);
         canInterface.registerTimeTriggered(r);
 
@@ -191,24 +191,27 @@ public class DriveControl extends Controller implements TimeSensitive {
 
     public void timerExpired(Object callbackData) {
         // Update local variables
+        if(mAtFloor.getCurrentFloor() != -1)
         currentFloor = mAtFloor.getCurrentFloor();
         int temp = currentFloor - mDesiredFloor.getFloor();
         if(temp < 0) {
             desiredDirection = Direction.UP;
         } else if(temp > 0) {
             desiredDirection = Direction.DOWN;
-        } else {
+        } else if(temp == 0){
             desiredDirection = Direction.STOP;
         }
         doorClosed = mDoorClosedFL.getValue() && mDoorClosedFR.getValue() && mDoorClosedBL.getValue() && mDoorClosedBR.getValue();
         commitPoint = false;
+
+        log("currentFloor " + currentFloor);
+        log("desiredDirection " + desiredDirection);
 
         log("Executing state " + currentState);
         State nextState = currentState;
         switch (currentState) {
             case STOP:
                 doStop();
-                
                 if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.UP) { //#transition 'T6.1'
                     log("T6.1");
                     nextState = State.SLOW_UP;
@@ -222,7 +225,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.UP) { //#transition 'T6.8'
                     log("T6.8");
                     nextState = State.STOP;
-                } else if(doorClosed == true && DriveObject.SlowSpeed >= localSpeed.speed() && commitPoint == false) { //#transition 'T6.6'
+                } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed() && commitPoint == false) { //#transition 'T6.6'
                     log("T6.6");
                     nextState = State.LEVEL_DOWN;
                 }
@@ -239,7 +242,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.DOWN) { //#transition 'T6.4'
                     log("T6.4");
                     nextState = State.STOP;
-                } else if(doorClosed == true && DriveObject.SlowSpeed >= localSpeed.speed() && commitPoint == false) { //#transition 'T6.2'
+                } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed() && commitPoint == false) { //#transition 'T6.2'
                     log("T6.2");
                     nextState = State.LEVEL_UP;
                 }
@@ -257,12 +260,12 @@ public class DriveControl extends Controller implements TimeSensitive {
 
         //alwasy set mDrive to localDrive
         mDrive.set(localDrive.speed(), localDrive.direction());
+        log("CommandSpeed=" + localDrive.speed());
+        log("CommandDirection=" + localDrive.direction());
 
         //alwasy set mDriveSpeed to localSpeed
         mDriveSpeed.setSpeed(localSpeed.speed());
         mDriveSpeed.setDirection(localSpeed.direction());
-        log("Speed=" + localSpeed.speed());
-        log("Direction=" + localSpeed.direction());
 
         //advance to the next state we have computed
         if (currentState != nextState) {
