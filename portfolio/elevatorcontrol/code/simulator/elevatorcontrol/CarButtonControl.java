@@ -103,35 +103,33 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 	public void timerExpired(Object callbackData) {
 		State newState = state;
 		switch (state) {
-		case STATE_IDLE:	
-			localCarLight.set(false);
-			mCarLight.set(false);
-			mCarCall.set(false);
+			case STATE_IDLE:	
+				localCarLight.set(false);
+				mCarLight.set(false);
+				mCarCall.set(false);
 
-			//#transition 'T9.1'
-			if(localCarCall.pressed()){
-				log("Car button pressed");
-				newState = State.STATE_CARCALL_PLACED;
-			}
-			else{
-				newState = state;
-			}
-			break;
+				//#transition 'T9.1'
+				if(localCarCall.pressed()){
+					newState = State.STATE_CARCALL_PLACED;
+				}
+				else{
+					newState = state;
+				}
+				break;
 		
-		case STATE_CARCALL_PLACED:
-			localCarLight.set(true);
-			mCarLight.set(true);
-			mCarCall.set(true);
+			case STATE_CARCALL_PLACED:
+				localCarLight.set(true);
+				mCarLight.set(true);
+				mCarCall.set(true);
 
-			//#transition 'T9.2'
-			if(!localCarCall.pressed() && mAtFloor.getValue() == true){
-				log("Arrived at floor");
-				newState = State.STATE_IDLE;
-			}
-			else{
-				newState = state;
-			}
-			break;
+				//#transition 'T9.2'
+				if(!localCarCall.pressed() && mAtFloor.getValue() == true){
+					newState = State.STATE_IDLE;
+				}
+				else{
+					newState = state;
+				}	
+				break;
 			
 		default:
             throw new RuntimeException("State " + state + " was not recognized.");
@@ -144,7 +142,13 @@ public class CarButtonControl extends Controller implements TimeSensitive{
         } else {
             log("Transition:",state,"->",newState);
         }
+        //update the state variable
+        state = newState;
+		//report the current state
+        setState(STATE_KEY, newState.toString());
 
+        //schedule the next iteration of the controller	
+        timer.start(period);
 	}
 
 }
