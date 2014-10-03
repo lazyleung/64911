@@ -1,0 +1,8 @@
+; 18649 Fall 2014
+; Ting Xu (tingx)
+; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli) 
+; CarButtonControl.cf
+
+; Instantiate a CarButtonControl for floor 2, front hallway
+
+CarButtonControl 100ms 2 FRONT true 

@@ -3235,7 +3235,7 @@ None
 &nbsp;&nbsp;&nbsp; 9.2.2&nbsp; mCarLight[f,b] shall be set to False.<br>
 &nbsp;&nbsp;&nbsp; 9.2.3&nbsp; mCarCall[f,b] shall be set to False <br>
 <br>
-<p><a href="CarButtonControl_state_diagram.png"><img alt="CarButtonControl_state_diagram.png" src="CarButtonControl_state_diagram.png" style="border: 0px solid ; width: 371px; height: 238px;"></a><br>
+<p><a href="CarButtonControl_state_diagram.png"><img alt="CarButtonControl_state_diagram.png" src="CarButtonControl_state_diagram.png" style="border: 0px solid ; width: 185px; height: 235px;"></a><br>
 </p>
 <table style="text-align: left; width: 450px;" border="1"
  cellpadding="2" cellspacing="2">
@@ -3255,14 +3255,7 @@ None
       <td style="vertical-align: top;">T9.2</td>
       <td style="vertical-align: top;">CarCall[f,b] == false &amp; &amp; mAtFloor[f,b] == true</td>
     </tr>
-    <tr>
-      <td style="vertical-align: top;">T9.3</td>
-      <td style="vertical-align: top;">Unconditional</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">T9.4</td>
-      <td style="vertical-align: top;">Unconditional</td>
-    </tr>
+    
   </tbody>
 </table>
 
@@ -3282,18 +3275,13 @@ None
     <tr>
       <td style="vertical-align: top;">S9.1 IDLE<br> </td>
       <td style="vertical-align: top;">Waiting for input</td>
-      <td style="vertical-align: top;">None</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">S9.2 CARCALL_PLACED<br> </td>
-      <td style="vertical-align: top;">There is currently a car call PLACED for floor f, hallway b</td>
       <td style="vertical-align: top;">CarLight[f,b] = Off <br>
       mCarLight[f,b] = false <br>
       mCarCall[f,b] = false <br> </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">S9.3 CARCALL_SERVED<br> </td>
-      <td style="vertical-align: top;">The car call for floor f, hallway b is SERVED</td>
+      <td style="vertical-align: top;">S9.2 CARCALL_PLACED<br> </td>
+      <td style="vertical-align: top;">There is currently a car call PLACED for floor f, hallway b</td>
       <td style="vertical-align: top;">CarLight[f,b] = On <br>
       mCarLight[f,b] = true <br>
       mCarCall[f,b] = true <br> </td>
@@ -3543,8 +3531,8 @@ distance in the direction of motion.
 10.4 &nbsp;&nbsp;&nbsp; If mAtFloor[f, b] is True, then
 CarPositionIndicator shall be set to CurrentFloor.&nbsp;
 <br>
-<p><a href="CarButtonControl_state_diagram.png"><img
- alt="pCarButtonControl_state_diagram.png" src="CarPositionControl_state_diagram.png"
+<p><a href="CarPositionControl_state_diagram.png"><img
+ alt="CarPositionControl_state_diagram.png" src="CarPositionControl_state_diagram.png"
  style="border: 0px solid ; width: 168px; height: 239px;"></a><br>
 </p>
 <table style="text-align: left; width: 450px;" border="1"
@@ -3584,12 +3572,13 @@ CarPositionIndicator shall be set to CurrentFloor.&nbsp;
     <tr>
       <td style="vertical-align: top;">S10.1 IDLE<br> </td>
       <td style="vertical-align: top;">Idle state</td>
-      <td style="vertical-align: top;">None<br>
+      <td style="vertical-align: top;">CarPositionIndicator = CurrentFloor<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S10.2 CAR_AT_FLOOR<br> </td>
       <td style="vertical-align: top;">The car is currently at floor f, hallway b</td>
       <td style="vertical-align: top;">CarPositionIndicator = f<br>
+      CurrentFloor = f<br>
     </tr>
   </tbody>
 </table>
