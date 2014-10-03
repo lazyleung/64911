@@ -1,6 +1,8 @@
-; 18649 <semester>
-; group #
-; student names and andrewID's
+; 18649 Fall 2014
+; Group #11
+; Eric NewHall, Jonathan Leung, Mengzhe Li, Ting Xu
+; enewhall, jkleung1, mzli, tingx
+; Integration test for sd1a
 ; sd1a1.cf
 
-;TODO instantiate the controller relevant to this sequence diagram test
+HallButtonControl 100ms 4 FRONT UP true
