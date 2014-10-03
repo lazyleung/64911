@@ -1,0 +1,54 @@
+; 18649 Fall 2014
+; Ting Xu (tingx)
+; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli) 
+; CarButtonControl_test.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+
+;Test for floor 2, BACK hallway CarButtonControl
+;This test does not test for any time sensitive conditions
+
+
+;Car Button Period
+#DEFINE CARBTN_PER 100ms
+
+;set input initial value
+0.0s I CARBTN_PER F CarCall 2 BACK = false
+0.0s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = false
+
+;#state 'S9.1 IDLE'
+0.2s A F CarLight 2 BACK : lighted == false
+0.2s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+0.2s A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == false
+
+;#transition 'T9.1'
+1.0s I CARBTN_PER F CarCall 2 BACK = true
+;release button
+1.2s I CARBTN_PER F CarCall 2 BACK = false
+
+;#state 'S9.2 CARCALL_PLACED'
+;CarCall and CarLight uses generic BooleanCanPayloadTranslator
+1.5s A F CarLight 2 BACK : lighted == true
+1.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
+1.5s A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
+
+;#transition 'T9.1'
+;car arrives at floor but car call button is still pressed
+2.0s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
+2.0s I CARBTN_PER F CarCall 2 BACK = true
+
+;#state 'S9.2 CARCALL_PLACED'
+;CarCall and CarLight uses generic BooleanCanPayloadTranslator
+2.5s A F CarLight 2 BACK : lighted == true
+2.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
+2.5s A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
+
+;#transition 'T9.2'
+3.0s I CARBTN_PER F CarCall 2 BACK = false
+3.2s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
+
+;#state 'S9.1 IDLE
+;CarCall and CarLight uses generic BooleanCanPayloadTranslator
+3.5s A F CarLight 2 BACK : lighted == false
+3.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+3.5s A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == false

@@ -1,0 +1,54 @@
+; 18649 Fall 2014
+; Ting Xu (tingx)
+; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli) 
+; CarButtonControl_test.mf
+
+;Test for floor 2, front hallway CarButtonControl
+
+;definitions for inputs
+;period and ID for mAtFloor
+
+#DEFINE ATFLOOR_PER 50ms
+
+;ID = base + (floor - 1)*2 + Hallway.ordinal()
+;Hallway[FRONT].ordinal = 0
+;ID = 0x0C4C2800 + (2-1)*2 + 0 = 0x0C4C2802
+
+#DEFINE ATFLOOR_CAN_ID 0x0C4C2802
+
+;Car Button Period
+#DEFINE CARBTN_PER 100ms
+
+;definition for outputs
+;mCarCall
+#DEFINE CARCALL_CAN_ID 0x0F10B902
+
+;mCarLight
+#DEFINE CARLIGHT_CAN_ID 0x0F11B902
+
+;set input initial value
+0.0s I CARBTN_PER F CarCallEvent 2 FRONT = false
+0.0s I ATFLOOR_PER N ATFLOOR_CAN_ID AtFloor 2 FRONT = false
+
+;#state 'S9.1 IDLE'
+0.2s A F CarLight 2 FRONT : lighted == false
+0.2s A N CARCALL_CAN_ID Boolean : getValue == false
+0.2s A N CARLIGHT_CAN_ID Boolean : getValue == false
+
+;#transition 'T9.1'
+1.0s I CARBTN_PER F CarCallEvent 2 FRONT = true
+;release button
+1.2s I CARBTN_PER F CarCallEvent 2 FRONT = true
+
+;#state 'S9.2 CARCALL_PLACED'
+1.5s A F CarLight 2 FRONT : lighted == true
+1.5s A N CARCALL_CAN_ID Boolean : getValue == true
+1.5s A N CARLIGHT_CAN_ID Boolean : getValue == true
+
+;#transition 'T9.1'
+2.0s I ATFLOOR_PER N ATFLOOR_CAN_ID AtFloor 2 FRONT = true
+
+;#state 'S9.2 CARCALL_PLACED'
+2.5s A F CarLight 2 FRONT : lighted == false
+2.5s A N CARCALL_CAN_ID Boolean : getValue == false
+2.5s A N CARLIGHT_CAN_ID Boolean : getValue == false
