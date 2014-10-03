@@ -1,3 +1,8 @@
-;Eric Newhall
+; 18649 Fall 2014
+; Eric Newhall
+; Group 11
+; Ting Xu (tingx) Jonathan Leung (jkleung1), Mengzhe Li (mzli) 
+; CarButtonControl.cf
+; Module tested: DoorControl
 
 DoorControl "DoorControl" FRONT LEFT 100ms true

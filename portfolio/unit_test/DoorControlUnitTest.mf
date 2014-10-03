@@ -1,6 +1,10 @@
+; 18649 Fall 2014
+; Eric Newhall
+; Group 11
+; Ting Xu (tingx) Jonathan Leung (jkleung1), Mengzhe Li (mzli) 
+; CarButtonControl.cf
+; Module tested: DoorControl
 ; Unit test for DoorControll
-  ; 18649 Fall 2014 group 11 Eric Newhall enewhall 
-;Jonathan Leung kjleung Ting Xu tingx Mengzhe Li mzli 
 
  
 

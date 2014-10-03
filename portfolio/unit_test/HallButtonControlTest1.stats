@@ -4,6 +4,8 @@
 ;Eric Newhall/enewhall
 ;Mengzhe Li/mzli 
 ;Ting Xu/tingx
+; Group 11
+
 
 Simulator Parameters:
 Command line = -cf ../../unit_test/HallButtonControl.cf -mf ../../unit_test/HallButtonControlTest1.mf
