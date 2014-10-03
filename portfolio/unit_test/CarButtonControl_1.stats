@@ -1,3 +1,9 @@
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli 
+;Ting Xu/tingx
 
 Simulator Parameters:
 Command line = -cf ../../unit_test/CarButtonControl.cf -mf ../../unit_test/CarButtonControl_1.mf

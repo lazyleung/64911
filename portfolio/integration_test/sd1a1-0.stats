@@ -1,3 +1,10 @@
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli 
+;Ting Xu/tingx
+
 
 Simulator Parameters:
 Command line = -cf ../../integration_test/sd1a1.cf -mf ../../integration_test/sd1a1.mf
