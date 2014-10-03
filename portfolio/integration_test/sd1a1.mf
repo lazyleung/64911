@@ -5,9 +5,10 @@
 ; Integration test for sd1a
 ; sd1a1.mf
 
-;#INCLUDE HallButtonControlDefines.mf
+#INCLUDE HallButtonControlDefines.mf
 
 #DEFINE MESSAGE_PERIOD 100ms
+
 ;initialize
 ;Generic BooleanCanPayloadTranslator: mDoorClosed[FRONT,LEFT] = true
 ;Generic BooleanCanPayloadTranslator: mDoorClosed[FRONT,RIGHT] = true
