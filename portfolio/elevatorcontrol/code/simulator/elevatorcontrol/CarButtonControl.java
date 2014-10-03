@@ -47,7 +47,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 
 	private State state = State.STATE_IDLE;
 	
-	public CarButtonControl(int floor, Hallway hallway,SimTime period, boolean verbose) {
+	public CarButtonControl(SimTime period, int floor, Hallway hallway, boolean verbose) {
 		super("CarButtonControl" + ReplicationComputer.makeReplicationString(floor,hallway), verbose);
 		
 		//store constructor arguments in internal state	
@@ -136,6 +136,12 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 
 		}
 		
+		  //log the results of this iteration
+        if (state == newState) {
+            log("remains in state: ",state);
+        } else {
+            log("Transition:",state,"->",newState);
+        }
 
 	}
 
