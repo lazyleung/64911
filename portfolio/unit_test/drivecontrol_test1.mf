@@ -1,0 +1,131 @@
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli 
+;Ting Xu/tingx
+
+;unit test for DriveControl
+
+;physical drive period
+#DEFINE DRIVE_CONTROL_PERIOD 10ms
+
+;definitions for inputs
+;period and ID for mCarLevelPosition
+#DEFINE CAR_LEVEL_POSITION_PER      50ms
+#DEFINE CAR_LEVEL_POSITION_CAN_ID   0x0CB03C00
+
+;period and ID for mEmergencyBrake
+#DEFINE EMERGENCY_BRAKE_PER         50ms
+#DEFINE EMERGENCY_BRAKE_CAN_ID      0x0BE81400
+
+;period and ID for mDesiredFloor
+#DEFINE DESIRED_FLOOR_PER           50ms
+#DEFINE DESIRED_FLOOR_CAN_ID        0x0F0CB600
+
+;period and ID for mCarWeight
+#DEFINE CAR_WEIGHT_PER              200ms
+#DEFINE CAR_WEIGHT_CAN_ID           0x0DDC7800
+
+;period and ID for mLevel
+#DEFINE LEVEL_PER                   50ms
+#DEFINE LEVEL_CAN_ID                0x0AE81400
+
+;period and ID for mHoistwayLimit
+#DEFINE HOISTWAY_LIMIT_PER          50ms
+#DEFINE HOISTWAY_LIMIT_CAN_ID       0x0F08B400
+
+;period and ID for mDoorClosed
+#DEFINE DOOR_CLOSED_PER             100ms
+#DEFINE DOOR_CLOSED_CAN_ID          0x0D145000
+
+;period and ID for mAtFloor
+#DEFINE AT_FLOOR_PER                50ms
+#DEFINE AT_FLOOR_CAN_ID             0x0C4C2800
+
+;definitions for outputs (output periods are determined by the setting in the .cf file)
+#DEFINE DRIVE_CAN_ID                0x0F0AB500
+#DEFINE DRIVE_SPEED_CAN_ID          0x0F09B500
+
+;set input initial value
+0.0s I DRIVE_CONTROL_PERIOD     F                           Speed = STOP Direction = STOP
+0.0s I CAR_LEVEL_POSITION_PER   N CAR_LEVEL_POSITION_CAN_ID Position = 0
+0.0s I EMERGENCY_BRAKE_PER      N EMERGENCY_BRAKE_CAN_ID    SafteySensor = false
+0.0s I DESIRED_FLOOR_PER        N DESIRED_FLOOR_CAN_ID      Floor = 0 Direction = STOP Hallway = BOTH
+0.0s I CAR_WEIGHT_PER           N CAR_WEIGHT_CAN_ID         Weight = 0
+0.0s I LEVEL_PER                N LEVEL_CAN_ID              Leveling = true
+0.0s I HOISTWAY_LIMIT_PER       N HOISTWAY_LIMIT_CAN_ID     HoistwayLimitSensor = false
+0.0s I DOOR_CLOSED_PER          N DOOR_CLOSED_CAN_ID        DoorClosed = true
+0.0s I AT_FLOOR_PER             N DOOR_CLOSED_CAN_ID        AtFloor = true
+
+;#state 'S6.1 STOP'
+0.2s A F Speed : getSpeed == STOP
+0.2s A F Direction : getDirection == STOP
+0.2s A N DRIVE_CAN_ID Speed : getSpeed == Stop
+0.2s A N DRIVE_CAN_ID Direction : getDirection == Stop
+0.2s A N DRIVE_SPEED_CAN_ID Speed : getSpeed == 0.0
+0.2s A N DRIVE_SPEED_CAN_ID Direction : getDirection == Stop
+
+;#transition 'T6.1'
+1.0s I DESIRED_FLOOR_CAN_ID F CoinIn = true
+1.0s I COIN_IN_PER F CoinIn = true
+1.0s I COIN_IN_PER F CoinIn = true
+1.0s I COIN_IN_PER F CoinIn = true
+
+;#state 'S6.2 SLOW_UP'
+0.2s A F Speed : getSpeed == SLOW
+0.2s A F Direction : getDirection == UP
+0.2s A N DRIVE_CAN_ID Speed : getSpeed == SLOW
+0.2s A N DRIVE_CAN_ID Direction : getDirection == UP
+0.2s A N DRIVE_SPEED_CAN_ID Speed : getSpeed <= 0.25
+0.2s A N DRIVE_SPEED_CAN_ID Direction : getDirection == UP
+
+;#transition 'T6.2'
+
+;#state 'S6.3 LEVEL_UP'
+0.2s A F Speed : getSpeed == LEVEL
+0.2s A F Direction : getDirection == UP
+0.2s A N DRIVE_CAN_ID Speed : getSpeed == LEVEL
+0.2s A N DRIVE_CAN_ID Direction : getDirection == UP
+0.2s A N DRIVE_SPEED_CAN_ID Speed : getSpeed <= 0.25
+0.2s A N DRIVE_SPEED_CAN_ID Direction : getDirection == UP
+
+;#transition 'T6.3'
+
+;#state 'S6.1 STOP'
+0.2s A F Speed : getSpeed == STOP
+0.2s A F Direction : getDirection == STOP
+0.2s A N DRIVE_CAN_ID Speed : getSpeed == Stop
+0.2s A N DRIVE_CAN_ID Direction : getDirection == Stop
+0.2s A N DRIVE_SPEED_CAN_ID Speed : getSpeed == 0.0
+0.2s A N DRIVE_SPEED_CAN_ID Direction : getDirection == Stop
+
+;#transition 'T6.5'
+
+;#state 'S6.4 SLOW_DOWN'
+0.2s A F Speed : getSpeed == SLOW
+0.2s A F Direction : getDirection == DOWN
+0.2s A N DRIVE_CAN_ID Speed : getSpeed == SLOW
+0.2s A N DRIVE_CAN_ID Direction : getDirection == DOWN
+0.2s A N DRIVE_SPEED_CAN_ID Speed : getSpeed <= 0.25
+0.2s A N DRIVE_SPEED_CAN_ID Direction : getDirection == DOWN
+
+;#transition 'T6.6'
+
+;#state 'S6.5 LEVEL_DOWN'
+0.2s A F Speed : getSpeed == LEVEL
+0.2s A F Direction : getDirection == DOWN
+0.2s A N DRIVE_CAN_ID Speed : getSpeed == LEVEL
+0.2s A N DRIVE_CAN_ID Direction : getDirection == DOWN
+0.2s A N DRIVE_SPEED_CAN_ID Speed : getSpeed <= 0.25
+0.2s A N DRIVE_SPEED_CAN_ID Direction : getDirection == DOWN
+
+;#transition 'T6.6'
+
+;#state 'S6.1 STOP'
+0.2s A F Speed : getSpeed == STOP
+0.2s A F Direction : getDirection == STOP
+0.2s A N DRIVE_CAN_ID Speed : getSpeed == Stop
+0.2s A N DRIVE_CAN_ID Direction : getDirection == Stop
+0.2s A N DRIVE_SPEED_CAN_ID Speed : getSpeed == 0.0
+0.2s A N DRIVE_SPEED_CAN_ID Direction : getDirection == Stop

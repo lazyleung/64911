@@ -208,55 +208,45 @@ public class DriveControl extends Controller implements TimeSensitive {
         switch (currentState) {
             case STOP:
                 doStop();
-                //#transition 'T6.1'
-                if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.UP) {
+                
+                if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.UP) { //#transition 'T6.1'
                     log("T6.1");
                     nextState = State.SLOW_UP;
-                }
-                //#transition 'T6.5'
-                else if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.DOWN) {
+                } else if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.DOWN) { //#transition 'T6.5'
                     log("T6.5");
                     nextState = State.SLOW_DOWN;
                 }
                 break;
             case SLOW_DOWN:
                 doSlowDown();
-                //#transition 'T6.8'
-                if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.UP) {
+                if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.UP) { //#transition 'T6.8'
                     log("T6.8");
                     nextState = State.STOP;
-                }
-                //#transition 'T6.6'
-                else if(doorClosed == true && DriveObject.SlowSpeed >= localSpeed.speed() && commitPoint == false) {
+                } else if(doorClosed == true && DriveObject.SlowSpeed >= localSpeed.speed() && commitPoint == false) { //#transition 'T6.6'
                     log("T6.6");
                     nextState = State.LEVEL_DOWN;
                 }
                 break;
             case LEVEL_DOWN:
                 doLevelDown();
-                //#transition 'T6.7'
-                if(mEmergencyBrake.getValue() == true || (mLevelU.getValue() == true && mLevelD.getValue() == true && DriveObject.LevelingSpeed >= localSpeed.speed())) {
+                if(mEmergencyBrake.getValue() == true || (mLevelU.getValue() == true && mLevelD.getValue() == true && DriveObject.LevelingSpeed >= localSpeed.speed())) { //#transition 'T6.7'
                     log("T6.7");
                     nextState = State.STOP;
                 }
                 break;
             case SLOW_UP:
                 doSlowUp();
-                //#transition 'T6.4'
-                if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.DOWN) {
+                if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.DOWN) { //#transition 'T6.4'
                     log("T6.4");
                     nextState = State.STOP;
-                }
-                //#transition 'T6.2'
-                else if(doorClosed == true && DriveObject.SlowSpeed >= localSpeed.speed() && commitPoint == false) {
+                } else if(doorClosed == true && DriveObject.SlowSpeed >= localSpeed.speed() && commitPoint == false) { //#transition 'T6.2'
                     log("T6.2");
                     nextState = State.LEVEL_UP;
                 }
                 break;
             case LEVEL_UP:
                 doLevelUp();
-                //#transition 'T6.3'
-                if(mEmergencyBrake.getValue() == true || (mLevelU.getValue() == true && mLevelD.getValue() == true && DriveObject.LevelingSpeed >= localSpeed.speed())) {
+                if(mEmergencyBrake.getValue() == true || (mLevelU.getValue() == true && mLevelD.getValue() == true && DriveObject.LevelingSpeed >= localSpeed.speed())) { //#transition 'T6.3'
                     log("T6.3");
                     nextState = State.STOP;
                 }
