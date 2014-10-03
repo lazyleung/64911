@@ -5,4 +5,3 @@ DriveControl drivecontrol.cf driveconttrol_test1.mf
 DriveControl drivecontrol.cf driveconttrol_test2.mf
 DriveControl drivecontrol.cf driveconttrol_test3.mf
 DriveControl drivecontrol.cf driveconttrol_test4.mf
-DoorControl DoorControl.cf DoorControlUnitTest.mf
