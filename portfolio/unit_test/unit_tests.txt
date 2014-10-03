@@ -1,7 +1,13 @@
 ;there is only one test in the sample file.  Your file shall contain all tests.
-DoorControl doorcontrol.cf doorcontrol_test1.mf
+; 18649 Fall 2014
+; Group 11
+; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli), Ting Xu (tingx)
+;
+DoorControl DoorControl.cf DoorControlUnitTest.mf
 CarButtonControl CarButtonControl.cf CarButtonControl_1.mf
 DriveControl drivecontrol.cf driveconttrol_test1.mf
 DriveControl drivecontrol.cf driveconttrol_test2.mf
 DriveControl drivecontrol.cf driveconttrol_test3.mf
 DriveControl drivecontrol.cf driveconttrol_test4.mf
+HallButtonControl HallButtonControl.cf HallButtonControlTest1.mf
+
