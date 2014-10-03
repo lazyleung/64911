@@ -1,0 +1,6 @@
+; Unit Test for HallButtonControl
+; Eric NewHall, Jonathan Leung, Mengzhe Li, Ting Xu
+; enewhall, jkleung1, mzli, tingx
+; 18649 Fall 2014
+
+HallButtonControl 100ms 4 FRONT UP true
