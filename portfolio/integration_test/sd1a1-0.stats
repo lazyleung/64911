@@ -1,0 +1,20 @@
+
+Simulator Parameters:
+Command line = -cf ../../integration_test/sd1a1.cf -mf ../../integration_test/sd1a1.mf
+RandomSeed = 1412376464264
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = ../../integration_test/sd1a1.mf
+Controller File = ../../integration_test/sd1a1.cf
+
+Assertion Results:
+@1.21s:  PASSED simulator.payloads.HallLightPayload$ReadableHallLightPayload@1f9c95a9 :: lighted ?== true PASSED
+
+
+******************Summary******************
+Passed:  1
+Failed:  0
+Total :  1
+
