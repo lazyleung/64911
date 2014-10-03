@@ -110,6 +110,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 
 			//#transition 'T9.1'
 			if(localCarCall.pressed()){
+				log("Car button pressed");
 				newState = State.STATE_CARCALL_PLACED;
 			}
 			else{
@@ -124,6 +125,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 
 			//#transition 'T9.2'
 			if(!localCarCall.pressed() && mAtFloor.getValue() == true){
+				log("Arrived at floor");
 				newState = State.STATE_IDLE;
 			}
 			else{
