@@ -1,3 +1,7 @@
 ;there is only one test in the sample file.  Your file shall contain all tests.
 DoorControl doorcontrol.cf doorcontrol_test1.mf
 CarButtonControl CarButtonControl.cf CarButtonControl_1.mf
+DriveControl drivecontrol.cf driveconttrol_test1.mf
+DriveControl drivecontrol.cf driveconttrol_test2.mf
+DriveControl drivecontrol.cf driveconttrol_test3.mf
+DriveControl drivecontrol.cf driveconttrol_test4.mf
