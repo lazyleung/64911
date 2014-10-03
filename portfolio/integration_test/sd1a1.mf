@@ -7,6 +7,7 @@
 
 ;#INCLUDE HallButtonControlDefines.mf
 
+#DEFINE MESSAGE_PERIOD 100ms
 ;initialize
 ;Generic BooleanCanPayloadTranslator: mDoorClosed[FRONT,LEFT] = true
 ;Generic BooleanCanPayloadTranslator: mDoorClosed[FRONT,RIGHT] = true
