@@ -1,6 +1,8 @@
 ; Unit Test for HallButtonControl
 ; Eric NewHall, Jonathan Leung, Mengzhe Li, Ting Xu
 ; 18649 Fall 2014
+; Group 11
+
 
 ;#INCLUDE HallButtonControlDefines.mf
 ; can IDs used:
