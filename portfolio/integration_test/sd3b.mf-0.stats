@@ -1,0 +1,35 @@
+
+Simulator Parameters:
+Command line = -cf sd3b.cf -mf sd3b.mf
+RandomSeed = 1412840831890
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = sd3b.mf
+Controller File = sd3b.cf
+
+Assertion Results:
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@aa53bff8 :: getValue ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@f8205847 :: getValue ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@44b0cc48 :: getValue ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@8b522f55 :: getValue ?== false PASSED
+@1.5s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@fb91e1d4 :: command ?== NUDGE FAILED
+@1.5s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@a9eae939 :: command ?== NUDGE FAILED
+@1.5s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@10706947 :: command ?== NUDGE FAILED
+@1.5s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@7afc8510 :: command ?== NUDGE FAILED
+@4.0s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@7ce95c41 :: command ?== OPEN FAILED
+@4.0s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@29f924b0 :: command ?== OPEN FAILED
+@4.0s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@47263e7e :: command ?== OPEN FAILED
+@4.0s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@941a3483 :: command ?== OPEN FAILED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@6ebdaaa8 :: command ?== STOP PASSED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2c69246f :: command ?== STOP PASSED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@ef28517e :: command ?== STOP PASSED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@c9574078 :: command ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  8
+Failed:  8
+Total :  16
+
