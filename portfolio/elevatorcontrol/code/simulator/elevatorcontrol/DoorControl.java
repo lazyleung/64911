@@ -37,7 +37,7 @@ public class DoorControl extends Controller
     
     private final Hallway hallway;
     private final Direction direction;
-    private final int floor;
+    private int floor;
  
     //physical interface
     private WriteableDoorMotorPayload doorMotor;
@@ -46,12 +46,13 @@ public class DoorControl extends Controller
     private DoorClosedCanPayloadTranslator mDoorClosed;
     private DoorReversalCanPayloadTranslator mDoorReversal;
 
-    private AtFloorCanPayloadTranslator mAtFloor;
     private DriveSpeedCanPayloadTranslator mDriveSpeed;
     private DesiredFloorCanPayloadTranslator mDesiredFloor;
     private IntegerCanPayloadTranslator mDesiredDwell;   
     private CarWeightCanPayloadTranslator mCarWeight;
     private DoorMotorCanPayloadTranslator mDoorMotor;
+
+    private Utility.AtFloorArray    mAtFloor;
 
     public DoorControl(Hallway hallway, Side side, SimTime period, boolean verbose){
 	super("DoorControl"+ReplicationComputer.makeReplicationString(hallway, side),verbose);
@@ -85,10 +86,6 @@ public class DoorControl extends Controller
 	mDoorReversal = new DoorReversalCanPayloadTranslator(networkDoorReversalIn,hallway,side);
 	canInterface.registerTimeTriggered(networkDoorReversalIn);
 
-	ReadableCanMailbox networkAtFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor,hallway));
-        mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn,floor,hallway);
-        canInterface.registerTimeTriggered(networkAtFloorIn);
-
 	ReadableCanMailbox networkDriveSpeedIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DRIVE_SPEED_CAN_ID);
         mDriveSpeed = new DriveSpeedCanPayloadTranslator(networkDriveSpeedIn);
         canInterface.registerTimeTriggered(networkDriveSpeedIn);
@@ -111,12 +108,16 @@ public class DoorControl extends Controller
     mDoorMotor.set(DoorCommand.STOP);
 	canInterface.sendTimeTriggered(networkDoorMotorOut,period);
 
+    mAtFloor = new Utility.AtFloorArray(canInterface);
+
 	timer.start(period);
     }
 
     public void timerExpired(Object callbackData){
 	log("Executing DoorControl in " + doorState);
 	State newState = doorState;
+
+    floor = mAtFloor.getCurrentFloor();
 
 	switch(doorState){
 	    case OPEN:
@@ -139,7 +140,7 @@ public class DoorControl extends Controller
 	    case CLOSED:
 		doClosed();
 		//#transition 'T5.5'
-		if((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (mAtFloor.getValue() && floor==mDesiredFloor.getFloor() && (mDriveSpeed.getSpeed()==0 || mDriveSpeed.getDirection() == Direction.STOP))){
+		if((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (floor==mDesiredFloor.getFloor() && (mDriveSpeed.getSpeed()==0 || mDriveSpeed.getDirection() == Direction.STOP))){
 		    newState = State.OPENING;
 		}
 		break;
