@@ -6,6 +6,7 @@ package simulator.elevatorcontrol;
 import java.util.BitSet;
 import simulator.framework.Direction;
 import simulator.framework.Hallway;
+import simulator.framework.Side;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
 import simulator.payloads.translators.CanPayloadTranslator;
@@ -21,8 +22,8 @@ public class DoorMotorCanPayloadTranslator extends CanPayloadTranslator {
      * both objects
      * @param payload
      */
-    public DoorMotorCanPayloadTranslator(WriteableCanMailbox payload) {
-        super(payload, 4, MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID);
+    public DoorMotorCanPayloadTranslator(WriteableCanMailbox payload, Hallway hallway, Side side) {
+        super(payload, 4, MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, side));
     }
 
     /**
@@ -31,8 +32,8 @@ public class DoorMotorCanPayloadTranslator extends CanPayloadTranslator {
      * both objects
      * @param payload
      */
-    public DoorMotorCanPayloadTranslator(ReadableCanMailbox payload) {
-        super(payload, 4, MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID);
+    public DoorMotorCanPayloadTranslator(ReadableCanMailbox payload, Hallway hallway, Side side) {
+        super(payload, 4, MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, side));
     }
     
     
