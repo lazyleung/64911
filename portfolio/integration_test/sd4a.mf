@@ -2,7 +2,7 @@
 ;Group 11
 ;Jonathan Leung/jkleung1
 ;Eric Newhall/enewhall
-;Mengzhe Li/mzli 
+;Mengzhe Li/mzli
 ;Ting Xu/tingx
 
 ;sd1b.mf
@@ -42,7 +42,7 @@
 1.0s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
 
 ;#arc '4A/2'
-2.0s A F CarPositionIndicator : getIndicatedFloor == 2
+2.0s A F CarPositionIndicator : floor == 2
 
 ;#arc '4A/3'
 2.5s I DRIVE_PERIOD F DriveSpeed = STOP 0
