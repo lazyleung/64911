@@ -10,4 +10,4 @@ DriveControl drivecontrol.cf driveconttrol_test2.mf
 DriveControl drivecontrol.cf driveconttrol_test3.mf
 DriveControl drivecontrol.cf driveconttrol_test4.mf
 HallButtonControl HallButtonControl.cf HallButtonControlTest1.mf
-
+LanternControl LanternControl.cf LanternControlUnitTest.mf
