@@ -191,6 +191,4 @@ public class DoorControl extends Controller
 	doorMotor.set(DoorCommand.NUDGE);
 	mDoorMotor.set(DoorCommand.NUDGE);
     }
-    
-
 }
