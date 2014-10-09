@@ -1,12 +1,8 @@
-//18649 Fall 2014 group 11 Eric Newhall enewhall Jonathan Leung kjleung Ting Xu tingx Mengzhe Li mzli 
-
-
 package simulator.elevatorcontrol;
 
 import java.util.BitSet;
 import simulator.framework.Direction;
 import simulator.framework.Hallway;
-import simulator.framework.Side;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
 import simulator.payloads.translators.CanPayloadTranslator;
@@ -22,8 +18,8 @@ public class DoorMotorCanPayloadTranslator extends CanPayloadTranslator {
      * both objects
      * @param payload
      */
-    public DoorMotorCanPayloadTranslator(WriteableCanMailbox payload, Hallway hallway, Side side) {
-        super(payload, 4, MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, side));
+    public DoorMotorCanPayloadTranslator(WriteableCanMailbox payload) {
+        super(payload, 8, MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID);
     }
 
     /**
@@ -32,8 +28,8 @@ public class DoorMotorCanPayloadTranslator extends CanPayloadTranslator {
      * both objects
      * @param payload
      */
-    public DoorMotorCanPayloadTranslator(ReadableCanMailbox payload, Hallway hallway, Side side) {
-        super(payload, 4, MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, side));
+    public DoorMotorCanPayloadTranslator(ReadableCanMailbox payload) {
+        super(payload, 8, MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID);
     }
     
     
@@ -43,12 +39,12 @@ public class DoorMotorCanPayloadTranslator extends CanPayloadTranslator {
 
     public void setValue(DoorCommand dc) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, dc.ordinal(), 0, 32);
+        addIntToBitset(b, dc.ordinal(), 32, 16);
         setMessagePayload(b, getByteSize());
     }
 
     public DoorCommand getValue() {
-	int val = getIntFromBitset(getMessagePayload(), 32,32);
+	int val = getIntFromBitset(getMessagePayload(), 32,16);
 	for(DoorCommand dc : DoorCommand.values()){
 	    if(dc.ordinal() == val){
 		return dc;
