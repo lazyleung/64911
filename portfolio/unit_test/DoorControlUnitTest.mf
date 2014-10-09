@@ -1,12 +1,5 @@
-; 18649 Fall 2014
-; Eric Newhall
-; Group 11
-; Ting Xu (tingx) Jonathan Leung (jkleung1), Mengzhe Li (mzli) 
-; CarButtonControl.cf
-; Module tested: DoorControl
-; Unit test for DoorControll
-
- 
+  ; Unit test for DoorControll
+  ; Eric Newhall
 
   #INCLUDE defines.mf ;include CAN id and period definitions
 
@@ -17,133 +10,77 @@
   0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = false
   0s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
   0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
-  0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 5
+  0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 2
   0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
 
   ;state 'S5.4 CLOSED'
-  1.0s A F DoorMotor FRONT LEFT : command  == STOP 
-  1.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == STOP
+  1.0s A F DoorMotor FRONT LEFT : command  == STOP
+  1.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 
   ;transition 'T5.5'
-  1.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
-  1.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
-  1.1s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
   1.1s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
-  1.1s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
-  1.1s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
-  1.1s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 5
-  1.1s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
 
   ;state 'S5.1 OPENING'
   2.0s A F DoorMotor FRONT LEFT : command  == OPEN
-  2.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == OPEN
+  2.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == OPEN
 
   ;transition 'T5.1'
   2.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
   2.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
-  2.1s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
-  2.1s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
-  2.1s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
-  2.1s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
-  2.1s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 5
-  2.1s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
+  2.1s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 FRONT UP
 
   ;state 'S5.2 OPEN'
-  2.5s A F DoorMotor FRONT LEFT : command  == STOP
-  2.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == STOP
+  3.0s A F DoorMotor FRONT LEFT : command  == STOP
+  3.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 
   ;transition 'T5.2'
-  3.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
-  3.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
-  3.1s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
-  3.1s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
-  3.1s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
-  3.1s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
-  3.1s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 5
-  3.1s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
-
+  ;countdown <= 0  
+  ;check that doors didn't close too early
+  4.0s A F DoorMotor FRONT LEFT : command  == STOP
+  4.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
+  
   ;state 'S5.3 CLOSING'
-  3.5s A F DoorMotor FRONT LEFT : command  == NUDGE
-  3.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == NUDGE
-
+  5.5s A F DoorMotor FRONT LEFT : command  == NUDGE
+  5.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == NUDGE
+ 
   ;transition 'T5.3'
-  4.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
-  4.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
-  4.1s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
-  4.1s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
-  4.1s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
-  4.1s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
-  4.1s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 5
-  4.1s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
-
+  6s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
+  6s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
+ 
   ;state 'S5.4 CLOSED'
-  4.5s A F DoorMotor FRONT LEFT : command  == STOP
-  4.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == STOP
-
+  6.5s A F DoorMotor FRONT LEFT : command  == STOP
+  6.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 
   ;transition 'T5.5'
-  5.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
-  5.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
-  5.1s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
-  5.1s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
-  5.1s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
-  5.1s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 FRONT UP
-  5.1s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 5
-  5.1s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 30000
+  7.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
 
   ;state 'S5.1 OPENING'
-  5.5s A F DoorMotor FRONT LEFT : command  == OPEN
-  5.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == OPEN
-
+  8.0s A F DoorMotor FRONT LEFT : command  == OPEN
+  8.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == OPEN
 
   ;transition 'T5.1'
-  6.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
-  6.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
-  6.1s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
-  6.1s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
-  6.1s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
-  6.1s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 FRONT UP
-  6.1s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 5
-  6.1s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
+  8.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
+  8.5s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
 
   ;state 'S5.2 OPEN'
-  6.5s A F DoorMotor FRONT LEFT : command  == STOP
-  6.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == STOP
-
+  9.0s A F DoorMotor FRONT LEFT : command  == STOP
+  9.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 
   ;transition 'T5.2'
-  7.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
-  7.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
-  7.1s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
-  7.1s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
-  7.1s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
-  7.1s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 FRONT UP
-  7.1s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 5
-  7.1s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
-
+  ;countdown <= 0  
+  ;check that doors didn't close too early
+  9.5s A F DoorMotor FRONT LEFT : command  == STOP
+  9.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
+  
   ;state 'S5.3 CLOSING'
-  7.5s A F DoorMotor FRONT LEFT : command  == NUDGE
-  7.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == NUDGE
-  
-  
+  11.5s A F DoorMotor FRONT LEFT : command  == NUDGE
+  11.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == NUDGE
+
   ;transition 'T5.4'
-  8.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
-  8.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
-  8.1s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = true
-  8.1s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
-  8.1s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
-  8.1s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
-  8.1s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 5
-  8.1s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
+  12s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
+  12s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
+  12s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = true
 
   ;state 'S5.1 OPENING'
-  8.5s A F DoorMotor FRONT LEFT : command  == OPEN
-  8.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == OPEN
-
-
-  
-
-  
-
-  
-  
+  13.0s A F DoorMotor FRONT LEFT : command  == OPEN
+  13.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == OPEN

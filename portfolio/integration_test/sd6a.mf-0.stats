@@ -1,13 +1,7 @@
-;ECE649 FALL 2014
-;Group 11
-;Jonathan Leung/jkleung1
-;Eric Newhall/enewhall
-;Mengzhe Li/mzli 
-;Ting Xu/tingx
 
 Simulator Parameters:
 Command line = -cf sd6a.cf -mf sd6a.mf
-RandomSeed = 1412375760963
+RandomSeed = 1412829499269
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -16,16 +10,20 @@ Message File = sd6a.mf
 Controller File = sd6a.cf
 
 Assertion Results:
-@0.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@42f2d3fb :: speed ?== SLOW PASSED
-@0.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@d11a5315 :: direction ?== UP PASSED
-@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@93d9ddc1 :: getSpeed ?== SLOW PASSED
-@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@61a65b8f :: getDirection ?== UP PASSED
-@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@b6f7cc93 :: getSpeed ?<= 0.25 PASSED
-@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@73be0fa0 :: getDirection ?== UP PASSED
+@0.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@910962a2 :: speed ?== SLOW PASSED
+@0.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@d0d2f823 :: direction ?== UP PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@bfcca747 :: getSpeed ?== SLOW PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@ddd6a3de :: getDirection ?== UP PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@3a4b635c :: getSpeed ?<= 0.25 PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@3f283139 :: getDirection ?== UP PASSED
+@3.0s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@2fd94f2e :: speed ?== LEVEL PASSED
+@3.0s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@4d715868 :: direction ?== UP PASSED
+@5.0s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@6b4c544b :: speed ?== STOP PASSED
+@5.0s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@b9d23b90 :: direction ?== STOP PASSED
 
 
 ******************Summary******************
-Passed:  6
+Passed:  10
 Failed:  0
-Total :  6
+Total :  10
 

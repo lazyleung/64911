@@ -1,0 +1,32 @@
+
+Simulator Parameters:
+Command line = -cf sd1c.cf -mf sd1c.mf
+RandomSeed = 1412839280169
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = sd1c.mf
+Controller File = sd1c.cf
+
+Assertion Results:
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@1b7a5a50 :: getValue ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@e6ec97f2 :: getValue ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@ce7009fc :: getValue ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@d8b3bc0d :: getValue ?== false PASSED
+@1.5s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@32182968 :: command ?== NUDGE FAILED
+@1.5s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@29023686 :: command ?== NUDGE FAILED
+@1.5s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1793fbe :: command ?== NUDGE FAILED
+@1.5s:  FAILED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@8f97db5e :: command ?== NUDGE FAILED
+@3.0s:  FAILED simulator.payloads.HallLightPayload$ReadableHallLightPayload@e7590ae5 :: lighted ?== true FAILED
+@5.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@3ae0c9c8 :: command ?== STOP PASSED
+@5.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@63a085f5 :: command ?== STOP PASSED
+@5.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1bd0b33b :: command ?== STOP PASSED
+@5.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@db00f6e7 :: command ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  8
+Failed:  5
+Total :  13
+

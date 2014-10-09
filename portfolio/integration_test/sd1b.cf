@@ -1,0 +1,12 @@
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli 
+;Ting Xu/tingx
+
+HallButtonControl 100ms 1 FRONT UP true
+DoorControl FRONT LEFT 10ms true
+DoorControl FRONT RIGHT 10ms true
+DoorControl BACK LEFT 10ms true
+DoorControl BACK RIGHT 10ms true

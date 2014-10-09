@@ -1,0 +1,67 @@
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli
+;Ting Xu/tingx
+
+;sd1b.mf
+
+#INCLUDE defines.mf
+
+;period and ID for mEmergencyBrake
+#DEFINE EMERGENCY_BRAKE_PERIOD      50ms
+
+;set input initial value
+0.0s I DRIVE_PERIOD                 F                                           DriveSpeed = UP 0.25
+0.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 STOP BOTH
+0.0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 1
+0.0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[BACK]_CAN_ID               Integer = 1
+0.0s I EMERGENCY_BRAKE_PERIOD       N EMERGENCY_BRAKE_CAN_ID                    SafetySensor = false
+0.0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
+0.0s I HOISTWAY_LIMIT_PERIOD        N HOISTWAY_LIMIT_[UP]_CAN_ID                HoistwayLimitSensor UP = false
+0.0s I HOISTWAY_LIMIT_PERIOD        N HOISTWAY_LIMIT_[DOWN]_CAN_ID              HoistwayLimitSensor DOWN = false
+0.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID  DoorClosed FRONT RIGHT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID    DoorClosed BACK LEFT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID   DoorClosed BACK RIGHT = true
+0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
+0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][BACK]_CAN_ID                 AtFloor 1 BACK = true
+0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[2][BACK]_CAN_ID                 AtFloor 2 BACK = false
+
+0.2s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = false
+0.2s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][BACK]_CAN_ID                 AtFloor 1 BACK = false
+
+;****verify precondition
+0.4s A N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID    DoorClosed FRONT LEFT : getValue == true
+0.4s A N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID   DoorClosed FRONT RIGHT : getValue == true
+0.4s A N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT : getValue == true
+0.4s A N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID    DoorClosed BACK RIGHT : getValue == true
+
+;#arc '4A/1'
+1.0s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
+
+;#arc '4A/2'
+2.0s A F CarPositionIndicator : floor == 2
+
+;#arc '4A/3'
+2.5s I DRIVE_PERIOD F DriveSpeed = STOP 0
+3.0s A F DriveSpeed : speed == 0;
+
+;#arc '4A/4a'
+4.0s A F DoorMotor FRONT LEFT : command == OPEN
+4.0s A F DoorMotor FRONT RIGHT : command == OPEN
+4.0s A F DoorMotor BACK LEFT : command == OPEN
+4.0s A F DoorMotor BACK RIGHT : command == OPEN
+
+;#arc '4A/4b'
+5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
+5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorOpened FRONT RIGHT = true
+5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID      DoorOpened BACK LEFT = true
+5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = true
+
+;#arc '4A/4c'
+6.0s A F DoorMotor FRONT LEFT : command == STOP
+6.0s A F DoorMotor FRONT RIGHT : command == STOP
+6.0s A F DoorMotor BACK LEFT : command == STOP
+6.0s A F DoorMotor BACK RIGHT : command == STOP

@@ -1,5 +1,3 @@
-//18649 Fall 2014 group 11 Eric Newhall enewhall Jonathan Leung kjleung Ting Xu tingx Mengzhe Li mzli 
-
 
 package simulator.elevatorcontrol;
 
@@ -39,25 +37,26 @@ public class DoorControl extends Controller
     
     private final Hallway hallway;
     private final Direction direction;
-    private final int floor;
+    private int floor;
  
     //physical interface
-    private WriteableDoorMotorPayload DoorMotor;
+    private WriteableDoorMotorPayload doorMotor;
     //network interface
     private DoorOpenedCanPayloadTranslator mDoorOpen;   
     private DoorClosedCanPayloadTranslator mDoorClosed;
     private DoorReversalCanPayloadTranslator mDoorReversal;
 
-    private AtFloorCanPayloadTranslator mAtFloor;
     private DriveSpeedCanPayloadTranslator mDriveSpeed;
     private DesiredFloorCanPayloadTranslator mDesiredFloor;
     private IntegerCanPayloadTranslator mDesiredDwell;   
     private CarWeightCanPayloadTranslator mCarWeight;
     private DoorMotorCanPayloadTranslator mDoorMotor;
 
-    public DoorControl(String name, Hallway hallway, Side side, SimTime period, boolean verbose){
-	super(name + ReplicationComputer.makeReplicationString(hallway,side),verbose);
-	log("Created testlight with peroid = ",period);
+    private Utility.AtFloorArray    mAtFloor;
+
+    public DoorControl(Hallway hallway, Side side, SimTime period, boolean verbose){
+	super("DoorControl"+ReplicationComputer.makeReplicationString(hallway, side),verbose);
+	log("Created DoorControl with peroid = ",period);
 
 	//TODO: fix these
 	this.floor = 1;
@@ -71,24 +70,21 @@ public class DoorControl extends Controller
 	this.hallway = hallway;
 
 	//define physical objects
-	DoorMotor = DoorMotorPayload.getWriteablePayload(hallway,side);
+	doorMotor = DoorMotorPayload.getWriteablePayload(hallway,side);
+    physicalInterface.sendTimeTriggered(doorMotor, period);
 
 	//define network objects (inputs)
-	ReadableCanMailbox networkDoorOpenIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_OPEN_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor,hallway));
+	ReadableCanMailbox networkDoorOpenIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_OPEN_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
 	mDoorOpen = new DoorOpenedCanPayloadTranslator(networkDoorOpenIn,hallway,side);
 	canInterface.registerTimeTriggered(networkDoorOpenIn);
 
-	ReadableCanMailbox networkDoorClosedIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor,hallway));
+	ReadableCanMailbox networkDoorClosedIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
 	mDoorClosed = new DoorClosedCanPayloadTranslator(networkDoorClosedIn,hallway,side);
 	canInterface.registerTimeTriggered(networkDoorClosedIn);
 	
-	ReadableCanMailbox networkDoorReversalIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_REVERSAL_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor,hallway));
+	ReadableCanMailbox networkDoorReversalIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_REVERSAL_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
 	mDoorReversal = new DoorReversalCanPayloadTranslator(networkDoorReversalIn,hallway,side);
 	canInterface.registerTimeTriggered(networkDoorReversalIn);
-
-	ReadableCanMailbox networkAtFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor,hallway));
-        mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn,floor,hallway);
-        canInterface.registerTimeTriggered(networkAtFloorIn);
 
 	ReadableCanMailbox networkDriveSpeedIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DRIVE_SPEED_CAN_ID);
         mDriveSpeed = new DriveSpeedCanPayloadTranslator(networkDriveSpeedIn);
@@ -107,9 +103,12 @@ public class DoorControl extends Controller
         canInterface.registerTimeTriggered(networkCarWeightIn);
 
 	//define network objects (outputs)
-	WriteableCanMailbox networkDoorMotorOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID);
-	mDoorMotor = new DoorMotorCanPayloadTranslator(networkDoorMotorOut);
+	WriteableCanMailbox networkDoorMotorOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
+	mDoorMotor = new DoorMotorCanPayloadTranslator(networkDoorMotorOut, hallway, side);
+    mDoorMotor.set(DoorCommand.STOP);
 	canInterface.sendTimeTriggered(networkDoorMotorOut,period);
+
+    mAtFloor = new Utility.AtFloorArray(canInterface);
 
 	timer.start(period);
     }
@@ -117,6 +116,8 @@ public class DoorControl extends Controller
     public void timerExpired(Object callbackData){
 	log("Executing DoorControl in " + doorState);
 	State newState = doorState;
+
+    floor = mAtFloor.getCurrentFloor();
 
 	switch(doorState){
 	    case OPEN:
@@ -139,7 +140,7 @@ public class DoorControl extends Controller
 	    case CLOSED:
 		doClosed();
 		//#transition 'T5.5'
-		if((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (mAtFloor.getValue() && floor==mDesiredFloor.getFloor() && (mDriveSpeed.getSpeed()==0 || mDriveSpeed.getDirection() == Direction.STOP))){
+		if((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (floor==mDesiredFloor.getFloor() && (mDriveSpeed.getSpeed()==0 || mDriveSpeed.getDirection() == Direction.STOP))){
 		    newState = State.OPENING;
 		}
 		break;
@@ -167,27 +168,27 @@ public class DoorControl extends Controller
 
     private void doOpening(){
 	//#state 'S5.1 OPENING'
-	DoorMotor.set(DoorCommand.OPEN);
+	doorMotor.set(DoorCommand.OPEN);
 	mDoorMotor.set(DoorCommand.OPEN);
 	CountDown = mDesiredDwell.getValue();
     }
 
     private void doOpen(){
 	//#state 'S5.2 OPEN'
-	DoorMotor.set(DoorCommand.STOP);
+	doorMotor.set(DoorCommand.STOP);
 	mDoorMotor.set(DoorCommand.STOP);
 	CountDown = CountDown - period.getFracSeconds();
     }
 
     private void doClosed(){
 	//#state 'S5.4 CLOSED'
-	DoorMotor.set(DoorCommand.STOP);
+	doorMotor.set(DoorCommand.STOP);
 	mDoorMotor.set(DoorCommand.STOP);
     }
 
     private void doClosing(){
 	//#state 'S5.3 CLOSING'
-	DoorMotor.set(DoorCommand.NUDGE);
+	doorMotor.set(DoorCommand.NUDGE);
 	mDoorMotor.set(DoorCommand.NUDGE);
     }
     

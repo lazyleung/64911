@@ -5,4 +5,4 @@
 ; CarButtonControl.cf
 ; Module tested: DoorControl
 
-DoorControl FRONT LEFT 10ms true
+DoorControl FRONT LEFT 100ms true

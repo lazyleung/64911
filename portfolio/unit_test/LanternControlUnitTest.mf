@@ -1,0 +1,34 @@
+  ; Unit test for LanternControl
+  ; Eric Newhall
+
+  #INCLUDE defines.mf ;include CAN id and period definitions
+
+  ;intialize
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID  DoorClosed FRONT RIGHT = false
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID    DoorClosed BACK LEFT = true
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID   DoorClosed BACK RIGHT = true
+  0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
+  0s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
+  0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
+
+  ;state 'S7.1 OFF'
+  1.0s A F CarLantern UP : lighted  == false
+  1.0s A N CAR_LANTERN_[UP]_CAN_ID Boolean : getValue == false
+
+  ;transition 'T7.2'
+  1.5s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 5 FRONT UP
+  1.5s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
+  1.5s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID  DoorClosed FRONT RIGHT = true
+
+  ;state 'S7.2 ON'    
+  2.0s A F CarLantern UP : lighted  == true
+  2.0s A N CAR_LANTERN_[UP]_CAN_ID Boolean : getValue == true
+
+  ;transition 'T7.1'
+  2.5s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
+
+  ;state 'S7.1 OFF'
+  3.0s A F CarLantern UP : lighted  == false
+  3.0s A N CAR_LANTERN_[UP]_CAN_ID Boolean : getValue == false
+ 	
