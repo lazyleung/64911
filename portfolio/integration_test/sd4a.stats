@@ -1,0 +1,33 @@
+
+Simulator Parameters:
+Command line = -cf ../../integration_test/sd4a.cf -mf ../../integration_test/sd4a.mf
+RandomSeed = 1412894858905
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = ../../integration_test/sd4a.mf
+Controller File = ../../integration_test/sd4a.cf
+
+Assertion Results:
+@0.4s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@36b0bf42 :: getValue ?== true PASSED
+@0.4s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@e5b675f5 :: getValue ?== true PASSED
+@0.4s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@f25683cd :: getValue ?== true PASSED
+@0.4s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@d263770e :: getValue ?== true PASSED
+@2.0s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@c17a83a4 :: floor ?== 2 PASSED
+@3.0s:  PASSED simulator.payloads.DriveSpeedPayload$ReadableDriveSpeedPayload@a2ae9ce6 :: speed ?== 0.0 PASSED
+@4.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2b41015c :: command ?== OPEN PASSED
+@4.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1b04fcfa :: command ?== OPEN PASSED
+@4.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@47c35fe3 :: command ?== OPEN PASSED
+@4.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@849da0db :: command ?== OPEN PASSED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@10b49d38 :: command ?== STOP PASSED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@4b6eba78 :: command ?== STOP PASSED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@38de25fd :: command ?== STOP PASSED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@a4effe24 :: command ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  14
+Failed:  0
+Total :  14
+
