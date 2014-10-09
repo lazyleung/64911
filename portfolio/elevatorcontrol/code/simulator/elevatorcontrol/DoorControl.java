@@ -55,7 +55,7 @@ public class DoorControl extends Controller
 
     public DoorControl(Hallway hallway, Side side, SimTime period, boolean verbose){
 	super("DoorControl"+ReplicationComputer.makeReplicationString(hallway, side),verbose);
-	log("Created testlight with peroid = ",period);
+	log("Created DoorControl with peroid = ",period);
 
 	//TODO: fix these
 	this.floor = 1;
@@ -70,6 +70,7 @@ public class DoorControl extends Controller
 
 	//define physical objects
 	doorMotor = DoorMotorPayload.getWriteablePayload(hallway,side);
+    physicalInterface.sendTimeTriggered(doorMotor, period);
 
 	//define network objects (inputs)
 	ReadableCanMailbox networkDoorOpenIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_OPEN_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
@@ -107,6 +108,7 @@ public class DoorControl extends Controller
 	//define network objects (outputs)
 	WriteableCanMailbox networkDoorMotorOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
 	mDoorMotor = new DoorMotorCanPayloadTranslator(networkDoorMotorOut, hallway, side);
+    mDoorMotor.set(DoorCommand.STOP);
 	canInterface.sendTimeTriggered(networkDoorMotorOut,period);
 
 	timer.start(period);

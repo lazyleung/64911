@@ -43,12 +43,12 @@ public class DoorMotorCanPayloadTranslator extends CanPayloadTranslator {
 
     public void setValue(DoorCommand dc) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, dc.ordinal(), 32, 16);
+        addIntToBitset(b, dc.ordinal(), 0, 32);
         setMessagePayload(b, getByteSize());
     }
 
     public DoorCommand getValue() {
-	int val = getIntFromBitset(getMessagePayload(), 32,16);
+	int val = getIntFromBitset(getMessagePayload(), 0,32);
 	for(DoorCommand dc : DoorCommand.values()){
 	    if(dc.ordinal() == val){
 		return dc;

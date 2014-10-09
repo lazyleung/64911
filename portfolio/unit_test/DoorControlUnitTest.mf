@@ -15,14 +15,14 @@
 
   ;state 'S5.4 CLOSED'
   1.0s A F DoorMotor FRONT LEFT : command  == STOP
-  1.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == STOP
+  1.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 
   ;transition 'T5.5'
   1.1s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
 
   ;state 'S5.1 OPENING'
   2.0s A F DoorMotor FRONT LEFT : command  == OPEN
-  2.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == OPEN
+  2.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == OPEN
 
   ;transition 'T5.1'
   2.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
@@ -31,17 +31,17 @@
 
   ;state 'S5.2 OPEN'
   3.0s A F DoorMotor FRONT LEFT : command  == STOP
-  3.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == STOP
+  3.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 
   ;transition 'T5.2'
   ;countdown <= 0  
   ;check that doors didn't close too early
   4.0s A F DoorMotor FRONT LEFT : command  == STOP
-  4.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == STOP
+  4.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
   
   ;state 'S5.3 CLOSING'
   5.5s A F DoorMotor FRONT LEFT : command  == NUDGE
-  5.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == NUDGE
+  5.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == NUDGE
  
   ;transition 'T5.3'
   6s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
@@ -49,14 +49,14 @@
  
   ;state 'S5.4 CLOSED'
   6.5s A F DoorMotor FRONT LEFT : command  == STOP
-  6.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == STOP
+  6.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 
   ;transition 'T5.5'
   7.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
 
   ;state 'S5.1 OPENING'
   8.0s A F DoorMotor FRONT LEFT : command  == OPEN
-  8.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == OPEN
+  8.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == OPEN
 
   ;transition 'T5.1'
   8.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
@@ -64,17 +64,17 @@
 
   ;state 'S5.2 OPEN'
   9.0s A F DoorMotor FRONT LEFT : command  == STOP
-  9.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == STOP
+  9.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 
   ;transition 'T5.2'
   ;countdown <= 0  
   ;check that doors didn't close too early
   9.5s A F DoorMotor FRONT LEFT : command  == STOP
-  9.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == STOP
+  9.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
   
   ;state 'S5.3 CLOSING'
   11.5s A F DoorMotor FRONT LEFT : command  == NUDGE
-  11.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == NUDGE
+  11.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == NUDGE
 
   ;transition 'T5.4'
   12s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
@@ -83,4 +83,4 @@
 
   ;state 'S5.1 OPENING'
   13.0s A F DoorMotor FRONT LEFT : command  == OPEN
-  13.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor : getValue == OPEN
+  13.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == OPEN
