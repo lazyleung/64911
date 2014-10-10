@@ -11,3 +11,6 @@ DriveControl drivecontrol.cf driveconttrol_test3.mf
 DriveControl drivecontrol.cf driveconttrol_test4.mf
 HallButtonControl HallButtonControl.cf HallButtonControlTest1.mf
 LanternControl LanternControl.cf LanternControlUnitTest.mf
+Dispatcher Dispatcher.cf Dispatcher_test1.mf
+Dispatcher Dispatcher.cf Dispatcher_test2.mf
+CarPositionControl CarPositionControl.cf CarPositionControl_1.mf
