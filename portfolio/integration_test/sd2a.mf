@@ -5,10 +5,9 @@
 
 ;intialize
 0.0s I DRIVE_PERIOD                 F                                           DriveSpeed = STOP 0
-0.0s I CAR_BUTTON_CONTROL_PERIOD    N CAR_CALL_[2][BACK]_CAN_ID                 CarCall 2 BACK = false
+0.0s I CAR_BUTTON_CONTROL_PERIOD    F                                           CarCall 2 BACK = false
 0.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
 0.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
-0.0s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
 0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
 0.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 BOTH STOP
 0.0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 2
@@ -16,17 +15,17 @@
 
 ;#arc '2a/1a'
 ;#arc '2a/1b'
-1.0s I CAR_BUTTON_CONTROL_PERIOD  N CAR_CALL_[2][BACK]_CAN_ID CarCall 2 BACK = true
+1.0s I CAR_BUTTON_CONTROL_PERIOD F CarCall 2 BACK = true
 
 ;#arc '2a/1c'
-1.5s A N CAR_CALL_[2][BACK]_CAN_ID CarCall 2 BACK : getValue == true
+1.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
 
 ;#arc '2a/2a'
 ;#arc '2a/2b'
 2.0s A F CarLight 2 BACK : isLighted == true
 
 ;#arc '2a/3'
-2.5s A F DoorMotor FRONT LEFT : command  == CLOSE
+2.5s A F DoorMotor FRONT LEFT : command  == NUDGE
 
 ;#arc '2a/4a'
 3.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
