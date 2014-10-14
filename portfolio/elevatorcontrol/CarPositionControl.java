@@ -97,7 +97,7 @@ public class CarPositionControl extends Controller implements TimeSensitive{
 					break;
 				}
 			}
-		
+			break;
 		case STATE_CAR_AT_FLOOR:
 			localCarPositionIndicator.set(floor);
 			mCarPositionIndicator.set(floor);
