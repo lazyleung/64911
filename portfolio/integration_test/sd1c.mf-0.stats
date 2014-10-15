@@ -1,3 +1,9 @@
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli 
+;Ting Xu/tingx
 
 Simulator Parameters:
 Command line = -cf sd1c.cf -mf sd1c.mf

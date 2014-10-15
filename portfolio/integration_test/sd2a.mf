@@ -17,6 +17,11 @@
 0.0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 2
 0.0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
 
+0.3s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 BACK STOP
+
+;# Preconditions
+0.5s A N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT : getValue == true
+
 ;#arc '2a/1a'
 ;#arc '2a/1b'
 1.0s I CAR_BUTTON_CONTROL_PERIOD F CarCall 2 BACK = true
