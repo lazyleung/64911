@@ -26,7 +26,7 @@ public class Dispatcher extends simulator.framework.Controller{
     private SimTime period;
     
     //amount of time to stop as a floor.
-    private final int dwellTime = 5000;
+    private final int dwellTime = 2;
     
 	//received mAtFloor messages
     private ReadableCanMailbox[] networkAtFloors = new ReadableCanMailbox[10];
