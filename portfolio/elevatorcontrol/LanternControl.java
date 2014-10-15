@@ -39,7 +39,9 @@ public class LanternControl extends Controller{
 	 private CarLanternPayload.WriteableCarLanternPayload CarLantern;
 	 
 	 //network messages (inputs)
-	 private Utility.DoorClosedArray mDoorClosed;
+	 private Utility.DoorClosedArray mDoorClosedFront;
+	 private Utility.DoorClosedArray mDoorClosedBack;
+	 
 	 private DesiredFloorCanPayloadTranslator mDesiredFloor;
 	 private Utility.AtFloorArray mAtFloor;
 	 //network messages (outputs)
@@ -76,7 +78,8 @@ public class LanternControl extends Controller{
          physicalInterface.sendTimeTriggered(CarLantern, period);
          
          //define network objects (inputs)
-     	 mDoorClosed = new Utility.DoorClosedArray(Hallway.FRONT, canInterface);
+     	 mDoorClosedFront = new Utility.DoorClosedArray(Hallway.FRONT, canInterface);
+     	 mDoorClosedBack = new Utility.DoorClosedArray(Hallway.BACK, canInterface);
          
      	 ReadableCanMailbox networkDesiredFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
          mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloorIn);
@@ -115,7 +118,8 @@ public class LanternControl extends Controller{
          physicalInterface.sendTimeTriggered(CarLantern, period);
          
          //define network objects (inputs)
-         mDoorClosed = new Utility.DoorClosedArray(Hallway.FRONT, canInterface);
+         mDoorClosedFront = new Utility.DoorClosedArray(Hallway.FRONT, canInterface);
+         mDoorClosedBack = new Utility.DoorClosedArray(Hallway.BACK, canInterface);
          
          ReadableCanMailbox networkDesiredFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
          mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloorIn);
@@ -145,14 +149,14 @@ public class LanternControl extends Controller{
 			case OFF:
 				doOff();
 				//#transition 'T7.2'
-				if((mDoorClosed.getBothClosed() || mAtFloor.getCurrentFloor() == mDesiredFloor.getFloor()) && DesiredDirection == direction ){
+				if(((mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed()) || mAtFloor.getCurrentFloor() == mDesiredFloor.getFloor()) && DesiredDirection == direction ){
 					newState = State.ON;
 				}
 				break;
 			case ON:
 				doOn();
 				//#transition 'T7.1'
-				if((mDoorClosed.getBothClosed() || mAtFloor.getCurrentFloor() == mDesiredFloor.getFloor()) && (DesiredDirection == oppDirection || DesiredDirection == Direction.STOP) ){
+				if(((mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed()) || mAtFloor.getCurrentFloor() == mDesiredFloor.getFloor()) && (DesiredDirection == oppDirection || DesiredDirection == Direction.STOP) ){
 					newState = State.OFF;
 				}
 				break;
