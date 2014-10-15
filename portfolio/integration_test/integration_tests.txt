@@ -8,4 +8,6 @@ SD4A sd4a.cf sd4a.mf
 SD5A sd5a.cf sd5a.mf
 SD5B sd5b.cf sd5b.mf
 SD6A sd6a.cf sd6a.mf
+SD9A sd7b.cf sd7b.mf
+SD9A sd7c.cf sd7c.mf
 SD9A sd9a.cf sd9a.mf
