@@ -19,6 +19,7 @@
 
 ;#arc '2b/1'
 1.0s A F DoorMotor FRONT LEFT : command  == NUDGE
+1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
 
 ;#arc '2b/2a'
 ;#arc '2b/2b'
@@ -26,12 +27,10 @@
 
 ;#arc '2b/2c'
 2.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
+2.5s I DISPATCHER_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK STOP
 
-;#arc '2b/3'
-3.0s A F DoorMotor FRONT LEFT : command  == OPEN
+;#arc '2b/3a'
+3.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
 
-;#arc '2b/4a'
-4.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
-
-;#arc '2b/4b'
-5.0s A F DoorMotor FRONT LEFT : command  == STOP
+;#arc '2b/3c'
+3.5s A F DoorMotor FRONT LEFT : command  == STOP

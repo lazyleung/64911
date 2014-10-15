@@ -2143,18 +2143,12 @@ descriptions. </li>
 7.1&nbsp;&nbsp;&nbsp; Both CarLanterns[d] shall not be On at the same
 time.
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
-7.2 If mDoorClosed[b,r] = True AND DesiredDirection = d, then </br>
+7.2 If DesiredDirection = d, then </br>
  &nbsp;&nbsp;&nbsp;7.2.1 CarLantern[d] shall be set to On </br>
  &nbsp;&nbsp;&nbsp;7.2.2 mCarLantern[d] shall be set to True</br>
-7.3 If mDoorClosed[b,r] = True and DesiredDirection != d Then</br>
+7.3 If DesiredDirection != d Then</br>
  &nbsp;&nbsp;&nbsp;7.3.1 CarLantern[d] shall be set to Off </br>
  &nbsp;&nbsp;&nbsp;7.3.2 mCarLantern[d] shall be set to False</br>
-7.4 If mAtFloor.f = mDesiredFloor.f AND DesiredDirection = d, then </br>
- &nbsp;&nbsp;&nbsp;7.4.1 CarLantern[d] shall be set to On </br>
- &nbsp;&nbsp;&nbsp;7.4.2 mCarLantern[d] shall be set to True</br>
-7.5 If mAtFloor.f = mDesiredFloor.f and DesiredDirection != d Then</br>
- &nbsp;&nbsp;&nbsp;7.5.1 CarLantern[d] shall be set to Off </br>
- &nbsp;&nbsp;&nbsp;7.5.2 mCarLantern[d] shall be set to False</br>
 
 <p> <img style="width: 386px; height: 334px;" alt="Lantern Statechart" src="LanternControl_state_diagram.png"><br clear="left"> </p>
 <table style="text-align: left; width: 525px; height: 172px;" border="1" cellpadding="2" cellspacing="2">
@@ -2165,11 +2159,11 @@ time.
     </tr>
     <tr>
       <td style="vertical-align: top;">T7.1<br> </td>
-      <td style="vertical-align: top;">(mDoorClosed[b,r] = true OR mAtFloor.f = mDesiredFloor.f) AND DesiredDirection = d </td>
+      <td style="vertical-align: top;">DesiredDirection = d </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T7.2</td>
-      <td style="vertical-align: top;">(mDoorClosed[b,r] = true OR mAtFloor.f = mDesiredFloor.f) AND DesiredDirection != d</td>
+      <td style="vertical-align: top;">DesiredDirection != d</td>
     </tr>
   </tbody>
 </table>
@@ -2238,20 +2232,6 @@ completed by Mengzhe Li (mzli)<br>
  style="vertical-align: top; background-color: rgb(204, 204, 204);">R7.3.2<br>
       </td>
 	  
-	        <td
- style="vertical-align: top; background-color: rgb(204, 204, 204);">R7.4.1<br>
-      </td>
-      <td
- style="vertical-align: top; background-color: rgb(204, 204, 204);">R7.4.2<br>
-      </td>
-
-<td
- style="vertical-align: top; background-color: rgb(204, 204, 204);">R7.5.1<br>
-      </td>
-      <td
- style="vertical-align: top; background-color: rgb(204, 204, 204);">R7.5.2<br>
-      </td>
-
 
     </tr>
     <tr>
@@ -2269,13 +2249,6 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
 	  </td>
 	  </td>
     </tr>
@@ -2294,13 +2267,6 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
 	  </td>
 	  </td>
     </tr>   
@@ -2326,13 +2292,6 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
 	  </td>
 	  </td>
     </tr>   
@@ -2350,13 +2309,6 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
 	  </td>
 	  </td>
     </tr>   

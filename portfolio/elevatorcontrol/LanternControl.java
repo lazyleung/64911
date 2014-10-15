@@ -38,10 +38,7 @@ public class LanternControl extends Controller{
 	 //physical message
 	 private CarLanternPayload.WriteableCarLanternPayload CarLantern;
 	 
-	 //network messages (inputs)
-	 private Utility.DoorClosedArray mDoorClosedFront;
-	 private Utility.DoorClosedArray mDoorClosedBack;
-	 
+	 //network messages (inputs)	 
 	 private DesiredFloorCanPayloadTranslator mDesiredFloor;
 	 private Utility.AtFloorArray mAtFloor;
 	 //network messages (outputs)
@@ -78,9 +75,6 @@ public class LanternControl extends Controller{
          physicalInterface.sendTimeTriggered(CarLantern, period);
          
          //define network objects (inputs)
-     	 mDoorClosedFront = new Utility.DoorClosedArray(Hallway.FRONT, canInterface);
-     	 mDoorClosedBack = new Utility.DoorClosedArray(Hallway.BACK, canInterface);
-         
      	 ReadableCanMailbox networkDesiredFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
          mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloorIn);
          canInterface.registerTimeTriggered(networkDesiredFloorIn);
@@ -110,7 +104,7 @@ public class LanternControl extends Controller{
              oppDirection = Direction.UP;
          }
          this.period = period;
-         this.name = name;
+         this.name = "LanternControl";
          this.verbose = verbose;
          this.DesiredDirection = Direction.STOP;
          
@@ -118,9 +112,6 @@ public class LanternControl extends Controller{
          physicalInterface.sendTimeTriggered(CarLantern, period);
          
          //define network objects (inputs)
-         mDoorClosedFront = new Utility.DoorClosedArray(Hallway.FRONT, canInterface);
-         mDoorClosedBack = new Utility.DoorClosedArray(Hallway.BACK, canInterface);
-         
          ReadableCanMailbox networkDesiredFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
          mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloorIn);
          canInterface.registerTimeTriggered(networkDesiredFloorIn);
@@ -149,14 +140,14 @@ public class LanternControl extends Controller{
 			case OFF:
 				doOff();
 				//#transition 'T7.2'
-				if(((mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed()) || mAtFloor.getCurrentFloor() == mDesiredFloor.getFloor()) && DesiredDirection == direction ){
+				if(DesiredDirection == direction ){
 					newState = State.ON;
 				}
 				break;
 			case ON:
 				doOn();
 				//#transition 'T7.1'
-				if(((mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed()) || mAtFloor.getCurrentFloor() == mDesiredFloor.getFloor()) && (DesiredDirection == oppDirection || DesiredDirection == Direction.STOP) ){
+				if((DesiredDirection == oppDirection || DesiredDirection == Direction.STOP) ){
 					newState = State.OFF;
 				}
 				break;
