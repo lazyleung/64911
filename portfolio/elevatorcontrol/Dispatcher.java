@@ -79,6 +79,7 @@ public class Dispatcher extends simulator.framework.Controller{
         STATE_INIT,
         STATE_GOTO_NEXT_FLOOR,
         STATE_EMERGENCY,
+		STATE_IDLE,
     }
 
     private State state = State.STATE_INIT;
@@ -229,7 +230,7 @@ public class Dispatcher extends simulator.framework.Controller{
 			break;
 		case STATE_GOTO_NEXT_FLOOR:
 			if (curFloor != -1) {
-			    Target = (curFloor % Elevator.numFloors) + ((!AllDoorClosed) ? 1 : 0);
+				Target = (curFloor % Elevator.numFloors) + 1;
 			}
 			mDesiredFloor.set(Target, Direction.STOP, DesiredFloorHallways[Target-1]);
 			mDesiredDwellFront.set(dwellTime);
@@ -244,7 +245,14 @@ public class Dispatcher extends simulator.framework.Controller{
 			else if (notAtFloor && (!AllDoorClosed)){
 				//log("------- Transition T11.3 -------------");
 				newState = State.STATE_EMERGENCY;
-			} else {
+			}
+
+			//#transition 'tmp'
+			else if (!AllDoorClosed){
+				newState = State.STATE_IDLE;
+			}
+
+			else {
 				//log("------- Stay in GOTO_NEXT_FLOOR -------------");
 				newState = State.STATE_GOTO_NEXT_FLOOR;
 			}
@@ -256,6 +264,18 @@ public class Dispatcher extends simulator.framework.Controller{
 			mDesiredDwellFront.set(dwellTime);
 			mDesiredDwellBack.set(dwellTime);
 			newState = State.STATE_EMERGENCY;
+			break;
+		case STATE_IDLE:
+			if (notAtFloor && (!AllDoorClosed)){
+				newState = State.STATE_EMERGENCY;
+			}
+
+			else if (!AllDoorClosed){
+				newState = State.STATE_GOTO_NEXT_FLOOR;
+			} else {
+				newState = State.STATE_IDLE;
+			}
+
 			break;
 		default:
 			throw new RuntimeException("State " + state + " was not recognized.");
