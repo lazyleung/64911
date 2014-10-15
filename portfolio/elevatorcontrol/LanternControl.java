@@ -45,8 +45,9 @@ public class LanternControl extends Controller{
 	 private BooleanCanPayloadTranslator mCarLantern;
 	 
 	 private State lanternState;
-	 //TODO: remove DesiredDirection from reqs
-	 //private Direction DesiredDirection;
+	 
+	 private int currentFloor;
+	 
 	 private boolean verbose;
      private String name;
      
@@ -70,6 +71,7 @@ public class LanternControl extends Controller{
          this.name = name;
          this.verbose = verbose;
          this.DesiredDirection = Direction.STOP;
+         this.currentFloor = 1;
          
          CarLantern = CarLanternPayload.getWriteablePayload(direction);
          physicalInterface.sendTimeTriggered(CarLantern, period);
@@ -107,6 +109,7 @@ public class LanternControl extends Controller{
          this.name = "LanternControl";
          this.verbose = verbose;
          this.DesiredDirection = Direction.STOP;
+         this.currentFloor = 1;
          
          CarLantern = CarLanternPayload.getWriteablePayload(direction);
          physicalInterface.sendTimeTriggered(CarLantern, period);
@@ -134,6 +137,11 @@ public class LanternControl extends Controller{
 	public void timerExpired(Object callbackData) {
 		log("Executing LanternControl in " + lanternState);
 		State newState = lanternState;
+		
+		int c = mAtFloor.getCurrentFloor(); 
+		if(c != -1){
+			currentFloor = c;
+		}
 		DesiredDirection = computeDesiredDirection(mDesiredFloor.getFloor());
 		log("DesiredDirectoin = " +DesiredDirection);
 		switch (lanternState){
@@ -181,9 +189,9 @@ public class LanternControl extends Controller{
     
      
      public Direction computeDesiredDirection(int desiredFloor){
-    	if(desiredFloor > mAtFloor.getCurrentFloor()){
+    	if(desiredFloor > currentFloor){
     		return Direction.UP;
-    	}else if(desiredFloor < mAtFloor.getCurrentFloor()){
+    	}else if(desiredFloor < currentFloor){
     		return Direction.DOWN;
     	}else{
     		return Direction.STOP;
