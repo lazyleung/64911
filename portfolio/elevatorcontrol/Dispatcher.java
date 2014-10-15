@@ -135,6 +135,58 @@ public class Dispatcher extends simulator.framework.Controller{
         
         timer.start(period);
 	}
+	
+	public Dispatcher(int numFloors, SimTime period, boolean verbose) {
+		super("Dispatcher", verbose);
+		this.period = period;
+		//inputs
+		networkDoorClosedFrontLeft = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Hallway.FRONT, Side.LEFT));
+        mDoorClosedFrontLeft = new DoorClosedCanPayloadTranslator(networkDoorClosedFrontLeft, Hallway.FRONT, Side.LEFT);
+        canInterface.registerTimeTriggered(networkDoorClosedFrontLeft);
+        networkDoorClosedFrontRight = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Hallway.FRONT, Side.RIGHT));
+        mDoorClosedFrontRight = new DoorClosedCanPayloadTranslator(networkDoorClosedFrontRight, Hallway.FRONT, Side.RIGHT);
+        canInterface.registerTimeTriggered(networkDoorClosedFrontRight);
+        networkDoorClosedBackLeft = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Hallway.BACK, Side.LEFT));
+        mDoorClosedBackLeft = new DoorClosedCanPayloadTranslator(networkDoorClosedBackLeft, Hallway.BACK, Side.LEFT);
+        canInterface.registerTimeTriggered(networkDoorClosedBackLeft);
+        networkDoorClosedBackRight = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Hallway.BACK, Side.RIGHT));
+        mDoorClosedBackRight = new DoorClosedCanPayloadTranslator(networkDoorClosedBackRight, Hallway.BACK, Side.RIGHT);
+        canInterface.registerTimeTriggered(networkDoorClosedBackRight);
+	
+        for (int i = 0; i < mHallCalls.length; i++){
+        	if (i < mAtFloors.length){
+	        	networkAtFloors[i] = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID+ReplicationComputer.computeReplicationId(AtFloorFloors[i], AtFloorHallways[i]));
+	            mAtFloors[i] = new AtFloorCanPayloadTranslator(networkAtFloors[i], AtFloorFloors[i], AtFloorHallways[i]);
+	            canInterface.registerTimeTriggered(networkAtFloors[i]);
+        	}
+        	if (i < mCarCalls.length){
+	            networkCarCalls[i] = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_CALL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(CarCallFloors[i], CarCallHallways[i]));
+	            mCarCalls[i] = new CarCallCanPayloadTranslator(networkCarCalls[i], CarCallFloors[i], CarCallHallways[i]);
+	            canInterface.registerTimeTriggered(networkCarCalls[i]);
+        	}
+        	networkHallCalls[i] = CanMailbox.getReadableCanMailbox(MessageDictionary.HALL_CALL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(HallCallFloors[i], HallCallHallways[i], HallCallDirections[i]));
+            mHallCalls[i] = new HallCallCanPayloadTranslator(networkHallCalls[i], HallCallFloors[i], HallCallHallways[i], HallCallDirections[i]);
+            canInterface.registerTimeTriggered(networkHallCalls[i]);
+        }
+	
+        networkCarWeight = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_WEIGHT_CAN_ID);
+        mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeight);
+        canInterface.registerTimeTriggered(networkCarWeight);
+        
+        //outputs
+        networkDesiredFloor = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
+        mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
+        canInterface.sendTimeTriggered(networkDesiredFloor, period);
+        
+        networkDesiredDwellFront = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.FRONT));
+        mDesiredDwellFront = new DesiredDwellCanPayloadTranslator(networkDesiredDwellFront);
+        canInterface.sendTimeTriggered(networkDesiredDwellFront, period);
+        networkDesiredDwellBack = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.BACK));
+        mDesiredDwellBack = new DesiredDwellCanPayloadTranslator(networkDesiredDwellBack);
+        canInterface.sendTimeTriggered(networkDesiredDwellBack, period);
+        
+        timer.start(period);
+	}
 
 	@Override
 	public void timerExpired(Object callbackData) {
