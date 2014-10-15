@@ -232,7 +232,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 break;
             case LEVEL_DOWN:
                 doLevelDown();
-                if(mEmergencyBrake.getValue() == true || (mLevelU.getValue() == true && mLevelD.getValue() == true && DriveObject.LevelingSpeed >= localSpeed.speed())) { //#transition 'T6.7'
+                if(mEmergencyBrake.getValue() == true || (mLevelD.getValue() == true && DriveObject.LevelingSpeed >= localSpeed.speed())) { //#transition 'T6.7'
                     log("T6.7");
                     nextState = State.STOP;
                 }
@@ -249,7 +249,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 break;
             case LEVEL_UP:
                 doLevelUp();
-                if(mEmergencyBrake.getValue() == true || (mLevelU.getValue() == true && mLevelD.getValue() == true && DriveObject.LevelingSpeed >= localSpeed.speed())) { //#transition 'T6.3'
+                if(mEmergencyBrake.getValue() == true || (mLevelU.getValue() == true && DriveObject.LevelingSpeed >= localSpeed.speed())) { //#transition 'T6.3'
                     log("T6.3");
                     nextState = State.STOP;
                 }

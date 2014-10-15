@@ -31,13 +31,7 @@
 3.0s A F DoorMotor FRONT LEFT : command  == OPEN
 
 ;#arc '2b/4a'
-3.5s I CAR_BUTTON_CONTROL_PERIOD F CarCall 2 BACK = false
-
-;#arc '2b/4b'
-4.0s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
-
-;#arc '2b/5a'
 4.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
 
-;#arc '2b/5b'
+;#arc '2b/4b'
 5.0s A F DoorMotor FRONT LEFT : command  == STOP
