@@ -43,7 +43,6 @@ public class DoorControl extends Controller
     
     private final Hallway hallway;
     private final Side side;
-    private final Direction direction;
     private int floor;
  
     //physical interface
@@ -72,7 +71,6 @@ public class DoorControl extends Controller
 
         this.floor = 1;
         this.CountDown = 0;
-    	this.direction = Direction.STOP;
     	this.doorState = State.CLOSED;
 
     	//define physical objects
@@ -146,7 +144,7 @@ public class DoorControl extends Controller
     	    case CLOSED:
     		doClosed();
     		//#transition 'T5.5'
-    		if((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (floor==mDesiredFloor.getFloor() && hallway==mDesiredFloor.getHallway() && (mDriveSpeed.getSpeed()==0 || mDriveSpeed.getDirection() == Direction.STOP))){
+    		if((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (floor==mDesiredFloor.getFloor() && (hallway==mDesiredFloor.getHallway() || Hallway.BOTH==mDesiredFloor.getHallway()) && (mDriveSpeed.getSpeed()==0 || mDriveSpeed.getDirection() == Direction.STOP))){
     		    newState = State.OPENING;
     		}
     		break;
