@@ -1,0 +1,9 @@
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli 
+;Ting Xu/tingx
+
+DoorControl FRONT LEFT 10ms true
+CarButtonControl 100ms 2 BACK true
