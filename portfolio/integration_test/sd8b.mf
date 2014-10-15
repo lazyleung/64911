@@ -1,0 +1,65 @@
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli 
+;Ting Xu/tingx
+
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+
+;initialize
+0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID    DoorClosed FRONT LEFT = true
+0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID   DoorClosed FRONT RIGHT = true
+0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT = true
+0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID    DoorClosed BACK RIGHT = true
+
+0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID       DoorOpened BACK LEFT = false
+0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID      DoorOpened BACK RIGHT = false
+0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID      DoorOpened FRONT LEFT = false
+0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorOpened FRONT RIGHT = false
+
+0s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][BACK]_CAN_ID                  AtFloor 1 BACK = false
+0s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][FRONT]_CAN_ID                 AtFloor 1 FRONT = false
+0s I AT_FLOOR_PERIOD           N AT_FLOOR_[2][BACK]_CAN_ID                  AtFloor 2 BACK = false
+0s I AT_FLOOR_PERIOD           N AT_FLOOR_[3][FRONT]_CAN_ID                 AtFloor 3 FRONT = false
+0s I AT_FLOOR_PERIOD           N AT_FLOOR_[4][FRONT]_CAN_ID                 AtFloor 4 FRONT = false
+0s I AT_FLOOR_PERIOD           N AT_FLOOR_[5][FRONT]_CAN_ID                 AtFloor 5 FRONT = false
+0s I AT_FLOOR_PERIOD           N AT_FLOOR_[6][FRONT]_CAN_ID                 AtFloor 6 FRONT = false
+0s I AT_FLOOR_PERIOD           N AT_FLOOR_[7][BACK]_CAN_ID                  AtFloor 7 BACK = false
+0s I AT_FLOOR_PERIOD           N AT_FLOOR_[7][FRONT]_CAN_ID                 AtFloor 7 FRONT = false
+0s I AT_FLOOR_PERIOD           N AT_FLOOR_[8][FRONT]_CAN_ID                 AtFloor 8 FRONT = false
+
+
+;#arc '8b/1a'
+1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID     DoorOpened BACK LEFT = true
+1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = true
+1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
+1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorOpened FRONT RIGHT = true
+1.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT = false
+1.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID     DoorClosed BACK RIGHT = false
+1.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID     DoorClosed FRONT LEFT = false
+1.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorClosed FRONT RIGHT = false
+
+
+
+;#arc '8b/1b'
+2s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][BACK]_CAN_ID                  AtFloor 1 BACK = false
+2s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][FRONT]_CAN_ID                 AtFloor 1 FRONT = false
+2s I AT_FLOOR_PERIOD           N AT_FLOOR_[2][BACK]_CAN_ID                  AtFloor 2 BACK = false
+2s I AT_FLOOR_PERIOD           N AT_FLOOR_[3][FRONT]_CAN_ID                 AtFloor 3 FRONT = false
+2s I AT_FLOOR_PERIOD           N AT_FLOOR_[4][FRONT]_CAN_ID                 AtFloor 4 FRONT = false
+2s I AT_FLOOR_PERIOD           N AT_FLOOR_[5][FRONT]_CAN_ID                 AtFloor 5 FRONT = false
+2s I AT_FLOOR_PERIOD           N AT_FLOOR_[6][FRONT]_CAN_ID                 AtFloor 6 FRONT = false
+2s I AT_FLOOR_PERIOD           N AT_FLOOR_[7][BACK]_CAN_ID                  AtFloor 7 BACK = false
+2s I AT_FLOOR_PERIOD           N AT_FLOOR_[7][FRONT]_CAN_ID                 AtFloor 7 FRONT = false
+2s I AT_FLOOR_PERIOD           N AT_FLOOR_[8][FRONT]_CAN_ID                 AtFloor 8 FRONT = false
+
+;#Expected output: mDesiredFLoor = {1, NONE, STOP}
+;#arc '8b/2'
+2.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+2.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+2.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+
+;#arc '8b/3'
+2.7s I DRIVE_PERIOD  N EMERGENCY_BRAKE_CAN_ID  SafetySensor = true

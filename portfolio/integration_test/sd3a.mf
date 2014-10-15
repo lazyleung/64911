@@ -1,0 +1,79 @@
+  ; Integreation Test for SD3A
+  ; 18649 Fall 2014
+  ; Group 11
+  ; Ting Xu
+  ; Eric Newhall, Jonathan Leung, Mengzhe Li
+
+  #INCLUDE defines.mf ;include CAN id and period definitions
+
+  ; Pre-Conditions
+  ; Car is about to arrive at a hallway [f,b] at which passenger is waiting.
+  ; The hall call button for passenger's desired direction d has already been pressed
+  ; The elevator is going in direction d.
+  ; Passenger is outside the car.
+  ; All doors are closed.
+  
+  ;intialize
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID     DoorClosed FRONT LEFT  = true
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorClosed FRONT RIGHT = true
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID      DoorClosed BACK LEFT   = true
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID     DoorClosed BACK RIGHT  = true
+  0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID       DoorOpened FRONT LEFT  = false
+  0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID      DoorOpened FRONT RIGHT = false
+  0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID        DoorOpened BACK LEFT   = false
+  0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID       DoorOpened BACK RIGHT  = false
+
+  0s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID   DoorReversal FRONT LEFT  = false
+  0s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][RIGHT]_CAN_ID  DoorReversal FRONT RIGHT = false
+  0s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[BACK][LEFT]_CAN_ID    DoorReversal BACK LEFT   = false
+  0s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[BACK][RIGHT]_CAN_ID   DoorReversal BACK RIGHT  = false
+
+  0s I AT_FLOOR_PERIOD              N AT_FLOOR_[4][FRONT]_CAN_ID                  AtFloor 4 FRONT = false
+  0s I DRIVE_PERIOD                 F                                             DriveSpeed = UP 0.05
+  0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                        DesiredFloor = 4 FRONT UP
+  0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID                Integer = 2
+  0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                           CarWeight = 0
+  0s I HALL_BUTTON_CONTROL_PERIOD   F                                             HallCall 4 FRONT UP = true
+  
+  ;Verify Preconditions
+  0.51s A F HallLight 4 FRONT UP : lighted == true
+  0.51s A F CarLantern UP : lighted  == true
+  0.51s A N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID    DoorClosed FRONT LEFT : getValue == true
+  0.51s A N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID   DoorClosed FRONT RIGHT : getValue == true
+  0.51s A N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT : getValue == true
+  0.51s A N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID    DoorClosed BACK RIGHT : getValue == true
+
+
+  ;#arc '3a/1a'
+  1.5s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
+
+  ;#arc '3a/1b'
+  1.5s I AT_FLOOR_PERIOD              N AT_FLOOR_[4][FRONT]_CAN_ID                AtFloor 4 FRONT = true
+
+  ;#Expected output: DoorMotor[b,r] = Open
+
+  ;#arc '3a/2'
+  3.0s A F DoorMotor FRONT LEFT : command  == OPEN
+  3.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == OPEN
+
+  ;#arc '3a/3a'
+  3.5s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID    DoorClosed FRONT LEFT  = false
+  3.5s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorClosed FRONT RIGHT = false
+  3.5s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 5 FRONT UP
+
+  ;#Expected output: HallLight[f,b,d] = Off
+  ;#arc '3a/3b'
+  4.5s A F HallLight 4 FRONT UP : lighted == false
+  4.5s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
+  4.5s  A N HALL_LIGHT_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
+  ;#arc '3a/4a'
+  5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorOpened FRONT RIGHT = true
+  5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
+
+  ;#Expected output: DoorMotor[b,r] == STOP
+
+  ;#arc '3a/4b'
+  6.0s A F DoorMotor FRONT LEFT : command  == STOP
+  6.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
+
+

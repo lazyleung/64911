@@ -96,6 +96,45 @@ public class LanternControl extends Controller{
          timer.start(period);
      }
 
+     public LanternControl(Direction direction, SimTime period, boolean verbose){
+         super("Lantern"+ ReplicationComputer.makeReplicationString(direction),verbose);
+         log("Created testlight with peroid = ",period);
+         
+         this.direction = direction;
+         if(direction == Direction.UP){
+             oppDirection = Direction.DOWN;
+         }else{
+             oppDirection = Direction.UP;
+         }
+         this.period = period;
+         this.name = name;
+         this.verbose = verbose;
+         this.DesiredDirection = Direction.STOP;
+         
+         CarLantern = CarLanternPayload.getWriteablePayload(direction);
+         physicalInterface.sendTimeTriggered(CarLantern, period);
+         
+         //define network objects (inputs)
+         mDoorClosed = new Utility.DoorClosedArray(Hallway.FRONT, canInterface);
+         
+         ReadableCanMailbox networkDesiredFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
+         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloorIn);
+         canInterface.registerTimeTriggered(networkDesiredFloorIn);
+        
+         mAtFloor = new Utility.AtFloorArray(canInterface);
+        
+        //define network objects (outputs)
+         WriteableCanMailbox networkCarLanternOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_LANTERN_BASE_CAN_ID +  ReplicationComputer.computeReplicationId(direction));
+         mCarLantern = new BooleanCanPayloadTranslator(networkCarLanternOut);
+         mCarLantern.set(false);
+         canInterface.sendTimeTriggered(networkCarLanternOut, period);
+        
+         lanternState = State.OFF;
+         doOff();
+        
+         timer.start(period);
+     }
+
 
 	public void timerExpired(Object callbackData) {
 		log("Executing LanternControl in " + lanternState);

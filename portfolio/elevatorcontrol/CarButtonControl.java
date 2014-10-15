@@ -99,6 +99,58 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		
 	}
 
+	public CarButtonControl(int floor, Hallway hallway, SimTime period, boolean verbose) {
+		super("CarButtonControl" + ReplicationComputer.makeReplicationString(floor,hallway), verbose);
+		
+		//store constructor arguments in internal state	
+		this.period = period;
+		this.hallway = hallway;
+		this.floor = floor;
+		
+		//log construction
+		log("Created CarButtonControl floor ",floor,", hallway ",hallway);
+		
+		//initialize physical state
+		//create a carcall payload object for this floor, hallway
+		localCarCall = CarCallPayload.getReadablePayload(floor, hallway);
+		
+		//register the payload with the physical interface as input
+		physicalInterface.registerTimeTriggered(localCarCall);
+		
+		//create a carlight payload object for this floor, hallway
+		localCarLight = CarLightPayload.getWriteablePayload(floor, hallway);
+		
+		//register the carlight payload with the physical interface as output
+		physicalInterface.sendTimeTriggered(localCarLight, period);
+		
+		//initialize network interface
+		//create CAN mailboxes
+		networkCarLightOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_LIGHT_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
+		networkCarCallOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
+		networkAtFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
+
+		//Create a translator with a reference to the CanMailbox.  Use the 
+        //translator to read and write values to the mailbox
+		
+		mCarLight = new BooleanCanPayloadTranslator(networkCarLightOut);
+		mCarCall = new BooleanCanPayloadTranslator(networkCarCallOut);
+		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
+		
+        //register mailboxes to have its value broadcasted/receive updates on the network periodically
+        canInterface.sendTimeTriggered(networkCarLightOut, period);
+        canInterface.sendTimeTriggered(networkCarCallOut, period);
+        canInterface.registerTimeTriggered(networkAtFloorIn);
+
+
+        /* issuing the timer start method with no callback data means a NULL value 
+         * will be passed to the callback later.  Use the callback data to distinguish
+         * callbacks from multiple calls to timer.start() (e.g. if you have multiple
+         * timers.
+         */		
+		timer.start(period);
+		
+	}
+
 	@Override
 	public void timerExpired(Object callbackData) {
 		State newState = state;

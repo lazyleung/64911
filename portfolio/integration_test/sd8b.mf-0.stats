@@ -1,0 +1,22 @@
+
+Simulator Parameters:
+Command line = -cf ../integration_test/sd8b.cf -mf ../integration_test/sd8b.mf
+RandomSeed = 1413386003915
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = ../integration_test/sd8b.mf
+Controller File = ../integration_test/sd8b.cf
+
+Assertion Results:
+@2.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@42698403 :: getFloor ?== 1 PASSED
+@2.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@60765a16 :: getDirection ?== STOP PASSED
+@2.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@5ae80842 :: getHallway ?== NONE PASSED
+
+
+******************Summary******************
+Passed:  3
+Failed:  0
+Total :  3
+

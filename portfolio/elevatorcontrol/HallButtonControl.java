@@ -124,6 +124,53 @@ public class HallButtonControl extends simulator.framework.Controller{
         timer.start(period);
 	}
 
+
+    public HallButtonControl(int floor, Hallway hallway, Direction direction, SimTime period, boolean verbose) {
+        super("HallButtonControl"+ReplicationComputer.makeReplicationString(floor, hallway, direction), verbose);
+        this.period = period;
+        this.hallway = hallway;
+        this.direction = direction;
+        this.floor = floor;
+
+        log("Created testlight with period = ", period);
+        // inputs
+
+        localHallCall = HallCallPayload.getReadablePayload(floor, hallway, direction);
+        physicalInterface.registerTimeTriggered(localHallCall);
+
+        networkDoorClosedLeft = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.LEFT));
+        mDoorClosedLeft = new DoorClosedCanPayloadTranslator(networkDoorClosedLeft, hallway, Side.LEFT);
+        canInterface.registerTimeTriggered(networkDoorClosedLeft);
+        networkDoorClosedRight = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.RIGHT));
+        mDoorClosedRight = new DoorClosedCanPayloadTranslator(networkDoorClosedRight, hallway, Side.RIGHT);
+        canInterface.registerTimeTriggered(networkDoorClosedRight);
+
+        networkAtFloor = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID+ReplicationComputer.computeReplicationId(floor, hallway));
+        mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloor, floor, hallway);
+        canInterface.registerTimeTriggered(networkAtFloor);
+
+        networkDesiredFloor = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
+        mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
+    canInterface.registerTimeTriggered(networkDesiredFloor);
+
+
+
+        // outputs
+        localHallLight = HallLightPayload.getWriteablePayload(floor, hallway, direction);
+        physicalInterface.sendTimeTriggered(localHallLight, period);
+
+        networkHallLightOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.HALL_LIGHT_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway, direction));
+        mHallLight = new BooleanCanPayloadTranslator(networkHallLightOut);
+        canInterface.sendTimeTriggered(networkHallLightOut, period);
+
+        networkHallCallOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.HALL_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway, direction));
+        mHallCall = new BooleanCanPayloadTranslator(networkHallCallOut);
+        canInterface.sendTimeTriggered(networkHallCallOut, period);
+
+        timer.start(period);
+    }
+
+
 	@Override
 	public void timerExpired(Object callbackData) {
 		State newState = state;
