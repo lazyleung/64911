@@ -127,7 +127,7 @@ public class DoorControl extends Controller
     	    case OPEN:
     		doOpen();
     		//#transition 'T5.2'
-    		if(CountDown <= 0){
+    		if(mCarWeight.getValue() >= Elevator.MaxCarCapacity && CountDown <= 0){
     		    newState = State.CLOSING;
     		}
     		break;

@@ -25,8 +25,7 @@ public class DriveControl extends Controller implements TimeSensitive {
         SLOW_DOWN,
         LEVEL_DOWN,
         SLOW_UP,
-        LEVEL_UP,
-        OVERWEIGHT
+        LEVEL_UP
     }
 
     // defines (in microseconds) how often this module should send out messages
@@ -40,7 +39,6 @@ public class DriveControl extends Controller implements TimeSensitive {
     // output network
     DriveCommandCanPayloadTranslator        mDrive;
     DriveSpeedCanPayloadTranslator          mDriveSpeed;
-    CarWeightAlarmCanPayloadTranslator      mCarWeightAlarm;
 
     //input network
     CarLevelPositionCanPayloadTranslator    mCarLevelPosition;
@@ -99,11 +97,6 @@ public class DriveControl extends Controller implements TimeSensitive {
         mDriveSpeed = new DriveSpeedCanPayloadTranslator(w);
         mDriveSpeed.setSpeed(localSpeed.speed());
         mDriveSpeed.setDirection(localSpeed.direction());
-        canInterface.sendTimeTriggered(w, period);
-
-        w = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_WEIGHT_ALARM_CAN_ID);
-        mCarWeightAlarm = new CarWeightAlarmCanPayloadTranslator(w);
-        mCarWeightAlarm.setValue(false);
         canInterface.sendTimeTriggered(w, period);
 
         // Single messages
@@ -199,7 +192,7 @@ public class DriveControl extends Controller implements TimeSensitive {
     public void timerExpired(Object callbackData) {
         // Update local variables
         if(mAtFloor.getCurrentFloor() != -1)
-            currentFloor = mAtFloor.getCurrentFloor();
+        currentFloor = mAtFloor.getCurrentFloor();
         int temp = currentFloor - mDesiredFloor.getFloor();
         if(temp < 0) {
             desiredDirection = Direction.UP;
@@ -219,13 +212,10 @@ public class DriveControl extends Controller implements TimeSensitive {
         switch (currentState) {
             case STOP:
                 doStop();
-                if(mCarWeight.getValue() > Elevator.MaxCarCapacity) {
-                    log("6.9");
-                    nextState = State.OVERWEIGHT;
-                } else if(doorClosed == true && desiredDirection == Direction.UP) { //#transition 'T6.1'
+                if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.UP) { //#transition 'T6.1'
                     log("T6.1");
                     nextState = State.SLOW_UP;
-                } else if(doorClosed == true && desiredDirection == Direction.DOWN) { //#transition 'T6.5'
+                } else if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.DOWN) { //#transition 'T6.5'
                     log("T6.5");
                     nextState = State.SLOW_DOWN;
                 }
@@ -264,13 +254,6 @@ public class DriveControl extends Controller implements TimeSensitive {
                     nextState = State.STOP;
                 }
                 break;
-            case OVERWEIGHT:
-                doOverweight();
-                if(mCarWeight.getValue() <= Elevator.MaxCarCapacity) {
-                    log("6.10");
-                    nextState = State.STOP;
-                }
-                break;
             default:
                 throw new RuntimeException("Unrecognized state " + currentState);
         }
@@ -297,7 +280,6 @@ public class DriveControl extends Controller implements TimeSensitive {
     // Actions for STOP state
     private void doStop() {
         localDrive.set(Speed.STOP, Direction.STOP);
-        mCarWeightAlarm.setValue(false);
         // mDrive is set in timerExpired
         // mDriveSpeed is set in timerExpired
     }
@@ -305,7 +287,6 @@ public class DriveControl extends Controller implements TimeSensitive {
     // Actions for SLOW_DOWN state
     private void doSlowDown() {
         localDrive.set(Speed.SLOW, Direction.DOWN);
-        mCarWeightAlarm.setValue(false);
         // mDrive is set in timerExpired
         // mDriveSpeed is set in timerExpired
     }
@@ -313,7 +294,6 @@ public class DriveControl extends Controller implements TimeSensitive {
     // Actions for LEVEL_DOWN state
     private void doLevelDown() {
         localDrive.set(Speed.LEVEL, Direction.DOWN);
-        mCarWeightAlarm.setValue(false);
         // mDrive is set in timerExpired
         // mDriveSpeed is set in timerExpired
     }
@@ -321,7 +301,6 @@ public class DriveControl extends Controller implements TimeSensitive {
     // Actions for SLOW_UP state
     private void doSlowUp() {
         localDrive.set(Speed.SLOW, Direction.UP);
-        mCarWeightAlarm.setValue(false);
         // mDrive is set in timerExpired
         // mDriveSpeed is set in timerExpired
     }
@@ -329,14 +308,6 @@ public class DriveControl extends Controller implements TimeSensitive {
     // Actions for LEVEL_UP state
     private void doLevelUp() {
         localDrive.set(Speed.LEVEL, Direction.UP);
-        mCarWeightAlarm.setValue(false);
-        // mDrive is set in timerExpired
-        // mDriveSpeed is set in timerExpired
-    }
-
-    private void doOverweight() {
-        localDrive.set(Speed.STOP, Direction.STOP);
-        mCarWeightAlarm.setValue(true);
         // mDrive is set in timerExpired
         // mDriveSpeed is set in timerExpired
     }
