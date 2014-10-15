@@ -54,7 +54,10 @@
 
   ;#arc '3a/2'
   3.0s A F DoorMotor FRONT LEFT : command  == OPEN
+  3.0s A F DoorMotor FRONT RIGHT : command  == OPEN
+
   3.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == OPEN
+  3.0s A N DOOR_MOTOR_COMMAND_[FRONT][RIGHT]_CAN_ID DoorMotor FRONT RIGHT : getValue == OPEN
 
   ;#arc '3a/3a'
   3.5s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID    DoorClosed FRONT LEFT  = false
@@ -66,6 +69,7 @@
   4.5s A F HallLight 4 FRONT UP : lighted == false
   4.5s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
   4.5s  A N HALL_LIGHT_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
+
   ;#arc '3a/4a'
   5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorOpened FRONT RIGHT = true
   5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
@@ -74,6 +78,9 @@
 
   ;#arc '3a/4b'
   6.0s A F DoorMotor FRONT LEFT : command  == STOP
+  6.0s A F DoorMotor FRONT RIGHT : command  == STOP
+
   6.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
+  6.0s A N DOOR_MOTOR_COMMAND_[FRONT][RIGHT]_CAN_ID DoorMotor FRONT RIGHT : getValue == STOP
 
 
