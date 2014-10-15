@@ -144,7 +144,7 @@ public class DoorControl extends Controller
     	    case CLOSED:
     		doClosed();
     		//#transition 'T5.5'
-    		if((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (floor==mDesiredFloor.getFloor() && (hallway==mDesiredFloor.getHallway() || Hallway.BOTH==mDesiredFloor.getHallway()) && (mDriveSpeed.getSpeed()==0 || mDriveSpeed.getDirection() == Direction.STOP))){
+    		if((hallway==mDesiredFloor.getHallway() || Hallway.BOTH==mDesiredFloor.getHallway()) && ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (floor==mDesiredFloor.getFloor() && (mDriveSpeed.getSpeed()==0 || mDriveSpeed.getDirection() == Direction.STOP)))){
     		    newState = State.OPENING;
     		}
     		break;
