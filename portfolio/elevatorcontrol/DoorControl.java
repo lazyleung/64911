@@ -113,6 +113,65 @@ public class DoorControl extends Controller
 	timer.start(period);
     }
 
+    public DoorControl(String name, Hallway hallway, Side side, SimTime period, boolean verbose){
+    	super("DoorControl"+ReplicationComputer.makeReplicationString(hallway, side),verbose);
+    	log("Created DoorControl with peroid = ",period);
+
+    	//TODO: fix these
+    	this.floor = 1;
+    	this.direction = Direction.STOP;
+
+    	this.verbose = verbose;
+    	this.doorState = State.CLOSED;
+    	this.CountDown = 0;
+    	this.period = period;
+    	this.name = name;
+    	this.hallway = hallway;
+
+    	//define physical objects
+    	doorMotor = DoorMotorPayload.getWriteablePayload(hallway,side);
+        physicalInterface.sendTimeTriggered(doorMotor, period);
+
+    	//define network objects (inputs)
+    	ReadableCanMailbox networkDoorOpenIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_OPEN_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
+    	mDoorOpen = new DoorOpenedCanPayloadTranslator(networkDoorOpenIn,hallway,side);
+    	canInterface.registerTimeTriggered(networkDoorOpenIn);
+
+    	ReadableCanMailbox networkDoorClosedIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
+    	mDoorClosed = new DoorClosedCanPayloadTranslator(networkDoorClosedIn,hallway,side);
+    	canInterface.registerTimeTriggered(networkDoorClosedIn);
+    	
+    	ReadableCanMailbox networkDoorReversalIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_REVERSAL_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
+    	mDoorReversal = new DoorReversalCanPayloadTranslator(networkDoorReversalIn,hallway,side);
+    	canInterface.registerTimeTriggered(networkDoorReversalIn);
+
+    	ReadableCanMailbox networkDriveSpeedIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DRIVE_SPEED_CAN_ID);
+            mDriveSpeed = new DriveSpeedCanPayloadTranslator(networkDriveSpeedIn);
+            canInterface.registerTimeTriggered(networkDriveSpeedIn);
+
+    	ReadableCanMailbox networkDesiredFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
+            mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloorIn);
+            canInterface.registerTimeTriggered(networkDesiredFloorIn);
+
+    	ReadableCanMailbox networkDesiredDwellIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID);
+            mDesiredDwell = new IntegerCanPayloadTranslator(networkDesiredDwellIn);
+            canInterface.registerTimeTriggered(networkDesiredDwellIn);
+
+    	ReadableCanMailbox networkCarWeightIn = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_WEIGHT_CAN_ID);
+            mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeightIn);
+            canInterface.registerTimeTriggered(networkCarWeightIn);
+
+    	//define network objects (outputs)
+    	WriteableCanMailbox networkDoorMotorOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
+    	mDoorMotor = new DoorMotorCanPayloadTranslator(networkDoorMotorOut, hallway, side);
+        mDoorMotor.set(DoorCommand.STOP);
+    	canInterface.sendTimeTriggered(networkDoorMotorOut,period);
+
+        mAtFloor = new Utility.AtFloorArray(canInterface);
+
+    	timer.start(period);
+        }
+    
     public void timerExpired(Object callbackData){
 	log("Executing DoorControl in " + doorState);
 	State newState = doorState;

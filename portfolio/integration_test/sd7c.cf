@@ -1,0 +1,12 @@
+; 18649 Fall 2014
+; Eric Newhall
+; Group 11
+; Ting Xu (tingx) Jonathan Leung (jkleung1), Mengzhe Li (mzli) 
+
+DoorControl "DoorControlFL" FRONT LEFT 10ms true
+DoorControl "DoorControlBL" BACK LEFT 10ms true
+DoorControl "DoorControlFR" FRONT RIGHT 10ms true
+DoorControl "DoorControlBR" BACK RIGHT 10ms true
+
+LanternControl "LanternControlUp" UP 100ms true
+LanternControl "LanternControlDown" DOWN 100ms true
