@@ -1,0 +1,52 @@
+  ; Integreation Test for SD7B
+  ; Eric Newhall
+
+  #INCLUDE defines.mf ;include CAN id and period definitions
+
+  ;Pre-Conditions:
+  ;At least one Door[b,r] is open. 
+  
+  ;intialize
+  0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID   DoorClosed FRONT RIGHT = true
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID   DoorClosed BACK LEFT = true
+  0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID   DoorClosed BACK RIGHT = true
+  0s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
+  0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
+  0s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
+  0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
+
+  ;Verify Preconditions
+  0.2s A F CarLantern UP : lighted  == false
+  0.2s A F CarLantern DOWN : lighted  == false
+
+  ;get doors to match initial conditions
+  1.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID    DoorClosed FRONT LEFT = false
+  1.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID   DoorClosed FRONT RIGHT = false
+  1.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID   DoorClosed BACK LEFT = false
+  1.1s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID   DoorClosed BACK RIGHT = false
+    
+  1.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
+
+  ;arc '7C/1a'
+  7.0s A F DoorMotor FRONT LEFT : command  == NUDGE
+  7.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == NUDGE
+
+  ;arc '7C/1b'
+  7.7s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
+
+  ;arc '7C/1c'
+  8.0s A F DoorMotor FRONT LEFT : command  == STOP
+  8.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
+
+  ;arc '7C/3a'
+  9.3s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
+  9.3s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+
+  ;arc '7C/3b'
+  9.5s A F CarLantern UP : lighted  == true
+  9.5s A F CarLantern DOWN : lighted  == false
+  
+
+
