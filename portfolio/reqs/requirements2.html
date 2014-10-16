@@ -3077,6 +3077,7 @@ below Lobby (1). </li>
 <ul>
   <li>Target: an integer Floor number for desired Floor, initialized to
 Lobby = 1. </li>
+  <li>CurFloor: an integer Floor number for which AtFloor is true. </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 11.1&nbsp;&nbsp;&nbsp; Target shall be a valid Floor number from 1 ..
@@ -3120,11 +3121,11 @@ appropriate value for door open dwell. &nbsp; &nbsp;
 
     <tr>
       <td style="vertical-align: top;">T11.1<br> </td>
-      <td style="vertical-align: top;">mDoorClosed[b, r] == False && mAtFloor[f, b] == True</td>
+      <td style="vertical-align: top;">mDoorClosed[b, r] == False && mAtFloor[f, b] == True && curFloor == Target</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.2</td>
-      <td style="vertical-align: top;">mDoorClosed[b, r] == False && mAtFloor[f, b] == True</td>
+      <td style="vertical-align: top;">true</td>
     </tr>
 
      <tr>
@@ -3134,6 +3135,10 @@ appropriate value for door open dwell. &nbsp; &nbsp;
      <tr>
       <td style="vertical-align: top;">T11.4<br> </td>
       <td style="vertical-align: top;">(mAtFloor[f,b] == False for all f) && mDoorClosed[b, r] == False</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T11.5<br> </td>
+      <td style="vertical-align: top;">mDoorClosed[b, r] == False && mAtFloor[f, b] == True && curFloor == Target</td>
     </tr>
   </tbody>
 </table>
@@ -3163,8 +3168,13 @@ appropriate value for door open dwell. &nbsp; &nbsp;
     </tr>
      <tr>
       <td style="vertical-align: top;">S11.3 EMERGENCY<br> </td>
-      <td style="vertical-align: top;">Increment Target</td>
+      <td style="vertical-align: top;">Direct to Lobby,NONE,STOP</td>
       <td style="vertical-align: top;">Target=1, mDesiredFloor=[1,NONE,STOP], mDesiredDwell=constant<br>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S11.4 IDLE<br> </td>
+      <td style="vertical-align: top;">Idle</td>
+      <td style="vertical-align: top;">mDesiredFloor=[Target,mAtFloor.b,STOP], mDesiredDwell=constant<br>
     </tr>
   </tbody>
 </table>

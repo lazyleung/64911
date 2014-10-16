@@ -229,13 +229,14 @@ public class Dispatcher extends simulator.framework.Controller{
 			}
 			break;
 		case STATE_GOTO_NEXT_FLOOR:
-			if (curFloor != -1) {
+			//if (curFloor != -1) {
 				Target = (curFloor % Elevator.numFloors) + 1;
-			}
+			//}
 			mDesiredFloor.set(Target, Direction.STOP, DesiredFloorHallways[Target-1]);
 			mDesiredDwellFront.set(dwellTime);
 			mDesiredDwellBack.set(dwellTime);
 			
+            //#transition 'T11.2'
 			newState = State.STATE_IDLE;
 			
 			/*
@@ -272,10 +273,11 @@ public class Dispatcher extends simulator.framework.Controller{
 			mDesiredFloor.set(Target, Direction.STOP, DesiredFloorHallways[Target-1]);
 			mDesiredDwellFront.set(dwellTime);
 			mDesiredDwellBack.set(dwellTime);
+            //#transition 'T11.3'
 			if (notAtFloor && (!AllDoorClosed)){
 				newState = State.STATE_EMERGENCY;
 			} 
-			
+			//#transition 'T11.5'
 			else if ((!AllDoorClosed) && (curFloor == Target) && atFloor){
 				newState = State.STATE_GOTO_NEXT_FLOOR;
 			} else {
