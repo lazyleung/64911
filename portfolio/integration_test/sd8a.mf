@@ -52,42 +52,42 @@
 3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
 3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
 3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == BACK
-3.23s A F DoorMotor FRONT LEFT : command  == NUDGE
-3.23s A F DoorMotor FRONT RIGHT : command  == NUDGE
-3.23s A F DoorMotor BACK LEFT : command  == NUDGE
-3.23s A F DoorMotor BACK RIGHT : command  == NUDGE
+6.23s A F DoorMotor FRONT LEFT : command  == NUDGE
+6.23s A F DoorMotor FRONT RIGHT : command  == NUDGE
+6.23s A F DoorMotor BACK LEFT : command  == NUDGE
+6.23s A F DoorMotor BACK RIGHT : command  == NUDGE
 
 
 ;#arc '8a/2b'
-5.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT = true
-5.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID     DoorClosed BACK RIGHT = true
-5.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID     DoorClosed FRONT LEFT = true
-5.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorClosed FRONT RIGHT = true
-5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID     DoorOpened BACK LEFT = false
-5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = false
-5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
-5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorOpened FRONT RIGHT = false
+8.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT = true
+8.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID     DoorClosed BACK RIGHT = true
+8.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID     DoorClosed FRONT LEFT = true
+8.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorClosed FRONT RIGHT = true
+8.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID     DoorOpened BACK LEFT = false
+8.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = false
+8.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
+8.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorOpened FRONT RIGHT = false
 
 ;#Expected output: Drive = slow, up
 ;#arc '8a/3a'
-5.2s A F Drive : speed == LEVEL
-5.2s A F Drive : direction == DOWN
+8.2s A F Drive : speed == LEVEL
+8.2s A F Drive : direction == DOWN
 
 
 ;#arc '8a/4'
-6.0s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][BACK]_CAN_ID                  AtFloor 1 BACK = false
-6.0s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][FRONT]_CAN_ID                  AtFloor 1 FRONT = false
-6.3s I AT_FLOOR_PERIOD           N AT_FLOOR_[2][BACK]_CAN_ID                  AtFloor 2 BACK = true
-6.3s I DRIVE_PERIOD         N DRIVE_SPEED_CAN_ID                              DriveSpeed = 0 STOP
-6.3s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 BACK STOP
+9.0s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][BACK]_CAN_ID                  AtFloor 1 BACK = false
+9.0s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][FRONT]_CAN_ID                  AtFloor 1 FRONT = false
+9.3s I AT_FLOOR_PERIOD           N AT_FLOOR_[2][BACK]_CAN_ID                  AtFloor 2 BACK = true
+9.3s I DRIVE_PERIOD         N DRIVE_SPEED_CAN_ID                              DriveSpeed = 0 STOP
+9.3s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 BACK STOP
 
 
 ;#Expected output: DoorMotor[b,r] = Open
 ;#arc '8a/5a'
-6.5s A F DoorMotor BACK LEFT : command  == OPEN
-6.5s A F DoorMotor BACK RIGHT : command == OPEN
+9.5s A F DoorMotor BACK LEFT : command  == OPEN
+9.5s A F DoorMotor BACK RIGHT : command == OPEN
 
 
 ;#arc '8a/5b'
-7s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT = false
-7s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID     DoorClosed BACK RIGHT = false
+10s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT = false
+10s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID     DoorClosed BACK RIGHT = false
