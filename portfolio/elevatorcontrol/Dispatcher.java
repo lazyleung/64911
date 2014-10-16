@@ -238,28 +238,6 @@ public class Dispatcher extends simulator.framework.Controller{
 			
             //#transition 'T11.2'
 			newState = State.STATE_IDLE;
-			
-			/*
-			//#transition 'T11.2'
-			if (atFloor){
-				//log("------- Transition T11.2 -------------");
-				newState = State.STATE_IDLE;
-			}
-			//#transition 'T11.3'
-			else if (notAtFloor && (!AllDoorClosed)){
-				//log("------- Transition T11.3 -------------");
-				newState = State.STATE_EMERGENCY;
-			} 
-			
-			//#transition 'tmp'
-			else if (!AllDoorClosed){
-				newState = State.STATE_IDLE;
-			}
-			
-			else {
-				//log("------- Stay in GOTO_NEXT_FLOOR -------------");
-				newState = State.STATE_GOTO_NEXT_FLOOR;
-			}*/
 			break;
 		case STATE_EMERGENCY:
 			//log("-----------Shouldn't be here-----------");
