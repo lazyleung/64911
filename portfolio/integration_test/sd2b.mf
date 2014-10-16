@@ -16,6 +16,7 @@
 0.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 BOTH STOP
 0.0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 0
 0.0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
+0.0s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
 
 ;#arc '2b/1'
 1.0s A F DoorMotor FRONT LEFT : command  == NUDGE
