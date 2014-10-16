@@ -1,0 +1,36 @@
+
+Simulator Parameters:
+Command line = -mf sd3a.mf -cf sd3a.cf
+RandomSeed = 1413492877176
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = sd3a.mf
+Controller File = sd3a.cf
+
+Assertion Results:
+@0.51s:  PASSED simulator.payloads.HallLightPayload$ReadableHallLightPayload@84139009 :: lighted ?== true PASSED
+@0.51s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@1d2af806 :: lighted ?== true PASSED
+@0.51s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@a0958a34 :: getValue ?== true PASSED
+@0.51s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@7d8b5b1e :: getValue ?== true PASSED
+@0.51s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@15eb197 :: getValue ?== true PASSED
+@0.51s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@5d4d659d :: getValue ?== true PASSED
+@3.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@cb8b4cd5 :: command ?== OPEN PASSED
+@3.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@416d122b :: command ?== OPEN PASSED
+@3.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@897fc8df :: getValue ?== OPEN PASSED
+@3.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@3352a0c4 :: getValue ?== OPEN PASSED
+@4.5s:  PASSED simulator.payloads.HallLightPayload$ReadableHallLightPayload@65534e9b :: lighted ?== false PASSED
+@4.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@dbce7c73 :: getValue ?== false PASSED
+@4.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@7156ece :: getValue ?== false PASSED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@8c0e8db0 :: command ?== STOP PASSED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@3c3a7ba :: command ?== STOP PASSED
+@6.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@1d4f8a8e :: getValue ?== STOP PASSED
+@6.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@c22f9019 :: getValue ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  17
+Failed:  0
+Total :  17
+

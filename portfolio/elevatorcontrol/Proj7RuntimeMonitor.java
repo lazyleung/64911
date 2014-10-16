@@ -40,7 +40,9 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
     double doorReverslTime = 0;
     Stopwatch stopwatch = new Stopwatch();
     boolean isReversal = false;
-
+    boolean weightChanged = false;
+    boolean checkWeightChange = false;
+    boolean doorOpened = false;
     public Proj7RuntimeMonitor() {
     }
 
@@ -109,6 +111,12 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
             doorReverslTime += stopwatch.getAccumulatedTime().getFracSeconds();
             isReversal = false;
         }
+        if(doorOpened && !weightChanged){
+        	wastedOpeningsCount++;
+        }
+        checkWeightChange = false;
+		weightChanged = false;
+		doorOpened = false;
     }
 
     /**
@@ -116,6 +124,8 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
      * @param hallway which door the event pertains to
      */
     private void doorOpened(Hallway hallway) {
+    	checkWeightChange = true;
+		doorOpened = true;
         //System.out.println(hallway.toString() + " Door Opened");
     }
 
@@ -179,6 +189,14 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
         public void receive(ReadableCarWeightPayload msg) {
             if (oldWeight != msg.weight()) {
                 weightChanged(msg.weight());
+                if(checkWeightChange){
+                	weightChanged = true;
+                }
+            }
+            else{
+            	if(checkWeightChange && !weightChanged){
+            		weightChanged = false;
+            	}
             }
             oldWeight = msg.weight();
         }
