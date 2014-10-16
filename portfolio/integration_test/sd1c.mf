@@ -45,7 +45,7 @@
 
 ;#arc '1B/3a'
 ;#arc '1B/3b'
-2.0s I HALL_BUTTON_CONTROL_PERIOD   N HALL_CALL_[2][BACK][DOWN]_CAN_ID   HallCall 2 BACK DOWN = true
+2.0s I HALL_BUTTON_CONTROL_PERIOD F HallCall 2 BACK DOWN = true
 
 ;#arc '1B/4'
 3.0s A F HallLight 2 BACK DOWN : lighted == true
