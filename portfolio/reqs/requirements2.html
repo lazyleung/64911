@@ -1725,7 +1725,8 @@ Down<br>
 6.5&nbsp;&nbsp;&nbsp; If mCarWeight(x) &gt;= MaxCarCapacity, the drive shall not be commanded to {Slow, d} or {Fast, d} until the car is no longer overloaded.
 
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
-6.6 &nbsp;&nbsp; If mDoorClosed[b, r] is true AND mCarWeight &lt; MaxCarCapacity AND DesiredDirection is d then Drive shall be commanded to {Slow, d}.<br>
+6.6 &nbsp;&nbsp; If (mDoorClosed[b, r] is true AND mCarWeight &lt; MaxCarCapacity AND DesiredDirection is d) OR
+  (mLevel[d] is false AND mEmergencyBrake is false AND DesiredDirection is Stop), then Drive shall be commanded to {Slow, d}.<br>
 
 6.7 &nbsp;&nbsp; If mDesiredFloor.f is equal to CurrentFloor AND DesiredDirection is d AND SlowSpeed &gt;= DriveSpeed.s AND CommitPoint[f] is Not Reached then Drive shall be commanded to {Level, d}.<br>
 
@@ -1735,8 +1736,11 @@ Down<br>
 
 6.10&nbsp;&nbsp;mDriveSpeed shall be set to DriveSpeed.<br>
 6.11&nbsp;&nbsp;mDrive shall be set to Drive.<br>
+
+6.13&nbsp;&nbsp;mDrive shall be set to Drive.<br>
+
 <br>
-<p> <img style="width: 707px; height: 312px;" alt="Testlight Statechart" src="DriveControl_state_diagram.png"><br clear="left"> </p>
+<p> <img style="width: 451; height: 316px;" alt="DriveControl Statechart" src="DriveControl_state_diagram.png"><br clear="left"> </p>
 <table style="text-align: left; width: 525px; height: 172px;" border="1" cellpadding="2" cellspacing="2">
   <tbody>
     <tr>
@@ -1775,6 +1779,14 @@ Down<br>
     <tr>
       <td style="vertical-align: top;">T6.8</td>
       <td style="vertical-align: top;">mEmergencyBrake == true || DesiredDirection == Up</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T6.9</td>
+      <td style="vertical-align: top;">mLevel[up] == true &amp;&amp; mEmergencyBrake == false &amp;&amp; DesiredDirection == Stop</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T6.10</td>
+      <td style="vertical-align: top;">mLevel[down] == true &amp;&amp; mEmergencyBrake == false &amp;&amp; DesiredDirection == Stop</td>
     </tr>
   </tbody>
 </table>
@@ -1883,7 +1895,7 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -1990,9 +2002,9 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
     </tr>
     <tr>
@@ -2006,9 +2018,9 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
     </tr>
     <tr>
@@ -2022,9 +2034,9 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
     </tr>
     <tr>
@@ -2038,9 +2050,9 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
     </tr>
     <tr>
@@ -2054,9 +2066,9 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
     </tr>
 <tr>
@@ -2069,9 +2081,9 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
     </tr>
 <tr>
@@ -2084,12 +2096,12 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
     </tr>
-<tr>
+    <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T6.8</td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2099,9 +2111,39 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T6.9</td>
+      <td style="vertical-align: top;">X<br>
+      </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T6.10</td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
       </td>
     </tr>
   </tbody>
