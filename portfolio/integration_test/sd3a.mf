@@ -66,7 +66,7 @@
 
   ;#Expected output: HallLight[f,b,d] = Off
   ;#arc '3a/3b'
-  4.5s A F HallLight 4 FRONT UP : lighted == false
+  4.5s  A F HallLight 4 FRONT UP : lighted == false
   4.5s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
   4.5s  A N HALL_LIGHT_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
 
