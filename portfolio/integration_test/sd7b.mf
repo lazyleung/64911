@@ -16,11 +16,14 @@
   0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
   0s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
   0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
-
+  0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 2 
+    
   ;Verify Preconditions
   0.2s A F CarLantern UP : lighted  == false
   0.2s A F CarLantern DOWN : lighted  == false
 
+  0.3s I DISPATCHER_PERIOD      N DESIRED_FLOOR_CAN_ID    DesiredFloor = 1 FRONT STOP
+    
   ;arc '7B/1a'  
   1.0s A F DoorMotor FRONT LEFT : command  == OPEN
   1.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == OPEN
@@ -47,10 +50,9 @@
   9.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 
   ;arc '7B/3a'
-  9.3s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
-  9.3s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
-
+  9.5s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT STOP
+ 
   ;arc '7B/3b'
-  9.5s A F CarLantern UP : lighted  == false
-  9.5s A F CarLantern DOWN : lighted  == false
+  11.5s A F CarLantern UP : lighted  == false
+  11.5s A F CarLantern DOWN : lighted  == false
   
