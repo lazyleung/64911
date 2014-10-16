@@ -37,13 +37,14 @@ public class DoorControl extends Controller
 
     private SimTime period;
 
-    private double CountDown;
+    private double countdown;
     private State doorState;
     private boolean verbose;
     
     private final Hallway hallway;
     private final Side side;
     private int floor;
+    private double dwell;
  
     //physical interface
     private WriteableDoorMotorPayload doorMotor;
@@ -70,7 +71,8 @@ public class DoorControl extends Controller
         this.verbose = verbose;
 
         this.floor = 1;
-        this.CountDown = 0;
+        this.countdown = 0;
+        this.dwell = 0;
     	this.doorState = State.CLOSED;
 
     	//define physical objects
@@ -174,25 +176,29 @@ public class DoorControl extends Controller
     	//#state 'S5.1 OPENING'
     	doorMotor.set(DoorCommand.OPEN);
     	mDoorMotor.set(DoorCommand.OPEN);
-    	CountDown = mDesiredDwell.getValue();
+        dwell = mDesiredDwell.getValue();
+        countdown = dwell;
     }
 
     private void doOpen(){
     	//#state 'S5.2 OPEN'
     	doorMotor.set(DoorCommand.STOP);
     	mDoorMotor.set(DoorCommand.STOP);
-    	CountDown = CountDown - period.getFracSeconds();
+        dwell = mDesiredDwell.getValue();
+    	countdown = countdown - period.getFracSeconds();
     }
 
     private void doClosed(){
     	//#state 'S5.4 CLOSED'
     	doorMotor.set(DoorCommand.STOP);
     	mDoorMotor.set(DoorCommand.STOP);
+        dwell = mDesiredDwell.getValue();
     }
 
     private void doClosing(){
     	//#state 'S5.3 CLOSING'
     	doorMotor.set(DoorCommand.NUDGE);
     	mDoorMotor.set(DoorCommand.NUDGE);
+        dwell = mDesiredDwell.getValue();
     }
 }
