@@ -1017,20 +1017,18 @@ then: <br>
 &nbsp;&nbsp;&nbsp; 5.6.1&nbsp; DoorMotor[b, r] shall be commanded to
 Open; <br>
 &nbsp;&nbsp;&nbsp; 5.6.2&nbsp; CountDown shall be set to Dwell.<br>
-
-5.7 &nbsp;&nbsp; If any mAtFloor[f, b] is True AND mDesiredFloor.h is equal to b AND mCarCall[f,b] is true AND mDoorClosed[b,r] is false, AND mDriveSpeed = (0, d) OR mDriveSpeed = (s, Stop)
+5.7 &nbsp;&nbsp; If any mAtFloor[f, b] is True AND mCarCall[f,b] is true AND mDoorClosed[b,r] is false, AND mDriveSpeed = (0, d) OR mDriveSpeed = (s, Stop)
 then: <br>
 &nbsp;&nbsp;&nbsp; 5.7.1&nbsp; DoorMotor[b, r] shall be commanded to
 Open; <br>
 &nbsp;&nbsp;&nbsp; 5.7.2&nbsp; CountDown shall be set to Dwell.<br>
-
 5.8 &nbsp;&nbsp; If mDoorOpened[b, r] is True, then<br>
 &nbsp;&nbsp;&nbsp; 5.8.1&nbsp; DoorMotor[b,r] shall be commanded to
 Stop.<br>
 &nbsp;&nbsp;&nbsp; 5.8.2&nbsp; CountDown shall be decremented.<br>
 5.9&nbsp; If mDoorClosed[b, r] is True, then DoorMotor[b,r] should be
 commanded to Stop.<br>
-5.10&nbsp; When CountDown &lt;= 0, DoorMotor[b,r] should be commanded
+5.10 When CountDown &lt;= 0 AND mCarWeight &lt; MaxCarCapacity, DoorMotor[b,r] should be commanded
 to Nudge.<br>
 5.11 If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorOpened[b, r] is
 False, DoorMotor[b, r] shall be commanded to Open.<br>
@@ -1054,7 +1052,7 @@ mDesiredDwell[b].<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">T5.2</td>
-      <td style="vertical-align: top;">CountDown <= 0</td>
+      <td style="vertical-align: top;">mCarWeight &lt; MaxCarCapacity and CountDown &lt;= 0</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T5.3</td>
@@ -1067,7 +1065,7 @@ mDesiredDwell[b].<br>
     <tr>
       <td style="vertical-align: top;">T5.5<br>
       </td>
-      <td style="vertical-align: top;">mCarWeight >= MaxCarCapacity or (mAtFloor[f, b] = True and f = mDesiredFloor.f, and (mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop)))</td>
+      <td style="vertical-align: top;">mCarWeight &gt;= MaxCarCapacity or (mAtFloor[f, b] = True and f = mDesiredFloor.f, and (mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop)))</td>
     </tr>
   </tbody>
 </table>
@@ -1087,8 +1085,9 @@ mDesiredDwell[b].<br>
       <td style="vertical-align: top;">Car doors are in the process of opening</td>
       <td style="vertical-align: top;">
         DoorMotor[b,r] = Open <br>
-	mDoorMotor[b,r] = Open <br>
-	CountDown = mDesiredDwell <br>
+	    mDoorMotor[b,r] = Open <br>
+	    dwell = mDesiredDwell <br>
+        CountDown = dwell<br>
       </td>
     </tr>
     <tr>
@@ -1096,8 +1095,9 @@ mDesiredDwell[b].<br>
       <td style="vertical-align: top;">Car doors are open and stopped</td>
       <td style="vertical-align: top;">
         DoorMotor[b,r] = Stop <br>
-	mDoorMotor[b,r] = Stop <br>
-	CountDown = CountDown - 1 <br>
+	    mDoorMotor[b,r] = Stop <br>
+        dwell = mDesiredDwell <br>
+	    CountDown = CountDown - 1 <br>
       </td>
     </tr>
     <tr>
@@ -1105,8 +1105,9 @@ mDesiredDwell[b].<br>
       <td style="vertical-align: top;">Car doors are in the process of closing</td>
       <td style="vertical-align: top;">
         DoorMotor[b,r] = Nudge <br>
-	mDoorMotor[b,r] = Nudge <br>
-	CountDown = CountDown <br>
+	    mDoorMotor[b,r] = Nudge <br>
+        dwell = mDesiredDwell <br>
+	    CountDown = CountDown <br>
       </td>
     </tr>
   <tr>
@@ -1114,8 +1115,9 @@ mDesiredDwell[b].<br>
       <td style="vertical-align: top;">Car doors are closed and stopped</td>
       <td style="vertical-align: top;">
         DoorMotor[b,r] = Stop <br>
-	mDoorMotor[b,r] = Stop <br>
-	CountDown = CountDown <br>
+	    mDoorMotor[b,r] = Stop <br>
+        dwell = mDesiredDwell <br>
+	    CountDown = CountDown <br>
       </td>
     </tr>
   </tbody>
@@ -1202,15 +1204,15 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
 	  </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
     </tr>
     <tr>
@@ -1234,7 +1236,7 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
 	  </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -1265,7 +1267,7 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
 	  </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -1359,9 +1361,9 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
 	  </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -1371,9 +1373,9 @@ completed by Mengzhe Li (mzli)<br>
     <tr>
       <td
  style="vertical-align: top; background-color: rgb(204, 204, 204);">T5.2</td>
-                 <td style="vertical-align: top;">X<br>
+        <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
 	  </td>
@@ -1389,9 +1391,9 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
 	  </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -1403,7 +1405,7 @@ completed by Mengzhe Li (mzli)<br>
  style="vertical-align: top; background-color: rgb(204, 204, 204);">T5.3</td>
        <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
 	  </td>
@@ -1419,9 +1421,9 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
 	  </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -1449,9 +1451,9 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
 	  </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -1463,11 +1465,11 @@ completed by Mengzhe Li (mzli)<br>
  style="vertical-align: top; background-color: rgb(204, 204, 204);">T5.5</td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
 	  </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -1479,9 +1481,9 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;">X<br>
 	  </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
