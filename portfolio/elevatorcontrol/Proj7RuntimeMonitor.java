@@ -36,14 +36,20 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
     boolean hasMoved = false;
     boolean wasOverweight = false;
     int overWeightCount = 0;
+    int wastedOpeningsCount = 0;
+    double doorReverslTime = 0;
+    Stopwatch stopwatch = new Stopwatch();
+    boolean isReversal = false;
 
-    public SamplePerformanceMonitor() {
+    public Proj7RuntimeMonitor() {
     }
 
     @Override
     protected String[] summarize() {
-        String[] arr = new String[1];
+        String[] arr = new String[3];
         arr[0] = "Overweight Count = " + overWeightCount;
+        arr[1] = "Wasted Openings Count = " + wastedOpeningsCount;
+        arr[2] = "Door Reversl Time = " + doorReverslTime;
         return arr;
     }
 
@@ -79,6 +85,9 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
      */
     private void doorReopening(Hallway hallway) {
         //System.out.println(hallway.toString() + " Door Reopening");
+        isReversal = true;
+        stopwatch.stop();
+        stopwatch.start();
     }
 
     /**
@@ -94,6 +103,11 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
                 overWeightCount++;
                 wasOverweight = false;
             }
+        }
+        if(isReversal) {
+            stopwatch.stop();
+            doorReverslTime += stopwatch.getAccumulatedTime().getFracSeconds();
+            isReversal = false;
         }
     }
 
