@@ -50,10 +50,12 @@
 1.71s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 6 UP FRONT
 1.71s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
 
+2.0s I MESSAGE_PERIOD F HallCall 4 FRONT UP = false
+
 ;#state 'S8.1 IDLE'
-2.21s  A F HallLight 4 FRONT UP : lighted == false
-2.21s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
-2.21s  A N HALL_LIGHT_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
+2.31s  A F HallLight 4 FRONT UP : lighted == false
+2.31s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
+2.31s  A N HALL_LIGHT_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
 
 ;#transition 'T8.1'
 2.71s I MESSAGE_PERIOD F HallCall 4 FRONT UP = true
