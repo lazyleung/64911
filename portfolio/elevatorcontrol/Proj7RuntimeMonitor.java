@@ -1,39 +1,61 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package simulator.elevatorcontrol;
 
-import simulator.elevatormodules.Door.DoorState;
+import jSimPack.SimTime;
 import simulator.framework.DoorCommand;
 import simulator.framework.Elevator;
 import simulator.framework.Hallway;
+import simulator.framework.Harness;
 import simulator.framework.RuntimeMonitor;
 import simulator.framework.Side;
 import simulator.payloads.CarWeightPayload.ReadableCarWeightPayload;
 import simulator.payloads.DoorClosedPayload.ReadableDoorClosedPayload;
 import simulator.payloads.DoorMotorPayload.ReadableDoorMotorPayload;
 import simulator.payloads.DoorOpenPayload.ReadableDoorOpenPayload;
+import simulator.payloads.DriveSpeedPayload.ReadableDriveSpeedPayload;
 
+/**
+ * This monitoring class gives you a starting point for the performance checks
+ * you will do in project 7.
+ *
+ * This monitor detects the number of stops where the car becomes overweight
+ * when the door are open.  Each stop counted at most once, unless the doors
+ * close completely and then reopen at the same floor.
+ *
+ * See the documentation of simulator.framework.RuntimeMonitor for more details.
+ * 
+ * @author Justin Ray
+ */
 public class Proj7RuntimeMonitor extends RuntimeMonitor {
-	DoorStateMachine doorState = new DoorStateMachine();
+
+    DoorStateMachine doorState = new DoorStateMachine();
     WeightStateMachine weightState = new WeightStateMachine();
     boolean hasMoved = false;
     boolean wasOverweight = false;
     int overWeightCount = 0;
+    int wastedOpeningsCount = 0;
+    double doorReverslTime = 0;
+    Stopwatch stopwatch = new Stopwatch();
+    boolean isReversal = false;
 
     public Proj7RuntimeMonitor() {
     }
 
-
-	@Override
-	public void timerExpired(Object callbackData) {
-		//do nothing
-		
-	}
-
-	@Override
-	protected String[] summarize() {
-		String[] arr = new String[1];
+    @Override
+    protected String[] summarize() {
+        String[] arr = new String[3];
         arr[0] = "Overweight Count = " + overWeightCount;
+        arr[1] = "Wasted Openings Count = " + wastedOpeningsCount;
+        arr[2] = "Door Reversl Time = " + doorReverslTime;
         return arr;
-	}
+    }
+
+    public void timerExpired(Object callbackData) {
+        //do nothing
+    }
 
     /**************************************************************************
      * high level event methods
@@ -63,6 +85,9 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
      */
     private void doorReopening(Hallway hallway) {
         //System.out.println(hallway.toString() + " Door Reopening");
+        isReversal = true;
+        stopwatch.stop();
+        stopwatch.start();
     }
 
     /**
@@ -78,6 +103,11 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
                 overWeightCount++;
                 wasOverweight = false;
             }
+        }
+        if(isReversal) {
+            stopwatch.stop();
+            doorReverslTime += stopwatch.getAccumulatedTime().getFracSeconds();
+            isReversal = false;
         }
     }
 
@@ -99,9 +129,47 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
         }
     }
 
+    /**************************************************************************
+     * low level message receiving methods
+     * 
+     * These mostly forward messages to the appropriate state machines
+     **************************************************************************/
+    @Override
+    public void receive(ReadableDoorClosedPayload msg) {
+        doorState.receive(msg);
+    }
 
+    @Override
+    public void receive(ReadableDoorOpenPayload msg) {
+        doorState.receive(msg);
+    }
 
-	  /**
+    @Override
+    public void receive(ReadableDoorMotorPayload msg) {
+        doorState.receive(msg);
+    }
+
+    @Override
+    public void receive(ReadableCarWeightPayload msg) {
+        weightState.receive(msg);
+    }
+
+    @Override
+    public void receive(ReadableDriveSpeedPayload msg) {
+        if (msg.speed() > 0) {
+            hasMoved = true;
+        }
+    }
+
+    private static enum DoorState {
+
+        CLOSED,
+        OPENING,
+        OPEN,
+        CLOSING
+    }
+
+    /**
      * Utility class to detect weight changes
      */
     private class WeightStateMachine {
@@ -116,14 +184,6 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
         }
     }
 
-    
-    private static enum DoorState {
-
-        CLOSED,
-        OPENING,
-        OPEN,
-        CLOSING
-    }
     /**
      * Utility class for keeping track of the door state.
      * 
@@ -191,7 +251,8 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
 
             //set the newState
             state[h.ordinal()] = newState;
-        }	
+        }
+
         //door utility methods
         public boolean allDoorsCompletelyOpen(Hallway h) {
             return doorOpeneds[h.ordinal()][Side.LEFT.ordinal()].isOpen()
@@ -224,9 +285,121 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
         public boolean anyDoorMotorClosing(Hallway h) {
             return doorMotors[h.ordinal()][Side.LEFT.ordinal()].command() == DoorCommand.CLOSE || doorMotors[h.ordinal()][Side.RIGHT.ordinal()].command() == DoorCommand.CLOSE;
         }
-	
     }
 
+    /**
+     * Keep track of time and decide whether to or not to include the last interval
+     */
+    private class ConditionalStopwatch {
 
-    
+        private boolean isRunning = false;
+        private SimTime startTime = null;
+        private SimTime accumulatedTime = SimTime.ZERO;
+
+        /**
+         * Call to start the stopwatch
+         */
+        public void start() {
+            if (!isRunning) {
+                startTime = Harness.getTime();
+                isRunning = true;
+            }
+        }
+
+        /**
+         * stop the stopwatch and add the last interval to the accumulated total
+         */
+        public void commit() {
+            if (isRunning) {
+                SimTime offset = SimTime.subtract(Harness.getTime(), startTime);
+                accumulatedTime = SimTime.add(accumulatedTime, offset);
+                startTime = null;
+                isRunning = false;
+            }
+        }
+
+        /**
+         * stop the stopwatch and discard the last interval
+         */
+        public void reset() {
+            if (isRunning) {
+                startTime = null;
+                isRunning = false;
+            }
+        }
+
+        public SimTime getAccumulatedTime() {
+            return accumulatedTime;
+        }
+
+        public boolean isRunning() {
+            return isRunning;
+        }
+    }
+
+    /**
+     * Keep track of the accumulated time for an event
+     */
+    private class Stopwatch {
+
+        private boolean isRunning = false;
+        private SimTime startTime = null;
+        private SimTime accumulatedTime = SimTime.ZERO;
+
+        /**
+         * Start the stopwatch
+         */
+        public void start() {
+            if (!isRunning) {
+                startTime = Harness.getTime();
+                isRunning = true;
+            }
+        }
+
+        /**
+         * Stop the stopwatch and add the interval to the accumulated total
+         */
+        public void stop() {
+            if (isRunning) {
+                SimTime offset = SimTime.subtract(Harness.getTime(), startTime);
+                accumulatedTime = SimTime.add(accumulatedTime, offset);
+                startTime = null;
+                isRunning = false;
+            }
+        }
+
+        public SimTime getAccumulatedTime() {
+            return accumulatedTime;
+        }
+
+        public boolean isRunning() {
+            return isRunning;
+        }
+    }
+
+    /**
+     * Utility class to implement an event detector
+     */
+    private abstract class EventDetector {
+
+        boolean previousState;
+
+        public EventDetector(boolean initialValue) {
+            previousState = initialValue;
+        }
+
+        public void updateState(boolean currentState) {
+            if (currentState != previousState) {
+                previousState = currentState;
+                eventOccurred(currentState);
+            }
+        }
+
+        /**
+         * subclasses should overload this to make something happen when the event
+         * occurs.
+         * @param newState
+         */
+        public abstract void eventOccurred(boolean newState);
+    }
 }
