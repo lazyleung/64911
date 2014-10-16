@@ -62,7 +62,7 @@
 2.0s I HALL_BUTTON_CONTROL_PERIOD F HallCall 1 FRONT UP = true
 
 ;#arc '1B/4'
-3.0s A F HallLight 1 FRONT UP : lighted == true
+2.3s A F HallLight 1 FRONT UP : lighted == true
 
 ;#arc '1B/5a'
 4.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
