@@ -1,4 +1,3 @@
-;there is only one test in the sample file.  Your file shall contain all tests.
 SD1A.1 sd1a1.cf sd1a1.mf
 SD1B sd1b.cf sd1b.mf
 SD1C sd1c.cf sd1c.mf
