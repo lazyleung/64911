@@ -123,7 +123,8 @@ public class DoorControl extends Controller
     	log("Executing DoorControl in " + doorState);
     	State newState = doorState;
 
-        floor = mAtFloor.getCurrentFloor();
+        if(mAtFloor.getCurrentFloor() != -1)
+            floor = mAtFloor.getCurrentFloor();
 
     	switch(doorState){
     	    case OPEN:
@@ -146,7 +147,7 @@ public class DoorControl extends Controller
     	    case CLOSED:
     		doClosed();
     		//#transition 'T5.5'
-    		if((hallway==mDesiredFloor.getHallway() || Hallway.BOTH==mDesiredFloor.getHallway()) && ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (floor==mDesiredFloor.getFloor() && (mDriveSpeed.getSpeed()==0 || mDriveSpeed.getDirection() == Direction.STOP)))){
+    		if(mAtFloor.isAtFloor(floor, hallway) && ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (floor==mDesiredFloor.getFloor() && mDriveSpeed.getSpeed()==0 && mDriveSpeed.getDirection() == Direction.STOP))){
     		    newState = State.OPENING;
     		}
     		break;
