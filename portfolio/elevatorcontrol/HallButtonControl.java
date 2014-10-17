@@ -217,7 +217,7 @@ public class HallButtonControl extends simulator.framework.Controller{
         	mHallCall.set(false);
 
 		//#transition 'T8.1'
-        	if ((localHallCall.pressed() && (!mDoorOpenedLeft.getValue())  ) ||
+        	if ((localHallCall.pressed() && (!mDoorOpenedLeft.getValue())) ||
         		(localHallCall.pressed() && ((!mDoorClosedLeft.getValue()) || (!mDoorClosedRight.getValue()))
 			 && mAtFloor.getValue() && (!desiredDirection.equals(direction))) ) {
         		newState = State.STATE_REGISTER_CALL;
@@ -232,7 +232,7 @@ public class HallButtonControl extends simulator.framework.Controller{
         	mHallCall.set(true);
 
 		//#transition 'T8.2'
-		if (mAtFloor.getValue() && (desiredDirection.equals(direction)) && (!prevDoorOpen)&& ((!mDoorClosedLeft.getValue()) || (!mDoorClosedRight.getValue()))){
+		if (mAtFloor.getValue() && (desiredDirection.equals(direction)) && (!prevDoorOpen) && ((!mDoorClosedLeft.getValue()) || (!mDoorClosedRight.getValue()))){
 		    newState = State.STATE_IDLE;
 		} else {
             	newState = State.STATE_REGISTER_CALL;
