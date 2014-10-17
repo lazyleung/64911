@@ -83,7 +83,7 @@ public class HallButtonControl extends simulator.framework.Controller{
     private State state = State.STATE_IDLE;
 
     private Direction desiredDirection;
-    private boolean previousDoorOpen;
+    private boolean prevDoorOpen;
 
 	public HallButtonControl(SimTime period, int floor, Hallway hallway, Direction direction, boolean verbose) {
 		super("HallButtonControl"+ReplicationComputer.makeReplicationString(floor, hallway, direction), verbose);
@@ -132,7 +132,7 @@ public class HallButtonControl extends simulator.framework.Controller{
         mHallCall = new BooleanCanPayloadTranslator(networkHallCallOut);
         canInterface.sendTimeTriggered(networkHallCallOut, period);
 
-	previousDoorOpen = false;
+	prevDoorOpen = false;
 
         timer.start(period);
 	}
@@ -146,7 +146,7 @@ public class HallButtonControl extends simulator.framework.Controller{
         this.floor = floor;
 
         // inputs
-	previousDoorOpen = false;
+	prevDoorOpen = false;
         localHallCall = HallCallPayload.getReadablePayload(floor, hallway, direction);
         physicalInterface.registerTimeTriggered(localHallCall);
 
