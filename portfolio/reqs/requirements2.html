@@ -1726,7 +1726,7 @@ Down<br>
 
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 6.6 &nbsp;&nbsp; If (mDoorClosed[b, r] is true AND mCarWeight &lt; MaxCarCapacity AND DesiredDirection is d) OR
-  (mLevel[d] is false AND mEmergencyBrake is false AND DesiredDirection is Stop), then Drive shall be commanded to {Slow, d}.<br>
+  (mLevel[d] is false AND mEmergencyBrake is false), then Drive shall be commanded to {Slow, d}.<br>
 
 6.7 &nbsp;&nbsp; If mDesiredFloor.f is equal to CurrentFloor AND DesiredDirection is d AND SlowSpeed &gt;= DriveSpeed.s AND CommitPoint[f] is Not Reached then Drive shall be commanded to {Level, d}.<br>
 
@@ -1782,11 +1782,11 @@ Down<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">T6.9</td>
-      <td style="vertical-align: top;">mLevel[up] == true &amp;&amp; mEmergencyBrake == false &amp;&amp; DesiredDirection == Stop</td>
+      <td style="vertical-align: top;">mLevel[up] == true &amp;&amp; mEmergencyBrake == false</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T6.10</td>
-      <td style="vertical-align: top;">mLevel[down] == true &amp;&amp; mEmergencyBrake == false &amp;&amp; DesiredDirection == Stop</td>
+      <td style="vertical-align: top;">mLevel[down] == true &amp;&amp; mEmergencyBrake == false</td>
     </tr>
   </tbody>
 </table>

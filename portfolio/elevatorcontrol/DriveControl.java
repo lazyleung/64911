@@ -218,10 +218,10 @@ public class DriveControl extends Controller implements TimeSensitive {
                 } else if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.DOWN) { //#transition 'T6.5'
                     log("T6.5");
                     nextState = State.SLOW_DOWN;
-                } else if(mLevelU.getValue() == false && mEmergencyBrake.getValue() != true && desiredDirection == Direction.STOP) {
+                } else if(mLevelU.getValue() == false && mEmergencyBrake.getValue() != true) {
                     log("T6.9");
                     nextState = State.LEVEL_UP;
-                } else if(mLevelD.getValue() == false && mEmergencyBrake.getValue() != true && desiredDirection == Direction.STOP) {
+                } else if(mLevelD.getValue() == false && mEmergencyBrake.getValue() != true) {
                     log("T6.10");
                     nextState = State.LEVEL_DOWN;
                 }
