@@ -29,6 +29,7 @@
 
   0s I AT_FLOOR_PERIOD              N AT_FLOOR_[4][FRONT]_CAN_ID                  AtFloor 4 FRONT = true
   0s I DRIVE_PERIOD                 F                                             DriveSpeed = STOP 0
+  0s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                          DriveSpeed = 0 STOP
   0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                        DesiredFloor = 4 FRONT UP
   0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID                Integer = 2
   0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                           CarWeight = 0
