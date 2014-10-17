@@ -19,8 +19,8 @@
 0.0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[BACK]_CAN_ID               Integer = 1
 0.0s I EMERGENCY_BRAKE_PERIOD       N EMERGENCY_BRAKE_CAN_ID                    SafetySensor = false
 0.0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
-0.0s I LEVEL_SENSOR_PERIOD          N LEVEL_SENSOR_[UP]_CAN_ID                  Leveling UP = false
-0.0s I LEVEL_SENSOR_PERIOD          N LEVEL_SENSOR_[DOWN]_CAN_ID                Leveling DOWN = false
+0.0s I LEVEL_SENSOR_PERIOD          N LEVEL_SENSOR_[UP]_CAN_ID                  Leveling UP = true
+0.0s I LEVEL_SENSOR_PERIOD          N LEVEL_SENSOR_[DOWN]_CAN_ID                Leveling DOWN = true
 0.0s I HOISTWAY_LIMIT_PERIOD        N HOISTWAY_LIMIT_[UP]_CAN_ID                HoistwayLimitSensor UP = false
 0.0s I HOISTWAY_LIMIT_PERIOD        N HOISTWAY_LIMIT_[DOWN]_CAN_ID              HoistwayLimitSensor DOWN = false
 0.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
@@ -34,6 +34,8 @@
 0.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorOpened FRONT RIGHT = true
 0.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID      DoorOpened BACK LEFT = true
 0.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = true
+0.0s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
+
 
 ;****verify precondition
 0.2s A N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID    DoorClosed FRONT LEFT : getValue == false
@@ -43,10 +45,15 @@
 
 0.2s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 STOP BOTH
 
-1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
-1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorOpened FRONT RIGHT = false
-1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID      DoorOpened BACK LEFT = false
-1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = false
+;0.2s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
+;0.2s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorOpened FRONT RIGHT = true
+;0.2s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID      DoorOpened BACK LEFT = true
+;0.2s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = true
+
+1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
+1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorOpened FRONT RIGHT = false
+1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID      DoorOpened BACK LEFT = false
+1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = false
 
 ;#arc '1B/1a'
 1.5s A F DoorMotor FRONT LEFT : command == NUDGE
@@ -54,12 +61,14 @@
 1.5s A F DoorMotor BACK LEFT : command == NUDGE
 1.5s A F DoorMotor BACK RIGHT : command == NUDGE
 
+
 ;#arc '1B/2'
 ;Passenger arrives
 
 ;#arc '1B/3a'
 ;#arc '1B/3b'
 2.0s I HALL_BUTTON_CONTROL_PERIOD F HallCall 1 FRONT UP = true
+2.4s I HALL_BUTTON_CONTROL_PERIOD F HallCall 1 FRONT UP = false
 
 ;#arc '1B/4'
 2.3s A F HallLight 1 FRONT UP : lighted == true
