@@ -40,11 +40,11 @@
   8.0s A F DoorMotor FRONT LEFT : command  == STOP
   8.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 
-  ;arc '7C/3a'
+  ;arc '7C/2a'
   9.3s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
   9.3s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
 
-  ;arc '7C/3b'
+  ;arc '7C/2b'
   9.5s A F CarLantern UP : lighted  == true
   9.5s A F CarLantern DOWN : lighted  == false
   

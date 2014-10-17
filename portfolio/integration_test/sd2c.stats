@@ -1,19 +1,19 @@
 
 Simulator Parameters:
-Command line = -cf ../../integration_test/sd2c.cf -mf ../../integration_test/sd2c.mf
-RandomSeed = 1412894026964
+Command line = -cf ../portfolio/integration_test/sd2c.cf -mf ../portfolio/integration_test/sd2c.mf
+RandomSeed = 1413507257280
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
 Real time rate = null
-Message File = ../../integration_test/sd2c.mf
-Controller File = ../../integration_test/sd2c.cf
+Message File = ../portfolio/integration_test/sd2c.mf
+Controller File = ../portfolio/integration_test/sd2c.cf
 
 Assertion Results:
-@3.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@95857bd6 :: command ?== OPEN PASSED
-@3.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@80bfa945 :: getValue ?== OPEN PASSED
-@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@ec9f99ec :: command ?== STOP PASSED
-@6.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@2adc1c75 :: getValue ?== STOP PASSED
+@3.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1ae31638 :: command ?== OPEN PASSED
+@3.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@fee7b89c :: getValue ?== OPEN PASSED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@f01bc0e5 :: command ?== STOP PASSED
+@6.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@9b09a7d :: getValue ?== STOP PASSED
 
 
 ******************Summary******************

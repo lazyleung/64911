@@ -2339,6 +2339,7 @@ None
   <li>mAtFloor[f, b] </li>
   <li>mDesiredFloor </li>
   <li>mDoorClosed[b, r] </li>
+  <li>mDoorOpened[b, r] </li>
   <li>HallCall[f, b, d] </li>
 </ul>
 <h3> Output Interface: </h3>
@@ -2358,6 +2359,8 @@ whichever mDesiredFloor[f, b, d] is True, if any.&nbsp; </li>
 based on comparing the mAtFloor.f with mDesiredFloor.f.&nbsp;
 This is implicitly computed and used as a macro in the behavior
 descriptions. </li>
+ <li>PrevDoorOpen, is a shorthand notation for the previous Open/Close state of the door. 
+     True means the doors were Open, False means the doors were closed.</li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 None
@@ -2391,11 +2394,11 @@ None
 
     <tr>
       <td style="vertical-align: top;">T8.1<br> </td>
-      <td style="vertical-align: top;">{HallCall[f, b, d]=True &amp;&amp; mDoorClosed=True} || {HallCall[f, b, d]=True &amp;&amp; mDoorClosed[b, r]=False &amp;&amp; mAtFloor[f, b]=True &amp;&amp; DesiredDirection!=d}</td>
+      <td style="vertical-align: top;">{HallCall[f, b, d]=True &amp;&amp; mDoorOpened[b,r]=False} || {HallCall[f, b, d]=True &amp;&amp; mDoorClosed[b, r]=False &amp;&amp; mAtFloor[f, b]=True &amp;&amp; DesiredDirection!=d}</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T8.2</td>
-      <td style="vertical-align: top;">mAtFloor[f, b](True) AND DesiredDirection = d AND mDoorClosed[b, r](False)</td>
+      <td style="vertical-align: top;">mAtFloor[f, b](True) AND (!PrevDoorOpen) AND DesiredDirection = d AND mDoorClosed[b, r](False)</td>
     </tr>
   </tbody>
 </table>
