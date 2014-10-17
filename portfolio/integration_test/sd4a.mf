@@ -66,3 +66,6 @@
 6.0s A F DoorMotor FRONT RIGHT : command == STOP
 6.0s A F DoorMotor BACK LEFT : command == STOP
 6.0s A F DoorMotor BACK RIGHT : command == STOP
+
+;#arc '4A/5'
+;Passenger exits.
