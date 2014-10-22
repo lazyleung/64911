@@ -1540,7 +1540,7 @@ the behavior descriptions. </li>
   <li>CurrentFloor, is a shorthand notation for the value of whichever
 mAtFloor[f, b] is True, if any.&nbsp; If CurrentFloor is invalid it has
 a mnemonic value of None. </li>
-  <li>CommitPoint[f](v); v = {Reached, NotReached} calculated based on
+  <li>CommitPoint[f] = {Passed, Reached, NotReached} calculated based on
 car's acceleration profile, current speed, and distance from the floor
 f, to determine whether or not the car can still stop at the next
 floor. </li>
