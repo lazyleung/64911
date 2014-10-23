@@ -1727,7 +1727,7 @@ Down<br>
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 6.6 &nbsp;&nbsp; If mDoorClosed[b, r] is true AND mCarWeight &lt; MaxCarCapacity AND DesiredDirection is d then Drive shall be commanded to {Slow, d}.<br>
 
-6.7 &nbsp;&nbsp; If DriveSpeed == SlowSpeed AND CommitPoint[f] is NotReached then Drive shall be commanded to {Fast, d}.<br>
+6.7 &nbsp;&nbsp; If DriveSpeed.s == SlowSpeed AND CommitPoint[f] is NotReached then Drive shall be commanded to {Fast, d}.<br>
 
 6.8 &nbsp;&nbsp; If CommitPoint[f] is Reached OR mEmergencyBrake is true then Drive shall be commanded to {Slow, d}.<br>
 
@@ -1736,7 +1736,7 @@ Down<br>
 
 6.10&nbsp;&nbsp; If mLevel[up] is true AND mLevel[down] is true AND DesiredDirection is Stop AND LevelSpeed &gt;= DriveSpeed.s then Drive shall be commanded to {Stop, Stop}.<br>
 
-6.11&nbsp;&nbsp;If mEmergencyBrake is true then Drive shall be commanded to {Stop, Stop}.<br>
+6.11&nbsp;&nbsp;If mEmergencyBrake is true AND DriveSpeed.s &lt;= SlowSpeed then Drive shall be commanded to {Stop, Stop}.<br>
 
 6.12&nbsp;&nbsp;mDriveSpeed shall be set to DriveSpeed.<br>
 6.13&nbsp;&nbsp;mDrive shall be set to Drive.<br>
