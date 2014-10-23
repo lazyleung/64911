@@ -367,7 +367,102 @@ to resolve the issue.&nbsp; This should be a specific list, such as
             scen_sd.html<br>
         </td>
     </tr>
+<tr>
+        <td style="vertical-align: top;">18<br>
+        </td>
+        <td style="vertical-align: top;">10/22/2014<br>
+        </td>
+        <td style="vertical-align: top;">10/22/2014<br>
+        </td>
+        <td style="vertical-align: top;">enewhall<br>
+        </td>
+        <td style="vertical-align: top;">SD5a, SD5b,DoorControl Reqs<br>
+        </td>
+        <td style="vertical-align: top;">Door control only used nudge speed when closing<br>
+        </td>
+        <td style="vertical-align: top;">Set the door to use Close normally and added an additional state where door is set to Nudge after a door reversal is detected<br>
+        </td>
+        <td style="vertical-align: top;">
+            scen_sd.html<br>
+	    requirements2.html<br>
+	    tracability files
+        </td>
+    </tr>
 
+
+<tr>
+        <td style="vertical-align: top;">19<br>
+        </td>
+        <td style="vertical-align: top;">10/22/2014<br>
+        </td>
+        <td style="vertical-align: top;">10/22/2014<br>
+        </td>
+        <td style="vertical-align: top;">mzli<br>
+        </td>
+        <td style="vertical-align: top;">Requirements for Dispatcher<br>
+        </td>
+        <td style="vertical-align: top;">Needed to know current drive direction to be smart.<br>
+        </td>
+        <td style="vertical-align: top;">Added mDriveSpeed to the input of Dispatcher.<br>
+        </td>
+        <td style="vertical-align: top;">
+            Dispatcher Requirments<br>
+            Dispatcher Statecharts<br>
+	    Dispatcher Code<br>
+	    Dispatcher statechart-reqs Tracebility<br>
+            Dispatcher statechart-code Tracebility
+        </td>
+    </tr>
+
+
+
+<tr>
+        <td style="vertical-align: top;">20<br>
+        </td>
+        <td style="vertical-align: top;">10/22/2014<br>
+        </td>
+        <td style="vertical-align: top;">10/22/2014<br>
+        </td>
+        <td style="vertical-align: top;">mzli<br>
+        </td>
+        <td style="vertical-align: top;">Requirements for Dispatcher<br>
+        </td>
+        <td style="vertical-align: top;">Didn't need to set mDesiredFloor.Direction, as it is not useful..<br>
+        </td>
+        <td style="vertical-align: top;">Always set it to STOP.<br>
+        </td>
+        <td style="vertical-align: top;">
+            Dispatcher Requirments<br>
+            Dispatcher Statecharts<br>
+            Dispatcher Code<br>
+            Dispatcher statechart-reqs Tracebility<br>
+            Dispatcher statechart-code Tracebility
+        </td>
+    </tr>
+<tr>
+        <td style="vertical-align: top;">21<br>
+        </td>
+        <td style="vertical-align: top;">10/22/2014<br>
+        </td>
+        <td style="vertical-align: top;">10/22/2014<br>
+        </td>
+        <td style="vertical-align: top;">jleung<br>
+        </td>
+        <td style="vertical-align: top;">Requirements for DriveControl<br>
+        </td>
+        <td style="vertical-align: top;">The elevator did not use fast speed ever<br>
+        </td>
+        <td style="vertical-align: top;">Added aditional state to travel at fast speed when the distance between floors is large enough<br>
+        </td>
+        <td style="vertical-align: top;">
+            DoorControl Requirments<br>
+            DoorControl Statecharts<br>
+            DoorControl statechart-reqs Tracebility<br>
+            DoorControl statechart-code Tracebility<br>
+            SD8a, SD8c<br>
+	    
+	</td>
+    </tr>
 
 
   </tbody>

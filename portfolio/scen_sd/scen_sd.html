@@ -35,27 +35,27 @@ Ting Xu  (tingx) <br>
   </ul>
   <li><a href="#usecase3">3. Passenger Enters Car</a> </li>
   <ul>
-  <li><a href="#usecase3">Scenario 3A</a> </li>
+  <li><a href="#usecase3">Scenario 3A</a> - R-T7</li>
   <li><a href="#usecase3b">Scenario 3B</a> </li>
   </ul>
   <li><a href="#usecase4">4. Passenger Exits Car</a> </li>
   <li><a href="#usecase5">5. Passenger Triggers Door Reversal</a> </li>
   <ul>
-    <li><a href="#scenario5a">Scenario 5A</a> </li>
-    <li><a href="#scenario5b">Scenario 5B</a></li>
+    <li><a href="#scenario5a">Scenario 5A</a> - R-T10 </li>
+    <li><a href="#scenario5b">Scenario 5B</a> - R-T10</li>
   </ul>
   <li><a href="#usecase6">6. Determine Car Position</a> </li>
   <li><a href="#usecase7">7. Determine Car Direction</a> </li>
   <ul>
-    <li><a href="#scenario7a">Scenario 7A</a> </li>
-    <li><a href="#scenario7b">Scenario 7B</a> </li>
-    <li><a href="#scenario7c">Scenario 7C</a> </li>
+    <li><a href="#scenario7a">Scenario 7A</a> - R-T8.1, R-T8.2</li>
+    <li><a href="#scenario7b">Scenario 7B</a> - R-T8.2</li>
+    <li><a href="#scenario7c">Scenario 7C</a> - R-T8.2</li>
   </ul>
   <li><a href="#usecase8">8. Move Car to Next Floor</a> </li>
   <ul>
-    <li><a href="#scenario8a">Scenario 8A</a> </li>
+    <li><a href="#scenario8a">Scenario 8A</a> - R-T6, R-T8.3</li>
     <li><a href="#scenario8b">Scenario 8B</a> </li>
-    <li><a href="#scenario8c">Scenario 8C</a> </li>
+    <li><a href="#scenario8c">Scenario 8C</a> - R-T9, R-T8.3</li>
   </ul>
   <li><a href="#usecase9">9. Cycle Doors</a></li>
 </ul>
@@ -376,11 +376,11 @@ attempts to enter the car as the doors begin to close. </h3>
 <ol start="1" type="1">
   <li>Doors begin closing. </li>
   <li>Passenger attempts to enter the car.</li>
-  <li>Doors begin opening. </li>
+  <li>Doors switch to nudge speed and finish closing. </li>
 </ol>
 <h3> Post-Conditions: </h3>
 <ul type="disc">
-  <li>Doors are fully open. </li>
+  <li>Doors are fully closed. </li>
   <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>.</li>
 </ul>
 
