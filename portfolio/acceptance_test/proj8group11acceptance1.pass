@@ -1,0 +1,65 @@
+;Project 7 acceptance test 4
+;Group 11
+;Eric Newhall enewhall
+;Jonathan Leung kjleung1
+;Mengzhe Li mzli
+;Ting Xu tingx
+
+;check that every floor and landing is working properly.  Then check to see if
+;the elevator can reach fast speed while traveling from floor 1 to 8
+;and from floor 8 to 1 without triggering a emergency stop with a full load
+;of passengers and with a light load of passengers.
+
+;Time	 Start Floor  Start Hallway    End Floor   End Hallway
+100s	 8     FRONT   7    BACK  ;1
+100s 	 8     FRONT   7    FRONT ;2
+150s	 7     FRONT   6    FRONT ;3
+200s	 7     BACK    6    FRONT ;4
+250s	 6     FRONT   5    FRONT ;5
+300s	 5     FRONT   4    FRONT ;6
+350s	 4     FRONT   3    FRONT ;7
+400s	 3     FRONT   2    BACK  ;8
+450s	 2     BACK    1    FRONT ;9
+500s	 2     BACK    1    BACK  ;10
+550s	 8     FRONT   1    FRONT ;11
+550s     8     FRONT   1    FRONT ;12
+600s     8     FRONT   2    BACK  ;13
+650s     8     FRONT   3    FRONT ;14
+700s     8     FRONT   4    FRONT ;15
+1750s	  1     BACK    8    FRONT ;16
+1750s     1     BACK    8    FRONT ;17
+1750s     1     BACK    8    FRONT ;18
+1750s     1     BACK    8    FRONT ;19
+1750s     1     BACK    8    FRONT ;20
+1750s     1     BACK    8    FRONT ;21
+1750s     1     BACK    8    FRONT ;22
+1750s     1     BACK    8    FRONT ;23
+1750s     1     BACK    8    FRONT ;24
+1750s     1     BACK    8    FRONT ;25
+1750s     1     BACK    8    FRONT ;26
+1750s     1     BACK    8    FRONT ;27
+1750s     1     BACK    8    FRONT ;28
+2750s	  8	FRONT	1    FRONT ;29
+2750s     8     FRONT   1    FRONT ;30
+2750s     8     FRONT   1    FRONT ;31
+2750s     8     FRONT   1    FRONT ;32
+2750s     8     FRONT   1    FRONT ;33
+2750s     8     FRONT   1    FRONT ;34
+2750s     8     FRONT   1    FRONT ;35
+2750s     8     FRONT   1    FRONT ;36
+2750s     8     FRONT   1    FRONT ;37
+2750s     8     FRONT   1    FRONT ;38
+2750s     8     FRONT   1    FRONT ;39
+2750s     8     FRONT   1    FRONT ;40
+2750s     8     FRONT   1    FRONT ;41
+3500s	  1	FRONT	8    FRONT ;42
+3500s	  1	FRONT	8    FRONT ;43
+4500s	  8	FRONT	1    BACK  ;44
+4500s	  8	FRONT	1    BACK  ;45
+
+
+
+
+
+
+
