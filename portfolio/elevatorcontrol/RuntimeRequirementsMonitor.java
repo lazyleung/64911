@@ -96,13 +96,13 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 				newState = RT6States.MOVING;
 			}
 			else if(msg.speed()==0 && (carLights[currentFloor][currentHallway.ordinal()].lighted()||
-        			hallLights[currentFloor][currentHallway.ordinal()][1].lighted() ||
-        			hallLights[currentFloor][currentHallway.ordinal()][2].lighted())){
+        			hallLights[currentFloor][currentHallway.ordinal()][0].lighted() ||
+        			hallLights[currentFloor][currentHallway.ordinal()][1].lighted())){
 				newState = RT6States.STOPPED;				
 			}
 			else if(msg.speed()==0 && (!carLights[currentFloor][currentHallway.ordinal()].lighted()&&
-        			!hallLights[currentFloor][currentHallway.ordinal()][1].lighted() &&
-        			!hallLights[currentFloor][currentHallway.ordinal()][2].lighted())){
+        			!hallLights[currentFloor][currentHallway.ordinal()][0].lighted() &&
+        			!hallLights[currentFloor][currentHallway.ordinal()][1].lighted())){
 				newState = RT6States.STOPPED_NO_PENDING_CALLS;	
 		}
 			
@@ -141,14 +141,14 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
         		newState = RT7States.DOORS_CLOSED;
         	}
         	else if(!msg.isClosed() && (carLights[currentFloor][currentHallway.ordinal()].lighted() ||
-        			hallLights[currentFloor][currentHallway.ordinal()][1].lighted() ||
-        			hallLights[currentFloor][currentHallway.ordinal()][2].lighted())){
+        			hallLights[currentFloor][currentHallway.ordinal()][0].lighted() ||
+        			hallLights[currentFloor][currentHallway.ordinal()][1].lighted())){
         		//For now direction does not matter. as long as there is a hall call placed the car can stop at that hallway.
         		newState = RT7States.DOORS_OPEN;
         	}
         	else if (!msg.isClosed() && (!carLights[currentFloor][currentHallway.ordinal()].lighted() &&
-        			!hallLights[currentFloor][currentHallway.ordinal()][1].lighted()&&
-        			!hallLights[currentFloor][currentHallway.ordinal()][2].lighted())){
+        			!hallLights[currentFloor][currentHallway.ordinal()][0].lighted()&&
+        			!hallLights[currentFloor][currentHallway.ordinal()][1].lighted())){
         		//For now direction does not matter. as long as there is a hall call placed the car can stop at that hallway.
         		newState = RT7States.DOORS_OPEN_NO_PENDING_CALLS;
         	}
