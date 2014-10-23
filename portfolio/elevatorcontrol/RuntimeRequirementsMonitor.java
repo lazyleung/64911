@@ -79,6 +79,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	
 	private class RT6StateMachine{
 		RT6States state;
+		boolean warningIssued = false;
 		
 		public RT6StateMachine(){
 			state = RT6States.STOPPED;
@@ -104,6 +105,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
         			!hallLights[currentFloor-1][currentHallway.ordinal()][0].lighted() &&
         			!hallLights[currentFloor-1][currentHallway.ordinal()][1].lighted())){
 				newState = RT6States.STOPPED_NO_PENDING_CALLS;	
+				warningIssued = false;
 		}
 			
 			if(newState != previousState){
@@ -113,7 +115,11 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 				case STOPPED:
 					break;
 				case STOPPED_NO_PENDING_CALLS:
-        			warning("R-T.6 Violated: Car stopped at Floor " + currentFloor + " when there is no pending hall calls");
+					if(!warningIssued){
+						warning("R-T.6 Violated: Car stopped at Floor " + currentFloor + " when there is no pending calls");
+						warningIssued = true;
+					}
+					break;
 
 				}
 			}
@@ -124,6 +130,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	
 	private class RT7StateMachine{
 		RT7States state;
+		boolean warningIssued = false;
 		
 		public RT7StateMachine(){
 			state = RT7States.DOORS_CLOSED;
@@ -151,6 +158,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
         			!hallLights[currentFloor-1][currentHallway.ordinal()][1].lighted())){
         		//For now direction does not matter. as long as there is a hall call placed the car can stop at that hallway.
         		newState = RT7States.DOORS_OPEN_NO_PENDING_CALLS;
+				warningIssued = false;
         	}
         	
         	if(newState != previousState){
@@ -160,7 +168,10 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
         		case DOORS_OPEN:
         			break;
         		case DOORS_OPEN_NO_PENDING_CALLS:
-        			warning("R-T.7 Violated: Car doors open at Floor " + currentFloor+ " "+ currentHallway + " when there is no pending hall calls");
+        			if(!warningIssued){
+        				warning("R-T.7 Violated: Car doors open at Floor " + currentFloor+ " "+ currentHallway + " when there is no pending calls");
+        				warningIssued = true;
+        			}
         			break;
         		}
         	}
