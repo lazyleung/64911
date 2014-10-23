@@ -1725,18 +1725,20 @@ Down<br>
 6.5&nbsp;&nbsp;&nbsp; If mCarWeight(x) &gt;= MaxCarCapacity, the drive shall not be commanded to {Slow, d} or {Fast, d} until the car is no longer overloaded.
 
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
-6.6 &nbsp;&nbsp; If (mDoorClosed[b, r] is true AND mCarWeight &lt; MaxCarCapacity AND DesiredDirection is d) OR
-  (mLevel[d] is false AND mEmergencyBrake is false), then Drive shall be commanded to {Slow, d}.<br>
+6.6 &nbsp;&nbsp; If mDoorClosed[b, r] is true AND mCarWeight &lt; MaxCarCapacity AND DesiredDirection is d then Drive shall be commanded to {Slow, d}.<br>
 
-6.7 &nbsp;&nbsp; If mDesiredFloor.f is equal to CurrentFloor AND DesiredDirection is d AND SlowSpeed &gt;= DriveSpeed.s AND CommitPoint[f] is Not Reached then Drive shall be commanded to {Level, d}.<br>
+6.7 &nbsp;&nbsp; If DriveSpeed == SlowSpeed AND CommitPoint[f] is NotReached then Drive shall be commanded to {Fast, d}.<br>
 
-6.8 &nbsp;&nbsp; If mLevel[up] is true AND mLevel[down] is true AND DesiredDirection is Stop AND LevelSpeed &gt;= DriveSpeed.s then Drive shall be commanded to {Stop, Stop}.<br>
+6.8 &nbsp;&nbsp; If CommitPoint[f] is Reached OR mEmergencyBrake is true then Drive shall be commanded to {Slow, d}.<br>
 
-6.9 &nbsp;&nbsp; If mEmergencyBrake is true then Drive shall be commanded to {Stop, Stop}.<br>
+6.9 &nbsp;&nbsp; If (mDesiredFloor.f is equal to CurrentFloor AND DesiredDirection is d AND SlowSpeed &gt;= DriveSpeed.s AND CommitPoint[f] is NotReached)
+    OR (mLevel[d] is false AND mEmergencyBrake is false) then Drive shall be commanded to {Level, d}.<br>
 
-6.10&nbsp;&nbsp;mDriveSpeed shall be set to DriveSpeed.<br>
-6.11&nbsp;&nbsp;mDrive shall be set to Drive.<br>
+6.10&nbsp;&nbsp; If mLevel[up] is true AND mLevel[down] is true AND DesiredDirection is Stop AND LevelSpeed &gt;= DriveSpeed.s then Drive shall be commanded to {Stop, Stop}.<br>
 
+6.11&nbsp;&nbsp;If mEmergencyBrake is true then Drive shall be commanded to {Stop, Stop}.<br>
+
+6.12&nbsp;&nbsp;mDriveSpeed shall be set to DriveSpeed.<br>
 6.13&nbsp;&nbsp;mDrive shall be set to Drive.<br>
 
 <br>
@@ -1787,6 +1789,22 @@ Down<br>
     <tr>
       <td style="vertical-align: top;">T6.10</td>
       <td style="vertical-align: top;">mLevel[down] == true &amp;&amp; mEmergencyBrake == false</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T6.11</td>
+      <td style="vertical-align: top;">DriveSpeed == SlowSpeed &amp;&amp; CommitPoint[f] == NotReached</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T6.12</td>
+      <td style="vertical-align: top;">mEmergencyBrake == true || CommitPoint[f] == Reached</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T6.13</td>
+      <td style="vertical-align: top;">DriveSpeed == SlowSpeed &amp;&amp; CommitPoint[f] == NotReached</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T6.14</td>
+      <td style="vertical-align: top;">mEmergencyBrake == true || CommitPoint[f] == Reached</td>
     </tr>
   </tbody>
 </table>
@@ -1842,6 +1860,24 @@ Down<br>
       <td style="vertical-align: top;">Car is going level, down</td>
       <td style="vertical-align: top;">
         Drive = {Level, Down} <br>
+        mDrive = Drive <br>
+        mDriveSpeed = DriveSpeed <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S6.6 FAST_UP<br> </td>
+      <td style="vertical-align: top;">Car is going fast, up</td>
+      <td style="vertical-align: top;">
+        Drive = {Fast, Up} <br>
+        mDrive = Drive <br>
+        mDriveSpeed = DriveSpeed <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S6.7 FAST_DOWN<br> </td>
+      <td style="vertical-align: top;">Car is going fast, down</td>
+      <td style="vertical-align: top;">
+        Drive = {Fast, Down} <br>
         mDrive = Drive <br>
         mDriveSpeed = DriveSpeed <br>
       </td>
