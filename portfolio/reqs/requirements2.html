@@ -3077,10 +3077,10 @@ d) shall not be Down when f = 1.
 11.6&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 1, then CurrentDirection shall be set to UP.<br>
 11.7&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 8, then CurrentDirection shall be set to DOWN.<br>
 11.8&nbsp;&nbsp;&nbsp; If AtFloor = false, then CurrentDirection shall be set to mDriveSpeed.d<br>
-11.9&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[CurFloor,b] = false AND ClosestFloor.f != -1 then<br>
+11.9&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f != -1 then<br>
 &nbsp;&nbsp; 11.9.1&nbsp; Target shall be set to ClosestFloor.f<br>
 &nbsp;&nbsp; 11.9.2&nbsp; mDesiredFloor.b shall be set to ClosestFloor.b<br>
-11.10&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[CurFloor,b] = false AND ClosestFloor.f == -1 AND FarthestFloor.f != -1; then,<br>
+11.10&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f == -1 AND FarthestFloor.f != -1; then,<br>
 &nbsp;&nbsp; 11.10.1&nbsp; Target shall be set to FarthestFloor.f<br>
 &nbsp;&nbsp; 11.10.2&nbsp; mDesiredFloor.b shall be set to FarthestFloor.b<br>
 11.11&nbsp;&nbsp;&nbsp; If AtFloor = false AND any mDoorClosed [b, r]
