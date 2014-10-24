@@ -26,8 +26,9 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 
 	@Override
 	protected String[] summarize() {
-		//do nothing
-		return null;
+		//no outputs
+		String[] arr = new String[1];
+		return arr;
 	}
 	
     public void receive(ReadableAtFloorPayload msg) {
@@ -96,21 +97,27 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 			if(msg.speed()!=0){
 				newState = RT6States.MOVING;
 			}
-			else if(msg.speed()==0 && (carLights[currentFloor-1][currentHallway.ordinal()].lighted()||
-        			hallLights[currentFloor-1][currentHallway.ordinal()][0].lighted() ||
-        			hallLights[currentFloor-1][currentHallway.ordinal()][1].lighted())){
+			else if(msg.speed()==0 && currentFloor>0 &&currentFloor<=8 && (carLights[currentFloor-1][0].lighted()||
+					carLights[currentFloor-1][1].lighted()||
+        			hallLights[currentFloor-1][0][0].lighted() ||
+        			hallLights[currentFloor-1][1][0].lighted() ||
+        			hallLights[currentFloor-1][0][1].lighted() ||
+        			hallLights[currentFloor-1][1][1].lighted())){
 				newState = RT6States.STOPPED;				
 			}
-			else if(msg.speed()==0 && (!carLights[currentFloor-1][currentHallway.ordinal()].lighted()&&
-        			!hallLights[currentFloor-1][currentHallway.ordinal()][0].lighted() &&
-        			!hallLights[currentFloor-1][currentHallway.ordinal()][1].lighted())){
+			else if(msg.speed()==0 && currentFloor>0 &&currentFloor<=8 && (!carLights[currentFloor-1][0].lighted()&&
+					!carLights[currentFloor-1][1].lighted()&&
+        			!hallLights[currentFloor-1][0][0].lighted() &&
+        			!hallLights[currentFloor-1][1][0].lighted() &&
+        			!hallLights[currentFloor-1][0][1].lighted() &&
+        			!hallLights[currentFloor-1][1][1].lighted())){
 				newState = RT6States.STOPPED_NO_PENDING_CALLS;	
-				warningIssued = false;
 		}
 			
 			if(newState != previousState){
 				switch(newState){
 				case MOVING:
+					warningIssued = false;
 					break;
 				case STOPPED:
 					break;
@@ -130,14 +137,18 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	
 	private class RT7StateMachine{
 		RT7States state;
-		boolean warningIssued = false;
+		boolean rt7warningIssued = false;
 		
 		public RT7StateMachine(){
 			state = RT7States.DOORS_CLOSED;
 		}
 		
         public void receive(ReadableDoorClosedPayload msg) {
+            if(!msg.isClosed()){
+            	//warning("door open!");
+            }
             updateState(msg);
+
         }
         
         private void updateState(ReadableDoorClosedPayload msg){        	
@@ -147,31 +158,30 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
         	if(msg.isClosed()){
         		newState = RT7States.DOORS_CLOSED;
         	}
-        	else if(!msg.isClosed() && (carLights[currentFloor-1][currentHallway.ordinal()].lighted() ||
-        			hallLights[currentFloor-1][currentHallway.ordinal()][0].lighted() ||
-        			hallLights[currentFloor-1][currentHallway.ordinal()][1].lighted())){
-        		//For now direction does not matter. as long as there is a hall call placed the car can stop at that hallway.
-        		newState = RT7States.DOORS_OPEN;
+        	else if(!msg.isClosed() && currentFloor>0 &&currentFloor<=8 && (carLights[currentFloor-1][msg.getHallway().ordinal()].lighted() ||
+        			hallLights[currentFloor-1][msg.getHallway().ordinal()][0].lighted() ||
+        			hallLights[currentFloor-1][msg.getHallway().ordinal()][1].lighted())){
+        			//For now direction does not matter. as long as there is a hall call placed the car can stop at that hallway.
+        			newState = RT7States.DOORS_OPEN;
         	}
-        	else if (!msg.isClosed() && (!carLights[currentFloor-1][currentHallway.ordinal()].lighted() &&
-        			!hallLights[currentFloor-1][currentHallway.ordinal()][0].lighted()&&
-        			!hallLights[currentFloor-1][currentHallway.ordinal()][1].lighted())){
-        		//For now direction does not matter. as long as there is a hall call placed the car can stop at that hallway.
-        		newState = RT7States.DOORS_OPEN_NO_PENDING_CALLS;
-				warningIssued = false;
+        	else if (!msg.isClosed() && currentFloor>0 &&currentFloor<=8 && (!carLights[currentFloor-1][msg.getHallway().ordinal()].lighted() &&
+        			!hallLights[currentFloor-1][msg.getHallway().ordinal()][0].lighted()&&
+        			!hallLights[currentFloor-1][msg.getHallway().ordinal()][1].lighted())){
+        			//For now direction does not matter. as long as there is a hall call placed the car can stop at that hallway.
+        			newState = RT7States.DOORS_OPEN_NO_PENDING_CALLS;
         	}
         	
         	if(newState != previousState){
+        		if(rt7warningIssued){
+        			warning("warning issued");
+        		}
         		switch(newState){
         		case DOORS_CLOSED:
         			break;
         		case DOORS_OPEN:
         			break;
         		case DOORS_OPEN_NO_PENDING_CALLS:
-        			if(!warningIssued){
-        				warning("R-T.7 Violated: Car doors open at Floor " + currentFloor+ " "+ currentHallway + " when there is no pending calls");
-        				warningIssued = true;
-        			}
+        		     warning("R-T.7 Violated: Car doors open at Floor " + currentFloor+ " "+ msg.getHallway() + " when there is no pending calls");
         			break;
         		}
         	}
