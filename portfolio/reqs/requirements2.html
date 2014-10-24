@@ -1725,7 +1725,7 @@ Down<br>
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 6.6 &nbsp;&nbsp; If mDoorClosed[b, r] is true AND mCarWeight &lt; MaxCarCapacity AND DesiredDirection is d then Drive shall be commanded to {Slow, d}.<br>
 
-6.7 &nbsp;&nbsp; If DriveSpeed == SlowSpeed AND CommitPoint[f] is NotReached then Drive shall be commanded to {Fast, d}.<br>
+6.7 &nbsp;&nbsp; If DriveSpeed.s == SlowSpeed AND CommitPoint[f] is NotReached then Drive shall be commanded to {Fast, d}.<br>
 
 6.8 &nbsp;&nbsp; If CommitPoint[f] is Reached OR mEmergencyBrake is true then Drive shall be commanded to {Slow, d}.<br>
 
@@ -1734,7 +1734,7 @@ Down<br>
 
 6.10&nbsp;&nbsp; If mLevel[up] is true AND mLevel[down] is true AND DesiredDirection is Stop AND LevelSpeed &gt;= DriveSpeed.s then Drive shall be commanded to {Stop, Stop}.<br>
 
-6.11&nbsp;&nbsp;If mEmergencyBrake is true then Drive shall be commanded to {Stop, Stop}.<br>
+6.11&nbsp;&nbsp;If mEmergencyBrake is true AND DriveSpeed.s &lt;= SlowSpeed then Drive shall be commanded to {Stop, Stop}.<br>
 
 6.12&nbsp;&nbsp;mDriveSpeed shall be set to DriveSpeed.<br>
 6.13&nbsp;&nbsp;mDrive shall be set to Drive.<br>
@@ -2320,7 +2320,7 @@ completed by Mengzhe Li (mzli)<br>
         </td>
         <td style="vertical-align: top;"><br>
          </td>
-    </tr>   
+    </tr>
     <tr>
         <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">Transitions</span><br>
         </td>
@@ -2336,7 +2336,7 @@ completed by Mengzhe Li (mzli)<br>
         </td>
         <td style="vertical-align: top;"><br>
         </td>
-    </tr>   
+    </tr>
     <tr>
         <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T7.2<br>
         </td>
@@ -2348,7 +2348,7 @@ completed by Mengzhe Li (mzli)<br>
         </td>
         <td style="vertical-align: top;">X<br>
         </td>
-    </tr>   
+    </tr>
   </tbody>
 </table>
 
@@ -2393,7 +2393,7 @@ whichever mDesiredFloor[f, b, d] is True, if any.&nbsp; </li>
 based on comparing the mAtFloor.f with mDesiredFloor.f.&nbsp;
 This is implicitly computed and used as a macro in the behavior
 descriptions. </li>
- <li>PrevDoorOpen, is a shorthand notation for the previous Open/Close state of the door. 
+ <li>PrevDoorOpen, is a shorthand notation for the previous Open/Close state of the door.
      True means the doors were Open, False means the doors were closed.</li>
 </ul>
 <h3> CONSTRAINTS: </h3>
@@ -3061,8 +3061,8 @@ Lobby = 1. </li>
   <li>CurFloor: an integer Floor number for which mAtFloor is true. </li>
   <li>CurrentDirection: {UP, DOWN, STOP} The direction of travel. </li>
   <li>OppositeDirection: {UP, DOWN, STOP} The direction opposite to CurrentDirection.</li>
-  <li>ClosestFloor[f,b]: the floor number f and hallway b, with (mCarCall[f,b] true) or (mHallCall[f,b,mDriveSpeed.d] true), that is closest to CurFloor and is in the direction of CurrentDirection. [-1,NONE] is no such f,b exist. </li>
-<li>FarthestFloor[f,b]: the floor number f and hallway b, with (mHallCall[f,b,OppositeDirection] true), that is farthest away from CurFloor and is in the current direction of CurrentDirection. [-1,NONE] is no such f,b exist. </li>
+  <li>ClosestFloor[f,b]: the floor number f and hallway b, with (mCarCall[f,b] true) or (mHallCall[f,b,mDriveSpeed.d] true), that is closest to CurFloor and is in the direction of CurrentDirection. b is BOTH if there are pending calls at both hallways. [-1,NONE] is no such f,b exist. </li>
+<li>FarthestFloor[f,b]: the floor number f and hallway b, with (mHallCall[f,b,OppositeDirection] true), that is farthest away from CurFloor and is in the current direction of CurrentDirection. b is BOTH if there are pending calls at both hallways. [-1,NONE] is no such f,b exist. </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 11.1&nbsp;&nbsp;&nbsp; Target shall be a valid Floor number from 1 ..
@@ -3073,26 +3073,23 @@ d) shall not be Up when f = MaxFloor .<br>
 d) shall not be Down when f = 1.
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 11.4&nbsp;&nbsp;&nbsp; mDesiredFloor.f shall be set to Target.<br>
-11.5&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 1, then CurrentDirection shall be set to UP.<br>
-11.6&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 8, then CurrentDirection shall be set to DOWN.<br>
-11.7&nbsp;&nbsp;&nbsp; If AtFloor = false, then CurrentDirection shall be set to mDriveSpeed.d<br>
-11.8&nbsp;&nbsp;&nbsp; If AtFloor AND ClosestFloor.f != -1 then<br>
-&nbsp;&nbsp; 11.8.1&nbsp; Target shall be set to ClosestFloor.f<br>
-&nbsp;&nbsp; 11.8.2&nbsp; mDesiredFloor.b shall be set to ClosestFloor.b<br>
-11.9&nbsp;&nbsp;&nbsp; If AtFloor AND ClosestFloor.f == -1 AND FarthestFloor.f != -1; then,<br>
-&nbsp;&nbsp; 11.9.1&nbsp; Target shall be set to FarthestFloor.f<br>
-&nbsp;&nbsp; 11.9.2&nbsp; mDesiredFloor.b shall be set to FarthestFloor.b<br>
-11.10 &nbsp;&nbsp; If AtFloor AND ClosestFloor.f != -1 AND FarthestFloor.f != -1 AND ClosestFloor.f != FarthestFloor.f, then mDesiredFloor.d shall be set to CurrentDirection.<br>
-11.11 &nbsp;&nbsp; If AtFloor AND Target == FarthestFloor.f, then mDesiredFloor.d shall be set to OppositeDirection.<br>
-11.12 &nbsp;&nbsp; If AtFloor AND ClosestFloor.f != -1 AND FarthestFloor.f == -1 AND mHallCall[f,b,CurrentDirection] == true, then mDesiredFloor.d shall be set to CurrentDirection<br>
-11.13 &nbsp;&nbsp; If AtFloor AND ClosestFloor.f != -1 AND FarthestFloor.f == -1 AND mHallCall[f,b,CurrentDirection] == false, then mDesiredFloor.d shall be set to OppositeDirection<br>
-11.14&nbsp;&nbsp;&nbsp; If AtFloor = false AND any mDoorClosed [b, r]
+11.5&nbsp;&nbsp;&nbsp; mDesiredFloor.d shall be set to STOP.<br>
+11.6&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 1, then CurrentDirection shall be set to UP.<br>
+11.7&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 8, then CurrentDirection shall be set to DOWN.<br>
+11.8&nbsp;&nbsp;&nbsp; If AtFloor = false, then CurrentDirection shall be set to mDriveSpeed.d<br>
+11.9&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f != -1 then<br>
+&nbsp;&nbsp; 11.9.1&nbsp; Target shall be set to ClosestFloor.f<br>
+&nbsp;&nbsp; 11.9.2&nbsp; mDesiredFloor.b shall be set to ClosestFloor.b<br>
+11.10&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f == -1 AND FarthestFloor.f != -1; then,<br>
+&nbsp;&nbsp; 11.10.1&nbsp; Target shall be set to FarthestFloor.f<br>
+&nbsp;&nbsp; 11.10.2&nbsp; mDesiredFloor.b shall be set to FarthestFloor.b<br>
+11.11&nbsp;&nbsp;&nbsp; If AtFloor = false AND any mDoorClosed [b, r]
 is False (which means doors are not
 closed between floors!); then<br>
-&nbsp;&nbsp; 11.14.1&nbsp; Target shall be set to 1<br>
-&nbsp;&nbsp; 11.14.2&nbsp; mDesiredFloor.b
+&nbsp;&nbsp; 11.11.1&nbsp; Target shall be set to 1<br>
+&nbsp;&nbsp; 11.11.2&nbsp; mDesiredFloor.b
 shall be set to None .<br>
-11.15 &nbsp;&nbsp; mDesiredDwell shall always be set to a constant
+11.12 &nbsp;&nbsp;&nbsp; mDesiredDwell shall be set to a constant
 appropriate value for door open dwell. &nbsp; &nbsp;
 <p><a href="stateChart11.png"><img
  alt="stateChart11.png" src="stateChart11.png"
