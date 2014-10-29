@@ -996,6 +996,7 @@ during current cycle. </li>
   <li>CountDown: a count-down timer for Door Dwell[b] (implemented in
 simulation by scheduling a future task execution at time of expiration)
   </li>
+	<li>Reversal: indicates if a door reversal has occurred since the last time the door was fully closed</li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 5.1&nbsp;&nbsp;&nbsp; DoorClosed[b, *] shall be True when there is no
@@ -1024,19 +1025,18 @@ Stop.<br>
 &nbsp;&nbsp;&nbsp; 5.7.2&nbsp; CountDown shall be decremented.<br>
 5.8&nbsp; If mDoorClosed[b, r] is True, then DoorMotor[b,r] should be
 commanded to Stop.<br>
-5.9 When CountDown &lt;= 0 AND mCarWeight &lt; MaxCarCapacity, DoorMotor[b,r] should be commanded
+5.9 When Reversal = false and CountDown &lt;= 0 AND mCarWeight &lt; MaxCarCapacity, DoorMotor[b,r] should be commanded
 to Close.<br>
 5.10 If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorOpened[b, r] is
 False, DoorMotor[b, r] shall be commanded to Open.<br>
 5.11 Dwell shall be set to an appropriate value based on
 mDesiredDwell[b].<br>
 5.12 mDoorMotor[b,r] shall be set to the current value of DoorMotor[b,r]<br>
-5.13 If any mDoorReversal[b,*] is true and mDoorMotor = Close, then: DoorMotor[b,*] shall be commanded to Nudge.<br>
-5.14 If any mDoorReversal[b,*] is true and mDoorMotor = Nudge, then: DoorMotor[b,*] shall be commanded to Open.<br>
+5.13 If mDoorReversal[b,*] is true and mDoorMotor = Close, then DoorMotor[b,*] shall be commanded to Open.<br>
+5.14 When Reversal = true and CountDown &lt;= 0 AND mCarWeight &lt; MaxCarCapacity, DoorMotor[b,r] should be commanded to Nudge.<br>
 
 
-
-<p> <img style="width: 419px; height: 289x;" alt="DoorControl Statechart" src="DoorControl_state_diagram.png"><br clear="left"> </p>
+<p> <img style="width: 550px; height: 283x;" alt="DoorControl Statechart" src="DoorControl_state_diagram.png"><br clear="left"> </p>
 <table style="text-align: left; width: 555px; height: 172px;" border="1" cellpadding="2" cellspacing="2">
   <tbody>
     <tr>
@@ -1049,7 +1049,7 @@ mDesiredDwell[b].<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">T5.2</td>
-      <td style="vertical-align: top;">mCarWeight &lt; MaxCarCapacity and CountDown &lt;= 0</td>
+      <td style="vertical-align: top;">Reversal = false and mCarWeight &lt; MaxCarCapacity and CountDown &lt;= 0</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T5.3</td>
@@ -1067,7 +1067,7 @@ mDesiredDwell[b].<br>
     <tr>
       <td style="vertical-align: top;">T5.6<br>
       </td>
-      <td style="vertical-align: top;">mDoorReversal[b,r] = true </td>
+      <td style="vertical-align: top;">Reversal = true and mCarWeight &lt; MaxCarCapacity and CountDown &lt;= 0</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T5.7<br>
@@ -1115,8 +1115,9 @@ mDesiredDwell[b].<br>
 	    mDoorMotor[b,r] = Close <br>
         dwell = mDesiredDwell <br>
 	    CountDown = CountDown <br>
-      </td>
-    </tr>
+      	Reversal = true<br>
+	</td>
+    </tr>5:09 PM 10/29/2014
   <tr>
       <td style="vertical-align: top;">S5.4 CLOSED<br> </td>
       <td style="vertical-align: top;">Car doors are closed and stopped</td>
@@ -1125,6 +1126,7 @@ mDesiredDwell[b].<br>
 	    mDoorMotor[b,r] = Stop <br>
         dwell = mDesiredDwell <br>
 	    CountDown = CountDown <br>
+	Reversal = false
       </td>
     </tr>
    <tr>
@@ -1478,6 +1480,58 @@ completed by Mengzhe Li (mzli)<br>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
+	  </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+ <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 204, 204);">T5.6</td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+	  </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+ <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 204, 204);">T5.7</td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
 	  </td>
       <td style="vertical-align: top;">X<br>
       </td>
