@@ -2,7 +2,7 @@
 ; Ting Xu (tingx)
 ; Group 11
 ; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli)
-; Advanced_dispatcher_test1.mf
+; Dispatcher_test1.mf
 
 #INCLUDE defines.mf ;include CAN id and period definitions
 
