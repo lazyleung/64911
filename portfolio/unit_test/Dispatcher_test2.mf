@@ -1,8 +1,9 @@
 ; 18649 Fall 2014
 ; Ting Xu (tingx)
 ; Group 11
-; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli) 
-; Dispatcher_test.mf
+; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli)
+; Advanced_dispatcher_test2.mf
+
 
 #INCLUDE defines.mf ;include CAN id and period definitions
 
@@ -16,6 +17,7 @@
 0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
 0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
 0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+0.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
 
 ;#state 'S11.1 INIT'
 0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
@@ -24,15 +26,25 @@
 0.5s A N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell : getValue == 5
 0.5s A N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell : getValue == 5
 
-;#transition 'T11.4'
-3.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
-3.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
-3.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = false
-3.0s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = false
 
-;#state 'S11.3 EMERGENCY'
-3.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
-3.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
-3.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
-3.5s A N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell : getValue == 5
-3.5s A N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell : getValue == 5
+;#transition 'T11.8'
+10.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
+10.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+10.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = false
+10.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][BACK]_CAN_ID AtFloor 1 BACK = false
+10.0s I AT_FLOOR_PERIOD N AT_FLOOR_[7][FRONT]_CAN_ID AtFloor 7 FRONT = false
+10.0s I AT_FLOOR_PERIOD N AT_FLOOR_[7][BACK]_CAN_ID AtFloor 7 BACK = false
+10.0s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = false
+10.0s I AT_FLOOR_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
+10.0s I AT_FLOOR_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = false
+10.0s I AT_FLOOR_PERIOD N AT_FLOOR_[5][FRONT]_CAN_ID AtFloor 5 FRONT = false
+10.0s I AT_FLOOR_PERIOD N AT_FLOOR_[6][FRONT]_CAN_ID AtFloor 6 FRONT = false
+10.0s I AT_FLOOR_PERIOD N AT_FLOOR_[8][FRONT]_CAN_ID AtFloor 8 FRONT = false
+
+
+;#state 'S11.5 EMERGENCY'
+10.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+10.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+10.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+10.5s A N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell : getValue == 5
+10.5s A N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell : getValue == 5
