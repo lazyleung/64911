@@ -84,7 +84,8 @@ public class Dispatcher extends simulator.framework.Controller{
     }
     
     private State state = State.STATE_INIT;
-    private int Target = -1;
+    private int Target;
+	private Hallway DesiredHallway;
     
 	public Dispatcher(SimTime period, boolean verbose) {
 		super("Dispatcher", verbose);
@@ -139,6 +140,9 @@ public class Dispatcher extends simulator.framework.Controller{
         networkDesiredDwellBack = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.BACK));
         mDesiredDwellBack = new DesiredDwellCanPayloadTranslator(networkDesiredDwellBack);
         canInterface.sendTimeTriggered(networkDesiredDwellBack, period);
+        
+        Target = -1;
+        DesiredHallway = Hallway.BOTH;
         
         timer.start(period);
 	}
@@ -196,6 +200,9 @@ public class Dispatcher extends simulator.framework.Controller{
         mDesiredDwellBack = new DesiredDwellCanPayloadTranslator(networkDesiredDwellBack);
         canInterface.sendTimeTriggered(networkDesiredDwellBack, period);
         
+        Target = -1;
+        DesiredHallway = Hallway.BOTH;
+        
         timer.start(period);
 	}
 
@@ -218,7 +225,6 @@ public class Dispatcher extends simulator.framework.Controller{
 		int curFloor = -1;
 		int closestFloor = -1;
 		int farthestFloor = -1;
-		Hallway DesiredHallway = Hallway.BOTH;
 		Hallway closestHallway = Hallway.NONE;
 		Hallway farthestHallway = Hallway.NONE;
 		Direction currentDirection = Direction.STOP;
@@ -235,6 +241,7 @@ public class Dispatcher extends simulator.framework.Controller{
 			}
 		}
 		notAtFloor = !atFloor;
+		log("-=-----------CURFLOR  "+curFloor+ "    Target="+Target+"------------------");
 		
 		if (curFloor == 1){
 			currentDirection = Direction.UP; // you can only go up.
@@ -431,22 +438,21 @@ public class Dispatcher extends simulator.framework.Controller{
 				farthestFloor = farthestHallCall;
 				farthestHallway = farthestHallCallHall;
 			}
-			
-			else {
-				log("---------------f--------------SHOULD NOT BE HERE---------------f------------------");
-			}
 		}
 		
 		
 		
 		
-		log("curFloor="+curFloor+" atFloor="+atFloor+" AllDoorClosed="+AllDoorClosed);
+		log("curFloor="+curFloor+" atFloor="+atFloor+" AllDoorClosed="+AllDoorClosed + " ClosestFloor="+closestFloor + "  closestHall="+closestHallway + " farthestFloor="+farthestFloor+ "  farthestHall="+farthestHallway+" curDir="+currentDirection);
 		oppositeDirection = getOppositeDirection(currentDirection);
+		
+		log("curFloor="+curFloor+"  Target="+Target + "   atFloor="+atFloor+"    allDoorClosed="+AllDoorClosed);
 		
 		switch (state){
 		case STATE_INIT:
 			Target = 1;
-			mDesiredFloor.set(Target, Direction.STOP, Hallway.BOTH);
+			DesiredHallway = Hallway.BOTH;
+			mDesiredFloor.set(Target, Direction.STOP, DesiredHallway);
 			mDesiredDwellFront.set(dwellTime);
 			mDesiredDwellBack.set(dwellTime);
 			
@@ -479,7 +485,7 @@ public class Dispatcher extends simulator.framework.Controller{
 		case STATE_GOTO_FARTHEST_FLOOR:
 			Target = farthestFloor;
 			DesiredHallway = farthestHallway;
-			mDesiredFloor.set(Target, Direction.STOP, closestHallway);
+			mDesiredFloor.set(Target, Direction.STOP, farthestHallway);
 			mDesiredDwellFront.set(dwellTime);
 			mDesiredDwellBack.set(dwellTime);
 			
@@ -489,6 +495,7 @@ public class Dispatcher extends simulator.framework.Controller{
 		case STATE_EMERGENCY:
 			//log("-----------Shouldn't be here-----------");
 			Target = 1;
+			DesiredHallway = Hallway.NONE;
 			mDesiredFloor.set(Target,Direction.STOP,Hallway.NONE);
 			mDesiredDwellFront.set(dwellTime);
 			mDesiredDwellBack.set(dwellTime);
@@ -503,11 +510,11 @@ public class Dispatcher extends simulator.framework.Controller{
 				newState = State.STATE_EMERGENCY;
 			} 
 			//#transition 'T11.5'
-			else if ((!AllDoorClosed) && (curFloor == Target) && atFloor && (closestFloor != -1) && (closestFloor != -1)){
+			else if ((!AllDoorClosed) && (curFloor == Target) && atFloor && (closestFloor != -1)){
 				newState = State.STATE_GOTO_CLOSEST_FLOOR;
 			} 
 			//#transition 'T11.6'
-			else if ((!AllDoorClosed) && (curFloor == Target) && atFloor && (closestFloor != -1) && (closestFloor == -1) && (farthestFloor != -1)){
+			else if ((!AllDoorClosed) && (curFloor == Target) && atFloor && (closestFloor == -1) && (farthestFloor != -1)){
 				newState = State.STATE_GOTO_FARTHEST_FLOOR;
 			}
 			else {
@@ -525,7 +532,7 @@ public class Dispatcher extends simulator.framework.Controller{
         } else {
             log("Transition: ",state,"->",newState);
         }
-        
+        log("mDesiredFloor f = "+Target+" Hall="+DesiredHallway);
         state = newState;
 		
         //report the current state
