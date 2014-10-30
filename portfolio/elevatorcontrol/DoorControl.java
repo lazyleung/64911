@@ -166,6 +166,7 @@ public class DoorControl extends Controller
                 }
                 break;
             case NUDGE:
+                doNudge();
                 //#transition 'T5.7'
                 if(mDoorClosed.getValue()){
                    newState = State.CLOSED; 
