@@ -86,6 +86,13 @@ public class Dispatcher extends simulator.framework.Controller{
     private State state = State.STATE_INIT;
     private int Target;
 	private Hallway DesiredHallway;
+    private int curFloor = -1;
+    private int closestFloor = -1;
+    private int farthestFloor = -1;
+    private Hallway closestHallway = Hallway.NONE;
+    private Hallway farthestHallway = Hallway.NONE;
+    private Direction currentDirection = Direction.STOP;
+    private Direction oppositeDirection = Direction.STOP;
     
 	public Dispatcher(SimTime period, boolean verbose) {
 		super("Dispatcher", verbose);
@@ -222,13 +229,7 @@ public class Dispatcher extends simulator.framework.Controller{
 		State newState = state;
 		
 		/* Initialize the state variables */
-		int curFloor = -1;
-		int closestFloor = -1;
-		int farthestFloor = -1;
-		Hallway closestHallway = Hallway.NONE;
-		Hallway farthestHallway = Hallway.NONE;
-		Direction currentDirection = Direction.STOP;
-		Direction oppositeDirection = Direction.STOP;
+		
 		
 		boolean AllDoorClosed = mDoorClosedFrontLeft.getValue() && mDoorClosedBackLeft.getValue() && mDoorClosedFrontRight.getValue() && mDoorClosedBackRight.getValue();
 		boolean atFloor = false;
@@ -440,7 +441,10 @@ public class Dispatcher extends simulator.framework.Controller{
 			}
 		}
 		
-		
+        if ((closestFloor == -1) && (farthestFloor == -1)){
+            currentDirection = oppositeDirection;
+            oppositeDirection = currentDirection;
+        }
 		
 		
 		log("curFloor="+curFloor+" atFloor="+atFloor+" AllDoorClosed="+AllDoorClosed + " ClosestFloor="+closestFloor + "  closestHall="+closestHallway + " farthestFloor="+farthestFloor+ "  farthestHall="+farthestHallway+" curDir="+currentDirection);
