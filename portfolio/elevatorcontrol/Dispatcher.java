@@ -469,7 +469,7 @@ public class Dispatcher extends simulator.framework.Controller{
 			else if ((!AllDoorClosed) && atFloor && (curFloor == Target) && (closestFloor == -1) && (farthestFloor != -1)){
 				newState = State.STATE_GOTO_FARTHEST_FLOOR;
 			}
-			//#transition 'T11.7'
+			//#transition 'T11.8'
 			else if (notAtFloor && (!AllDoorClosed)){
 				newState = State.STATE_EMERGENCY;
 			} else {
@@ -493,7 +493,7 @@ public class Dispatcher extends simulator.framework.Controller{
 			mDesiredDwellFront.set(dwellTime);
 			mDesiredDwellBack.set(dwellTime);
 			
-			//transition 'T11.4'
+			//#transition 'T11.4'
 			newState = State.STATE_IDLE;
 			break;
 		case STATE_EMERGENCY:
@@ -509,7 +509,7 @@ public class Dispatcher extends simulator.framework.Controller{
 			mDesiredFloor.set(Target, Direction.STOP, DesiredHallway);
 			mDesiredDwellFront.set(dwellTime);
 			mDesiredDwellBack.set(dwellTime);
-            //#transition 'T11.8'
+            //#transition 'T11.7'
 			if (notAtFloor && (!AllDoorClosed)){
 				newState = State.STATE_EMERGENCY;
 			} 
