@@ -441,7 +441,10 @@ public class Dispatcher extends simulator.framework.Controller{
 			}
 		}
 		
-		
+        if ((closestFloor == -1) && (farthestFloor == -1)){
+            currentDirection = oppositeDirection;
+            oppositeDirection = currentDirection;
+        }
 		
 		
 		log("curFloor="+curFloor+" atFloor="+atFloor+" AllDoorClosed="+AllDoorClosed + " ClosestFloor="+closestFloor + "  closestHall="+closestHallway + " farthestFloor="+farthestFloor+ "  farthestHall="+farthestHallway+" curDir="+currentDirection);
