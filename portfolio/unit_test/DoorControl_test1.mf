@@ -1,5 +1,5 @@
   ; Unit test for DoorControll
-  ; Eric Newhall
+  ; Ting Xu
 
   #INCLUDE defines.mf ;include CAN id and period definitions
 
@@ -102,10 +102,13 @@
   17.5s A F DoorMotor FRONT LEFT : command  == NUDGE
   17.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == NUDGE
 
+  18s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 FRONT UP
+
+
   ;transition 'T5.7'
   18s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
   18s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
  
   ;state 'S5.4 CLOSED'
-  18.5s A F DoorMotor FRONT LEFT : command  == STOP
-  18.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
+  20.5s A F DoorMotor FRONT LEFT : command  == STOP
+  20.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
