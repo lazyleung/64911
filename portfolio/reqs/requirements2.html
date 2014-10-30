@@ -3113,10 +3113,10 @@ below Lobby (1). </li>
 Lobby = 1. </li>
   <li>AtFloor: a boolean for which if any mAtFloor is true. </li>
   <li>CurFloor: an integer Floor number for which mAtFloor is true. </li>
-  <li>CurrentDirection: {UP, DOWN, STOP} The direction of travel. </li>
-  <li>OppositeDirection: {UP, DOWN, STOP} The direction opposite to CurrentDirection.</li>
   <li>ClosestFloor[f,b]: the floor number f and hallway b, with (mCarCall[f,b] true) or (mHallCall[f,b,mDriveSpeed.d] true), that is closest to CurFloor and is in the direction of CurrentDirection. b is BOTH if there are pending calls at both hallways. [-1,NONE] is no such f,b exist. </li>
 <li>FarthestFloor[f,b]: the floor number f and hallway b, with (mHallCall[f,b,OppositeDirection] true), that is farthest away from CurFloor and is in the current direction of CurrentDirection. b is BOTH if there are pending calls at both hallways. [-1,NONE] is no such f,b exist. </li>
+<li>CurrentDirection: {UP, DOWN, STOP} The direction of travel as determined by mDrivespeed. However, CurrentDirection will be set to oppositeDirection if both CloesestFloor and FarthestFloor = -1.</li>
+  <li>OppositeDirection: {UP, DOWN, STOP} The direction opposite to CurrentDirection.</li>
 <li>DesiredHall: the intented hallway at the next stop.</li>
 </ul>
 <h3> CONSTRAINTS: </h3>
