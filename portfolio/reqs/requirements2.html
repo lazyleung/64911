@@ -1013,7 +1013,7 @@ positions at all times.<br>
 5.5&nbsp;&nbsp;&nbsp; If CarWeight(x) &gt;= MaxCarCapacity, the doors
 shall open completely until the car is no longer overloaded.
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
-5.6 &nbsp;&nbsp; If any ((mAtFloor[mDesiredFloor.f, b] = True or (mCarCall[mAtFloor.f, b] and DesiredDirection = mHallCall[mAtFloor.f, b].d)) , and (mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop)))
+5.6 &nbsp;&nbsp; If any ((mAtFloor[mDesiredFloor.f, b] = True or (mHallCall[mAtFloor.f, b, DesiredDirection] = True) , and (mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop)))
 then: <br>
 &nbsp;&nbsp;&nbsp; 5.6.1&nbsp; DoorMotor[b, r] shall be commanded to
 Open; <br>
@@ -1062,7 +1062,7 @@ mDesiredDwell[b].<br>
     <tr>
       <td style="vertical-align: top;">T5.5<br>
       </td>
-      <td style="vertical-align: top;">mCarWeight &gt;= MaxCarCapacity or ((mAtFloor[mDesiredFloor.f, b] = True or (mCarCall[mAtFloor.f, b] and DesiredDirection = mHallCall[mAtFloor.f, b].d)) , and (mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop)))</td>
+      <td style="vertical-align: top;">mCarWeight &gt;= MaxCarCapacity or ((mAtFloor[mDesiredFloor.f, b] = True or (mHallCall[mAtFloor.f, b,DesiredDirection] = True) , and (mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop)))</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T5.6<br>
