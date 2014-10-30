@@ -1,0 +1,78 @@
+; 18649 Fall 2014
+; Ting Xu (tingx)
+; Group 11
+; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli)
+; Dispatcher_test.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+
+;Test for Dispatcher
+;This test does not test for any time sensitive conditions
+
+#DEFINE PERIOD 100ms
+;set input initial value
+0.0s I CAR_BUTTON_CONTROL_PERIOD F CarCall 2 BACK = false
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+0.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+
+;#state 'S11.1 INIT'
+0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == BOTH
+0.5s A N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell : getValue == 5
+0.5s A N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell : getValue == 5
+
+;#transition 'T11.1'
+0.8s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+1.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+1.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][BACK]_CAN_ID AtFloor 1 BACK = true
+1.0s I AT_FLOOR_PERIOD N HALL_CALL_[2][BACK][UP]_CAN_ID HallCall 2 BACK UP = true
+;1.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+
+;#state 'S11.2 GOTO_NEXT_FLOOR'
+1.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
+1.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+1.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == BACK
+1.5s A N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell : getValue == 5
+1.5s A N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell : getValue == 5
+
+;#transition 'T11.2'
+
+1.8s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+
+2.3s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+2.3s I AT_FLOOR_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = false
+2.3s I AT_FLOOR_PERIOD N AT_FLOOR_[1][BACK]_CAN_ID AtFloor  1 BACK = false
+2.3s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor  2 BACK = true
+2.3s I AT_FLOOR_PERIOD N HALL_CALL_[5][FRONT][UP]_CAN_ID HallCall 5 FRONT UP = true
+2.3s I AT_FLOOR_PERIOD N HALL_CALL_[3][FRONT][DOWN]_CAN_ID HallCall 3 FRONT DOWN = true
+2.3s I AT_FLOOR_PERIOD N HALL_CALL_[2][BACK][UP]_CAN_ID HallCall 2 BACK UP = false
+
+3.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+3.0s I AT_FLOOR_PERIOD N DRIVE_SPEED_CAN_ID DriveSpeed = 1 UP
+
+
+;#state 'S11.2 GOTO_NEXT_FLOOR'
+4.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 5
+4.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+4.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
+4.5s A N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell : getValue == 5
+4.5s A N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell : getValue == 5
+
+
+5.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+  5.3s I AT_FLOOR_PERIOD N HALL_CALL_[5][FRONT][UP]_CAN_ID HallCall 5 FRONT UP = false
+  5.3s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+5.3s I AT_FLOOR_PERIOD N AT_FLOOR_[5][FRONT]_CAN_ID AtFloor 5 FRONT = true
+5.3s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
+
+
+  5.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
+  5.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+  5.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
+  5.7s A N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell : getValue == 5
+  5.7s A N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell : getValue == 5
+
