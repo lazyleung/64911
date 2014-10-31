@@ -1803,7 +1803,7 @@ Down<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">T6.1<br> </td>
-      <td style="vertical-align: top;">mDoorClosed[b, r] == true &amp;&amp; mCarWeight &lt; MaxCarCapacity &amp;&amp; DesiredDirection == Up</td>
+      <td style="vertical-align: top;">mEmergencyBrake == false &amp;&amp; mDoorClosed[b, r] == true &amp;&amp; mCarWeight &lt; MaxCarCapacity &amp;&amp; DesiredDirection == Up</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T6.2</td>
@@ -1820,7 +1820,7 @@ Down<br>
     <tr>
       <td style="vertical-align: top;">T6.5<br>
       </td>
-      <td style="vertical-align: top;">mDoorClosed[b, r] == true &amp;&amp; mCarWeight &lt; MaxCarCapacity &amp;&amp; DesiredDirection == Down</td>
+      <td style="vertical-align: top;">mEmergencyBrake == false &amp;&amp; mDoorClosed[b, r] == true &amp;&amp; mCarWeight &lt; MaxCarCapacity &amp;&amp; DesiredDirection == Down</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T6.6</td>
@@ -1836,11 +1836,11 @@ Down<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">T6.9</td>
-      <td style="vertical-align: top;">mLevel[up] == false &amp;&amp; mEmergencyBrake == false</td>
+      <td style="vertical-align: top;">mEmergencyBrake == false &amp;&amp; mLevel[up] == false</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T6.10</td>
-      <td style="vertical-align: top;">mLevel[down] == false &amp;&amp; mEmergencyBrake == false</td>
+      <td style="vertical-align: top;">mEmergencyBrake == false &amp;&amp; mLevel[down] == false</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T6.11</td>
