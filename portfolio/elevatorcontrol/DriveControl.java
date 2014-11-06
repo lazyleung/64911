@@ -30,10 +30,10 @@ public class DriveControl extends Controller implements TimeSensitive {
         LEVEL_UP,
     }
 
-    private static enum commitPoint {
+    public static enum CommitPoint {
         REACHED,
         NOTREACHED,
-        PAST
+        PASSED
     }
 
     // defines (in microseconds) how often this module should send out messages
@@ -63,12 +63,6 @@ public class DriveControl extends Controller implements TimeSensitive {
     DoorClosedCanPayloadTranslator          mDoorClosedFR;
     DoorClosedCanPayloadTranslator          mDoorClosedBL;
     DoorClosedCanPayloadTranslator          mDoorClosedBR;
-    /*
-    DoorMotorCanPayloadTranslator           mDoorMotorFL;
-    DoorMotorCanPayloadTranslator           mDoorMotorFR;
-    DoorMotorCanPayloadTranslator           mDoorMotorBL;
-    DoorMotorCanPayloadTranslator           mDoorMotorBR;
-    */
 
     Utility.AtFloorArray                    mAtFloor;
 
@@ -77,7 +71,7 @@ public class DriveControl extends Controller implements TimeSensitive {
     Direction   desiredDirection = Direction.STOP;
     int         currentFloor = 0;
     boolean     doorClosed = true;
-    boolean     commitPoint = NOTREACHED;
+    CommitPoint commitPoint = CommitPoint.NOTREACHED;
 
     public DriveControl(SimTime period, boolean verbose) {
         super("DriveControl", verbose);
@@ -158,36 +152,11 @@ public class DriveControl extends Controller implements TimeSensitive {
         mDoorClosedBR = new DoorClosedCanPayloadTranslator(r, Hallway.BACK, Side.RIGHT);
         canInterface.registerTimeTriggered(r);
 
-        /*
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID);
-        mDoorMotorFL = new DoorMotorCanPayloadTranslator(r, Hallway.FRONT, Side.LEFT);
-        canInterface.registerTimeTriggered(r);
-
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID);
-        mDoorMotorFR = new DoorMotorCanPayloadTranslator(r, Hallway.FRONT, Side.RIGHT);
-        canInterface.registerTimeTriggered(r);
-
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID);
-        mDoorMotorBL = new DoorMotorCanPayloadTranslator(r, Hallway.BACK, Side.LEFT);
-        canInterface.registerTimeTriggered(r);
-
-        r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID);
-        mDoorMotorBR = new DoorMotorCanPayloadTranslator(r, Hallway.BACK, Side.RIGHT);
-        canInterface.registerTimeTriggered(r);
-        */
+        
 
         mAtFloor = new Utility.AtFloorArray(canInterface);
         // Every floor & hallway Message
-        /*
-        for(int floor = 0; floor < Elevator.numFloors; floor++) {
-            r = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID);
-            mAtFloor[floor][0] = new AtFloorCanPayloadTranslator(r, floor, Hallway.FRONT);
-            canInterface.registerTimeTriggered(r);
-            r = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID);
-            mAtFloor[floor][1] = new AtFloorCanPayloadTranslator(r, floor, Hallway.BACK);
-            canInterface.registerTimeTriggered(r);
-        }
-        */
+    
 
         // initialize the controller to the STOP state
         currentState = State.STOP;
@@ -240,7 +209,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 break;
             case FAST_DOWN:
                 doFastDown();
-                if(mEmergencyBrake == true || commitPoint == REACHED) {
+                if(mEmergencyBrake.getValue() == true || commitPoint == CommitPoint.REACHED) {
                     log("T6.12");
                     nextState = State.SLOW_DOWN;
                 }
@@ -250,7 +219,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.UP) { //#transition 'T6.8'
                     log("T6.8");
                     nextState = State.STOP;
-                } else if(DriveSpeed == SlowSpeed && commitPoint[f] == NOTREACHED) {
+                } else if(mDriveSpeed.getSpeed() == DriveObject.SlowSpeed && commitPoint == CommitPoint.NOTREACHED) {
                     log("T6.11");
                     nextState = State.FAST_DOWN;
                 } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed()) { //#transition 'T6.6'
@@ -266,8 +235,8 @@ public class DriveControl extends Controller implements TimeSensitive {
                 }
                 break;
             case FAST_UP:
-                doFastDown();
-                if(mEmergencyBrake == true || commitPoint == REACHED) {
+                doFastUp();
+                if(mEmergencyBrake.getValue() == true || commitPoint == CommitPoint.REACHED) {
                     log("T6.14");
                     nextState = State.SLOW_UP;
                 }
@@ -277,7 +246,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.DOWN) { //#transition 'T6.4'
                     log("T6.4");
                     nextState = State.STOP;
-                } else if (DriveSpeed == SlowSpeed && commitPoint == NOTREACHED) {
+                } else if (mDriveSpeed.getSpeed() == DriveObject.SlowSpeed && commitPoint == CommitPoint.NOTREACHED) {
                     log("T6.13");
                     nextState = State.FAST_UP;
                 } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed()) { //#transition 'T6.2'
@@ -374,22 +343,22 @@ public class DriveControl extends Controller implements TimeSensitive {
         if(localSpeed.direction() == Direction.UP) {
             v0 = localSpeed.speed();
             finalPos = pos + 0.5 * v0 * v0 / -a;
-            if (finalPos <  targetX - 10) {
-                commitpoint = NORREACHED;
-            } else if (finalPos <= targetX && finalPos >= targetX - 10){
-                commitpoint = REACHED;
-            }  else if (finalPos > targetX){
-                commitpoint = PASSED;
+            if (finalPos <  targetPos - 10) {
+                commitPoint = CommitPoint.NOTREACHED;
+            } else if (finalPos <= targetPos && finalPos >= targetPos - 10){
+                commitPoint = CommitPoint.REACHED;
+            }  else if (finalPos > targetPos){
+                commitPoint = CommitPoint.PASSED;
             }
         } else if (localSpeed.direction() == Direction.DOWN) {
             v0 = -localSpeed.speed();
             finalPos = pos + 0.5 * v0 * v0 / a;
-            if (finalPos >  targetX + 10) {
-                commitpoint = NORREACHED;
-            } else if (finalPos >= targetX && finalPos <= targetX + 10){
-                commitpoint = REACHED;
-            }  else if (finalPos < targetX){
-                commitpoint = PASSED;
+            if (finalPos >  targetPos + 10) {
+                commitPoint = CommitPoint.NOTREACHED;
+            } else if (finalPos >= targetPos && finalPos <= targetPos + 10){
+                commitPoint = CommitPoint.REACHED;
+            }  else if (finalPos < targetPos){
+                commitPoint = CommitPoint.PASSED;
             }
         }
 
