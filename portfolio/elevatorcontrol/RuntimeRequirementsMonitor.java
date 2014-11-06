@@ -4,6 +4,7 @@ import simulator.framework.DoorCommand;
 import simulator.framework.Elevator;
 import simulator.framework.Hallway;
 import simulator.framework.RuntimeMonitor;
+import simulator.framework.Side;
 import simulator.payloads.AtFloorPayload.ReadableAtFloorPayload;
 import simulator.payloads.DoorClosedPayload.ReadableDoorClosedPayload;
 import simulator.payloads.DoorMotorPayload.ReadableDoorMotorPayload;
@@ -20,7 +21,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	boolean[][] hallCalls = new boolean[Elevator.numFloors][2];	
     protected int currentFloor = MessageDictionary.NONE;
     protected Hallway currentHallway = Hallway.NONE;
-    protected boolean reversal = false;
+    protected boolean reversal [][] = new boolean[2][2];
     
 	@Override
 	public void timerExpired(Object callbackData) {
@@ -37,9 +38,14 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
     public void receive(ReadableAtFloorPayload msg) {
         updateCurrentFloor(msg);
     }
+    
+    public void receive(ReadableDoorReversalPayload msg) {
+    	setReversal(msg);
+    }
 	
 	public void receive(ReadableDriveSpeedPayload msg) {
-		RT6State.receive(msg);		
+		RT6State.receive(msg);	
+		unsetReversal(msg);
 	}
 	
 	public void receive(ReadableDoorClosedPayload msg) {
@@ -69,13 +75,16 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	
     private void setReversal(ReadableDoorReversalPayload msg){
     	if(msg.isReversing()){
-    		reversal = true;
+    		reversal[msg.getHallway().ordinal()][msg.getSide().ordinal()] = true;
     	}    	
     }
     
     private void unsetReversal(ReadableDriveSpeedPayload msg){
     	if(msg.speed()!=0){
-    		reversal = false;
+    		reversal[Hallway.BACK.ordinal()][Side.LEFT.ordinal()] = false;
+    		reversal[Hallway.FRONT.ordinal()][Side.LEFT.ordinal()] = false;
+			reversal[Hallway.BACK.ordinal()][Side.RIGHT.ordinal()] = false;
+			reversal[Hallway.FRONT.ordinal()][Side.RIGHT.ordinal()] = false;
     	}
     }
     
@@ -152,6 +161,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 				}
 			}
 			
+			state = newState;
 		
 		}
 	}
@@ -202,33 +212,37 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
         			break;
         		}
         	}
+        	state = newState;
         	
         }
 	}
 	
 	private class RT10StateMachine{
-		RT10States state;
+		RT10States state[][] = new RT10States[2][2];
 		boolean warningIssued = false;
 
 		public RT10StateMachine(){
-			state = RT10States.DOORS_STOPPED;
+			state[Hallway.BACK.ordinal()][Side.LEFT.ordinal()] = RT10States.DOORS_STOPPED;
+			state[Hallway.FRONT.ordinal()][Side.LEFT.ordinal()] = RT10States.DOORS_STOPPED;
+			state[Hallway.BACK.ordinal()][Side.RIGHT.ordinal()] = RT10States.DOORS_STOPPED;
+			state[Hallway.FRONT.ordinal()][Side.RIGHT.ordinal()] = RT10States.DOORS_STOPPED;
 		}
 		
 		public void receive(ReadableDoorMotorPayload msg){
-			updateState(msg.command());
+			updateState(msg);
 		}
 		
-		private void updateState(DoorCommand cmd){
-			RT10States previousState = state;
+		private void updateState(ReadableDoorMotorPayload msg){
+			RT10States previousState = state[msg.getHallway().ordinal()][msg.getSide().ordinal()];
 			RT10States newState = previousState;
 			
-			if(cmd == DoorCommand.NUDGE && !reversal){
+			if(msg.command() == DoorCommand.NUDGE && !reversal[msg.getHallway().ordinal()][msg.getSide().ordinal()]){
 				newState = RT10States.DOORS_NUDGING_NO_REVERSAL;
 			}
-			else if (cmd == DoorCommand.NUDGE && reversal){
+			else if (msg.command() == DoorCommand.NUDGE && reversal[msg.getHallway().ordinal()][msg.getSide().ordinal()]){
 				newState = RT10States.DOOR_NUDGING_AFTER_REVERSAL;
 			}
-			else if (cmd == DoorCommand.STOP){
+			else if (msg.command() == DoorCommand.STOP){
 				newState = RT10States.DOORS_STOPPED;
 			}
 			
@@ -246,6 +260,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 					break;
 				}
 			}
+			state[msg.getHallway().ordinal()][msg.getSide().ordinal()] = newState;
 		}
 	}
 }

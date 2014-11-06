@@ -39,7 +39,9 @@ The high level requirements verification shall be performed by the Runtime Monit
    	<ul>
    		<li>When doors are closing, the monitor enters the warning state when the doors are nudging and no door reversals have occurred.
    		<li>When the car doors stop the monitor returns to the state Doors Stopped.
-   		<li>The state variable reversal is set to true when mDoorReversal is true and is set to false when mDriveSpeed != stop <br><br>
+   		<li>The state variable reversal is set to true when mDoorReversal is true and is set to false when mDriveSpeed != stop 
+   		<li>Replication: each of the four DoorMotor[b,r] is monitored separately.<br><br>
+
 		<b>Event Triggered statechart: </b><br></li>
   		<p> <img style="width: 839x; height: 97x;" alt="RT-10 Statechart" src="RT-10.png"><br clear="left"> </p>
 	</ul>
