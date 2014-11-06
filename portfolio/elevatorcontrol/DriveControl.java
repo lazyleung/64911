@@ -206,7 +206,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 break;
             case FAST_DOWN:
                 doFastDown();
-                if(mEmergencyBrake.getValue() == true || commitPoint == CommitPoint.REACHED) { //#transition 'T6.14'
+                if(mEmergencyBrake.getValue() == true || commitPoint == CommitPoint.REACHED || desiredDirection == Direction.UP) { //#transition 'T6.14'
                     log("T6.14");
                     nextState = State.SLOW_DOWN;
                 }
@@ -233,7 +233,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 break;
             case FAST_UP:
                 doFastUp();
-                if(mEmergencyBrake.getValue() == true || commitPoint == CommitPoint.REACHED) { //#transition 'T6.12'
+                if(mEmergencyBrake.getValue() == true || commitPoint == CommitPoint.REACHED || desiredDirection == Direction.DOWN) { //#transition 'T6.12'
                     log("T6.12");
                     nextState = State.SLOW_UP;
                 }
@@ -342,9 +342,9 @@ public class DriveControl extends Controller implements TimeSensitive {
             finalPos = pos + 0.5 * v0 * v0 / -a;
             if (finalPos <  targetPos - 10) {
                 commitPoint = CommitPoint.NOTREACHED;
-            } else if (finalPos <= targetPos && finalPos >= targetPos - 10){
+            } else if (finalPos < targetPos && finalPos >= targetPos - 10){
                 commitPoint = CommitPoint.REACHED;
-            }  else if (finalPos > targetPos){
+            }  else if (finalPos >= targetPos){
                 commitPoint = CommitPoint.PASSED;
             }
         } else if (localSpeed.direction() == Direction.DOWN) {
@@ -352,9 +352,9 @@ public class DriveControl extends Controller implements TimeSensitive {
             finalPos = pos + 0.5 * v0 * v0 / a;
             if (finalPos >  targetPos + 10) {
                 commitPoint = CommitPoint.NOTREACHED;
-            } else if (finalPos >= targetPos && finalPos <= targetPos + 10){
+            } else if (finalPos > targetPos && finalPos <= targetPos + 10){
                 commitPoint = CommitPoint.REACHED;
-            }  else if (finalPos < targetPos){
+            }  else if (finalPos <= targetPos){
                 commitPoint = CommitPoint.PASSED;
             }
         }

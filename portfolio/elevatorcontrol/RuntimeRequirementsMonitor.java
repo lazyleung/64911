@@ -253,6 +253,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 						warning("R-T.10 Violated: at Floor " + currentFloor+ " "+msg.getHallway()+" " + msg.getSide()+" Car doors are nudging when no door reversals have occured");
 						warningIssued = true;
 					}
+                    break;
 				case DOOR_NUDGING_AFTER_REVERSAL:
 					break;
 				case DOORS_STOPPED:
