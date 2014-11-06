@@ -230,18 +230,18 @@ public class DriveControl extends Controller implements TimeSensitive {
                 } else if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.DOWN && mEmergencyBrake.getValue() != true) { //#transition 'T6.5'
                     log("T6.5");
                     nextState = State.SLOW_DOWN;
-                } else if(mLevelU.getValue() == false && mEmergencyBrake.getValue() != true) {
+                } else if(mLevelU.getValue() == false && mEmergencyBrake.getValue() != true) { //#transition 'T6.9'
                     log("T6.9");
                     nextState = State.LEVEL_UP;
-                } else if(mLevelD.getValue() == false && mEmergencyBrake.getValue() != true) {
+                } else if(mLevelD.getValue() == false && mEmergencyBrake.getValue() != true) { //#transition 'T6.10'
                     log("T6.10");
                     nextState = State.LEVEL_DOWN;
                 }
                 break;
             case FAST_DOWN:
                 doFastDown();
-                if(mEmergencyBrake == true || commitPoint == REACHED) {
-                    log("T6.12");
+                if(mEmergencyBrake == true || commitPoint == REACHED) { //#transition 'T6.14'
+                    log("T6.14");
                     nextState = State.SLOW_DOWN;
                 }
                 break;
@@ -250,8 +250,8 @@ public class DriveControl extends Controller implements TimeSensitive {
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.UP) { //#transition 'T6.8'
                     log("T6.8");
                     nextState = State.STOP;
-                } else if(DriveSpeed == SlowSpeed && commitPoint[f] == NOTREACHED) {
-                    log("T6.11");
+                } else if(DriveSpeed == SlowSpeed && commitPoint[f] == NOTREACHED) { //#transition 'T6.4'
+                    log("T6.13");
                     nextState = State.FAST_DOWN;
                 } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed()) { //#transition 'T6.6'
                     log("T6.6");
@@ -267,8 +267,8 @@ public class DriveControl extends Controller implements TimeSensitive {
                 break;
             case FAST_UP:
                 doFastDown();
-                if(mEmergencyBrake == true || commitPoint == REACHED) {
-                    log("T6.14");
+                if(mEmergencyBrake == true || commitPoint == REACHED) { //#transition 'T6.12'
+                    log("T6.12");
                     nextState = State.SLOW_UP;
                 }
                 break;
@@ -277,8 +277,8 @@ public class DriveControl extends Controller implements TimeSensitive {
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.DOWN) { //#transition 'T6.4'
                     log("T6.4");
                     nextState = State.STOP;
-                } else if (DriveSpeed == SlowSpeed && commitPoint == NOTREACHED) {
-                    log("T6.13");
+                } else if (DriveSpeed == SlowSpeed && commitPoint == NOTREACHED) { //#transition 'T6.11'
+                    log("T6.11");
                     nextState = State.FAST_UP;
                 } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed()) { //#transition 'T6.2'
                     log("T6.2");
@@ -392,8 +392,6 @@ public class DriveControl extends Controller implements TimeSensitive {
                 commitpoint = PASSED;
             }
         }
-
-        
     }
 
 }
