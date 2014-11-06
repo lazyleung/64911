@@ -22,10 +22,18 @@ public class DriveControl extends Controller implements TimeSensitive {
     // States
     public static enum State {
         STOP,
+        FAST_DOWN,
         SLOW_DOWN,
         LEVEL_DOWN,
+        FAST_UP,
         SLOW_UP,
-        LEVEL_UP
+        LEVEL_UP,
+    }
+
+    private static enum commitPoint {
+        REACHED,
+        NOTREACHED,
+        PAST
     }
 
     // defines (in microseconds) how often this module should send out messages
@@ -69,7 +77,7 @@ public class DriveControl extends Controller implements TimeSensitive {
     Direction   desiredDirection = Direction.STOP;
     int         currentFloor = 0;
     boolean     doorClosed = true;
-    boolean     commitPoint = false; // always false as speed is never fast, never reached commit point
+    boolean     commitPoint = NOTREACHED;
 
     public DriveControl(SimTime period, boolean verbose) {
         super("DriveControl", verbose);
@@ -192,7 +200,8 @@ public class DriveControl extends Controller implements TimeSensitive {
     public void timerExpired(Object callbackData) {
         // Update local variables
         if(mAtFloor.getCurrentFloor() != -1)
-        currentFloor = mAtFloor.getCurrentFloor();
+            currentFloor = mAtFloor.getCurrentFloor();
+
         int temp = currentFloor - mDesiredFloor.getFloor();
         if(temp < 0) {
             desiredDirection = Direction.UP;
@@ -201,21 +210,24 @@ public class DriveControl extends Controller implements TimeSensitive {
         } else if(temp == 0){
             desiredDirection = Direction.STOP;
         }
+
         doorClosed = mDoorClosedFL.getValue() && mDoorClosedFR.getValue() && mDoorClosedBL.getValue() && mDoorClosedBR.getValue();
-        commitPoint = false;
+
+        updateCommitPoint();
 
         log("currentFloor " + currentFloor);
         log("desiredDirection " + desiredDirection);
+        log("commitPoint " + commitPoint);
 
         log("Executing state " + currentState);
         State nextState = currentState;
         switch (currentState) {
             case STOP:
                 doStop();
-                if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.UP) { //#transition 'T6.1'
+                if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.UP && mEmergencyBrake.getValue() != true) { //#transition 'T6.1'
                     log("T6.1");
                     nextState = State.SLOW_UP;
-                } else if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.DOWN) { //#transition 'T6.5'
+                } else if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.DOWN && mEmergencyBrake.getValue() != true) { //#transition 'T6.5'
                     log("T6.5");
                     nextState = State.SLOW_DOWN;
                 } else if(mLevelU.getValue() == false && mEmergencyBrake.getValue() != true) {
@@ -226,12 +238,22 @@ public class DriveControl extends Controller implements TimeSensitive {
                     nextState = State.LEVEL_DOWN;
                 }
                 break;
+            case FAST_DOWN:
+                doFastDown();
+                if(mEmergencyBrake == true || commitPoint == REACHED) {
+                    log("T6.12");
+                    nextState = State.SLOW_DOWN;
+                }
+                break;
             case SLOW_DOWN:
                 doSlowDown();
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.UP) { //#transition 'T6.8'
                     log("T6.8");
                     nextState = State.STOP;
-                } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed() && commitPoint == false) { //#transition 'T6.6'
+                } else if(DriveSpeed == SlowSpeed && commitPoint[f] == NOTREACHED) {
+                    log("T6.11");
+                    nextState = State.FAST_DOWN;
+                } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed()) { //#transition 'T6.6'
                     log("T6.6");
                     nextState = State.LEVEL_DOWN;
                 }
@@ -243,12 +265,22 @@ public class DriveControl extends Controller implements TimeSensitive {
                     nextState = State.STOP;
                 }
                 break;
+            case FAST_UP:
+                doFastDown();
+                if(mEmergencyBrake == true || commitPoint == REACHED) {
+                    log("T6.14");
+                    nextState = State.SLOW_UP;
+                }
+                break;
             case SLOW_UP:
                 doSlowUp();
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.DOWN) { //#transition 'T6.4'
                     log("T6.4");
                     nextState = State.STOP;
-                } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed() && commitPoint == false) { //#transition 'T6.2'
+                } else if (DriveSpeed == SlowSpeed && commitPoint == NOTREACHED) {
+                    log("T6.13");
+                    nextState = State.FAST_UP;
+                } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed()) { //#transition 'T6.2'
                     log("T6.2");
                     nextState = State.LEVEL_UP;
                 }
@@ -290,6 +322,13 @@ public class DriveControl extends Controller implements TimeSensitive {
         // mDriveSpeed is set in timerExpired
     }
 
+    // Actions for FAST_DOWN state
+    private void doFastDown() {
+        localDrive.set(Speed.FAST, Direction.DOWN);
+        // mDrive is set in timerExpired
+        // mDriveSpeed is set in timerExpired
+    }
+
     // Actions for SLOW_DOWN state
     private void doSlowDown() {
         localDrive.set(Speed.SLOW, Direction.DOWN);
@@ -300,6 +339,13 @@ public class DriveControl extends Controller implements TimeSensitive {
     // Actions for LEVEL_DOWN state
     private void doLevelDown() {
         localDrive.set(Speed.LEVEL, Direction.DOWN);
+        // mDrive is set in timerExpired
+        // mDriveSpeed is set in timerExpired
+    }
+
+    // Actions for FAST_UP state
+    private void doFastUp() {
+        localDrive.set(Speed.FAST, Direction.UP);
         // mDrive is set in timerExpired
         // mDriveSpeed is set in timerExpired
     }
@@ -316,6 +362,38 @@ public class DriveControl extends Controller implements TimeSensitive {
         localDrive.set(Speed.LEVEL, Direction.UP);
         // mDrive is set in timerExpired
         // mDriveSpeed is set in timerExpired
+    }
+
+    private void updateCommitPoint() {
+        double targetPos = (double)mDesiredFloor.getFloor() * 100;
+        double pos = (double)mCarLevelPosition.getPosition();
+        double finalPos = 0;
+        double v0 = 0;
+        double a = DriveObject.Acceleration;
+
+        if(localSpeed.direction() == Direction.UP) {
+            v0 = localSpeed.speed();
+            finalPos = pos + 0.5 * v0 * v0 / -a;
+            if (finalPos <  targetX - 10) {
+                commitpoint = NORREACHED;
+            } else if (finalPos <= targetX && finalPos >= targetX - 10){
+                commitpoint = REACHED;
+            }  else if (finalPos > targetX){
+                commitpoint = PASSED;
+            }
+        } else if (localSpeed.direction() == Direction.DOWN) {
+            v0 = -localSpeed.speed();
+            finalPos = pos + 0.5 * v0 * v0 / a;
+            if (finalPos >  targetX + 10) {
+                commitpoint = NORREACHED;
+            } else if (finalPos >= targetX && finalPos <= targetX + 10){
+                commitpoint = REACHED;
+            }  else if (finalPos < targetX){
+                commitpoint = PASSED;
+            }
+        }
+
+        
     }
 
 }
