@@ -250,7 +250,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 				switch(newState){
 				case DOORS_NUDGING_NO_REVERSAL:
 					if (!warningIssued){
-						warning("R-T.10 Violated: at Floor " + currentFloor+ " Car doors are nudging when no door reversals have occured");
+						warning("R-T.10 Violated: at Floor " + currentFloor+ " "+msg.getHallway()+" " + msg.getSide()+" Car doors are nudging when no door reversals have occured");
 						warningIssued = true;
 					}
 				case DOOR_NUDGING_AFTER_REVERSAL:
