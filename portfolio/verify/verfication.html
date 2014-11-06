@@ -23,17 +23,26 @@ The high level requirements verification shall be performed by the Runtime Monit
 
   <h4>&nbsp;&nbsp;&nbsp;R-T6: The Car shall only stop at Floors for which there are pending calls.</h4>
   	<ul>
-  		<li>When the elevator stops at floor f, the monitor enters the Warning state if mHallCall(f) = false <b>and</b> mCarCall(f) = false. Otherwise it enters the Stop state. When moving the monitor returns to the state Moving <br><br>
+  		<li>When the elevator stops at floor f, the monitor enters the warning state if mHallCall(f) = false <b>and</b> mCarCall(f) = false. Otherwise it enters the Stop state. When moving the monitor returns to the state Moving <br><br>
   		<b>Event Triggered statechart: </b><br></li>
   		<p> <img style="width: 849px; height: 170x;" alt="RT-6 Statechart" src="RT-6.png"><br clear="left"> </p>
 
   	</ul>
   <h4>&nbsp;&nbsp;&nbsp;R-T7: The Car shall only open Doors at Hallways for which there are pending calls. </h4>
    	<ul>
-  		<li>When the doors open for Hallway b, the monitor enters the Warning state if mHallCall(b) = false <b>and</b> mCarCall(b) = false. Otherwise it enters the Doors Opened state. When the doors close the monitor returns to the state Doors Closed<br><br>
+  		<li>When the doors open for Hallway b, the monitor enters the warning state if mHallCall(b) = false <b>and</b> mCarCall(b) = false. Otherwise it enters the Doors Opened state. When the doors close the monitor returns to the state Doors Closed<br><br>
   		<b>Event Triggered statechart: </b><br></li>
   		<p> <img style="width: 967x; height: 173x;" alt="RT-7 Statechart" src="RT-7.png"><br clear="left"> </p>
   	</ul>
+
+  	<h4>&nbsp;&nbsp;&nbsp;R-T10: For each stop at a floor, at least one door reversal shall have occured before the doors are commanded to nudge.</h4>
+   	<ul>
+   		<li>When doors are closing, the monitor enters the warning state when the doors are nudging and no door reversals have occurred.
+   		<li>When the car doors stop the monitor returns to the state Doors Stopped.
+   		<li>The state variable reversal is set to true when mDoorReversal is true and is set to false when mDriveSpeed != stop <br><br>
+		<b>Event Triggered statechart: </b><br></li>
+  		<p> <img style="width: 839x; height: 97x;" alt="RT-10 Statechart" src="RT-10.png"><br clear="left"> </p>
+	</ul>
 
 <h2>Verification Instructions</h2>
 <br>
