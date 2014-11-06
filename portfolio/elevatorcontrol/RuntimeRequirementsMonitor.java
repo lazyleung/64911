@@ -208,7 +208,8 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	
 	private class RT10StateMachine{
 		RT10States state;
-		
+		boolean warningIssued = false;
+
 		public RT10StateMachine(){
 			state = RT10States.DOORS_STOPPED;
 		}
@@ -234,10 +235,14 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 			if(newState != previousState){
 				switch(newState){
 				case DOORS_NUDGING_NO_REVERSAL:
-					warning("R-T.10 Violated: Car doors are nudging when no door reversals have occured");
+					if (!warningIssued){
+						warning("R-T.10 Violated: at Floor " + currentFloor+ " Car doors are nudging when no door reversals have occured");
+						warningIssued = true;
+					}
 				case DOOR_NUDGING_AFTER_REVERSAL:
 					break;
 				case DOORS_STOPPED:
+					warningIssued = false;
 					break;
 				}
 			}
