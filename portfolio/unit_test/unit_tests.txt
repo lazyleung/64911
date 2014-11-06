@@ -9,6 +9,8 @@ DriveControl drivecontrol.cf drivecontrol_test1.mf
 DriveControl drivecontrol.cf drivecontrol_test2.mf
 DriveControl drivecontrol.cf drivecontrol_test3.mf
 DriveControl drivecontrol.cf drivecontrol_test4.mf
+DriveControl drivecontrol.cf drivecontrol_test5.mf
+DriveControl drivecontrol.cf drivecontrol_test6.mf
 HallButtonControl HallButtonControl.cf HallButtonControlTest1.mf
 LanternControl LanternControl.cf LanternControlUnitTest.mf
 Dispatcher Dispatcher.cf Dispatcher_test1.mf
