@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
+  <title>18649 - High Level Requirements
+Verification</title>
+</head>
+<body>
+<h1 style="text-align: center;">18649 - High Level Requirements
+Verification<br>
+</h1>
+<hr style="width: 100%; height: 2px;">18649 F14<br>
+Group 11 <br>
+Eric Newhall (enewhall)<br>
+Jonathan Leung (jkleung1) <br>
+Mengzhe Li (mzli) <br>
+Ting Xu  (tingx) <br>
+<hr style="width: 100%; height: 2px;">
+<h2>Verification Framework Description<br>
+</h2>
+The high level requirements verification shall be performed by the Runtime Monitor. Specifically,the Runtime Monitor shall perform run-time checks for the following requirements:<br>
+
+
+  <h4>&nbsp;&nbsp;&nbsp;R-T6: The Car shall only stop at Floors for which there are pending calls.</h4>
+  	<ul>
+  		<li>When the elevator stops at floor f, the monitor enters the warning state if mHallCall(f) = false <b>and</b> mCarCall(f) = false. Otherwise it enters the Stop state. When moving the monitor returns to the state Moving <br><br>
+  		<b>Event Triggered statechart: </b><br></li>
+  		<p> <img style="width: 849px; height: 170x;" alt="RT-6 Statechart" src="RT-6.png"><br clear="left"> </p>
+
+  	</ul>
+  <h4>&nbsp;&nbsp;&nbsp;R-T7: The Car shall only open Doors at Hallways for which there are pending calls. </h4>
+   	<ul>
+  		<li>When the doors open for Hallway b, the monitor enters the warning state if mHallCall(b) = false <b>and</b> mCarCall(b) = false. Otherwise it enters the Doors Opened state. When the doors close the monitor returns to the state Doors Closed<br><br>
+  		<b>Event Triggered statechart: </b><br></li>
+  		<p> <img style="width: 967x; height: 173x;" alt="RT-7 Statechart" src="RT-7.png"><br clear="left"> </p>
+  	</ul>
+
+  	<h4>&nbsp;&nbsp;&nbsp;R-T10: For each stop at a floor, at least one door reversal shall have occured before the doors are commanded to nudge.</h4>
+   	<ul>
+   		<li>When doors are closing, the monitor enters the warning state when the doors are nudging and no door reversals have occurred.
+   		<li>When the car doors stop the monitor returns to the state Doors Stopped.
+   		<li>The state variable reversal is set to true when mDoorReversal is true and is set to false when mDriveSpeed != stop 
+   		<li>Replication: each of the four DoorMotor[b,r] is monitored separately.<br><br>
+
+		<b>Event Triggered statechart: </b><br></li>
+  		<p> <img style="width: 839x; height: 97x;" alt="RT-10 Statechart" src="RT-10.png"><br clear="left"> </p>
+	</ul>
+
+<h2>Verification Instructions</h2>
+<br>
+To verify the high level requirements, instantiate a Runtime Monitor during acceptance testing using the <b>-monitor</b> commandline option. If all high level requirements are met the monitor should not output any warnings<br>
+<br>
+<h2>Verification Results</h2>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold;">Acceptance
+Test Name<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold;">Verification
+Status<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold;">Link to
+Verification Results<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold;">Notes<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">proj7acceptance1.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj7acceptance1.stats">proj7acceptance1.stats</a><br>
+      </td>
+      <td style="vertical-align: top;">Failed Requirements: R-T.6, R-T.7<br>
+      Failed Monitor: Runtime Monitor<br>
+      Failed Reason: HallButton turns off too early, doors remain cycling when there is no pending car/hall calls<br>
+      </td>
+    </tr>
+        <tr>
+      <td style="vertical-align: top;">proj7acceptance2.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj7acceptance2.stats">proj7acceptance2.stats</a><br>
+      </td>
+      <td style="vertical-align: top;">Failed Requirements: R-T.6, R-T.7<br>
+      Failed Monitor: Runtime Monitor<br>
+      Failed Reason: HallButton turns off too early, doors remain cycling when there is no pending car/hall calls<br>
+      </td>
+    </tr>
+        <tr>
+      <td style="vertical-align: top;">proj7acceptance3.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj7acceptance3.stats">proj7acceptance3.stats</a><br>
+      </td>
+      <td style="vertical-align: top;">Failed Requirements: R-T.6, R-T.7<br>
+      Failed Monitor: Runtime Monitor<br>
+      Failed Reason: HallButton turns off too early, doors remain cycling when there is no pending car/hall calls<br>
+      </td>
+    </tr>
+        <tr>
+      <td style="vertical-align: top;">proj8group11acceptance1.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj8acceptance1.stats">proj8acceptance1.stats</a><br>
+      </td>
+      <td style="vertical-align: top;">Failed Requirements: R-T.6, R-T.7<br>
+      Faild Monitor: Runtime Monitor<br>
+      Failed Reason: Sabbath mode stops at all floors<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">....<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</body>
+</html>
