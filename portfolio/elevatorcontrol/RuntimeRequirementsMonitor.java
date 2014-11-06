@@ -1,27 +1,30 @@
 package simulator.elevatorcontrol;
 
+import simulator.framework.DoorCommand;
 import simulator.framework.Elevator;
 import simulator.framework.Hallway;
 import simulator.framework.RuntimeMonitor;
 import simulator.payloads.AtFloorPayload.ReadableAtFloorPayload;
-import simulator.payloads.CarCallPayload.ReadableCarCallPayload;
 import simulator.payloads.DoorClosedPayload.ReadableDoorClosedPayload;
+import simulator.payloads.DoorMotorPayload.ReadableDoorMotorPayload;
+import simulator.payloads.DoorReversalPayload.ReadableDoorReversalPayload;
 import simulator.payloads.DriveSpeedPayload.ReadableDriveSpeedPayload;
-import simulator.payloads.HallCallPayload.ReadableHallCallPayload;
 
 public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	
 	RT6StateMachine RT6State = new RT6StateMachine();
 	RT7StateMachine RT7State = new RT7StateMachine();
+	RT10StateMachine RT10State = new RT10StateMachine();
+	
 	boolean[][] carCalls = new boolean[Elevator.numFloors][2];
 	boolean[][] hallCalls = new boolean[Elevator.numFloors][2];	
     protected int currentFloor = MessageDictionary.NONE;
     protected Hallway currentHallway = Hallway.NONE;
-
+    protected boolean reversal = false;
+    
 	@Override
 	public void timerExpired(Object callbackData) {
-		//do nothing
-		
+		//do nothing		
 	}
 
 	@Override
@@ -36,13 +39,16 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
     }
 	
 	public void receive(ReadableDriveSpeedPayload msg) {
-		RT6State.receive(msg);
-		
+		RT6State.receive(msg);		
 	}
 	
 	public void receive(ReadableDoorClosedPayload msg) {
 		RT7State.receive(msg);
-		}
+	}
+	
+	public void receive(ReadableDoorMotorPayload msg){
+		RT10State.receive(msg);
+	}
 	
     private void updateCurrentFloor(ReadableAtFloorPayload lastAtFloor) {
         if (lastAtFloor.getFloor() == currentFloor) {
@@ -60,11 +66,20 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
             }
         }
     }
-
 	
-	
-	
-	
+    private void setReversal(ReadableDoorReversalPayload msg){
+    	if(msg.isReversing()){
+    		reversal = true;
+    	}    	
+    }
+    
+    private void unsetReversal(ReadableDriveSpeedPayload msg){
+    	if(msg.speed()!=0){
+    		reversal = false;
+    	}
+    }
+    
+    
 	private static enum RT6States{
 		MOVING,
 		STOPPED,
@@ -75,6 +90,12 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 		DOORS_CLOSED,
 		DOORS_OPEN,
 		DOORS_OPEN_NO_PENDING_CALLS
+	}
+	
+	private static enum RT10States{
+		DOORS_STOPPED,
+		DOOR_NUDGING_AFTER_REVERSAL,
+		DOORS_NUDGING_NO_REVERSAL
 	}
 	
 	
@@ -137,7 +158,6 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	
 	private class RT7StateMachine{
 		RT7States state;
-		boolean rt7warningIssued = false;
 		
 		public RT7StateMachine(){
 			state = RT7States.DOORS_CLOSED;
@@ -172,9 +192,6 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
         	}
         	
         	if(newState != previousState){
-        		if(rt7warningIssued){
-        			warning("warning issued");
-        		}
         		switch(newState){
         		case DOORS_CLOSED:
         			break;
@@ -187,5 +204,43 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
         	}
         	
         }
+	}
+	
+	private class RT10StateMachine{
+		RT10States state;
+		
+		public RT10StateMachine(){
+			state = RT10States.DOORS_STOPPED;
+		}
+		
+		public void receive(ReadableDoorMotorPayload msg){
+			updateState(msg.command());
+		}
+		
+		private void updateState(DoorCommand cmd){
+			RT10States previousState = state;
+			RT10States newState = previousState;
+			
+			if(cmd == DoorCommand.NUDGE && !reversal){
+				newState = RT10States.DOORS_NUDGING_NO_REVERSAL;
+			}
+			else if (cmd == DoorCommand.NUDGE && reversal){
+				newState = RT10States.DOOR_NUDGING_AFTER_REVERSAL;
+			}
+			else if (cmd == DoorCommand.STOP){
+				newState = RT10States.DOORS_STOPPED;
+			}
+			
+			if(newState != previousState){
+				switch(newState){
+				case DOORS_NUDGING_NO_REVERSAL:
+					warning("R-T.10 Violated: Car doors are nudging when no door reversals have occured");
+				case DOOR_NUDGING_AFTER_REVERSAL:
+					break;
+				case DOORS_STOPPED:
+					break;
+				}
+			}
+		}
 	}
 }
