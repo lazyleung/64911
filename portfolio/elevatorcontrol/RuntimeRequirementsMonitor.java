@@ -219,7 +219,6 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	
 	private class RT10StateMachine{
 		RT10States state[][] = new RT10States[2][2];
-		boolean warningIssued = false;
 
 		public RT10StateMachine(){
 			state[Hallway.BACK.ordinal()][Side.LEFT.ordinal()] = RT10States.DOORS_STOPPED;
@@ -235,7 +234,8 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 		private void updateState(ReadableDoorMotorPayload msg){
 			RT10States previousState = state[msg.getHallway().ordinal()][msg.getSide().ordinal()];
 			RT10States newState = previousState;
-			
+			boolean warningIssued = false;
+
 			if(msg.command() == DoorCommand.NUDGE && !reversal[msg.getHallway().ordinal()][msg.getSide().ordinal()]){
 				newState = RT10States.DOORS_NUDGING_NO_REVERSAL;
 			}
