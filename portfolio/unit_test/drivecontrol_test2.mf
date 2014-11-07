@@ -43,7 +43,7 @@
 1.0s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[UP]_CAN_ID      Leveling UP = false
 1.0s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[DOWN]_CAN_ID    Leveling DOWN = false
 1.0s I AT_FLOOR_PERIOD      N AT_FLOOR_[2][BACK]_CAN_ID     AtFloor 2 BACK = false
-1.0s I DRIVE_PERIOD         F                               DriveSpeed = DOWN 0.25
+1.0s I DRIVE_PERIOD         F                               DriveSpeed = DOWN 0.24
 
 ;#state 'S6.4 SLOW_DOWN'
 1.2s A F Drive : speed == SLOW
