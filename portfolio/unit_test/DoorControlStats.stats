@@ -1,41 +1,49 @@
 
 Simulator Parameters:
-Command line = -cf doorcontrol.cf -mf DoorControlUnitTest.mf
-RandomSeed = 1412879102543
+Command line = -cf DoorControl.cf -mf DoorControl_test.mf
+RandomSeed = 1415745656055
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
 Real time rate = null
-Message File = DoorControlUnitTest.mf
-Controller File = doorcontrol.cf
+Message File = DoorControl_test.mf
+Controller File = DoorControl.cf
 
 Assertion Results:
-@1.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@185dec71 :: command ?== STOP PASSED
-@1.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@dc97ab8 :: getValue ?== STOP PASSED
-@2.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@746f5fd7 :: command ?== OPEN PASSED
-@2.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@cf325bff :: getValue ?== OPEN PASSED
-@3.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@8f60ccbc :: command ?== STOP PASSED
-@3.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@59e1f4ec :: getValue ?== STOP PASSED
-@4.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@5043a50f :: command ?== STOP PASSED
-@4.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@7d8133ea :: getValue ?== STOP PASSED
-@5.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1845d0cb :: command ?== NUDGE PASSED
-@5.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@1b0d5e40 :: getValue ?== NUDGE PASSED
-@6.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@fdd0ab7 :: command ?== STOP PASSED
-@6.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@d21b4364 :: getValue ?== STOP PASSED
-@8.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@23e85c2 :: command ?== OPEN PASSED
-@8.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@5303c20 :: getValue ?== OPEN PASSED
-@9.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@9eb65572 :: command ?== STOP PASSED
-@9.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@9a811667 :: getValue ?== STOP PASSED
-@9.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@e7e16d1f :: command ?== STOP PASSED
-@9.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@e4813341 :: getValue ?== STOP PASSED
-@11.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@85c4e870 :: command ?== NUDGE PASSED
-@11.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@7790740b :: getValue ?== NUDGE PASSED
-@13.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@fa13ffed :: command ?== OPEN PASSED
-@13.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@b27ce210 :: getValue ?== OPEN PASSED
+@1.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@394abc9f :: command ?== STOP PASSED
+@1.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@9d7f76a5 :: getValue ?== STOP PASSED
+@2.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@28fac370 :: command ?== OPEN PASSED
+@2.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@805331a3 :: getValue ?== OPEN PASSED
+@3.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@ba57f05c :: command ?== STOP PASSED
+@3.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@eecb3799 :: getValue ?== STOP PASSED
+@4.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@5c3dffc6 :: command ?== STOP PASSED
+@4.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@e6259a1b :: getValue ?== STOP PASSED
+@5.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@9c5856dc :: command ?== CLOSE PASSED
+@5.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@5f38f515 :: getValue ?== CLOSE PASSED
+@6.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2a3f1b58 :: command ?== STOP PASSED
+@6.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@93f659a8 :: getValue ?== STOP PASSED
+@8.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@321aaa88 :: command ?== OPEN PASSED
+@8.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@cd249b82 :: getValue ?== OPEN PASSED
+@9.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@3845fe5b :: command ?== STOP PASSED
+@9.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@7b43ab1f :: getValue ?== STOP PASSED
+@9.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@24822ec2 :: command ?== STOP PASSED
+@9.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@888e54a8 :: getValue ?== STOP PASSED
+@11.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@576d7708 :: command ?== CLOSE PASSED
+@11.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@afde01ef :: getValue ?== CLOSE PASSED
+@13.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@4cb3a54c :: command ?== OPEN PASSED
+@13.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@b5745f2b :: getValue ?== OPEN PASSED
+@14.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@43e97e6b :: command ?== STOP PASSED
+@14.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@f3fe93ca :: getValue ?== STOP PASSED
+@15.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@699f5ad5 :: command ?== STOP PASSED
+@15.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@24eee863 :: getValue ?== STOP PASSED
+@17.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@b1366640 :: command ?== NUDGE PASSED
+@17.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@42e07172 :: getValue ?== NUDGE PASSED
+@20.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@614336f :: command ?== STOP PASSED
+@20.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@17d4603c :: getValue ?== STOP PASSED
 
 
 ******************Summary******************
-Passed:  22
+Passed:  30
 Failed:  0
-Total :  22
+Total :  30
 
