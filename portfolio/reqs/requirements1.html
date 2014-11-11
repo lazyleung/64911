@@ -801,31 +801,6 @@ being, you must implement the message dictionary given below:<br>
       </td>
     </tr>
     <tr>
-      <td> Drive Control </td>
-      <td> mDrive </td>
-      <td> none </td>
-      <td style="vertical-align: top;">2<br>
-      </td>
-      <td>The commanded speed and direction of the car<br>
-      <ul>
-        <li>Speed - one of {STOP, LEVEL, SLOW, FAST}<br>
-        </li>
-        <li>Direction - one of {STOP, UP, DOWN}<br>
-        </li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td> Dispatcher </td>
-      <td> mDesiredDwell* </td>
-      <td> hallway </td>
-      <td style="vertical-align: top;">1<br>
-      </td>
-      <td>A numeric value indicating the desired dwell time for the
-door.<br>
-      </td>
-    </tr>
-    <tr>
       <td> Dispatcher </td>
       <td> mDesiredFloor** </td>
       <td> none </td>
@@ -845,16 +820,6 @@ one of {UP, DOWN, STOP}<a name="bf20100216111524"></a><br>
       </td>
     </tr>
     <tr>
-      <td> Door Control </td>
-      <td> mDoorMotor </td>
-      <td> hall, side </td>
-      <td style="vertical-align: top;">1<br>
-      </td>
-      <td>The current command to the door.&nbsp; One of {STOP, OPEN,
-CLOSE}<br>
-      </td>
-    </tr>
-    <tr>
       <td> Hall Button<span style="">&nbsp;</span> </td>
       <td> mHallCall </td>
       <td> floor, hall, direction </td>
@@ -862,16 +827,6 @@ CLOSE}<br>
       </td>
       <td>Indicate the presence of a hall call in the direction at the
 floor and hall.&nbsp; One of {true, false}<br>
-      </td>
-    </tr>
-    <tr>
-      <td> Hall Button<span style="">&nbsp;</span> </td>
-      <td> mHallLight </td>
-      <td> floor, hall, direction </td>
-      <td style="vertical-align: top;">1<br>
-      </td>
-      <td>Indicate the state of the hall light&nbsp; One of {true,
-false}<br>
       </td>
     </tr>
     <tr>
@@ -883,27 +838,73 @@ false}<br>
       <td>Indicate the presence of a car call for a certain floor and
 hall.&nbsp; One of {true, false}</td>
     </tr>
+  </tbody>
+</table>
+<br>
+<h3><a name="removedmessages"></a>Removed messages</h3>
+<table style="width: 800px;" border="1">
+  <tbody>
+    <tr>
+      <td> Source Node Name<br>
+      </td>
+      <td> Message Name </td>
+      <td> Replication<br>
+      </td>
+      <td style="vertical-align: top;">Number of Fields<br>
+      </td>
+      <td> Description </td>
+    </tr>
+    <tr>
+      <td> Drive Control </td>
+      <td> mDrive </td>
+      <td> none </td>
+      <td> 2 </td>
+      <td> The commanded speed and direction of the car <br>
+        <ul>
+          <li>Speed - one of {STOP, LEVEL, SLOW, FAST}<br>
+          </li>
+          <li>Direction - one of {STOP, UP, DOWN}<br>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> Dispatcher </td>
+      <td> mDesiredDwell* </td>
+      <td> hallway </td>
+      <td> 1 <br>
+      </td>
+      <td>A numeric value indicating the desired dwell time for the door.<br>
+      </td>
+    </tr>
+    <tr>
+      <td> Door Control </td>
+      <td> mDoorMotor </td>
+      <td> hall, side </td>
+      <td> 1 <br>
+      </td>
+      <td>The current command to the door.&nbsp; One of {STOP, OPEN, CLOSE}<br>
+      </td>
+    </tr>
+    <tr>
+      <td> Hall Button<span style="">&nbsp;</span> </td>
+      <td> mHallLight </td>
+      <td> floor, hall, direction </td>
+      <td> 1<br>
+      </td>
+      <td>Indicate the state of the hall light&nbsp; One of {true,false}<br>
+      </td>
+    </tr>
     <tr>
       <td> Car Button </td>
       <td> mCarLight </td>
       <td> floor, hall </td>
-      <td style="vertical-align: top;">1<br>
+      <td> 1<br>
       </td>
       <td>Indicate the state of the car light&nbsp; One of {true, false}</td>
     </tr>
   </tbody>
 </table>
-<br>
-<h3><a name="removedmessages"></a>Removed messages</h3>
-<ul>
-  <li>Starting in Project 10, you will be allowed to remove unused
-messages.&nbsp; Any message that is otherwise removed from the
-documentation should be listed here.&nbsp; See the project 10 writeup
-for more details.&nbsp; <span
- style="font-weight: bold; color: rgb(204, 0, 0);">You MAY NOT remove
-messages from the message dictionary prior to Project 10.</span><br>
-  </li>
-</ul>
 <br>
 Notes:<br>
 *mDesiredDwell:<br>
