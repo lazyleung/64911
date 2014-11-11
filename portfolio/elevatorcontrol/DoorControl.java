@@ -132,7 +132,7 @@ public class DoorControl extends Controller
         switch(doorState){
             case OPEN:
                 doOpen();
-                if(mCarWeight.getValue() < Elevator.MaxCarCapacity && countdown <= 0){
+                if(mCarWeight.getValue() < Elevator.MaxCarCapacity && countdown <= 0 && (mAtFloor.getCurrentFloor() != mDesiredFloor.getFloor())){
                     //#transition 'T5.2'
                     if(reversal == false)
                         newState = State.CLOSING;
@@ -201,6 +201,10 @@ public class DoorControl extends Controller
         mDoorMotor.set(DoorCommand.STOP);
         dwell = mDesiredDwell.getValue();
         countdown = countdown - period.getFracSeconds();
+        if(countdown < 0){
+        	countdown = -1;
+        }
+        	
     }
 
     private void doClosing(){
