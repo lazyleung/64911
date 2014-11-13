@@ -37,15 +37,12 @@ The high level requirements verification shall be performed by the Runtime Monit
 
 <h4>&nbsp;&nbsp;&nbsp;R-T9: The Drive shall be commanded to fast speed to the maximum degree practicable.</h4>
    	<ul>
-   		<li> ---------------> FILL ME IN !!! <--------------------<br><br>
-
-		<b>Event Triggered statechart: </b><br></li>
-  		<p> <img style="width: 811x; height: 422x;" alt="RT-9 Statechart" src="RT-9.png"><br clear="left"> </p>
+   		<li>If the car is moving at a speed greater than LevelingSpeed then it is possible to reach FastSpeed before stopping</li>
+   		<li>While moving the monitor checks mDriveSpeed and sets FastReached to true if mDriveSpeed > SlowSpeed </li>
+		<li>When stopped FastReached is set to false <br><br></li>
+		<li><b>Event Triggered statechart: </b><br></li>
+  		<p> <img style="width: 836x; height: 174x;" alt="RT-9 Statechart" src="RT-9.png"><br clear="left"> </p>
 	</ul>
-
-
-
-
 
   	<h4>&nbsp;&nbsp;&nbsp;R-T10: For each stop at a floor, at least one door reversal shall have occured before the doors are commanded to nudge.</h4>
    	<ul>
