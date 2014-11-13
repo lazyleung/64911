@@ -56,8 +56,7 @@ public class DoorControl extends Controller
     private DoorReversalCanPayloadTranslator mDoorReversal;
 
     private DriveSpeedCanPayloadTranslator mDriveSpeed;
-    private DesiredFloorCanPayloadTranslator mDesiredFloor;
-    private IntegerCanPayloadTranslator mDesiredDwell;   
+    private DesiredFloorCanPayloadTranslator mDesiredFloor;  
     private CarWeightCanPayloadTranslator mCarWeight;
     private DoorMotorCanPayloadTranslator mDoorMotor;
 
@@ -75,7 +74,7 @@ public class DoorControl extends Controller
 
         this.floor = 1;
         this.countdown = 0;
-        this.dwell = 0;
+        this.dwell = 5.0;
         this.doorState = State.CLOSED;
 
         //define physical objects
@@ -102,10 +101,6 @@ public class DoorControl extends Controller
         ReadableCanMailbox networkDesiredFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
             mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloorIn);
             canInterface.registerTimeTriggered(networkDesiredFloorIn);
-
-        ReadableCanMailbox networkDesiredDwellIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID);
-            mDesiredDwell = new IntegerCanPayloadTranslator(networkDesiredDwellIn);
-            canInterface.registerTimeTriggered(networkDesiredDwellIn);
 
         ReadableCanMailbox networkCarWeightIn = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_WEIGHT_CAN_ID);
             mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeightIn);
@@ -191,7 +186,6 @@ public class DoorControl extends Controller
         //#state 'S5.1 OPENING'
         doorMotor.set(DoorCommand.OPEN);
         mDoorMotor.set(DoorCommand.OPEN);
-        dwell = mDesiredDwell.getValue();
         countdown = dwell;
     }
 
@@ -199,7 +193,6 @@ public class DoorControl extends Controller
         //#state 'S5.2 OPEN'
         doorMotor.set(DoorCommand.STOP);
         mDoorMotor.set(DoorCommand.STOP);
-        dwell = mDesiredDwell.getValue();
         countdown = countdown - period.getFracSeconds();
         if(countdown < 0){
         	countdown = -1;
@@ -211,7 +204,6 @@ public class DoorControl extends Controller
         //#state 'S5.3 CLOSING'
         doorMotor.set(DoorCommand.CLOSE);
         mDoorMotor.set(DoorCommand.CLOSE);
-        dwell = mDesiredDwell.getValue();
         reversal = true;
     }
 
@@ -219,7 +211,6 @@ public class DoorControl extends Controller
         //#state 'S5.4 CLOSED'
         doorMotor.set(DoorCommand.STOP);
         mDoorMotor.set(DoorCommand.STOP);
-        dwell = mDesiredDwell.getValue();
         reversal = false;
     }
 
@@ -227,6 +218,5 @@ public class DoorControl extends Controller
         //#state 'S5.4 NUDGE'
         doorMotor.set(DoorCommand.NUDGE);
         mDoorMotor.set(DoorCommand.NUDGE);
-        dwell = mDesiredDwell.getValue();
     }
 }
