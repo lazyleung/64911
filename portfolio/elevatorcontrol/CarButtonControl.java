@@ -25,7 +25,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 	private WriteableCanMailbox networkCarLightOut;
 	private WriteableCanMailbox networkCarCallOut;
 	
-    private BooleanCanPayloadTranslator mCarLight;
+    private BooleanCanPayloadTranslator mCarCall;
 
     //incoming messages
 	private ReadableCanMailbox networkAtFloorIn;
@@ -72,18 +72,16 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		
 		//initialize network interface
 		//create CAN mailboxes
-		networkCarLightOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_LIGHT_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
 		networkCarCallOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
 		networkAtFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
 
 		//Create a translator with a reference to the CanMailbox.  Use the 
         //translator to read and write values to the mailbox
 		
-		mCarLight = new BooleanCanPayloadTranslator(networkCarLightOut);
+		mCarCall = new BooleanCanPayloadTranslator(networkCarCallOut);
 		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
 		
         //register mailboxes to have its value broadcasted/receive updates on the network periodically
-        canInterface.sendTimeTriggered(networkCarLightOut, period);
         canInterface.sendTimeTriggered(networkCarCallOut, period);
         canInterface.registerTimeTriggered(networkAtFloorIn);
 
@@ -123,18 +121,16 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		
 		//initialize network interface
 		//create CAN mailboxes
-		networkCarLightOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_LIGHT_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
 		networkCarCallOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
 		networkAtFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
 
 		//Create a translator with a reference to the CanMailbox.  Use the 
         //translator to read and write values to the mailbox
 		
-		mCarLight = new BooleanCanPayloadTranslator(networkCarLightOut);
+		mCarCall = new BooleanCanPayloadTranslator(networkCarCallOut);
 		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
 		
         //register mailboxes to have its value broadcasted/receive updates on the network periodically
-        canInterface.sendTimeTriggered(networkCarLightOut, period);
         canInterface.sendTimeTriggered(networkCarCallOut, period);
         canInterface.registerTimeTriggered(networkAtFloorIn);
 
@@ -154,7 +150,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		switch (state) {
 			case STATE_IDLE:	
 				localCarLight.set(false);
-				mCarLight.set(false);
+				mCarCall.set(false);
 
 				//#transition 'T9.1'
 				if(localCarCall.pressed()){					
@@ -167,7 +163,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		
 			case STATE_CARCALL_PLACED:
 				localCarLight.set(true);
-				mCarLight.set(true);
+				mCarCall.set(true);
 
 				//#transition 'T9.2'
 				if(!localCarCall.pressed() && mAtFloor.getValue() == true){					
