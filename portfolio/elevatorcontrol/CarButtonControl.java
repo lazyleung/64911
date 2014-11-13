@@ -26,7 +26,6 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 	private WriteableCanMailbox networkCarCallOut;
 	
     private BooleanCanPayloadTranslator mCarLight;
-    private BooleanCanPayloadTranslator mCarCall;
 
     //incoming messages
 	private ReadableCanMailbox networkAtFloorIn;
@@ -81,7 +80,6 @@ public class CarButtonControl extends Controller implements TimeSensitive{
         //translator to read and write values to the mailbox
 		
 		mCarLight = new BooleanCanPayloadTranslator(networkCarLightOut);
-		mCarCall = new BooleanCanPayloadTranslator(networkCarCallOut);
 		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
 		
         //register mailboxes to have its value broadcasted/receive updates on the network periodically
@@ -133,7 +131,6 @@ public class CarButtonControl extends Controller implements TimeSensitive{
         //translator to read and write values to the mailbox
 		
 		mCarLight = new BooleanCanPayloadTranslator(networkCarLightOut);
-		mCarCall = new BooleanCanPayloadTranslator(networkCarCallOut);
 		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
 		
         //register mailboxes to have its value broadcasted/receive updates on the network periodically
@@ -158,7 +155,6 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 			case STATE_IDLE:	
 				localCarLight.set(false);
 				mCarLight.set(false);
-				mCarCall.set(false);
 
 				//#transition 'T9.1'
 				if(localCarCall.pressed()){					
@@ -172,7 +168,6 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 			case STATE_CARCALL_PLACED:
 				localCarLight.set(true);
 				mCarLight.set(true);
-				mCarCall.set(true);
 
 				//#transition 'T9.2'
 				if(!localCarCall.pressed() && mAtFloor.getValue() == true){					
