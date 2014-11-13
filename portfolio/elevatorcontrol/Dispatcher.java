@@ -19,6 +19,7 @@ import simulator.framework.Side;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
+import simulator.payloads.translators.BooleanCanPayloadTranslator;
 
 public class Dispatcher extends simulator.framework.Controller{
 	//store the period for the controller
@@ -48,7 +49,7 @@ public class Dispatcher extends simulator.framework.Controller{
     private HallCallCanPayloadTranslator[] mHallCalls =  new HallCallCanPayloadTranslator[17];
     private int[] HallCallFloors = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 8};
     private Hallway[] HallCallHallways = {Hallway.FRONT,Hallway.BACK,Hallway.BACK,Hallway.BACK,Hallway.FRONT,Hallway.FRONT,Hallway.FRONT,Hallway.FRONT,Hallway.FRONT,Hallway.FRONT,Hallway.FRONT,Hallway.FRONT,Hallway.FRONT,Hallway.FRONT,Hallway.BACK,Hallway.BACK,Hallway.FRONT};
-    private Direction[] HallCallDirections = {Direction.UP,Direction.UP,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.DOWN,};
+    private Direction[] HallCallDirections = {Direction.UP,Direction.UP,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.UP,Direction.DOWN,Direction.DOWN};
     
     //receive mCarWeight message
     private ReadableCanMailbox networkCarWeight;
@@ -148,7 +149,7 @@ public class Dispatcher extends simulator.framework.Controller{
         mDesiredDwellBack = new DesiredDwellCanPayloadTranslator(networkDesiredDwellBack);
         canInterface.sendTimeTriggered(networkDesiredDwellBack, period);
         
-        Target = -1;
+        Target = 1;
         DesiredHallway = Hallway.BOTH;
         
         timer.start(period);
@@ -180,12 +181,13 @@ public class Dispatcher extends simulator.framework.Controller{
 	        	networkAtFloors[i] = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID+ReplicationComputer.computeReplicationId(AtFloorFloors[i], AtFloorHallways[i]));
 	            mAtFloors[i] = new AtFloorCanPayloadTranslator(networkAtFloors[i], AtFloorFloors[i], AtFloorHallways[i]);
 	            canInterface.registerTimeTriggered(networkAtFloors[i]);
+
         	}
         	if (i < mCarCalls.length){
 	            networkCarCalls[i] = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_CALL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(CarCallFloors[i], CarCallHallways[i]));
 	            mCarCalls[i] = new CarCallCanPayloadTranslator(networkCarCalls[i], CarCallFloors[i], CarCallHallways[i]);
 	            canInterface.registerTimeTriggered(networkCarCalls[i]);
-        	}
+            }
         	networkHallCalls[i] = CanMailbox.getReadableCanMailbox(MessageDictionary.HALL_CALL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(HallCallFloors[i], HallCallHallways[i], HallCallDirections[i]));
             mHallCalls[i] = new HallCallCanPayloadTranslator(networkHallCalls[i], HallCallFloors[i], HallCallHallways[i], HallCallDirections[i]);
             canInterface.registerTimeTriggered(networkHallCalls[i]);
@@ -207,7 +209,7 @@ public class Dispatcher extends simulator.framework.Controller{
         mDesiredDwellBack = new DesiredDwellCanPayloadTranslator(networkDesiredDwellBack);
         canInterface.sendTimeTriggered(networkDesiredDwellBack, period);
         
-        Target = -1;
+        Target = 1;
         DesiredHallway = Hallway.BOTH;
         
         timer.start(period);
@@ -240,6 +242,7 @@ public class Dispatcher extends simulator.framework.Controller{
 			if (mAtFloors[i].getValue()){
 				curFloor = AtFloorFloors[i];
 			}
+            log("AtFloor["+AtFloorFloors[i]+"]["+AtFloorHallways[i]+"] = "+mAtFloors[i].getValue());
 		}
 		notAtFloor = !atFloor;
 		log("-=-----------CURFLOR  "+curFloor+ "    Target="+Target+"------------------");
@@ -254,40 +257,45 @@ public class Dispatcher extends simulator.framework.Controller{
 			currentDirection = mDriveSpeed.getDirection(); // get direction from mDriveSpeed
 		}
 		oppositeDirection = getOppositeDirection(currentDirection);
+
+
 		
-		// if we are actually at a floor to make next dispatching decision.
+        // if we are actually at a floor to make next dispatching decision.
 		if (curFloor > 0){
 			if (currentDirection.equals(Direction.UP)){
-				int closestHallCall = -1;
-				int closestCarCall = -1;
-				int farthestHallCall = -1;
-				Hallway closestHallCallHall = Hallway.NONE;
-				Hallway closestCarCallHall = Hallway.NONE;
-				Hallway farthestHallCallHall = Hallway.NONE;
+                int closestHallCall = -1;
+                int closestCarCall = -1;
+                int farthestHallCall = -1;
+                Hallway closestHallCallHall = Hallway.NONE;
+                Hallway closestCarCallHall = Hallway.NONE;
+                Hallway farthestHallCallHall = Hallway.NONE;
+
 				// search from cur floor upwards, for closest hallcall wanting to go in same direction, or farthest hallcall in opposite direction.
 				for (int i = 0; i < HallCallFloors.length; i++){
 					// stop at first one found.
 					if ((HallCallFloors[i] > curFloor) && HallCallDirections[i].equals(Direction.UP) && mHallCalls[i].getValue() && (closestHallCall == -1)){
-						closestHallCall = HallCallFloors[i];
+						
+                        closestHallCall = HallCallFloors[i];
 						closestHallCallHall = HallCallHallways[i];
 						if (closestHallCall == 7){
-							if (mHallCalls[i+2].getValue()){
+							if ((i+2 < HallCallFloors.length) && mHallCalls[i+2].getValue()){
 								closestHallCallHall = Hallway.BOTH;
 							}
 						}
 					}
+                    log("HallCall["+HallCallFloors[i]+"]["+HallCallHallways[i]+"]["+HallCallDirections[i]+"] = "+mHallCalls[i].getValue());
 					// keep trying until the very end for a hallcall that is going down.
 					if ((HallCallFloors[i] > curFloor) && (HallCallDirections[i].equals(oppositeDirection)) && mHallCalls[i].getValue()){
 						farthestHallCall = HallCallFloors[i];
 						farthestHallCallHall = HallCallHallways[i];
-						
+						log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 						// floor 7 has two possible landings. need to make desiredHall Both if necessary.
-						if ((farthestHallCall == 7) && (HallCallFloors[i+2]==7)){
+						if ((farthestHallCall == 7) && (i+2 < HallCallFloors.length) && (HallCallFloors[i+2]==7)){
 							if (mHallCalls[i+2].getValue()){
 								farthestHallCallHall = Hallway.BOTH;
 							}
 						}
-						if ((farthestHallCall == 7) && (HallCallFloors[i-2]==7)){
+						if ((farthestHallCall == 7) && (i-2 >= 0) && (HallCallFloors[i-2]==7)){
 							if (mHallCalls[i-2].getValue()){
 								farthestHallCallHall = Hallway.BOTH;
 							}
@@ -300,11 +308,12 @@ public class Dispatcher extends simulator.framework.Controller{
 						closestCarCall = CarCallFloors[i];
 						closestCarCallHall = CarCallHallways[i];
 						if (closestCarCall == 7){
-							if (mCarCalls[i+1].getValue()){
+							if ((i+1 < CarCallFloors.length) && mCarCalls[i+1].getValue()){
 								closestCarCallHall = Hallway.BOTH;
 							}
 						}
 					}
+                    log("Carall["+CarCallFloors[i]+"]["+CarCallHallways[i]+"] = "+mCarCalls[i].getValue());
 				}
 				
 				// set the closest Floor and Hallway based on carcalls and hallcalls
@@ -342,6 +351,7 @@ public class Dispatcher extends simulator.framework.Controller{
 				}
 				farthestFloor = farthestHallCall;
 				farthestHallway = farthestHallCallHall;
+                log("farthestHallCall= "+farthestHallCall);
 			}
 			
 			else if (currentDirection.equals(Direction.DOWN)){
@@ -363,7 +373,7 @@ public class Dispatcher extends simulator.framework.Controller{
 						}
 					}
 				}
-				for (int i=  HallCallFloors.length-1; i >= 0; i--){
+				for (int i =  HallCallFloors.length-1; i >= 0; i--){
 					if ((HallCallFloors[i] < curFloor) && (HallCallDirections[i].equals(Direction.UP)) && mHallCalls[i].getValue()){
 						farthestHallCall = HallCallFloors[i];
 						farthestHallCallHall = HallCallHallways[i];
@@ -376,10 +386,10 @@ public class Dispatcher extends simulator.framework.Controller{
 							}
 						}
 						if (farthestHallCall == 1){
-							if ((HallCallFloors[i-1] == 1) && mHallCalls[i-1].getValue()){
+							if ((i-1 >= 0) && (HallCallFloors[i-1] == 1) && mHallCalls[i-1].getValue()){
 								farthestHallCallHall = Hallway.BOTH;
 							}
-							if ((HallCallFloors[i+1] == 1) && mHallCalls[i+1].getValue()){
+							if ((i+1 < HallCallFloors.length) && (HallCallFloors[i+1] == 1) && mHallCalls[i+1].getValue()){
 								farthestHallCallHall = Hallway.BOTH;
 							}
 						}
@@ -392,11 +402,11 @@ public class Dispatcher extends simulator.framework.Controller{
 						closestCarCall = CarCallFloors[i];
 						closestCarCallHall = CarCallHallways[i];
 						if (closestCarCall == 7){
-							if (mCarCalls[i-1].getValue()){
+							if ((i-1 >= 0) && mCarCalls[i-1].getValue()){
 								closestCarCallHall = Hallway.BOTH;
 							}
 						} else if (closestCarCall == 1){
-							if (mCarCalls[i-1].getValue()){
+							if ((i-1 >= 0) && mCarCalls[i-1].getValue()){
 								closestCarCallHall = Hallway.BOTH;
 							}
 						}
@@ -438,20 +448,21 @@ public class Dispatcher extends simulator.framework.Controller{
 				}
 				farthestFloor = farthestHallCall;
 				farthestHallway = farthestHallCallHall;
-			}
+			 log("farthestHallCall= "+farthestHallCall);
+            }
+
 		}
-		
-        if ((closestFloor == -1) && (farthestFloor == -1)){
-            currentDirection = oppositeDirection;
-            oppositeDirection = currentDirection;
-        }
 		
 		
 		log("curFloor="+curFloor+" atFloor="+atFloor+" AllDoorClosed="+AllDoorClosed + " ClosestFloor="+closestFloor + "  closestHall="+closestHallway + " farthestFloor="+farthestFloor+ "  farthestHall="+farthestHallway+" curDir="+currentDirection);
-		oppositeDirection = getOppositeDirection(currentDirection);
-		
 		log("curFloor="+curFloor+"  Target="+Target + "   atFloor="+atFloor+"    allDoorClosed="+AllDoorClosed);
-		
+    
+         if ((closestFloor == -1) && (farthestFloor == -1)){
+            currentDirection = oppositeDirection;
+            oppositeDirection = getOppositeDirection(currentDirection); 
+        }
+
+
 		switch (state){
 		case STATE_INIT:
 			Target = 1;
@@ -462,7 +473,6 @@ public class Dispatcher extends simulator.framework.Controller{
 			
 			//#transition 'T11.1'
 			if ((!AllDoorClosed) && atFloor && (curFloor == Target) && (closestFloor != -1)){
-				//log("------- Transition T11.1 -------------");
 				newState = State.STATE_GOTO_CLOSEST_FLOOR;
 			}
 			//#transition 'T11.2'
