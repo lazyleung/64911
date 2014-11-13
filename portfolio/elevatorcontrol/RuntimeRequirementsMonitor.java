@@ -15,6 +15,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	
 	RT6StateMachine RT6State = new RT6StateMachine();
 	RT7StateMachine RT7State = new RT7StateMachine();
+	RT9StateMachine RT9State = new RT9StateMachine();
 	RT10StateMachine RT10State = new RT10StateMachine();
 	
 	boolean[][] carCalls = new boolean[Elevator.numFloors][2];
@@ -45,6 +46,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	
 	public void receive(ReadableDriveSpeedPayload msg) {
 		RT6State.receive(msg);	
+		RT9State.receive(msg);	
 		unsetReversal(msg);
 	}
 	
@@ -99,6 +101,14 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 		DOORS_CLOSED,
 		DOORS_OPEN,
 		DOORS_OPEN_NO_PENDING_CALLS
+	}
+	
+	private static enum RT9States{
+		STOPPED,
+		SLOW_GOOD,
+		SLOW_BAD,
+		FAST_GOOD,
+		FAST_BAD;
 	}
 	
 	private static enum RT10States{
@@ -262,6 +272,95 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 				}
 			}
 			state[msg.getHallway().ordinal()][msg.getSide().ordinal()] = newState;
+		}
+	}
+	
+	private class RT9StateMachine{
+		RT9States state = new RT9States;
+		RT9States nextState = new RT9States;
+		float MaxSpeed = DriveObject.SlowSpeed;
+		
+		public RT10StateMachine(){
+			state  = RT9States.STOPPED;
+		}
+		
+		public void receive(ReadableDriveSpeedPayload msg){
+			updateState(msg);
+		}
+		
+		private void updateMaxSpeed( ){
+			
+		}
+		
+		private void updateState(ReadableDriveSpeedPayload msg){
+			nextState = state;
+			SLOW_SPEED = DriveObject.SlowSpeed;
+			FAST_SPEED = DriveObject.FastSpeed;
+			
+			switch(state){
+			case RT9States.STOPPED:
+				if(msg.speed > 0){
+					nextState = RT9States.SLOW_GOOD;
+				}
+				break;
+			case RT9States.SLOW_GOOD:
+				if(msg.speed == 0){
+					nextState = RT9States.STOPPED;
+				}else if(msg.speed <= SLOW_SPEED && MaxSpeed == FAST_SPEED ){
+					nextState = RT9States.SLOW_BAD;
+				}else if(msg.speed > SLOW_SPEED && MaxSpeed == SLOW_SPEED ){
+					nextState = RT9States.FAST_BAD;
+				}else if(msg.speed > SLOW_SPEED && MaxSpeed == FAST_SPEED){
+					nextState = RT9States.FAST_GOOD;
+				}
+				break;
+			case RT9States.SLOW_BAD:
+				if(msg.speed == 0){
+					nextState = RT9States.STOPPED;
+				}else if(msg.speed <= SLOW_SPEED && MaxSpeed == SLOW_SPEED ){
+					nextState = RT9States.SLOW_GOOD;
+				}else if(msg.speed > SLOW_SPEED && MaxSpeed == FAST_SPEED){
+					nextState = RT9States.FAST_GOOD;
+				}
+				break;
+			case RT9States.FAST_GOOD:
+				if(msg.speed <= SLOW_SPEED && MaxSpeed == FAST_SPEED ){
+					nextState = RT9States.SLOW_BAD;
+				}else if(msg.speed <= SLOW_SPEED && MaxSpeed == SLOW_SPEED){
+					nextState = RT9States.SLOW_GOOD;
+				}else if(msg.speed > SLOW_SPEED && MaxSpeed == SLOW_SPEED ){
+					nextState = RT9States.FAST_BAD;
+				}
+				break;
+			case RT9States.FAST_BAD:
+				if(msg.speed <= SLOW_SPEED && MaxSpeed == SLOW_SPEED){
+					nextState = RT9States.SLOW_GOOD;
+				}else if(msg.speed > SLOW_SPEED && MaxSpeed == FAST_SPEED){
+					nextState = RT9States.FAST_GOOD;
+				}
+				break;
+			}
+			
+			
+			
+			
+			if(newState != previousState){
+				switch(newState){
+				case RT9States.STOPPED:
+                    break;
+				case RT9States.SLOW_GOOD:
+					break;
+				case RT9States.SLOW_BAD:
+					warning("R-T.9 Violated: Car is moving at Slow when Fast is possible");
+					break;
+				case RT9States.FAST_GOOD:
+					break;
+				case RT9States.FAST_BAD:
+					warning("R-T.9 Violated: Car is moving at Fast when max allowed speed is Slow");
+					break;
+				}
+			}
+			state = newState;
 		}
 	}
 }
