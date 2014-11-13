@@ -80,6 +80,7 @@ public class DriveControl extends Controller implements TimeSensitive {
 
         // Init physical interfaces
         localSpeed = DriveSpeedPayload.getReadablePayload();
+        localDrive = DrivePayload.getWriteablePayload();
         physicalInterface.registerTimeTriggered(localSpeed);
         physicalInterface.sendTimeTriggered(localDrive, period);
 
