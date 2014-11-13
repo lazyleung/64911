@@ -70,10 +70,10 @@ public class Dispatcher extends simulator.framework.Controller{
     private WriteableCanMailbox networkDesiredFloor;
     private DesiredFloorCanPayloadTranslator mDesiredFloor;
     //send mDesiredDwell messages
-    private WriteableCanMailbox networkDesiredDwellFront;
-    private WriteableCanMailbox networkDesiredDwellBack;
-    private DesiredDwellCanPayloadTranslator mDesiredDwellFront;
-    private DesiredDwellCanPayloadTranslator mDesiredDwellBack;
+    //private WriteableCanMailbox networkDesiredDwellFront;
+    //private WriteableCanMailbox networkDesiredDwellBack;
+    //private DesiredDwellCanPayloadTranslator mDesiredDwellFront;
+    //private DesiredDwellCanPayloadTranslator mDesiredDwellBack;
 	
     //enumerate states
     private enum State {
@@ -142,12 +142,12 @@ public class Dispatcher extends simulator.framework.Controller{
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
         canInterface.sendTimeTriggered(networkDesiredFloor, period);
         
-        networkDesiredDwellFront = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.FRONT));
-        mDesiredDwellFront = new DesiredDwellCanPayloadTranslator(networkDesiredDwellFront);
-        canInterface.sendTimeTriggered(networkDesiredDwellFront, period);
-        networkDesiredDwellBack = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.BACK));
-        mDesiredDwellBack = new DesiredDwellCanPayloadTranslator(networkDesiredDwellBack);
-        canInterface.sendTimeTriggered(networkDesiredDwellBack, period);
+        //networkDesiredDwellFront = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.FRONT));
+        //mDesiredDwellFront = new DesiredDwellCanPayloadTranslator(networkDesiredDwellFront);
+        //canInterface.sendTimeTriggered(networkDesiredDwellFront, period);
+        //networkDesiredDwellBack = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.BACK));
+        //mDesiredDwellBack = new DesiredDwellCanPayloadTranslator(networkDesiredDwellBack);
+        //canInterface.sendTimeTriggered(networkDesiredDwellBack, period);
         
         Target = 1;
         DesiredHallway = Hallway.BOTH;
@@ -202,12 +202,12 @@ public class Dispatcher extends simulator.framework.Controller{
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
         canInterface.sendTimeTriggered(networkDesiredFloor, period);
         
-        networkDesiredDwellFront = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.FRONT));
-        mDesiredDwellFront = new DesiredDwellCanPayloadTranslator(networkDesiredDwellFront);
-        canInterface.sendTimeTriggered(networkDesiredDwellFront, period);
-        networkDesiredDwellBack = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.BACK));
-        mDesiredDwellBack = new DesiredDwellCanPayloadTranslator(networkDesiredDwellBack);
-        canInterface.sendTimeTriggered(networkDesiredDwellBack, period);
+        //networkDesiredDwellFront = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.FRONT));
+        //mDesiredDwellFront = new DesiredDwellCanPayloadTranslator(networkDesiredDwellFront);
+        //canInterface.sendTimeTriggered(networkDesiredDwellFront, period);
+        //networkDesiredDwellBack = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.BACK));
+        //mDesiredDwellBack = new DesiredDwellCanPayloadTranslator(networkDesiredDwellBack);
+        //canInterface.sendTimeTriggered(networkDesiredDwellBack, period);
         
         Target = 1;
         DesiredHallway = Hallway.BOTH;
@@ -468,8 +468,8 @@ public class Dispatcher extends simulator.framework.Controller{
 			Target = 1;
 			DesiredHallway = Hallway.BOTH;
 			mDesiredFloor.set(Target, Direction.STOP, DesiredHallway);
-			mDesiredDwellFront.set(dwellTime);
-			mDesiredDwellBack.set(dwellTime);
+			//mDesiredDwellFront.set(dwellTime);
+			//mDesiredDwellBack.set(dwellTime);
 			
 			//#transition 'T11.1'
 			if ((!AllDoorClosed) && atFloor && (curFloor == Target) && (closestFloor != -1)){
@@ -490,8 +490,8 @@ public class Dispatcher extends simulator.framework.Controller{
 			Target = closestFloor;
 			DesiredHallway = closestHallway;
 			mDesiredFloor.set(Target, Direction.STOP, closestHallway);
-			mDesiredDwellFront.set(dwellTime);
-			mDesiredDwellBack.set(dwellTime);
+			//mDesiredDwellFront.set(dwellTime);
+			//mDesiredDwellBack.set(dwellTime);
 			
             //#transition 'T11.3'
 			newState = State.STATE_IDLE;
@@ -500,8 +500,8 @@ public class Dispatcher extends simulator.framework.Controller{
 			Target = farthestFloor;
 			DesiredHallway = farthestHallway;
 			mDesiredFloor.set(Target, Direction.STOP, farthestHallway);
-			mDesiredDwellFront.set(dwellTime);
-			mDesiredDwellBack.set(dwellTime);
+			//mDesiredDwellFront.set(dwellTime);
+			//mDesiredDwellBack.set(dwellTime);
 			
 			//#transition 'T11.4'
 			newState = State.STATE_IDLE;
@@ -511,14 +511,14 @@ public class Dispatcher extends simulator.framework.Controller{
 			Target = 1;
 			DesiredHallway = Hallway.NONE;
 			mDesiredFloor.set(Target,Direction.STOP,Hallway.NONE);
-			mDesiredDwellFront.set(dwellTime);
-			mDesiredDwellBack.set(dwellTime);
+			//mDesiredDwellFront.set(dwellTime);
+			//mDesiredDwellBack.set(dwellTime);
 			newState = State.STATE_EMERGENCY;
 			break;
 		case STATE_IDLE:
 			mDesiredFloor.set(Target, Direction.STOP, DesiredHallway);
-			mDesiredDwellFront.set(dwellTime);
-			mDesiredDwellBack.set(dwellTime);
+			//mDesiredDwellFront.set(dwellTime);
+			//mDesiredDwellBack.set(dwellTime);
             //#transition 'T11.7'
 			if (notAtFloor && (!AllDoorClosed)){
 				newState = State.STATE_EMERGENCY;
