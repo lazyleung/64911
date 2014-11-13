@@ -22,8 +22,6 @@
 0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
 0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
 0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == BOTH
-0.5s A N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell : getValue == 5
-0.5s A N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell : getValue == 5
 
 ;#transition 'T11.2'
 0.8s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
@@ -35,8 +33,6 @@
 1.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 8
 1.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
 1.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
-1.5s A N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell : getValue == 5
-1.5s A N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell : getValue == 5
 
 ;#transition 'T11.4'
 ;true
@@ -45,8 +41,6 @@
 1.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 8
 1.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
 1.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
-1.7s A N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell : getValue == 5
-1.7s A N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell : getValue == 5
 
 ;#transition 'T11.6' 
 1.8s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
@@ -63,5 +57,3 @@
 4.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
 4.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
 4.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
-4.5s A N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell : getValue == 5
-4.5s A N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell : getValue == 5
