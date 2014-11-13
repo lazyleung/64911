@@ -45,7 +45,6 @@ public class DriveControl extends Controller implements TimeSensitive {
     DrivePayload.WriteableDrivePayload          localDrive;
 
     // output network
-    DriveCommandCanPayloadTranslator        mDrive;
     DriveSpeedCanPayloadTranslator          mDriveSpeed;
 
     //input network
@@ -81,7 +80,6 @@ public class DriveControl extends Controller implements TimeSensitive {
 
         // Init physical interfaces
         localSpeed = DriveSpeedPayload.getReadablePayload();
-        localDrive = DrivePayload.getWriteablePayload();
         physicalInterface.registerTimeTriggered(localSpeed);
         physicalInterface.sendTimeTriggered(localDrive, period);
 
@@ -90,11 +88,6 @@ public class DriveControl extends Controller implements TimeSensitive {
         WriteableCanMailbox w;
 
         // Output messages
-        w = CanMailbox.getWriteableCanMailbox(MessageDictionary.DRIVE_COMMAND_CAN_ID);
-        mDrive = new DriveCommandCanPayloadTranslator(w);
-        mDrive.set(localDrive.speed(), localDrive.direction());
-        canInterface.sendTimeTriggered(w, period);
-
         w = CanMailbox.getWriteableCanMailbox(MessageDictionary.DRIVE_SPEED_CAN_ID);
         mDriveSpeed = new DriveSpeedCanPayloadTranslator(w);
         mDriveSpeed.setSpeed(localSpeed.speed());
@@ -216,7 +209,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.UP) { //#transition 'T6.8'
                     log("T6.8");
                     nextState = State.STOP;
-                } else if(mDriveSpeed.getSpeed() == DriveObject.SlowSpeed && commitPoint == CommitPoint.NOTREACHED) { //#transition 'T6.13'
+                } else if(localSpeed.speed() == DriveObject.SlowSpeed && commitPoint == CommitPoint.NOTREACHED) { //#transition 'T6.13'
                     log("T6.13");
                     nextState = State.FAST_DOWN;
                 } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed()) { //#transition 'T6.6'
@@ -243,7 +236,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.DOWN) { //#transition 'T6.4'
                     log("T6.4");
                     nextState = State.STOP;
-                } else if (mDriveSpeed.getSpeed() == DriveObject.SlowSpeed && commitPoint == CommitPoint.NOTREACHED) { //#transition 'T6.11'
+                } else if (localSpeed.speed() == DriveObject.SlowSpeed && commitPoint == CommitPoint.NOTREACHED) { //#transition 'T6.11'
                     log("T6.11");
                     nextState = State.FAST_UP;
                 } else if(desiredDirection == Direction.STOP && DriveObject.SlowSpeed >= localSpeed.speed()) { //#transition 'T6.2'
@@ -262,14 +255,11 @@ public class DriveControl extends Controller implements TimeSensitive {
                 throw new RuntimeException("Unrecognized state " + currentState);
         }
 
-        //alwasy set mDrive to localDrive
-        mDrive.set(localDrive.speed(), localDrive.direction());
-        log("CommandSpeed=" + localDrive.speed());
-        log("CommandDirection=" + localDrive.direction());
-
         //alwasy set mDriveSpeed to localSpeed
         mDriveSpeed.setSpeed(localSpeed.speed());
         mDriveSpeed.setDirection(localSpeed.direction());
+        log("DriveSpeed=" + localSpeed.speed());
+        log("Direction=" + localSpeed.direction());
 
         //advance to the next state we have computed
         if (currentState != nextState) {
