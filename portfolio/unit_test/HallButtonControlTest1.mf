@@ -32,7 +32,7 @@
 
 ;#state 'S8.1 IDLE'
 0.21s  A F HallLight 4 FRONT UP : lighted == false
-0.21s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
+0.21s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID HallCall 4 FRONT UP : getValue == false
 
 ;#transition 'T8.1'
 0.71s I MESSAGE_PERIOD F HallCall 4 FRONT UP = true
@@ -41,7 +41,7 @@
 
 ;#state 'S8.2 REGISTER_CALL'
 1.21s  A F HallLight 4 FRONT UP : lighted == true
-1.21s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID Boolean : getValue == true
+1.21s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID HallCall 4 FRONT UP : getValue == true
 
 ;#transition 'T8.2'
 1.71s I MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = true
@@ -52,7 +52,7 @@
 
 ;#state 'S8.1 IDLE'
 2.31s  A F HallLight 4 FRONT UP : lighted == false
-2.31s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID Boolean : getValue == false
+2.31s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID HallCall 4 FRONT UP : getValue == false
 
 ;#transition 'T8.1'
 2.71s I MESSAGE_PERIOD F HallCall 4 FRONT UP = true
@@ -62,4 +62,4 @@
 
 ;#sate 'S8.2 REGISTER_CALL'
 3.21s  A F HallLight 4 FRONT UP : lighted == true
-3.21s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID Boolean : getValue == true
+3.21s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID HallCall 4 FRONT UP : getValue == true
