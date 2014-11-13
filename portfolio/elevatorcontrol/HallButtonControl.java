@@ -11,7 +11,6 @@ package simulator.elevatorcontrol;
 
 import simulator.elevatormodules.AtFloorCanPayloadTranslator;
 import simulator.elevatormodules.DoorClosedCanPayloadTranslator;
-import simulator.elevatormodules.DoorOpenedCanPayloadTranslator;
 import simulator.framework.Direction;
 import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
@@ -39,23 +38,15 @@ public class HallButtonControl extends simulator.framework.Controller{
     private final Direction direction;
     private final int floor;
 
-    //send mHallLight messages
-    private WriteableCanMailbox networkHallLightOut;
-    private BooleanCanPayloadTranslator mHallLight;
-
     //send mHallCall messages
     private WriteableCanMailbox networkHallCallOut;
-    private BooleanCanPayloadTranslator mHallCall;
+    private HallCallCanPayloadTranslator mHallCall;
 
-    //received doorClosed and doorOpened messages
+    //received doorClosed messages
     private ReadableCanMailbox networkDoorClosedLeft;
     private ReadableCanMailbox networkDoorClosedRight;
     private DoorClosedCanPayloadTranslator mDoorClosedLeft;
     private DoorClosedCanPayloadTranslator mDoorClosedRight;
-	private ReadableCanMailbox networkDoorOpenedLeft;
-    private ReadableCanMailbox networkDoorOpenedRight;
-    private DoorOpenedCanPayloadTranslator mDoorOpenedLeft;
-    private DoorOpenedCanPayloadTranslator mDoorOpenedRight;
 
 
     //received mAtFloor messages
@@ -83,7 +74,6 @@ public class HallButtonControl extends simulator.framework.Controller{
     private State state = State.STATE_IDLE;
 
     private Direction desiredDirection;
-    private boolean prevDoorOpen;
 
 	public HallButtonControl(SimTime period, int floor, Hallway hallway, Direction direction, boolean verbose) {
 		super("HallButtonControl"+ReplicationComputer.makeReplicationString(floor, hallway, direction), verbose);
@@ -103,36 +93,22 @@ public class HallButtonControl extends simulator.framework.Controller{
         mDoorClosedRight = new DoorClosedCanPayloadTranslator(networkDoorClosedRight, hallway, Side.RIGHT);
         canInterface.registerTimeTriggered(networkDoorClosedRight);
 
-		networkDoorOpenedLeft = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_OPEN_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.LEFT));
-        mDoorOpenedLeft = new DoorOpenedCanPayloadTranslator(networkDoorOpenedLeft, hallway, Side.LEFT);
-        canInterface.registerTimeTriggered(networkDoorOpenedLeft);
-        networkDoorOpenedRight = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_OPEN_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.RIGHT));
-        mDoorOpenedRight = new DoorOpenedCanPayloadTranslator(networkDoorOpenedRight, hallway, Side.RIGHT);
-        canInterface.registerTimeTriggered(networkDoorOpenedRight);
-
         networkAtFloor = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID+ReplicationComputer.computeReplicationId(floor, hallway));
         mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloor, floor, hallway);
         canInterface.registerTimeTriggered(networkAtFloor);
 
         networkDesiredFloor = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
-	canInterface.registerTimeTriggered(networkDesiredFloor);
-
+	    canInterface.registerTimeTriggered(networkDesiredFloor);
 
 
         // outputs
         localHallLight = HallLightPayload.getWriteablePayload(floor, hallway, direction);
         physicalInterface.sendTimeTriggered(localHallLight, period);
 
-        networkHallLightOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.HALL_LIGHT_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway, direction));
-        mHallLight = new BooleanCanPayloadTranslator(networkHallLightOut);
-        canInterface.sendTimeTriggered(networkHallLightOut, period);
-
         networkHallCallOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.HALL_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway, direction));
-        mHallCall = new BooleanCanPayloadTranslator(networkHallCallOut);
+        mHallCall = new HallCallCanPayloadTranslator(networkHallCallOut, floor, hallway, direction);
         canInterface.sendTimeTriggered(networkHallCallOut, period);
-
-	prevDoorOpen = false;
 
         timer.start(period);
 	}
@@ -146,7 +122,6 @@ public class HallButtonControl extends simulator.framework.Controller{
         this.floor = floor;
 
         // inputs
-	prevDoorOpen = false;
         localHallCall = HallCallPayload.getReadablePayload(floor, hallway, direction);
         physicalInterface.registerTimeTriggered(localHallCall);
 
@@ -157,33 +132,20 @@ public class HallButtonControl extends simulator.framework.Controller{
         mDoorClosedRight = new DoorClosedCanPayloadTranslator(networkDoorClosedRight, hallway, Side.RIGHT);
         canInterface.registerTimeTriggered(networkDoorClosedRight);
 
-		networkDoorOpenedLeft = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_OPEN_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.LEFT));
-        mDoorOpenedLeft = new DoorOpenedCanPayloadTranslator(networkDoorOpenedLeft, hallway, Side.LEFT);
-        canInterface.registerTimeTriggered(networkDoorOpenedLeft);
-        networkDoorOpenedRight = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_OPEN_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.RIGHT));
-        mDoorOpenedRight = new DoorOpenedCanPayloadTranslator(networkDoorOpenedRight, hallway, Side.RIGHT);
-        canInterface.registerTimeTriggered(networkDoorOpenedRight);
-
         networkAtFloor = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID+ReplicationComputer.computeReplicationId(floor, hallway));
         mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloor, floor, hallway);
         canInterface.registerTimeTriggered(networkAtFloor);
 
         networkDesiredFloor = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
-    canInterface.registerTimeTriggered(networkDesiredFloor);
-
-
+        canInterface.registerTimeTriggered(networkDesiredFloor);
 
         // outputs
         localHallLight = HallLightPayload.getWriteablePayload(floor, hallway, direction);
         physicalInterface.sendTimeTriggered(localHallLight, period);
 
-        networkHallLightOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.HALL_LIGHT_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway, direction));
-        mHallLight = new BooleanCanPayloadTranslator(networkHallLightOut);
-        canInterface.sendTimeTriggered(networkHallLightOut, period);
-
         networkHallCallOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.HALL_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway, direction));
-        mHallCall = new BooleanCanPayloadTranslator(networkHallCallOut);
+        mHallCall = new HallCallCanPayloadTranslator(networkHallCallOut, floor, hallway, direction);
         canInterface.sendTimeTriggered(networkHallCallOut, period);
 
         timer.start(period);
@@ -202,37 +164,28 @@ public class HallButtonControl extends simulator.framework.Controller{
 			desiredDirection = Direction.STOP;
 		}
 
-		if (mDoorOpenedLeft.getValue() && mDoorOpenedRight.getValue()){
-		    prevDoorOpen = true;
-		}
-		if (mDoorClosedLeft.getValue() && mDoorClosedRight.getValue()){
-		    prevDoorOpen = false;
-		}
-
         switch (state) {
         case STATE_IDLE:
         	// state actions for 'STATE_IDLE'
         	localHallLight.set(false);
-        	mHallLight.set(false);
         	mHallCall.set(false);
 
 		//#transition 'T8.1'
-        	if ((localHallCall.pressed() && (!mDoorOpenedLeft.getValue())) ||
+        	if ((localHallCall.pressed() && mDoorClosedLeft.getValue() && mDoorClosedRight.getValue() ) ||
         		(localHallCall.pressed() && ((!mDoorClosedLeft.getValue()) || (!mDoorClosedRight.getValue()))
-			 && mAtFloor.getValue() && (!desiredDirection.equals(direction))) ) {
+			         && mAtFloor.getValue() && (!desiredDirection.equals(direction))) ) {
         		newState = State.STATE_REGISTER_CALL;
-		} else {
+		    } else {
         		newState = State.STATE_IDLE;
         	}
         	break;
         case STATE_REGISTER_CALL:
         	// state actions for 'STATE_REGISTER_CALL'
         	localHallLight.set(true);
-        	mHallLight.set(true);
         	mHallCall.set(true);
 
 		//#transition 'T8.2'
-		if (mAtFloor.getValue() && (desiredDirection.equals(direction)) && (!prevDoorOpen) && ((!mDoorClosedLeft.getValue()) || (!mDoorClosedRight.getValue()))){
+		if (mAtFloor.getValue() && (desiredDirection.equals(direction)) && ((!mDoorClosedLeft.getValue()) || (!mDoorClosedRight.getValue()))) {
 		    newState = State.STATE_IDLE;
 		} else {
             	newState = State.STATE_REGISTER_CALL;
