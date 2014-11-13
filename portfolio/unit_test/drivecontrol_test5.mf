@@ -6,7 +6,7 @@
 ;Ting Xu/tingx
 
 ;unit test for DriveControl
-;Test Fast Speed
+;Test Fast Speed Up
 
 #INCLUDE defines.mf
 
@@ -29,7 +29,7 @@
 0.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID    DoorClosed BACK RIGHT = true
 0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                 AtFloor 1 FRONT = True
 0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][BACK]_CAN_ID                  AtFloor 1 BACK = True
-0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[7][FRONT]_CAN_ID                 AtFloor 7 FRONT = false
+0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[2][BACK]_CAN_ID                  AtFloor 2 BACK = false
 
 ;#state 'S6.1 STOP'
 0.2s A F Drive : speed == STOP
@@ -40,52 +40,66 @@
 0.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
 
 ;#transition 'T6.1'
-1.0s I DISPATCHER_PERIOD    N DESIRED_FLOOR_CAN_ID          DesiredFloor = 8 STOP FRONT
+1.0s I DISPATCHER_PERIOD    N DESIRED_FLOOR_CAN_ID          DesiredFloor = 2 STOP BACK
 1.0s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[UP]_CAN_ID      Leveling UP = false
 1.0s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[DOWN]_CAN_ID    Leveling DOWN = false
 1.0s I AT_FLOOR_PERIOD      N AT_FLOOR_[1][FRONT]_CAN_ID    AtFloor 1 FRONT = false
 1.0s I AT_FLOOR_PERIOD      N AT_FLOOR_[1][BACK]_CAN_ID     AtFloor 1 BACK = false
-1.0s I DRIVE_PERIOD         F                               DriveSpeed = UP 0.25
+1.0s I DRIVE_PERIOD         F                               DriveSpeed = UP 0.24
 
 ;#state 'S6.2 SLOW_UP'
-1.021s A F Drive : speed == SLOW
-1.021s A F Drive : direction == UP
-1.021s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
-1.021s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
-1.021s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 0.25
-1.021s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
+1.5s A F Drive : speed == SLOW
+1.5s A F Drive : direction == UP
+1.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
+1.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
+1.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 0.25
+1.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
   
 ;#transition 'T6.11'
+2.0s I DRIVE_PERIOD F DriveSpeed = UP 0.25
+2.2s I DRIVE_PERIOD F DriveSpeed = UP 5.00
 
-;#state 'S6. FAST_UP'
-5.0s A F Drive : speed == FAST
-5.0s A F Drive : direction == UP
-5.0s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == FAST
-5.0s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
-5.0s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 5.00
-5.0s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
+;#state 'S6.6 FAST_UP'
+2.5s A F Drive : speed == FAST
+2.5s A F Drive : direction == UP
+2.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == FAST
+2.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
+2.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 5.00
+2.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
 ;#transition 'T6.12'
-6.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[7][FRONT]_CAN_ID                 AtFloor 7 FRONT = true
+3.0s I CAR_LEVEL_POSITION_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 478
+3.2s I DRIVE_PERIOD F DriveSpeed = UP 0.25
 
 ;#state 'S6.2 SLOW_UP'
-7.0s A F Drive : speed == SLOW
-7.0s A F Drive : direction == UP
-7.0s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
-7.0s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
-7.0s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 0.25
-7.0s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
+3.5s A F Drive : speed == SLOW
+3.5s A F Drive : direction == UP
+3.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
+3.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
+3.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 0.25
+3.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
-;#transition 'T6.4'
-7.4s I AT_FLOOR_PERIOD              N AT_FLOOR_[7][FRONT]_CAN_ID                 AtFloor 7 FRONT = false
-7.5s I AT_FLOOR_PERIOD              N AT_FLOOR_[8][FRONT]_CAN_ID                 AtFloor 8 FRONT = true
-7.5s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[UP]_CAN_ID      Leveling UP = true
-7.5s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[DOWN]_CAN_ID    Leveling DOWN = true
+;#transition 'T6.2'
+4.0s I AT_FLOOR_PERIOD      N AT_FLOOR_[2][BACK]_CAN_ID     AtFloor 2 BACK = true
+4.2s I DRIVE_PERIOD F DriveSpeed = UP 0.05
+
+;#state 'S6.3 LEVEL_UP'
+4.5s A F Drive : speed == LEVEL
+4.5s A F Drive : direction == UP
+4.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
+4.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
+4.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 0.05
+4.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
+
+;#transition 'T6.3'
+5.0s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[UP]_CAN_ID      Leveling UP = true
+5.0s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[DOWN]_CAN_ID    Leveling DOWN = true
+5.2s I DRIVE_PERIOD F DriveSpeed = STOP 0.0
 
 ;#state 'S6.1 STOP'
-9.2s A F Drive : speed == STOP
-9.2s A F Drive : direction == STOP
-9.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
-9.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
-9.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 0.0
-9.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
+5.5s A F Drive : speed == STOP
+5.5s A F Drive : direction == STOP
+5.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
+5.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
+5.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 0.0
+5.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP

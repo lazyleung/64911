@@ -330,31 +330,30 @@ public class DriveControl extends Controller implements TimeSensitive {
         // mDriveSpeed is set in timerExpired
     }
 
+    // Formula: x = x0 - 0.5 * v0^2 / a
     private void updateCommitPoint() {
-        double targetPos = (double)mDesiredFloor.getFloor() * 100;
+        double targetPos = (double)(mDesiredFloor.getFloor() - 1) * 500;
         double pos = (double)mCarLevelPosition.getPosition();
         double finalPos = 0;
-        double v0 = 0;
+        double v0 = localSpeed.speed();
         double a = DriveObject.Acceleration;
 
         if(localSpeed.direction() == Direction.UP) {
-            v0 = localSpeed.speed();
-            finalPos = pos + 0.5 * v0 * v0 / -a;
-            if (finalPos <  targetPos - 10) {
+            finalPos = pos + 0.5 * v0 * v0 / a;
+            if (finalPos <  targetPos - 10 && v0 > DriveObject.SlowSpeed) {
                 commitPoint = CommitPoint.NOTREACHED;
             } else if (finalPos < targetPos && finalPos >= targetPos - 10){
                 commitPoint = CommitPoint.REACHED;
-            }  else if (finalPos >= targetPos){
+            } else if (finalPos >= targetPos){
                 commitPoint = CommitPoint.PASSED;
             }
         } else if (localSpeed.direction() == Direction.DOWN) {
-            v0 = -localSpeed.speed();
-            finalPos = pos + 0.5 * v0 * v0 / a;
-            if (finalPos >  targetPos + 10) {
+            finalPos = pos - 0.5 * v0 * v0 / a;
+            if (finalPos >  targetPos + 10 && v0 > DriveObject.SlowSpeed) {
                 commitPoint = CommitPoint.NOTREACHED;
             } else if (finalPos > targetPos && finalPos <= targetPos + 10){
                 commitPoint = CommitPoint.REACHED;
-            }  else if (finalPos <= targetPos){
+            } else if (finalPos <= targetPos){
                 commitPoint = CommitPoint.PASSED;
             }
         }
