@@ -35,7 +35,7 @@
 
   ;transition 'T5.2'
   ;countdown > 0  
-  ;check that doors didn't close too early
+  ;check that doors did not close too early
   4.0s A F DoorMotor FRONT LEFT : command  == STOP
   4.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
   
@@ -69,7 +69,7 @@
 
   ;transition 'T5.2'
   ;countdown <= 0  
-  ;check that doors didn't close too early
+  ;check that doors did not close too early
   9.5s A F DoorMotor FRONT LEFT : command  == STOP
   9.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 

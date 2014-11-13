@@ -33,8 +33,6 @@
 ;#state 'S6.1 STOP'
 0.2s A F Drive : speed == STOP
 0.2s A F Drive : direction == STOP
-0.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
-0.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
 0.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.0
 0.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
 
@@ -49,8 +47,6 @@
 ;#state 'S6.2 SLOW_UP'
 1.2s A F Drive : speed == SLOW
 1.2s A F Drive : direction == UP
-1.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
-1.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
 1.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 0.25
 1.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
@@ -61,8 +57,6 @@
 ;#state 'S6.3 LEVEL_UP'
 2.2s A F Drive : speed == LEVEL
 2.2s A F Drive : direction == UP
-2.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
-2.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
 2.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 0.05
 2.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
@@ -74,7 +68,5 @@
 ;#state 'S6.1 STOP'
 3.2s A F Drive : speed == STOP
 3.2s A F Drive : direction == STOP
-3.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
-3.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
 3.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.0
 3.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
