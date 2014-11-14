@@ -1,3 +1,10 @@
+//ECE649 FALL 2014
+//Group 11
+//Jonathan Leung/jkleung1
+//Eric Newhall/enewhall
+//Mengzhe Li/mzli
+//Ting Xu/tingx
+
 package simulator.elevatorcontrol;
 
 import java.util.BitSet;
@@ -9,9 +16,9 @@ import simulator.payloads.CanMailbox.WriteableCanMailbox;
 import simulator.payloads.translators.CanPayloadTranslator;
 
 public class CarCallCanPayloadTranslator extends BooleanCanTranslator {
-	
+
 	/**
-     * Constructor for WriteableCanMailbox.  You should always implement both a 
+     * Constructor for WriteableCanMailbox.  You should always implement both a
      * Writeable and Readable constructor so the same translator can be used for
      * both objects
      * @param payload
@@ -21,7 +28,7 @@ public class CarCallCanPayloadTranslator extends BooleanCanTranslator {
     }
 
     /**
-     * Constructor for ReadableCanMailbox.  You should always implement both a 
+     * Constructor for ReadableCanMailbox.  You should always implement both a
      * Writeable and Readable constructor so the same translator can be used for
      * both objects
      * @param payload
