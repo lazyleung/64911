@@ -9,6 +9,7 @@
 
 package simulator.elevatorcontrol;
 
+import jSimPack.SimTime;
 import simulator.elevatormodules.AtFloorCanPayloadTranslator;
 import simulator.elevatormodules.DoorClosedCanPayloadTranslator;
 import simulator.framework.Direction;
@@ -22,8 +23,6 @@ import simulator.payloads.HallCallPayload;
 import simulator.payloads.HallCallPayload.ReadableHallCallPayload;
 import simulator.payloads.HallLightPayload;
 import simulator.payloads.HallLightPayload.WriteableHallLightPayload;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
-import jSimPack.SimTime;
 
 public class HallButtonControl extends simulator.framework.Controller{
 

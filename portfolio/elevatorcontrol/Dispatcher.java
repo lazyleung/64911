@@ -19,7 +19,6 @@ import simulator.framework.Side;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
 
 public class Dispatcher extends simulator.framework.Controller{
 	//store the period for the controller

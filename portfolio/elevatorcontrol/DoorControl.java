@@ -9,21 +9,23 @@
 package simulator.elevatorcontrol;
 
 import jSimPack.SimTime;
-import simulator.elevatormodules.*;
-import simulator.payloads.DoorOpenPayload.ReadableDoorOpenPayload;
-import simulator.payloads.DoorClosedPayload.ReadableDoorClosedPayload;
-import simulator.payloads.DoorReversalPayload.ReadableDoorReversalPayload;
-import simulator.payloads.AtFloorPayload.ReadableAtFloorPayload;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
-import simulator.payloads.translators.IntegerCanPayloadTranslator;
-import simulator.payloads.*;
-import simulator.payloads.DoorMotorPayload;
-import simulator.payloads.DoorMotorPayload.WriteableDoorMotorPayload;
+import simulator.elevatormodules.CarWeightCanPayloadTranslator;
+import simulator.elevatormodules.DoorClosedCanPayloadTranslator;
+import simulator.elevatormodules.DoorOpenedCanPayloadTranslator;
+import simulator.elevatormodules.DoorReversalCanPayloadTranslator;
+import simulator.framework.Controller;
+import simulator.framework.Direction;
+import simulator.framework.DoorCommand;
+import simulator.framework.Elevator;
+import simulator.framework.Hallway;
+import simulator.framework.ReplicationComputer;
+import simulator.framework.Side;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.elevatorcontrol.*;
-import simulator.framework.*;
+import simulator.payloads.DoorMotorPayload;
+import simulator.payloads.DoorMotorPayload.WriteableDoorMotorPayload;
+import simulator.payloads.translators.IntegerCanPayloadTranslator;
 
 public class DoorControl extends Controller
 {
