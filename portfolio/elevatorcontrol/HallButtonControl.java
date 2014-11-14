@@ -54,6 +54,12 @@ public class HallButtonControl extends simulator.framework.Controller{
     //to this messages, and is provided the elevatormodules package
     private AtFloorCanPayloadTranslator mAtFloor;
 
+    //received mDesiredFloor messages
+    private ReadableCanMailbox networkDesiredFloor;
+    //translator for the doorClosed message -- this translator is specific
+    //to this messages, and is provided the elevatormodules package
+    private DesiredFloorCanPayloadTranslator mDesiredFloor;
+
     //local physical state
     private ReadableHallCallPayload localHallCall;
     private WriteableHallLightPayload localHallLight;
@@ -89,6 +95,11 @@ public class HallButtonControl extends simulator.framework.Controller{
         networkAtFloor = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID+ReplicationComputer.computeReplicationId(floor, hallway));
         mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloor, floor, hallway);
         canInterface.registerTimeTriggered(networkAtFloor);
+
+        networkDesiredFloor = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
+        mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
+	    canInterface.registerTimeTriggered(networkDesiredFloor);
+
 
         // outputs
         localHallLight = HallLightPayload.getWriteablePayload(floor, hallway, direction);
