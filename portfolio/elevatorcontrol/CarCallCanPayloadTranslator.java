@@ -7,13 +7,12 @@
 
 package simulator.elevatorcontrol;
 
-import java.util.BitSet;
-
+import simulator.elevatorcontrol.BooleanCanTranslator;
+import simulator.elevatorcontrol.MessageDictionary;
 import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.payloads.translators.CanPayloadTranslator;
 
 public class CarCallCanPayloadTranslator extends BooleanCanTranslator {
 

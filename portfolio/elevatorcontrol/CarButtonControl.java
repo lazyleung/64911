@@ -13,7 +13,6 @@ import simulator.payloads.CarCallPayload;
 import simulator.payloads.CarCallPayload.ReadableCarCallPayload;
 import simulator.payloads.CarLightPayload;
 import simulator.payloads.CarLightPayload.WriteableCarLightPayload;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
 public class CarButtonControl extends Controller implements TimeSensitive{
 	
 	//local physical state
@@ -25,7 +24,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 	private WriteableCanMailbox networkCarLightOut;
 	private WriteableCanMailbox networkCarCallOut;
 	
-    private BooleanCanPayloadTranslator mCarCall;
+    private CarCallCanPayloadTranslator mCarCall;
 
     //incoming messages
 	private ReadableCanMailbox networkAtFloorIn;
@@ -78,7 +77,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		//Create a translator with a reference to the CanMailbox.  Use the 
         //translator to read and write values to the mailbox
 		
-		mCarCall = new BooleanCanPayloadTranslator(networkCarCallOut);
+		mCarCall = new CarCallCanPayloadTranslator(networkCarCallOut, floor, hallway);
 		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
 		
         //register mailboxes to have its value broadcasted/receive updates on the network periodically
@@ -127,7 +126,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		//Create a translator with a reference to the CanMailbox.  Use the 
         //translator to read and write values to the mailbox
 		
-		mCarCall = new BooleanCanPayloadTranslator(networkCarCallOut);
+		mCarCall = new CarCallCanPayloadTranslator(networkCarCallOut, floor, hallway);
 		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
 		
         //register mailboxes to have its value broadcasted/receive updates on the network periodically

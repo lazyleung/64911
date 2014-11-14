@@ -8,15 +8,11 @@
 
 package simulator.elevatorcontrol;
 
-import java.util.BitSet;
-
 import simulator.framework.Direction;
 import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
-import simulator.payloads.translators.CanPayloadTranslator;
 
 public class HallCallCanPayloadTranslator extends BooleanCanTranslator {
 	/**
