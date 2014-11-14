@@ -20,6 +20,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 	private WriteableCarLightPayload localCarLight;
 	
 	//network interface
+	private WriteableCanMailbox networkCarCallOut;
     private CarCallCanPayloadTranslator mCarCall;
 
     //incoming messages
