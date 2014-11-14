@@ -7,14 +7,13 @@
 
 package simulator.elevatorcontrol;
 
-import simulator.elevatorcontrol.BooleanCanTranslator;
-import simulator.elevatorcontrol.MessageDictionary;
 import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
+import simulator.payloads.translators.BooleanCanPayloadTranslator;
 
-public class CarCallCanPayloadTranslator extends BooleanCanTranslator {
+public class CarCallCanPayloadTranslator extends BooleanCanPayloadTranslator {
 
 	/**
      * Constructor for WriteableCanMailbox.  You should always implement both a
@@ -23,7 +22,7 @@ public class CarCallCanPayloadTranslator extends BooleanCanTranslator {
      * @param payload
      */
     public CarCallCanPayloadTranslator(WriteableCanMailbox payload, int floor, Hallway hallway) {
-    	super(payload, MessageDictionary.CAR_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway), "CarCall" + ReplicationComputer.makeReplicationString(floor, hallway));
+    	super(payload);
     }
 
     /**
@@ -33,7 +32,7 @@ public class CarCallCanPayloadTranslator extends BooleanCanTranslator {
      * @param payload
      */
     public CarCallCanPayloadTranslator(ReadableCanMailbox payload, int floor, Hallway hallway) {
-    	super(payload, MessageDictionary.CAR_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway), "CarCall" + ReplicationComputer.makeReplicationString(floor, hallway));
+    	super(payload);
     }
 
 }
