@@ -2,8 +2,8 @@
 ; Group 11
 ; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli), Ting Xu (tingx)
 ;
-DoorControl doorcontrol.cf DoorControlUnitTest.mf
-DoorControl doorcontrol.cf Advanced_DoorControl_test1.mf
+DoorControl doorcontrol.cf DoorControl_test1.mf
+DoorControl doorcontrol.cf DoorControl_test.mf
 CarButtonControl CarButtonControl.cf CarButtonControl_1.mf
 DriveControl drivecontrol.cf drivecontrol_test1.mf
 DriveControl drivecontrol.cf drivecontrol_test2.mf
@@ -13,6 +13,8 @@ DriveControl drivecontrol.cf drivecontrol_test5.mf
 DriveControl drivecontrol.cf drivecontrol_test6.mf
 HallButtonControl HallButtonControl.cf HallButtonControlTest1.mf
 LanternControl LanternControl.cf LanternControlUnitTest.mf
-Dispatcher Dispatcher.cf Dispatcher_test1.mf
-Dispatcher Dispatcher.cf Dispatcher_test2.mf
+Dispatcher Dispatcher.cf Advanced_dispatcher_test1.mf
+Dispatcher Dispatcher.cf Advanced_dispatcher_test2.mf
+Dispatcher Dispatcher.cf Advanced_dispatcher_test3.mf
+
 CarPositionControl CarPositionControl.cf CarPositionControl_1.mf
