@@ -60,7 +60,6 @@ public class DoorControl extends Controller
     private DriveSpeedCanPayloadTranslator mDriveSpeed;
     private DesiredFloorCanPayloadTranslator mDesiredFloor;  
     private CarWeightCanPayloadTranslator mCarWeight;
-    private DoorMotorCanPayloadTranslator mDoorMotor;
 
     private Utility.AtFloorArray    mAtFloor;
 
@@ -107,12 +106,6 @@ public class DoorControl extends Controller
         ReadableCanMailbox networkCarWeightIn = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_WEIGHT_CAN_ID);
             mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeightIn);
             canInterface.registerTimeTriggered(networkCarWeightIn);
-
-        //define network objects (outputs)
-        WriteableCanMailbox networkDoorMotorOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
-        mDoorMotor = new DoorMotorCanPayloadTranslator(networkDoorMotorOut, hallway, side);
-        mDoorMotor.set(DoorCommand.STOP);
-        canInterface.sendTimeTriggered(networkDoorMotorOut,period);
 
         mAtFloor = new Utility.AtFloorArray(canInterface);
 
@@ -187,14 +180,12 @@ public class DoorControl extends Controller
     private void doOpening(){
         //#state 'S5.1 OPENING'
         doorMotor.set(DoorCommand.OPEN);
-        mDoorMotor.set(DoorCommand.OPEN);
         countdown = dwell;
     }
 
     private void doOpen(){
         //#state 'S5.2 OPEN'
         doorMotor.set(DoorCommand.STOP);
-        mDoorMotor.set(DoorCommand.STOP);
         countdown = countdown - period.getFracSeconds();
         if(countdown < 0){
         	countdown = -1;
@@ -205,20 +196,17 @@ public class DoorControl extends Controller
     private void doClosing(){
         //#state 'S5.3 CLOSING'
         doorMotor.set(DoorCommand.CLOSE);
-        mDoorMotor.set(DoorCommand.CLOSE);
         reversal = true;
     }
 
     private void doClosed(){
         //#state 'S5.4 CLOSED'
         doorMotor.set(DoorCommand.STOP);
-        mDoorMotor.set(DoorCommand.STOP);
         reversal = false;
     }
 
     private void doNudge(){
         //#state 'S5.4 NUDGE'
         doorMotor.set(DoorCommand.NUDGE);
-        mDoorMotor.set(DoorCommand.NUDGE);
     }
 }
