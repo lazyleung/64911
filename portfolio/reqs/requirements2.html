@@ -2647,11 +2647,11 @@ None
 
     <tr>
       <td style="vertical-align: top;">T8.1<br> </td>
-      <td style="vertical-align: top;">{HallCall[f, b, d]=True &amp;&amp; mDoorOpened[b,r]=False} || {HallCall[f, b, d]=True &amp;&amp; mDoorClosed[b, r]=False &amp;&amp; mAtFloor[f, b]=True &amp;&amp; DesiredDirection!=d}</td>
+      <td style="vertical-align: top;">{HallCall[f, b, d]=True }</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T8.2</td>
-      <td style="vertical-align: top;">mAtFloor[f, b](True) AND (!PrevDoorOpen) AND DesiredDirection = d AND mDoorClosed[b, r](False)</td>
+      <td style="vertical-align: top;">mAtFloor[f, b](True) AND DesiredDirection = d AND mDesiredFloor = f</td>
     </tr>
   </tbody>
 </table>
