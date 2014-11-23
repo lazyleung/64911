@@ -1,4 +1,3 @@
-
 //ECE649 FALL 2014
 //Group 11
 //Jonathan Leung/jkleung1
@@ -13,9 +12,8 @@ import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
 
-public class HallCallCanPayloadTranslator extends BooleanCanPayloadTranslator {
+public class HallCallCanPayloadTranslator extends MyBooleanCanPayloadTranslator {
 	/**
      * CAN translator for messages from atfloor sensors
      * @param payload CAN payload object whose message is interpreted by this translator

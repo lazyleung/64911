@@ -21,7 +21,8 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 	
 	//network interface
 	private WriteableCanMailbox networkCarCallOut;
-    private CarCallCanPayloadTranslator mCarCall;
+    private MyBooleanCanPayloadTranslator mCarCall;
+    //private CarCallCanPayloadTranslator mCarCall;
 
     //incoming messages
 	private ReadableCanMailbox networkAtFloorIn;
@@ -74,7 +75,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		//Create a translator with a reference to the CanMailbox.  Use the 
         //translator to read and write values to the mailbox
 		
-		mCarCall = new CarCallCanPayloadTranslator(networkCarCallOut, floor, hallway);
+		mCarCall = new MyBooleanCanPayloadTranslator(networkCarCallOut);
 		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
 		
         //register mailboxes to have its value broadcasted/receive updates on the network periodically
@@ -123,7 +124,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		//Create a translator with a reference to the CanMailbox.  Use the 
         //translator to read and write values to the mailbox
 		
-		mCarCall = new CarCallCanPayloadTranslator(networkCarCallOut, floor, hallway);
+		mCarCall = new MyBooleanCanPayloadTranslator(networkCarCallOut);
 		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
 		
         //register mailboxes to have its value broadcasted/receive updates on the network periodically

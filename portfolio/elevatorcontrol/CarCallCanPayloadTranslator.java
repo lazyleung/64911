@@ -11,9 +11,9 @@ import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
+//import simulator.payloads.translators.BooleanCanPayloadTranslator;
 
-public class CarCallCanPayloadTranslator extends BooleanCanPayloadTranslator {
+public class CarCallCanPayloadTranslator extends MyBooleanCanPayloadTranslator {
 
 	/**
      * Constructor for WriteableCanMailbox.  You should always implement both a
