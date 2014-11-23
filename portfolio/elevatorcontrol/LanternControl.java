@@ -10,7 +10,6 @@ Ting Xu/tingx
 package simulator.elevatorcontrol;
 
 import jSimPack.SimTime;
-import simulator.elevatormodules.BooleanCanTranslator;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
 import simulator.framework.ReplicationComputer;
@@ -18,7 +17,6 @@ import simulator.payloads.CanMailbox;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
 import simulator.payloads.CarLanternPayload;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
 
 public class LanternControl extends Controller{
 	 public static enum State {
@@ -32,7 +30,7 @@ public class LanternControl extends Controller{
 	 private DesiredFloorCanPayloadTranslator mDesiredFloor;
 	 private Utility.AtFloorArray mAtFloor;
 	 //network messages (outputs)
-	 private BooleanCanPayloadTranslator mCarLantern;
+	 private MyBooleanCanPayloadTranslator mCarLantern;
 	 
 	 private State lanternState;
 	 
@@ -75,7 +73,7 @@ public class LanternControl extends Controller{
         
         //define network objects (outputs)
          WriteableCanMailbox networkCarLanternOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_LANTERN_BASE_CAN_ID +  ReplicationComputer.computeReplicationId(direction));
-         mCarLantern = new BooleanCanPayloadTranslator(networkCarLanternOut);
+         mCarLantern = new MyBooleanCanPayloadTranslator(networkCarLanternOut);
          mCarLantern.set(false);
          canInterface.sendTimeTriggered(networkCarLanternOut, period);
         
@@ -113,7 +111,7 @@ public class LanternControl extends Controller{
         
         //define network objects (outputs)
          WriteableCanMailbox networkCarLanternOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_LANTERN_BASE_CAN_ID +  ReplicationComputer.computeReplicationId(direction));
-         mCarLantern = new BooleanCanPayloadTranslator(networkCarLanternOut);
+         mCarLantern = new MyBooleanCanPayloadTranslator(networkCarLanternOut);
          mCarLantern.set(false);
          canInterface.sendTimeTriggered(networkCarLanternOut, period);
         
