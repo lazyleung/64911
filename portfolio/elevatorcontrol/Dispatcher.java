@@ -460,11 +460,12 @@ public class Dispatcher extends simulator.framework.Controller{
 
         }
         
-        /*
-        for (int i=0;i<HallCallFloors.length;i++){
-            System.out.println("DISPATCHER: HallCall["+HallCallFloors[i]+"]["+HallCallHallways[i]+"]["+HallCallDirections[i]+"]  =   "+mHallCalls[i].getValue());
-        }
-        */
+        
+        // for (int i=0;i<HallCallFloors.length;i++){
+        //     System.out.println("DISPATCHER: HallCall["+HallCallFloors[i]+"]["+HallCallHallways[i]+"]["+HallCallDirections[i]+"]  =   "+mHallCalls[i].getValue());
+        // }
+        
+
         
         log("curFloor="+curFloor+" atFloor="+atFloor+" AllDoorClosed="+AllDoorClosed + " ClosestFloor="+closestFloor + "  closestHall="+closestHallway + " farthestFloor="+farthestFloor+ "  farthestHall="+farthestHallway+" curDir="+currentDirection);
         log("curFloor="+curFloor+"  Target="+Target + "   atFloor="+atFloor+"    allDoorClosed="+AllDoorClosed);
