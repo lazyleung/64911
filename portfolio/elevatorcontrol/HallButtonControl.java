@@ -157,7 +157,7 @@ public class HallButtonControl extends simulator.framework.Controller{
         State newState = state;
 
         if ((floor == 5) && (direction == Direction.DOWN)){
-            System.out.println("HALLCALL[5][DOWN] = "+mHallCall.getValue() + "     hallLight[5][DOWN] = "+localHallLight.lighted() + "    state = "+state);
+            //System.out.println("HALLCALL[5][DOWN] = "+mHallCall.getValue() + "     hallLight[5][DOWN] = "+localHallLight.lighted() + "    state = "+state);
             
         }
         
