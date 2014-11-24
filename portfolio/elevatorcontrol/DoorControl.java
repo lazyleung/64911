@@ -137,7 +137,7 @@ public class DoorControl extends Controller
             case CLOSING:
                 doClosing();
                 //#transition 'T5.4'
-                if(mDoorReversalL.getValue() || mDoorReversalR.getValue()){
+                if(mDoorReversalL.getValue() || mDoorReversalR.getValue() || mCarWeight.getValue() >= Elevator.MaxCarCapacity){
                     newState = State.OPENING;
                 //#transition 'T5.3'    
                 }else if(mDoorClosed.getValue()){
