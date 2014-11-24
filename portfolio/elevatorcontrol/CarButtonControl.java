@@ -29,8 +29,8 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 	private ReadableCanMailbox networkAtFloorIn;
     private AtFloorCanPayloadTranslator mAtFloor;
     
-    private ReadableCanMailbox networkDoorClosedFLIn;
-    private DoorClosedCanPayloadTranslator mDoorClosedFL;
+    private ReadableCanMailbox networkDoorClosedLIn;
+    private DoorClosedCanPayloadTranslator mDoorClosedL;
 
 	
 	//keep track of which instance this is
@@ -75,14 +75,14 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		//create CAN mailboxes
 		networkCarCallOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
 		networkAtFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
-		networkDoorClosedFLIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Hallway.FRONT,Side.LEFT));
+		networkDoorClosedLIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,Side.LEFT));
 		
 		//Create a translator with a reference to the CanMailbox.  Use the 
         //translator to read and write values to the mailbox
 		
 		mCarCall = new MyBooleanCanPayloadTranslator(networkCarCallOut);
 		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
-        mDoorClosedFL = new DoorClosedCanPayloadTranslator(networkDoorClosedFLIn, Hallway.FRONT, Side.LEFT);
+        mDoorClosedL = new DoorClosedCanPayloadTranslator(networkDoorClosedLIn, Hallway.FRONT, Side.LEFT);
 
 
         //register mailboxes to have its value broadcasted/receive updates on the network periodically
@@ -170,7 +170,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 				mCarCall.set(true);
 
 				//#transition 'T9.2'
-				if(!localCarCall.pressed() && mAtFloor.getValue() == true && !mDoorClosedFL.getValue()){					
+				if(!localCarCall.pressed() && mAtFloor.getValue() == true && !mDoorClosedL.getValue()){					
 					newState = State.STATE_IDLE;
 				}
 				else{
