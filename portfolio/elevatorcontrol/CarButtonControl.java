@@ -88,6 +88,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
         //register mailboxes to have its value broadcasted/receive updates on the network periodically
         canInterface.sendTimeTriggered(networkCarCallOut, period);
         canInterface.registerTimeTriggered(networkAtFloorIn);
+	canInterface.registerTimeTriggered(networkDoorClosedLIn);
 
 
         /* issuing the timer start method with no callback data means a NULL value 
