@@ -155,12 +155,6 @@ public class HallButtonControl extends simulator.framework.Controller{
     @Override
     public void timerExpired(Object callbackData) {
         State newState = state;
-
-        if ((floor == 5) && (direction == Direction.DOWN)){
-            //System.out.println("HALLCALL[5][DOWN] = "+mHallCall.getValue() + "     hallLight[5][DOWN] = "+localHallLight.lighted() + "    state = "+state);
-            
-        }
-        
         
         if (mDesiredFloor.getFloor() > floor){
             desiredDirection = Direction.UP;
@@ -177,9 +171,6 @@ public class HallButtonControl extends simulator.framework.Controller{
             mHallCall.set(false);
 
         //#transition 'T8.1'
-            //if ((localHallCall.pressed() && mDoorClosedLeft.getValue() && mDoorClosedRight.getValue() ) ||
-            //    (localHallCall.pressed() && ((!mDoorClosedLeft.getValue()) || (!mDoorClosedRight.getValue()))
-            //         && mAtFloor.getValue() && (!desiredDirection.equals(direction))) ) {
             if (localHallCall.pressed()){
                 newState = State.STATE_REGISTER_CALL;
             } else {
@@ -192,7 +183,6 @@ public class HallButtonControl extends simulator.framework.Controller{
             mHallCall.set(true);
 
         //#transition 'T8.2'
-       // if (mAtFloor.getValue() && (desiredDirection.equals(direction)) && ((!mDoorClosedLeft.getValue()) || (!mDoorClosedRight.getValue()))) {
        if ((mDesiredFloor.getFloor() == floor) && mAtFloor.getValue() && ((mDesiredFloor.getHallway() == Hallway.BOTH) || (mDesiredFloor.getHallway() == hallway)) &&
            (mDesiredFloor.getDirection() == direction)){
                 newState = State.STATE_IDLE;
