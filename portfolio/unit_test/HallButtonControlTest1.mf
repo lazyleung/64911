@@ -3,49 +3,46 @@
 ; 18649 Fall 2014
 ; Group 11
 
-#DEFINE MESSAGE_PERIOD 0.1s
-
-; AtFloor = 0xC4C2806
-#DEFINE AT_FLOOR_[4][FRONT]_CAN_ID 0xC4C2806
-
-; DesiredFloor
-#DEFINE DESIRED_FLOOR_CAN_ID 0xF0CB600
-
-; HallCall and HallLight
-#DEFINE HALL_CALL_[4][FRONT][UP]_CAN_ID                0xF0FB90C
-#DEFINE HALL_LIGHT_[4][FRONT][UP]_CAN_ID               0xF10B90C
-#DEFINE HALL_CALL_[4][FRONT][DOWN]_CAN_ID              0xF0FB90D
-#DEFINE HALL_LIGHT_[4][FRONT][DOWN]_CAN_ID             0xF10B90D
+#INCLUDE defines.mf ;include CAN id and period definitions
 
 ;initialize
-0s I MESSAGE_PERIOD F HallCall 4 FRONT UP = false
 
 ;#state 'S8.1 IDLE'
-0.21s  A F HallLight 4 FRONT UP : lighted == false
-0.21s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID HallCall 4 FRONT UP : getValue == false
+0.21s  A F HallLight 7 FRONT UP : lighted == false
+0.21s  A N HALL_CALL_[7][FRONT][UP]_CAN_ID MyBoolean : getValue == false
 
 ;#transition 'T8.1'
-0.71s I MESSAGE_PERIOD F HallCall 4 FRONT UP = true
+0.7s I HALL_BUTTON_CONTROL_PERIOD F HallCall 7 FRONT UP = true
 
 ;#state 'S8.2 REGISTER_CALL'
-1.21s  A F HallLight 4 FRONT UP : lighted == true
-1.21s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID HallCall 4 FRONT UP : getValue == true
+1.21s  A F HallLight 7 FRONT UP : lighted == true
+1.21s  A N HALL_CALL_[7][FRONT][UP]_CAN_ID MyBoolean : getValue == true
 
 ;#transition 'T8.2'
-1.71s I MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = true
-1.71s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 6 UP FRONT
+1.5s I AT_FLOOR_PERIOD N AT_FLOOR_[7][FRONT]_CAN_ID AtFloor 7 FRONT = true
+1.71s I DISPATCHER_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 7 UP FRONT
 
-2.0s I MESSAGE_PERIOD F HallCall 4 FRONT UP = false
+2.0s I HALL_BUTTON_CONTROL_PERIOD F HallCall 7 FRONT UP = false
 
 ;#state 'S8.1 IDLE'
-2.31s  A F HallLight 4 FRONT UP : lighted == false
-2.31s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID HallCall 4 FRONT UP : getValue == false
+2.31s  A F HallLight 7 FRONT UP : lighted == false
+2.31s  A N HALL_CALL_[7][FRONT][UP]_CAN_ID MyBoolean : getValue == false
+
+2.5s I AT_FLOOR_PERIOD N AT_FLOOR_[7][FRONT]_CAN_ID AtFloor 7 FRONT = false
 
 ;#transition 'T8.1'
-2.71s I MESSAGE_PERIOD F HallCall 4 FRONT UP = true
-2.71s I MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = true
-2.71s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 STOP FRONT
+2.7s I HALL_BUTTON_CONTROL_PERIOD F HallCall 7 FRONT UP = true
 
 ;#sate 'S8.2 REGISTER_CALL'
-3.21s  A F HallLight 4 FRONT UP : lighted == true
-3.21s  A N HALL_CALL_[4][FRONT][UP]_CAN_ID HallCall 4 FRONT UP : getValue == true
+3.21s  A F HallLight 7 FRONT UP : lighted == true
+3.21s  A N HALL_CALL_[7][FRONT][UP]_CAN_ID MyBoolean : getValue == true
+
+;#transition 'T8.2'
+3.71s I AT_FLOOR_PERIOD N AT_FLOOR_[7][FRONT]_CAN_ID AtFloor 7 FRONT = true
+3.71s I DISPATCHER_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 7 UP BOTH
+
+3.71s I HALL_BUTTON_CONTROL_PERIOD F HallCall 7 FRONT UP = false
+
+;#state 'S8.1 IDLE'
+4.31s  A F HallLight 7 FRONT UP : lighted == false
+4.31s  A N HALL_CALL_[7][FRONT][UP]_CAN_ID MyBoolean : getValue == false
