@@ -94,6 +94,9 @@ public class Dispatcher extends simulator.framework.Controller{
     private Hallway farthestHallway = Hallway.NONE;
     private Direction currentDirection = Direction.STOP;
     private Direction oppositeDirection = Direction.STOP;
+    private Direction closestDirection = Direction.STOP;
+    private Direction farthestDirection = Direction.STOP;
+    private Direction prevDesiredDirection = Direction.STOP;
     
     public Dispatcher(SimTime period, boolean verbose) {
         super("Dispatcher", verbose);
@@ -352,6 +355,8 @@ public class Dispatcher extends simulator.framework.Controller{
                 farthestFloor = farthestHallCall;
                 farthestHallway = farthestHallCallHall;
                 log("farthestHallCall= "+farthestHallCall);
+                closestDirection = Direction.UP;
+                farthestDirection = Direction.DOWN;
             }
             
             else if (currentDirection.equals(Direction.DOWN)){
@@ -449,6 +454,8 @@ public class Dispatcher extends simulator.framework.Controller{
                 farthestFloor = farthestHallCall;
                 farthestHallway = farthestHallCallHall;
              log("farthestHallCall= "+farthestHallCall);
+                closestDirection = Direction.DOWN;
+                farthestDirection = Direction.UP;
             }
 
         }
@@ -458,6 +465,7 @@ public class Dispatcher extends simulator.framework.Controller{
         //     System.out.println("DISPATCHER: HallCall["+HallCallFloors[i]+"]["+HallCallHallways[i]+"]["+HallCallDirections[i]+"]  =   "+mHallCalls[i].getValue());
         // }
         
+
         
         log("curFloor="+curFloor+" atFloor="+atFloor+" AllDoorClosed="+AllDoorClosed + " ClosestFloor="+closestFloor + "  closestHall="+closestHallway + " farthestFloor="+farthestFloor+ "  farthestHall="+farthestHallway+" curDir="+currentDirection);
         log("curFloor="+curFloor+"  Target="+Target + "   atFloor="+atFloor+"    allDoorClosed="+AllDoorClosed);
@@ -471,7 +479,7 @@ public class Dispatcher extends simulator.framework.Controller{
         switch (state){
         case STATE_INIT:
             Target = 1;
-            DesiredHallway = Hallway.BOTH;
+            DesiredHallway = Hallway.NONE;
             mDesiredFloor.set(Target, Direction.STOP, DesiredHallway);
             //mDesiredDwellFront.set(dwellTime);
             //mDesiredDwellBack.set(dwellTime);
@@ -494,7 +502,8 @@ public class Dispatcher extends simulator.framework.Controller{
         case STATE_GOTO_CLOSEST_FLOOR:
             Target = closestFloor;
             DesiredHallway = closestHallway;
-            mDesiredFloor.set(Target, Direction.STOP, closestHallway);
+            prevDesiredDirection = closestDirection;
+            mDesiredFloor.set(Target, closestDirection, closestHallway);
             //mDesiredDwellFront.set(dwellTime);
             //mDesiredDwellBack.set(dwellTime);
             
@@ -504,7 +513,8 @@ public class Dispatcher extends simulator.framework.Controller{
         case STATE_GOTO_FARTHEST_FLOOR:
             Target = farthestFloor;
             DesiredHallway = farthestHallway;
-            mDesiredFloor.set(Target, Direction.STOP, farthestHallway);
+            prevDesiredDirection = farthestDirection;
+            mDesiredFloor.set(Target, farthestDirection, farthestHallway);
             //mDesiredDwellFront.set(dwellTime);
             //mDesiredDwellBack.set(dwellTime);
             
@@ -521,7 +531,7 @@ public class Dispatcher extends simulator.framework.Controller{
             newState = State.STATE_EMERGENCY;
             break;
         case STATE_IDLE:
-            mDesiredFloor.set(Target, Direction.STOP, DesiredHallway);
+            mDesiredFloor.set(Target, prevDesiredDirection, DesiredHallway);
             //mDesiredDwellFront.set(dwellTime);
             //mDesiredDwellBack.set(dwellTime);
             //#transition 'T11.7'

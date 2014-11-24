@@ -22,10 +22,8 @@ import simulator.framework.ReplicationComputer;
 import simulator.framework.Side;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
-import simulator.payloads.CanMailbox.WriteableCanMailbox;
 import simulator.payloads.DoorMotorPayload;
 import simulator.payloads.DoorMotorPayload.WriteableDoorMotorPayload;
-import simulator.payloads.translators.IntegerCanPayloadTranslator;
 
 public class DoorControl extends Controller
 {
@@ -55,7 +53,8 @@ public class DoorControl extends Controller
     //network interface
     private DoorOpenedCanPayloadTranslator mDoorOpen;   
     private DoorClosedCanPayloadTranslator mDoorClosed;
-    private DoorReversalCanPayloadTranslator mDoorReversal;
+    private DoorReversalCanPayloadTranslator mDoorReversalL;
+    private DoorReversalCanPayloadTranslator mDoorReversalR;
 
     private DriveSpeedCanPayloadTranslator mDriveSpeed;
     private DesiredFloorCanPayloadTranslator mDesiredFloor;  
@@ -91,9 +90,13 @@ public class DoorControl extends Controller
         mDoorClosed = new DoorClosedCanPayloadTranslator(networkDoorClosedIn,hallway,side);
         canInterface.registerTimeTriggered(networkDoorClosedIn);
         
-        ReadableCanMailbox networkDoorReversalIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_REVERSAL_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
-        mDoorReversal = new DoorReversalCanPayloadTranslator(networkDoorReversalIn,hallway,side);
-        canInterface.registerTimeTriggered(networkDoorReversalIn);
+        ReadableCanMailbox networkDoorReversalLIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_REVERSAL_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,Side.LEFT));
+        mDoorReversalL = new DoorReversalCanPayloadTranslator(networkDoorReversalLIn,hallway,Side.LEFT);
+        canInterface.registerTimeTriggered(networkDoorReversalLIn);
+
+        ReadableCanMailbox networkDoorReversalRIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_REVERSAL_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,Side.RIGHT));
+        mDoorReversalR = new DoorReversalCanPayloadTranslator(networkDoorReversalRIn,hallway,Side.RIGHT);
+        canInterface.registerTimeTriggered(networkDoorReversalRIn);
 
         ReadableCanMailbox networkDriveSpeedIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DRIVE_SPEED_CAN_ID);
             mDriveSpeed = new DriveSpeedCanPayloadTranslator(networkDriveSpeedIn);
@@ -134,7 +137,7 @@ public class DoorControl extends Controller
             case CLOSING:
                 doClosing();
                 //#transition 'T5.4'
-                if(mDoorReversal.getValue()){
+                if(mDoorReversalL.getValue() || mDoorReversalR.getValue()){
                     newState = State.OPENING;
                 //#transition 'T5.3'    
                 }else if(mDoorClosed.getValue()){
