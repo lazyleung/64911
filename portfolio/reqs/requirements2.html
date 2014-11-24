@@ -2825,7 +2825,7 @@ None
 9.1&nbsp;&nbsp; If CarCall[f,b] is True, then: <br>
 &nbsp;&nbsp;&nbsp; 9.1.1&nbsp; CarLight[f,b] shall be commanded to On.<br>
 &nbsp;&nbsp;&nbsp; 9.1.2&nbsp; mCarCall[f,b] shall be set to True.<br>
-9.2&nbsp;&nbsp; If CarCall[f,b] is False AND mAtFloor[f,b] is True, then: <br>
+9.2&nbsp;&nbsp; If CarCall[f,b] is False AND mAtFloor[f,b] is True AND any mDoorClosed[b,*] is False, then: <br>
 &nbsp;&nbsp;&nbsp; 9.2.1&nbsp; CarLight[f,b] shall be commanded to Off <br>
 &nbsp;&nbsp;&nbsp; 9.2.2&nbsp; mCarCall[f,b] shall be set to False <br>
 <br>
@@ -2847,7 +2847,7 @@ None
     </tr>
     <tr>
       <td style="vertical-align: top;">T9.2</td>
-      <td style="vertical-align: top;">CarCall[f,b] == false &amp; &amp; mAtFloor[f,b] == true</td>
+      <td style="vertical-align: top;">CarCall[f,b] == false &amp; &amp; mAtFloor[f,b] == true &amp; &amp; mDoorClosed[b,*] == false</td>
     </tr>
 
   </tbody>
