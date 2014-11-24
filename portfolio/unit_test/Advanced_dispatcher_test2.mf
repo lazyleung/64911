@@ -22,7 +22,7 @@
 ;#state 'S11.1 INIT'
 0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
 0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
-0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == BOTH
+0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 
 ;#transition 'T11.8'
 10.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
