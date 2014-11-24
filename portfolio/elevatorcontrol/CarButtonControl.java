@@ -88,7 +88,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
         //register mailboxes to have its value broadcasted/receive updates on the network periodically
         canInterface.sendTimeTriggered(networkCarCallOut, period);
         canInterface.registerTimeTriggered(networkAtFloorIn);
-	canInterface.registerTimeTriggered(networkDoorClosedLIn);
+        canInterface.registerTimeTriggered(networkDoorClosedLIn);
 
 
         /* issuing the timer start method with no callback data means a NULL value 
@@ -128,16 +128,19 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		//create CAN mailboxes
 		networkCarCallOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
 		networkAtFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway));
+		networkDoorClosedLIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,Side.LEFT));
 
 		//Create a translator with a reference to the CanMailbox.  Use the 
         //translator to read and write values to the mailbox
 		
 		mCarCall = new MyBooleanCanPayloadTranslator(networkCarCallOut);
 		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
-		
+        mDoorClosedL = new DoorClosedCanPayloadTranslator(networkDoorClosedLIn, hallway, Side.LEFT);
+
         //register mailboxes to have its value broadcasted/receive updates on the network periodically
         canInterface.sendTimeTriggered(networkCarCallOut, period);
         canInterface.registerTimeTriggered(networkAtFloorIn);
+        canInterface.registerTimeTriggered(networkDoorClosedLIn);
 
 
         /* issuing the timer start method with no callback data means a NULL value 
