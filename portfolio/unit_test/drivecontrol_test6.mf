@@ -15,7 +15,7 @@
 
 ;set input initial value
 0.0s I DRIVE_PERIOD                 F                                            DriveSpeed = STOP 0
-0.0s I CAR_LEVEL_POSITION_PERIOD    N CAR_LEVEL_POSITION_CAN_ID                  CarLevelPosition = 500
+0.0s I CAR_LEVEL_POSITION_PERIOD    N CAR_LEVEL_POSITION_CAN_ID                  CarLevelPosition = 5000
 0.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                       DesiredFloor = 2 STOP BACK
 0.0s I EMERGENCY_BRAKE_PERIOD       N EMERGENCY_BRAKE_CAN_ID                     SafetySensor = false
 0.0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                          CarWeight = 0
@@ -61,7 +61,7 @@
 2.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == DOWN
 
 ;#transition 'T6.14'
-3.0s I CAR_LEVEL_POSITION_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 22
+3.0s I CAR_LEVEL_POSITION_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 220
 3.2s I DRIVE_PERIOD F DriveSpeed = DOWN 0.25
 
 ;#state 'S6.4 SLOW_DOWN'

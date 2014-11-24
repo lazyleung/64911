@@ -63,6 +63,8 @@ public class DriveControl extends Controller implements TimeSensitive {
     DoorClosedCanPayloadTranslator          mDoorClosedBL;
     DoorClosedCanPayloadTranslator          mDoorClosedBR;
 
+    Utility.AtFloorArray                    mAtFloor;
+
     // variables
     State       currentState;
     Direction   desiredDirection = Direction.STOP;
@@ -143,6 +145,9 @@ public class DriveControl extends Controller implements TimeSensitive {
         r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Hallway.BACK, Side.RIGHT));
         mDoorClosedBR = new DoorClosedCanPayloadTranslator(r, Hallway.BACK, Side.RIGHT);
         canInterface.registerTimeTriggered(r);
+
+        mAtFloor = new Utility.AtFloorArray(canInterface);
+        // Every floor & hallway Message
     
         // initialize the controller to the STOP state
         currentState = State.STOP;
@@ -154,7 +159,17 @@ public class DriveControl extends Controller implements TimeSensitive {
 
     public void timerExpired(Object callbackData) {
         // Update local variables
-        int temp = mCarLevelPosition.getPosition() - (mDesiredFloor.getFloor() - 1) * 5000;
+        if(mAtFloor.getCurrentFloor() != -1)
+            currentFloor = mAtFloor.getCurrentFloor();
+
+        int temp = 0;
+
+        if(currentState == State.FAST_DOWN || currentState == State.FAST_UP) {
+            temp = mCarLevelPosition.getPosition() - (mDesiredFloor.getFloor() - 1) * 5000;
+        } else {
+            temp = currentFloor - mDesiredFloor.getFloor();
+        }
+        
         if(temp < 0) {
             desiredDirection = Direction.UP;
         } else if(temp > 0) {

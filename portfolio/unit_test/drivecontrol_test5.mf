@@ -62,7 +62,7 @@
 2.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
 ;#transition 'T6.12'
-3.0s I CAR_LEVEL_POSITION_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 478
+3.0s I CAR_LEVEL_POSITION_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 4780
 3.2s I DRIVE_PERIOD F DriveSpeed = UP 0.25
 
 ;#state 'S6.2 SLOW_UP'
