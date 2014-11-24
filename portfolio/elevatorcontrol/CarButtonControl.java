@@ -82,7 +82,7 @@ public class CarButtonControl extends Controller implements TimeSensitive{
 		
 		mCarCall = new MyBooleanCanPayloadTranslator(networkCarCallOut);
 		mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloorIn, floor, hallway);
-        mDoorClosedL = new DoorClosedCanPayloadTranslator(networkDoorClosedLIn, Hallway.FRONT, Side.LEFT);
+        mDoorClosedL = new DoorClosedCanPayloadTranslator(networkDoorClosedLIn, hallway, Side.LEFT);
 
 
         //register mailboxes to have its value broadcasted/receive updates on the network periodically
