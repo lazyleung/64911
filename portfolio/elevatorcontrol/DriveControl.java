@@ -63,8 +63,6 @@ public class DriveControl extends Controller implements TimeSensitive {
     DoorClosedCanPayloadTranslator          mDoorClosedBL;
     DoorClosedCanPayloadTranslator          mDoorClosedBR;
 
-    Utility.AtFloorArray                    mAtFloor;
-
     // variables
     State       currentState;
     Direction   desiredDirection = Direction.STOP;
@@ -145,9 +143,6 @@ public class DriveControl extends Controller implements TimeSensitive {
         r = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(Hallway.BACK, Side.RIGHT));
         mDoorClosedBR = new DoorClosedCanPayloadTranslator(r, Hallway.BACK, Side.RIGHT);
         canInterface.registerTimeTriggered(r);
-
-        mAtFloor = new Utility.AtFloorArray(canInterface);
-        // Every floor & hallway Message
     
         // initialize the controller to the STOP state
         currentState = State.STOP;
@@ -159,15 +154,12 @@ public class DriveControl extends Controller implements TimeSensitive {
 
     public void timerExpired(Object callbackData) {
         // Update local variables
-        if(mAtFloor.getCurrentFloor() != -1)
-            currentFloor = mAtFloor.getCurrentFloor();
-
-        int temp = currentFloor - mDesiredFloor.getFloor();
+        int temp = mCarLevelPosition.getPosition() - (mDesiredFloor.getFloor() - 1) * 5000;
         if(temp < 0) {
             desiredDirection = Direction.UP;
         } else if(temp > 0) {
             desiredDirection = Direction.DOWN;
-        } else if(temp == 0){
+        } else {
             desiredDirection = Direction.STOP;
         }
 
@@ -322,27 +314,29 @@ public class DriveControl extends Controller implements TimeSensitive {
     }
 
     // Formula: x = x0 - 0.5 * v0^2 / a
+    // Note verything is done in milimeters
     private void updateCommitPoint() {
-        double targetPos = (double)(mDesiredFloor.getFloor() - 1) * 500;
+        double targetPos = (double)(mDesiredFloor.getFloor() - 1) * 5000;
         double pos = (double)mCarLevelPosition.getPosition();
         double finalPos = 0;
-        double v0 = localSpeed.speed();
-        double a = DriveObject.Acceleration;
+        double v = localSpeed.speed();
+        double v0 = v * 1000;
+        double a = DriveObject.Acceleration * 1000;
 
         if(localSpeed.direction() == Direction.UP) {
             finalPos = pos + 0.5 * v0 * v0 / a;
-            if (finalPos <  targetPos - 10 && v0 > DriveObject.SlowSpeed) {
+            if (finalPos <  targetPos - 1000 && v <= DriveObject.SlowSpeed) {
                 commitPoint = CommitPoint.NOTREACHED;
-            } else if (finalPos < targetPos && finalPos >= targetPos - 10){
+            } else if (finalPos < targetPos && finalPos >= targetPos - 1000){
                 commitPoint = CommitPoint.REACHED;
             } else if (finalPos >= targetPos){
                 commitPoint = CommitPoint.PASSED;
             }
         } else if (localSpeed.direction() == Direction.DOWN) {
             finalPos = pos - 0.5 * v0 * v0 / a;
-            if (finalPos >  targetPos + 10 && v0 > DriveObject.SlowSpeed) {
+            if (finalPos >  targetPos + 1000 && v <= DriveObject.SlowSpeed) {
                 commitPoint = CommitPoint.NOTREACHED;
-            } else if (finalPos > targetPos && finalPos <= targetPos + 10){
+            } else if (finalPos > targetPos && finalPos <= targetPos + 1000){
                 commitPoint = CommitPoint.REACHED;
             } else if (finalPos <= targetPos){
                 commitPoint = CommitPoint.PASSED;
