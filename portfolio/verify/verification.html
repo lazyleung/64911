@@ -37,19 +37,19 @@ The high level requirements verification shall be performed by the Runtime Monit
 
  <h4>&nbsp;&nbsp;&nbsp;R-T8.1: If any door is open at a hallway and there are any pending calls at any other floor(s), a Car Lantern shall turn on. </h4>
    	<ul>
-  		<li><br><br>
+  		<li>When the doors open check for any mHallCall == true.  If there is atleast one true mHallCall then the monitor will enter "Door Open and CarLantern On" if either CarLantern is on and it will enter the warning state "Doors Open and CarLanterns Off" if both CarLanterns are off.  When the doors are no longer open return to Doors Closed state<br><br>
   		<b>Event Triggered statechart: </b><br></li>
   		<p> <img style="width: 967x; height: 173x;" alt="RT-8.1 Statechart" src="RT-8_1.png"><br clear="left"> </p>
   	</ul>
 <h4>&nbsp;&nbsp;&nbsp;R-T8.2: If one of the car lanterns is lit, the direction indicated shall not change while the doors are open. </h4>
    	<ul>
-  		<li><br><br>
+  		<li>While either CarLantern is on use the state variables prevUpState and prevDownState to keep track of which CarLanterns are on.  If a Lantern changes before the doors close go to the warning state "Lanterns Changed"<br><br>
   		<b>Event Triggered statechart: </b><br></li>
   		<p> <img style="width: 967x; height: 173x;" alt="RT-8.2 Statechart" src="RT-8_2.png"><br clear="left"> </p>
   	</ul>
 <h4>&nbsp;&nbsp;&nbsp;R-T8.3: If one of the car lanterns is lit, the car shall service any calls in that direction first. </h4>
    	<ul>
-  		<li><br><br>
+  		<li>If a CarLantern is on transition to state "Lantern On."  While in "Lantern On" use mDriveSpeed.direction to check and see if the car is moving in the same direction as the CarLantern that is on.  If the directions do not match then transition to warning state "Serviced Hallway in Wrong Direction"<br><br>
   		<b>Event Triggered statechart: </b><br></li>
   		<p> <img style="width: 967x; height: 173x;" alt="RT-8.3 Statechart" src="RT-8_3.png"><br clear="left"> </p>
   	</ul>
