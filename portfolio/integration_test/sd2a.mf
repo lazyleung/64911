@@ -28,7 +28,7 @@
 1.0s I CAR_BUTTON_CONTROL_PERIOD F CarCall 2 BACK = true
 
 ;#arc '2a/1c'
-1.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
+1.5s A N CAR_CALL_[2][BACK]_CAN_ID MyBoolean : getValue == true
 
 ;#arc '2a/2a'
 ;#arc '2a/2b'
