@@ -11,7 +11,6 @@ package simulator.elevatorcontrol;
 
 import jSimPack.SimTime;
 import simulator.elevatormodules.AtFloorCanPayloadTranslator;
-import simulator.elevatormodules.DoorClosedCanPayloadTranslator;
 import simulator.framework.Direction;
 import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
@@ -43,10 +42,10 @@ public class HallButtonControl extends simulator.framework.Controller{
     //private HallCallCanPayloadTranslator mHallCall;
 
     //received doorClosed messages
-    private ReadableCanMailbox networkDoorClosedLeft;
-    private ReadableCanMailbox networkDoorClosedRight;
-    private DoorClosedCanPayloadTranslator mDoorClosedLeft;
-    private DoorClosedCanPayloadTranslator mDoorClosedRight;
+    //private ReadableCanMailbox networkDoorClosedLeft;
+    //private ReadableCanMailbox networkDoorClosedRight;
+    //private DoorClosedCanPayloadTranslator mDoorClosedLeft;
+    //private DoorClosedCanPayloadTranslator mDoorClosedRight;
 
 
     //received mAtFloor messages
@@ -86,12 +85,12 @@ public class HallButtonControl extends simulator.framework.Controller{
         localHallCall = HallCallPayload.getReadablePayload(floor, hallway, direction);
         physicalInterface.registerTimeTriggered(localHallCall);
 
-        networkDoorClosedLeft = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.LEFT));
-        mDoorClosedLeft = new DoorClosedCanPayloadTranslator(networkDoorClosedLeft, hallway, Side.LEFT);
-        canInterface.registerTimeTriggered(networkDoorClosedLeft);
-        networkDoorClosedRight = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.RIGHT));
-        mDoorClosedRight = new DoorClosedCanPayloadTranslator(networkDoorClosedRight, hallway, Side.RIGHT);
-        canInterface.registerTimeTriggered(networkDoorClosedRight);
+        //networkDoorClosedLeft = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.LEFT));
+        //mDoorClosedLeft = new DoorClosedCanPayloadTranslator(networkDoorClosedLeft, hallway, Side.LEFT);
+        //canInterface.registerTimeTriggered(networkDoorClosedLeft);
+        //networkDoorClosedRight = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.RIGHT));
+        //mDoorClosedRight = new DoorClosedCanPayloadTranslator(networkDoorClosedRight, hallway, Side.RIGHT);
+        //canInterface.registerTimeTriggered(networkDoorClosedRight);
 
         networkAtFloor = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID+ReplicationComputer.computeReplicationId(floor, hallway));
         mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloor, floor, hallway);
@@ -125,12 +124,12 @@ public class HallButtonControl extends simulator.framework.Controller{
         localHallCall = HallCallPayload.getReadablePayload(floor, hallway, direction);
         physicalInterface.registerTimeTriggered(localHallCall);
 
-        networkDoorClosedLeft = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.LEFT));
-        mDoorClosedLeft = new DoorClosedCanPayloadTranslator(networkDoorClosedLeft, hallway, Side.LEFT);
-        canInterface.registerTimeTriggered(networkDoorClosedLeft);
-        networkDoorClosedRight = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.RIGHT));
-        mDoorClosedRight = new DoorClosedCanPayloadTranslator(networkDoorClosedRight, hallway, Side.RIGHT);
-        canInterface.registerTimeTriggered(networkDoorClosedRight);
+        //networkDoorClosedLeft = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.LEFT));
+        //mDoorClosedLeft = new DoorClosedCanPayloadTranslator(networkDoorClosedLeft, hallway, Side.LEFT);
+        //canInterface.registerTimeTriggered(networkDoorClosedLeft);
+        //networkDoorClosedRight = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, Side.RIGHT));
+        //mDoorClosedRight = new DoorClosedCanPayloadTranslator(networkDoorClosedRight, hallway, Side.RIGHT);
+        //canInterface.registerTimeTriggered(networkDoorClosedRight);
 
         networkAtFloor = CanMailbox.getReadableCanMailbox(MessageDictionary.AT_FLOOR_BASE_CAN_ID+ReplicationComputer.computeReplicationId(floor, hallway));
         mAtFloor = new AtFloorCanPayloadTranslator(networkAtFloor, floor, hallway);
@@ -155,14 +154,6 @@ public class HallButtonControl extends simulator.framework.Controller{
     @Override
     public void timerExpired(Object callbackData) {
         State newState = state;
-        
-        if (mDesiredFloor.getFloor() > floor){
-            desiredDirection = Direction.UP;
-        } else if (mDesiredFloor.getFloor() < floor) {
-            desiredDirection = Direction.DOWN;
-        } else {
-            desiredDirection = Direction.STOP;
-        }
 
         switch (state) {
         case STATE_IDLE:

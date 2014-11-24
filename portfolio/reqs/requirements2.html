@@ -2598,8 +2598,6 @@ None
 <ul>
   <li>mAtFloor[f, b] </li>
   <li>mDesiredFloor </li>
-  <li>mDoorClosed[b, r] </li>
-  <li>mDoorOpened[b, r] </li>
   <li>HallCall[f, b, d] </li>
 </ul>
 <h3> Output Interface: </h3>
@@ -2608,26 +2606,14 @@ None
   <li>mHallCall[f, b, d] </li>
 </ul>
 <h3> State: </h3>
-<ul>
-  <li>CurrentFloor, is a shorthand notation for the value f of
-whichever mAtFloor[f, b] is True, if any.&nbsp; If CurrentFloor is
-invalid it has a mnemonic value of None. </li>
-  <li>CurrentDirection, is a shorthand notation for the value d of
-whichever mDesiredFloor[f, b, d] is True, if any.&nbsp; </li>
-  <li>DesiredDirection = {Up, Down, Stop} computed desired direction
-based on comparing the mAtFloor.f with mDesiredFloor.f.&nbsp;
-This is implicitly computed and used as a macro in the behavior
-descriptions. </li>
- <li>PrevDoorOpen, is a shorthand notation for the previous Open/Close state of the door.
-     True means the doors were Open, False means the doors were closed.</li>
-</ul>
+None
 <h3> CONSTRAINTS: </h3>
 None
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
-8.1 &nbsp;&nbsp; If (HallCall[f, b, d](True) AND mDoorClosed(True)) OR HallCall[f, b, d](True) AND mDoorClosed[b, r](False) AND mAtFloor[f, b](True) AND DesiredDirection != d, then: <br>
+8.1 &nbsp;&nbsp; If HallCall[f, b, d](True, then: <br>
 &nbsp;&nbsp;&nbsp; 8.1.1&nbsp; mHallCall[f, b, d] shall be set to true<br>
 &nbsp;&nbsp;&nbsp; 8.1.2&nbsp; HallLight[f, b, d] shall be set to true<br>
-8.2 &nbsp;&nbsp; If mAtFloor[f, b](True) AND DesiredDirection = d AND mDoorClosed[b, r](False), then: <br>
+8.2 &nbsp;&nbsp; If mAtFloor[f, b](True) AND (mDesiredFloor[f,d,b](True) OR mDesiredFloor[f,BOTH,b](True)), then: <br>
 &nbsp;&nbsp;&nbsp; 8.2.1&nbsp; mHallCall[f, b, d] shall be set to false;<br>
 &nbsp;&nbsp;&nbsp; 8.2.2&nbsp; HallLight[f, b, d] shall be set to false;<br>
 <br>
@@ -2647,11 +2633,11 @@ None
 
     <tr>
       <td style="vertical-align: top;">T8.1<br> </td>
-      <td style="vertical-align: top;">{HallCall[f, b, d]=True }</td>
+      <td style="vertical-align: top;">HallCall[f, b, d]=True</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T8.2</td>
-      <td style="vertical-align: top;">mAtFloor[f, b](True) AND DesiredDirection = d AND mDesiredFloor = f</td>
+      <td style="vertical-align: top;">mAtFloor[f, b](True) AND (mDesiredFloor[f,BOTH,d](True) OR mDesiredFloor[f,b,d](True))</td>
     </tr>
   </tbody>
 </table>
@@ -2671,7 +2657,7 @@ None
     </tr>
     <tr>
       <td style="vertical-align: top;">S8.1 IDLE<br> </td>
-      <td style="vertical-align: top;">Idle state, waiting for </td>
+      <td style="vertical-align: top;">Idle state, waiting for hall button press</td>
       <td style="vertical-align: top;">mHallCall[f,b,d]=False; HallLight[f,b,d]=Off<br>
     </tr>
     <tr>
@@ -2847,7 +2833,7 @@ None
     </tr>
     <tr>
       <td style="vertical-align: top;">T9.2</td>
-      <td style="vertical-align: top;">CarCall[f,b] == false &amp; &amp; mAtFloor[f,b] == true &amp; &amp; mDoorClosed[b,*] == false</td>
+      <td style="vertical-align: top;">CarCall[f,b] == false &amp;&amp; mAtFloor[f,b] == true &amp;&amp; mDoorClosed[b,*] == false</td>
     </tr>
 
   </tbody>
@@ -3181,6 +3167,7 @@ Lobby = 1. </li>
 <li>CurrentDirection: {UP, DOWN, STOP} The direction of travel as determined by mDrivespeed. However, CurrentDirection will be set to oppositeDirection if both CloesestFloor and FarthestFloor = -1.</li>
   <li>OppositeDirection: {UP, DOWN, STOP} The direction opposite to CurrentDirection.</li>
 <li>DesiredHall: the intented hallway at the next stop.</li>
+    <li> </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 11.1&nbsp;&nbsp;&nbsp; Target shall be a valid Floor number from 1 ..
@@ -3274,27 +3261,27 @@ shall be set to None .<br>
     <tr>
       <td style="vertical-align: top;">S11.1 INIT<br> </td>
       <td style="vertical-align: top;">Initial State</td>
-      <td style="vertical-align: top;">Target=1, DesiredHall=BOTH, mDesiredFloor.f=Target, DesiredHall, mDesiredFloor.d=STOP<br>
+      <td style="vertical-align: top;">Target=1, DesiredHall=NONE, mDesiredFloor.f=Target, DesiredDirection=STOP, mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S11.2 GOTO_CLOSET_FLOOR<br> </td>
       <td style="vertical-align: top;">Stop at next floor in same direction</td>
-      <td style="vertical-align: top;">Target=ClosestFloor.f, DesiredHall=ClosestFloor.b, mDesiredFloor=[Target,DesiredHall,STOP]<br>
+      <td style="vertical-align: top;">Target=ClosestFloor.f, DesiredDirection=closestDirection, DesiredHall=ClosestFloor.b, mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S11.3 GOTO_FARTHEET_FLOOR<br> </td>
       <td style="vertical-align: top;">Stop at floor with intention of reversing direction</td>
-      <td style="vertical-align: top;">Target=FarthestFloor.f, DesiredHall=FarthestFloor.b, mDesiredFloor=[Target,DesiredHall,STOP]<br>
+      <td style="vertical-align: top;">Target=FarthestFloor.f, DesiredHall=FarthestFloor.b, DesiredDirection=farthestDirection, mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S11.4 IDLE<br> </td>
       <td style="vertical-align: top;">Idle</td>
-      <td style="vertical-align: top;">mDesiredFloor=[Target,DesiredHall,STOP]<br>
+      <td style="vertical-align: top;">mDesiredFloor=[Target,DesiredHall,DesiredDirection]<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S11.5 EMERGENCY<br> </td>
       <td style="vertical-align: top;">Direct to Lobby,NONE,STOP</td>
-      <td style="vertical-align: top;">Target=1, DesiredHall=NONE, mDesiredFloor=[1,NONE,STOP]<br>
+      <td style="vertical-align: top;">Target=1, DesiredHall=NONE, DesiredDirection=STOP, mDesiredFloor=[1,NONE,DesiredDirection]<br>
     </tr>
   </tbody>
 </table>
