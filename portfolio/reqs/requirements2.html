@@ -3158,16 +3158,16 @@ below Lobby (1). </li>
 </ul>
 <h3> State: </h3>
 <ul>
-  <li>Target: an integer Floor number for desired Floor, initialized to
-Lobby = 1. </li>
   <li>AtFloor: a boolean for which if any mAtFloor is true. </li>
   <li>CurFloor: an integer Floor number for which mAtFloor is true. </li>
-  <li>ClosestFloor[f,b]: the floor number f and hallway b, with (mCarCall[f,b] true) or (mHallCall[f,b,mDriveSpeed.d] true), that is closest to CurFloor and is in the direction of CurrentDirection. b is BOTH if there are pending calls at both hallways. [-1,NONE] is no such f,b exist. </li>
-<li>FarthestFloor[f,b]: the floor number f and hallway b, with (mHallCall[f,b,OppositeDirection] true), that is farthest away from CurFloor and is in the current direction of CurrentDirection. b is BOTH if there are pending calls at both hallways. [-1,NONE] is no such f,b exist. </li>
+  <li>ClosestFloor[f,b,d]: the floor number f, hallway b, and direction d with (mCarCall[f,b] true) or (mHallCall[f,b,mDriveSpeed.d] true), that is closest to CurFloor and is in the direction of CurrentDirection. b is BOTH if there are pending calls at both hallways. d is CurrentDirection. [-1,NONE, STOP] is no such f,b exist. </li>
+<li>FarthestFloor[f,b,d]: the floor number f, hallway b, and direction d with (mHallCall[f,b,OppositeDirection] true), that is farthest away from CurFloor and is in the current direction of CurrentDirection. b is BOTH if there are pending calls at both hallways. d is OppositeDirection. [-1,NONE, STOP] is no such f,b exist. </li>
 <li>CurrentDirection: {UP, DOWN, STOP} The direction of travel as determined by mDrivespeed. However, CurrentDirection will be set to oppositeDirection if both CloesestFloor and FarthestFloor = -1.</li>
   <li>OppositeDirection: {UP, DOWN, STOP} The direction opposite to CurrentDirection.</li>
-<li>DesiredHall: the intented hallway at the next stop.</li>
-    <li> </li>
+    <li>Target: an integer Floor number for desired Floor, initialized to
+Lobby = 1. </li>
+<li>DesiredHall: the intented hallway at the next stop, initialized to NONE.</li>
+    <li>DesiredDirection: the intented direction after next stop, initialized to STOP. </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 11.1&nbsp;&nbsp;&nbsp; Target shall be a valid Floor number from 1 ..
@@ -3178,21 +3178,24 @@ d) shall not be Up when f = MaxFloor .<br>
 d) shall not be Down when f = 1.
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 11.4&nbsp;&nbsp;&nbsp; mDesiredFloor.f shall be set to Target.<br>
-11.5&nbsp;&nbsp;&nbsp; mDesiredFloor.d shall be set to STOP.<br>
-11.6&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 1, then CurrentDirection shall be set to UP.<br>
-11.7&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 8, then CurrentDirection shall be set to DOWN.<br>
-11.8&nbsp;&nbsp;&nbsp; If AtFloor = false, then CurrentDirection shall be set to mDriveSpeed.d<br>
-11.9&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f != -1 then<br>
-&nbsp;&nbsp; 11.9.1&nbsp; Target shall be set to ClosestFloor.f<br>
-&nbsp;&nbsp; 11.9.2&nbsp; mDesiredFloor.b shall be set to ClosestFloor.b<br>
-11.10&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f == -1 AND FarthestFloor.f != -1; then,<br>
-&nbsp;&nbsp; 11.10.1&nbsp; Target shall be set to FarthestFloor.f<br>
-&nbsp;&nbsp; 11.10.2&nbsp; mDesiredFloor.b shall be set to FarthestFloor.b<br>
-11.11&nbsp;&nbsp;&nbsp; If AtFloor = false AND any mDoorClosed [b, r]
+11.5&nbsp;&nbsp;&nbsp; mDesiredFloor.d shall be set to DesiredDirection.<br>
+11.6&nbsp;&nbsp;&nbsp; mDesiredFloor.b shall be set to DesiredHall.<br>
+11.7&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 1, then CurrentDirection shall be set to UP.<br>
+11.8&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 8, then CurrentDirection shall be set to DOWN.<br>
+11.9&nbsp;&nbsp;&nbsp; If AtFloor = false, then CurrentDirection shall be set to mDriveSpeed.d<br>
+11.10&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f != -1 then<br>
+&nbsp;&nbsp; 11.10.1&nbsp; Target shall be set to ClosestFloor.f<br>
+&nbsp;&nbsp; 11.10.2&nbsp; DesiredDirection shall be set to ClosestFloor.d<br>
+&nbsp;&nbsp; 11.10.3&nbsp; DesiredHall should be set to ClosestFloor.b<br>
+11.11&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f == -1 AND FarthestFloor.f != -1; then,<br>
+&nbsp;&nbsp; 11.11.1&nbsp; Target shall be set to FarthestFloor.f<br>
+&nbsp;&nbsp; 11.11.2&nbsp; DesiredDirection shall be set to FarthestFloor.d<br>
+&nbsp;&nbsp; 11.11.3&nbsp; DesiredHall should be set to FarthestFloor.b<br>
+11.12&nbsp;&nbsp;&nbsp; If AtFloor = false AND any mDoorClosed [b, r]
 is False (which means doors are not
 closed between floors!); then<br>
-&nbsp;&nbsp; 11.11.1&nbsp; Target shall be set to 1<br>
-&nbsp;&nbsp; 11.11.2&nbsp; mDesiredFloor.b
+&nbsp;&nbsp; 11.12.1&nbsp; Target shall be set to 1<br>
+&nbsp;&nbsp; 11.12.2&nbsp; mDesiredFloor.b
 shall be set to None .<br>
 &nbsp; &nbsp;
 <p><a href="statechart11smart.png"><img
@@ -3294,7 +3297,7 @@ completed by Ting Xu (tingx)<br>
     <tr style="font-weight: bold;">
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><br>
       </td>
-      <td colspan="12" rowspan="1" style="vertical-align: top; background-color: rgb(204, 204, 204);">Requirements<br>
+      <td colspan="15" rowspan="1" style="vertical-align: top; background-color: rgb(204, 204, 204);">Requirements<br>
       </td>
     </tr>
     <tr>
@@ -3310,17 +3313,23 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.8<br>
       </td>
-      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.9.1<br>
-      </td>
-      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.9.2<br>
+       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.9<br>
       </td>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.10.1<br>
       </td>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.10.2<br>
       </td>
+        <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.10.3<br>
+      </td>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.11.1<br>
       </td>
-<td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.11.2<br>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.11.2<br>
+      </td>
+         <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.11.3<br>
+      </td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.12.1<br>
+      </td>
+<td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.12.2<br>
       </td>
     </tr>
     <tr>
@@ -3330,7 +3339,7 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+        <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -3343,6 +3352,12 @@ completed by Ting Xu (tingx)<br>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+          <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -3360,15 +3375,21 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
+      <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -3387,17 +3408,23 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;">X<br>
+	<td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
+       <td style="vertical-align: top;"><br>
       </td>
 	<td style="vertical-align: top;"><br>
       </td>
@@ -3410,6 +3437,8 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
+        <td style="vertical-align: top;">X<br>
+      </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -3428,6 +3457,10 @@ completed by Ting Xu (tingx)<br>
       </td>
 	<td style="vertical-align: top;"><br>
       </td>
+          <td style="vertical-align: top;"><br>
+      </td>
+	<td style="vertical-align: top;"><br>
+      </td>
     </tr>
 
         <tr>
@@ -3437,7 +3470,7 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -3446,6 +3479,12 @@ completed by Ting Xu (tingx)<br>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+             <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -3482,6 +3521,12 @@ completed by Ting Xu (tingx)<br>
       </td>
 	<td style="vertical-align: top;"><br>
       </td>
+         <td style="vertical-align: top;"><br>
+      </td>
+	<td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
     </tr>
     <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.1<br>
@@ -3496,6 +3541,10 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
       <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
@@ -3504,7 +3553,9 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+	<td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
       </td>
 	<td style="vertical-align: top;"><br>
       </td>
@@ -3526,13 +3577,19 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
+         <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-	<td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+         <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
     </tr>
     <tr>
@@ -3542,11 +3599,13 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
+        <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -3559,6 +3618,10 @@ completed by Ting Xu (tingx)<br>
       <td style="vertical-align: top;"><br>
       </td>
 	<td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
       </td>
     </tr>
         <tr>
@@ -3568,11 +3631,13 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
+            <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -3585,6 +3650,10 @@ completed by Ting Xu (tingx)<br>
       <td style="vertical-align: top;"><br>
       </td>
 	<td style="vertical-align: top;"><br>
+      </td>
+            <td style="vertical-align: top;"><br>
+      </td>
+            <td style="vertical-align: top;"><br>
       </td>
     </tr>
 
@@ -3595,6 +3664,8 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+        <td style="vertical-align: top;"><br>
+      </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -3605,13 +3676,17 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
 	<td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
       </td>
     </tr>
    <tr>
@@ -3631,11 +3706,17 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
+       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+       <td style="vertical-align: top;">X<br>
+      </td>
+       <td style="vertical-align: top;"><br>
       </td>
 	<td style="vertical-align: top;"><br>
       </td>
@@ -3660,6 +3741,12 @@ completed by Ting Xu (tingx)<br>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+       <td style="vertical-align: top;"><br>
+      </td>
+       <td style="vertical-align: top;"><br>
+      </td>
+       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -3686,6 +3773,12 @@ completed by Ting Xu (tingx)<br>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+       <td style="vertical-align: top;"><br>
+      </td>
+       <td style="vertical-align: top;"><br>
+      </td>
+       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
