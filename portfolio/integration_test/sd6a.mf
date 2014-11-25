@@ -29,22 +29,22 @@
 0.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID    DoorClosed BACK RIGHT = true
 0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[2][BACK]_CAN_ID                  AtFloor 2 BACK = false
 0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                 AtFloor 1 FRONT = false
-0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][BACK]_CAN_ID                 AtFloor 1 BACK = false
+0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][BACK]_CAN_ID                  AtFloor 1 BACK = false
 
 
 1.0s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[UP]_CAN_ID      Leveling UP = false
 1.0s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[DOWN]_CAN_ID    Leveling DOWN = false
 1.0s I DRIVE_PERIOD         F                               DriveSpeed = UP 0.25
-2.0s I DRIVE_PERIOD         F                               DriveSpeed = UP 5.0
+2.0s I DRIVE_PERIOD         F                               DriveSpeed = UP 2.0
 
 ;****verify precondition
 2.2s A F Drive : speed == FAST
 2.2s A F Drive : direction == UP
-2.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed >= 0.25
+2.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed > 0.25
 2.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
 ;#arc '6A/1a'
-2.5s I CAR_LEVEL_POSITION_PERIOD    N CAR_LEVEL_POSITION_CAN_ID                  CarLevelPosition = 487
+2.5s I CAR_LEVEL_POSITION_PERIOD    N CAR_LEVEL_POSITION_CAN_ID                  CarLevelPosition = 2950
 
 ;Expected Behavior: Drive = SLOW, UP
 ;#arc '6A/2a'
