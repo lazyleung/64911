@@ -1,7 +1,7 @@
 
 Simulator Parameters:
 Command line = -mf sd5b.mf -cf sd5b.cf
-RandomSeed = 1416882365440
+RandomSeed = 1416883299497
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -10,9 +10,9 @@ Message File = sd5b.mf
 Controller File = sd5b.cf
 
 Assertion Results:
-@7.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@a8319d8f :: command ?== CLOSE PASSED
-@8.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@da178345 :: command ?== OPEN PASSED
-@9.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@6f99e8d0 :: command ?== STOP PASSED
+@7.2s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@adb7eb4d :: command ?== CLOSE PASSED
+@8.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@84fd1850 :: command ?== OPEN PASSED
+@9.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@3a26a8e3 :: command ?== STOP PASSED
 
 
 ******************Summary******************
