@@ -54,4 +54,5 @@ public class MessageDictionary {
     public final static int HALL_LIGHT_BASE_CAN_ID =            0x0F10B900;
     public final static int CAR_LIGHT_BASE_CAN_ID =             0x0F12BA00;
     public final static int DOOR_MOTOR_COMMAND_BASE_CAN_ID =    0x0F0EB800;
+
 }
