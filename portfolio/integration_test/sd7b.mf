@@ -26,7 +26,6 @@
     
   ;arc '7B/1a'  
   1.0s A F DoorMotor FRONT LEFT : command  == OPEN
-  1.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == OPEN
 
   ;arc '7B/1b'
   1.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
@@ -36,23 +35,11 @@
 
   ;arc '7B/1d'
   2.0s A F DoorMotor FRONT LEFT : command  == STOP
-  2.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
 
   ;arc '7B/2a'
-  8.5s A F DoorMotor FRONT LEFT : command  == NUDGE
-  8.5s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == NUDGE
-
-  ;arc '7B/2b'
-  8.7s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
-
-  ;arc '7B/2c'
-  9.0s A F DoorMotor FRONT LEFT : command  == STOP
-  9.0s A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getValue == STOP
-
-  ;arc '7B/3a'
-  9.5s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT STOP
+  3.5s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT STOP
  
-  ;arc '7B/3b'
-  11.5s A F CarLantern UP : lighted  == false
-  11.5s A F CarLantern DOWN : lighted  == false
+  ;arc '7B/2b'
+  4.0s A F CarLantern UP : lighted  == false
+  4.0s A F CarLantern DOWN : lighted  == false
   
