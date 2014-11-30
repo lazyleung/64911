@@ -1,7 +1,7 @@
 
 Simulator Parameters:
-Command line = -mf LanternControlUnitTest.mf -cf LanternControl.cf
-RandomSeed = 1413497851195
+Command line = -cf LanternControl.cf -mf LanternControlUnitTest.mf
+RandomSeed = 1416858648259
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -10,12 +10,12 @@ Message File = LanternControlUnitTest.mf
 Controller File = LanternControl.cf
 
 Assertion Results:
-@2.0s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@3f96c423 :: lighted ?== false PASSED
-@2.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@a7c8ab91 :: getValue ?== false PASSED
-@6.0s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@b60819df :: lighted ?== true PASSED
-@6.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@ac2be92c :: getValue ?== true PASSED
-@11.0s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@f08ee997 :: lighted ?== false PASSED
-@11.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@c95a1d38 :: getValue ?== false PASSED
+@2.0s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@c5dbd5f1 :: lighted ?== false PASSED
+@2.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@b9961bcc :: getValue ?== false PASSED
+@6.0s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@17b224f :: lighted ?== true PASSED
+@6.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@be67dd68 :: getValue ?== true PASSED
+@11.0s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@44367a74 :: lighted ?== false PASSED
+@11.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@c18f546c :: getValue ?== false PASSED
 
 
 ******************Summary******************

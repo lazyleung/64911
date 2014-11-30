@@ -174,7 +174,7 @@ public class DoorControl extends Controller
         }
 
         doorState = newState;
-        setState(STATE_KEY,newState.toString());
+        //setState(STATE_KEY,newState.toString());
 
         timer.start(period);
     

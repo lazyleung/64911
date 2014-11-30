@@ -1,29 +1,25 @@
 
 Simulator Parameters:
-Command line = -cf ../portfolio/integration_test/sd7c.cf -mf ../portfolio/integration_test/sd7c.mf
-RandomSeed = 1413507275425
+Command line = -mf sd7c.mf -cf sd7c.cf
+RandomSeed = 1416879097954
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
 Real time rate = null
-Message File = ../portfolio/integration_test/sd7c.mf
-Controller File = ../portfolio/integration_test/sd7c.cf
+Message File = sd7c.mf
+Controller File = sd7c.cf
 
 Assertion Results:
-@0.2s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@a0af58cb :: lighted ?== false PASSED
-@0.2s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@9dbe6331 :: lighted ?== false PASSED
-@7.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@a69e794f :: command ?== NUDGE PASSED
-@7.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@4e56653c :: getValue ?== NUDGE PASSED
-@8.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@4ab6aa1e :: command ?== STOP PASSED
-@8.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@36e497e8 :: getValue ?== STOP PASSED
-@9.3s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@28a4e724 :: getFloor ?== 2 PASSED
-@9.3s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@c81399a3 :: getDirection ?== STOP PASSED
-@9.5s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@bb972d4c :: lighted ?== true PASSED
-@9.5s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@4df06a16 :: lighted ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@b8dedabd :: lighted ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@8a87697c :: lighted ?== false PASSED
+@7.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@af9b8c0d :: command ?== CLOSE PASSED
+@8.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2ea851d :: command ?== STOP PASSED
+@9.5s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@f480b012 :: lighted ?== true PASSED
+@9.5s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@292690e3 :: lighted ?== false PASSED
 
 
 ******************Summary******************
-Passed:  10
+Passed:  6
 Failed:  0
-Total :  10
+Total :  6
 

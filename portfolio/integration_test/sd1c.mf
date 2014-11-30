@@ -38,23 +38,23 @@
 1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = false
 
 ;#arc '1B/1a'
-1.5s A F DoorMotor BACK LEFT : command == NUDGE
-1.5s A F DoorMotor BACK RIGHT : command == NUDGE
+5.5s A F DoorMotor BACK LEFT : command == CLOSE
+5.5s A F DoorMotor BACK RIGHT : command == CLOSE
 
 ;#arc '1B/2'
 ;Passenger arrives
 
 ;#arc '1B/3a'
 ;#arc '1B/3b'
-2.0s I HALL_BUTTON_CONTROL_PERIOD F HallCall 2 BACK DOWN = true
+6.0s I HALL_BUTTON_CONTROL_PERIOD F HallCall 2 BACK DOWN = true
 
 ;#arc '1B/4'
-3.0s A F HallLight 2 BACK DOWN : lighted == true
+7.0s A F HallLight 2 BACK DOWN : lighted == true
 
 ;#arc '1B/5a'
-4.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID    DoorClosed BACK LEFT = true
-4.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID   DoorClosed BACK RIGHT = true
+8.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID    DoorClosed BACK LEFT = true
+8.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID   DoorClosed BACK RIGHT = true
 
 ;#arc '1B/5b'
-5.0s A F DoorMotor BACK LEFT : command == STOP
-5.0s A F DoorMotor BACK RIGHT : command == STOP
+9.0s A F DoorMotor BACK LEFT : command == STOP
+9.0s A F DoorMotor BACK RIGHT : command == STOP

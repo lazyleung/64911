@@ -1,6 +1,8 @@
 package simulator.elevatorcontrol;
 
+
 import simulator.elevatormodules.DriveObject;
+import simulator.framework.Direction;
 import simulator.framework.DoorCommand;
 import simulator.framework.Elevator;
 import simulator.framework.Hallway;
@@ -8,19 +10,29 @@ import simulator.framework.RuntimeMonitor;
 import simulator.framework.Side;
 import simulator.payloads.AtFloorPayload.ReadableAtFloorPayload;
 import simulator.payloads.DoorClosedPayload.ReadableDoorClosedPayload;
+import simulator.payloads.DoorOpenPayload.ReadableDoorOpenPayload;
 import simulator.payloads.DoorMotorPayload.ReadableDoorMotorPayload;
 import simulator.payloads.DoorReversalPayload.ReadableDoorReversalPayload;
 import simulator.payloads.DriveSpeedPayload.ReadableDriveSpeedPayload;
+import simulator.payloads.CarLanternPayload.ReadableCarLanternPayload;
+import simulator.payloads.HallCallPayload.ReadableHallCallPayload;
+import simulator.payloads.HallLightPayload.ReadableHallLightPayload;
 
 public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	
 	RT6StateMachine RT6State = new RT6StateMachine();
 	RT7StateMachine RT7State = new RT7StateMachine();
+	RT8_1StateMachine RT8_1State = new RT8_1StateMachine();
+	RT8_2StateMachine RT8_2State = new RT8_2StateMachine();
+	RT8_3StateMachine RT8_3State = new RT8_3StateMachine();
 	RT9StateMachine RT9State = new RT9StateMachine();
 	RT10StateMachine RT10State = new RT10StateMachine();
 	
-	boolean[][] carCalls = new boolean[Elevator.numFloors][2];
-	boolean[][] hallCalls = new boolean[Elevator.numFloors][2];	
+	protected	boolean[][] carCalls = new boolean[Elevator.numFloors][2];
+   protected boolean[][] hallCalls = new boolean[Elevator.numFloors][4];	
+   protected	boolean upCarLantern = false;
+	protected	boolean downCarLantern = false;
+	protected	boolean[] DoorOpen = new boolean[4];
     protected int currentFloor = MessageDictionary.NONE;
     protected Hallway currentHallway = Hallway.NONE;
     protected boolean reversal [][] = new boolean[2][2];
@@ -36,6 +48,27 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 		String[] arr = new String[1];
 		return arr;
 	}
+    
+    public void receive(ReadableHallLightPayload msg){
+	if(msg.getDirection() == Direction.UP){
+	    if(msg.getHallway() == Hallway.FRONT){
+		hallCalls[msg.getFloor() -1][0] = msg.lighted();
+	    }else{
+		hallCalls[msg.getFloor() - 1][1] = msg.lighted();
+	    }
+	}else{
+	    if(msg.getHallway() == Hallway.FRONT){
+		hallCalls[msg.getFloor() - 1][2] = msg.lighted();
+	    }else{
+		hallCalls[msg.getFloor() - 1][3] = msg.lighted();
+	    }
+	}
+    }
+	
+	public void receive(ReadableCarLanternPayload msg){
+		updateCarLanterns(msg);
+		RT8_2State.receive(msg);
+	}
 	
     public void receive(ReadableAtFloorPayload msg) {
         updateCurrentFloor(msg);
@@ -48,6 +81,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 	public void receive(ReadableDriveSpeedPayload msg) {
 		RT6State.receive(msg);	
 		RT9State.receive(msg);	
+		RT8_3State.receive(msg);
 		unsetReversal(msg);
 	}
 	
@@ -55,9 +89,38 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 		RT7State.receive(msg);
 	}
 	
+	public void receive(ReadableDoorOpenPayload msg) {
+		if(msg.getHallway() == Hallway.FRONT && msg.getSide() == Side.LEFT){
+			DoorOpen[0] = msg.isOpen();
+		}else if(msg.getHallway() == Hallway.FRONT && msg.getSide() == Side.RIGHT){
+			DoorOpen[1] = msg.isOpen();
+		}else if(msg.getHallway() == Hallway.BACK && msg.getSide() == Side.LEFT){
+			DoorOpen[2] = msg.isOpen();
+		}else{
+			DoorOpen[3] = msg.isOpen();
+		}
+		RT8_1State.receive(msg);
+	}
 	public void receive(ReadableDoorMotorPayload msg){
 		RT10State.receive(msg);
 	}
+	
+	private void updateCarLanterns(ReadableCarLanternPayload msg){
+		if(msg.getDirection() == Direction.UP){
+			if(msg.lighted()){
+				upCarLantern = true;
+			}else{
+				upCarLantern = false;
+			}
+		}else if(msg.getDirection() == Direction.DOWN){
+			if(msg.lighted()){
+				downCarLantern = true;
+			}else{
+				downCarLantern = false;
+			}
+		}
+	}
+	
 	
     private void updateCurrentFloor(ReadableAtFloorPayload lastAtFloor) {
         if (lastAtFloor.getFloor() == currentFloor) {
@@ -104,6 +167,23 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 		DOORS_OPEN_NO_PENDING_CALLS
 	}
 	
+	private static enum RT8_1States{
+		DOORS_CLOSED,
+		OPEN_ON,
+		OPEN_OFF
+	}
+	
+	private static enum RT8_2States{
+		LANTERNS_OFF,
+		LANTERNS_ON,
+		LANTERNS_CHANGED
+	}
+	
+	private static enum RT8_3States{
+		IDLE,
+		WRONG_DIRECTION
+	}
+
 	private static enum RT9States{
 		STOPPED_FAST,
 		STOPPED_NO_FAST,
@@ -334,4 +414,176 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor  {
 			state = nextState;
 		}
 	}
+	
+	private class RT8_1StateMachine{
+		RT8_1States state;
+		RT8_1States nextState;
+		
+		public RT8_1StateMachine(){
+			state  = RT8_1States.DOORS_CLOSED;
+			nextState = RT8_1States.DOORS_CLOSED;
+		}
+		
+		public void receive(ReadableDoorOpenPayload msg){
+			updateState(msg);
+		}
+		
+		
+		private void updateState(ReadableDoorOpenPayload msg){
+			nextState = state;
+                        
+			switch(state){
+			case DOORS_CLOSED:
+				if(msg.isOpen()){
+				    for(int i = 0; i < Elevator.numFloors;i++){
+					for(int ii = 0;ii<4;ii++){
+							if(hallCalls[i][ii] == true){
+								if(upCarLantern || downCarLantern){
+									nextState = RT8_1States.OPEN_ON;
+								}else{
+									nextState = RT8_1States.OPEN_OFF;
+								}
+							}
+						}
+					}
+				}
+				break;
+			case OPEN_ON:
+				if(msg.isOpen() == false){
+					nextState = RT8_1States.DOORS_CLOSED;
+				}
+				break;
+			case OPEN_OFF:
+				if(msg.isOpen() == false){
+					nextState = RT8_1States.DOORS_CLOSED;
+				}
+				break;
+			}
+			if(nextState != state){
+				switch(nextState){
+				case DOORS_CLOSED :
+				        break;
+				case OPEN_ON:
+					break;
+				case OPEN_OFF:
+					warning("R-T.8.1 Violated: Lanterns off while call is pending ");
+					break;
+				}
+			}
+			state = nextState;
+		}
+	}
+	
+	private class RT8_2StateMachine{
+		RT8_2States state;
+		RT8_2States nextState;
+		boolean prevUpCarLantern;
+		boolean prevDownCarLantern;
+		
+		
+		public RT8_2StateMachine(){
+			state  = RT8_2States.LANTERNS_OFF;
+			nextState = RT8_2States.LANTERNS_OFF;
+			prevUpCarLantern = false;
+			prevDownCarLantern = false;
+		}
+		
+		public void receive(ReadableCarLanternPayload msg){
+			updateState(msg);
+		}
+		
+		
+		private void updateState(ReadableCarLanternPayload msg){
+			nextState = state;
+
+			switch(state){
+			case LANTERNS_OFF:
+				if((DoorOpen[0]||DoorOpen[1]||DoorOpen[2]||DoorOpen[3]) && (upCarLantern || downCarLantern)){
+					nextState = RT8_2States.LANTERNS_ON;
+				}
+				break;
+			case LANTERNS_ON:
+				if(!(DoorOpen[0]||DoorOpen[1]||DoorOpen[2]||DoorOpen[3])){
+					nextState = RT8_2States.LANTERNS_OFF;
+				}
+				if(prevUpCarLantern != upCarLantern || prevDownCarLantern != downCarLantern){
+					nextState = RT8_2States.LANTERNS_CHANGED;
+				}
+				break;
+			case LANTERNS_CHANGED:
+				if(!(DoorOpen[0]||DoorOpen[1]||DoorOpen[2]||DoorOpen[3])){
+					nextState = RT8_2States.LANTERNS_OFF;
+				}
+				break;
+			}
+			if(nextState != state){
+				switch(nextState){
+				case LANTERNS_OFF:
+                    break;
+				case LANTERNS_ON:
+					break;
+				case LANTERNS_CHANGED:
+					warning("R-T.8.2 Violated: Lanterns changed while doors open");
+					break;
+				}
+			}
+			prevDownCarLantern = downCarLantern;
+			prevUpCarLantern = upCarLantern;
+			
+			state = nextState;
+		}
+	}
+	
+	private class RT8_3StateMachine{
+		RT8_3States state;
+		RT8_3States nextState;
+		
+		public RT8_3StateMachine(){
+			state  = RT8_3States.IDLE;
+			nextState = RT8_3States.IDLE;
+		}
+		
+		public void receive(ReadableDriveSpeedPayload msg){
+			updateState(msg);
+		}
+		
+		
+		private void updateState(ReadableDriveSpeedPayload msg){
+			nextState = state;
+
+			switch(state){
+			case IDLE:
+			    if(msg.direction() == Direction.UP && downCarLantern == true){
+					nextState = RT8_3States.WRONG_DIRECTION;
+				}else if(msg.direction() == Direction.DOWN && upCarLantern == true){
+					nextState = RT8_3States.WRONG_DIRECTION;
+				}
+			
+				break;
+			
+			case WRONG_DIRECTION:
+			    if(upCarLantern == false && downCarLantern == false){
+			    	nextState = RT8_3States.IDLE;
+			    }
+			    if(upCarLantern == true && msg.direction() == Direction.UP){
+			    	nextState = RT8_3States.IDLE;
+			    }
+			    if(downCarLantern == true && msg.direction() == Direction.DOWN){
+			    	nextState = RT8_3States.IDLE;
+			    }
+				break;
+			}
+			if(nextState != state){
+				switch(nextState){
+				case IDLE:
+				    break;
+			 	case WRONG_DIRECTION:
+					warning("R-T.8.3 Violated: Lanterns did not match direction of travel");
+					break;
+				}
+			}
+			state = nextState;
+		}
+	}
+	
 }

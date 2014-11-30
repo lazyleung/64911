@@ -6,4 +6,4 @@
 ;Ting Xu/tingx
 
 DoorControl FRONT LEFT 10ms true
-CarButtonControl 100ms 2 BACK true
+CarButtonControl 100ms 1 FRONT true

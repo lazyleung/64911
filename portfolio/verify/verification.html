@@ -49,7 +49,7 @@ The high level requirements verification shall be performed by the Runtime Monit
   	</ul>
 <h4>&nbsp;&nbsp;&nbsp;R-T8.3: If one of the car lanterns is lit, the car shall service any calls in that direction first. </h4>
    	<ul>
-  		<li>If a CarLantern is on transition to state "Lantern On."  While in "Lantern On" use mDriveSpeed.direction to check and see if the car is moving in the same direction as the CarLantern that is on.  If the directions do not match then transition to warning state "Serviced Hallway in Wrong Direction"<br><br>
+  		<li>If a car lantern is lite and the car is traveling in the oppsite direction then transition from Idle to warning state Serviced Hallway in Wrong Direction.  It will remain in that state until both lanterns are off or the on lantern matches the direction<br><br>
   		<b>Event Triggered statechart: </b><br></li>
   		<p> <img style="width: 967x; height: 173x;" alt="RT-8.3 Statechart" src="RT-8_3.png"><br clear="left"> </p>
   	</ul>
@@ -140,9 +140,45 @@ Verification Results<br>
       </td>
       <td style="vertical-align: top;"><a href="proj8acceptance1.stats">proj8acceptance1.stats</a><br>
       </td>
+      <td style="vertical-align: top;">Failed Requirements: R-T.6, R-T.7, R-T8.1<br>
+      Faild Monitor: Runtime Monitor<br>
+      Failed Reason: Car lanterns fail to turn on when there is a hall call<br>
+      </td>
+    </tr>
+      <tr>
+      <td style="vertical-align: top;">proj12acceptance1.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj12acceptance1.stats">proj12acceptance1.stats</a><br>
+      </td>
+      <td style="vertical-align: top;">Failed Requirements: R-T.6, R-T.7, R-T10<br>
+      Faild Monitor: Runtime Monitor<br>
+      Failed Reason: Car lanterns fail to turn on when there is a hall call<br>
+      </td>
+    </tr>
+<tr>
+      <td style="vertical-align: top;">proj12acceptance2.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj12acceptance2.stats">proj12acceptance2.stats</a><br>
+      </td>
       <td style="vertical-align: top;">Failed Requirements: R-T.6, R-T.7<br>
       Faild Monitor: Runtime Monitor<br>
-      Failed Reason: Sabbath mode stops at all floors<br>
+      Failed Reason: Car lanterns fail to turn on when there is a hall call<br>
+      </td>
+    </tr>
+<tr>
+      <td style="vertical-align: top;">proj12acceptance3.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj12acceptance3.stats">proj12acceptance3.stats</a><br>
+      </td>
+      <td style="vertical-align: top;">Failed Requirements: R-T.6, R-T.7, R-T8.3<br>
+      Faild Monitor: Runtime Monitor<br>
+      Failed Reason: Car lanterns fail to turn on when there is a hall call<br>
       </td>
     </tr>
     <tr>

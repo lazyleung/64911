@@ -23,12 +23,12 @@
 
   ;state 'S7.2 ON'    
   6.0s A F CarLantern UP : lighted  == true
-  6.0s A N CAR_LANTERN_[UP]_CAN_ID Boolean : getValue == true
+  6.0s A N CAR_LANTERN_[UP]_CAN_ID MyBoolean : getValue == true
 
   ;transition 'T7.1'
   8.5s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
 
   ;state 'S7.1 OFF'
   11.0s A F CarLantern UP : lighted  == false
-  11.0s A N CAR_LANTERN_[UP]_CAN_ID Boolean : getValue == false
+  11.0s A N CAR_LANTERN_[UP]_CAN_ID MyBoolean : getValue == false
  	
