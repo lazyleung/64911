@@ -7,6 +7,7 @@ import simulator.framework.Elevator;
 import simulator.framework.Hallway;
 import simulator.framework.RuntimeMonitor;
 import simulator.framework.Side;
+import simulator.framework.Speed;
 import simulator.payloads.AtFloorPayload.ReadableAtFloorPayload;
 import simulator.payloads.CarCallPayload.ReadableCarCallPayload;
 import simulator.payloads.CarLanternPayload.ReadableCarLanternPayload;
@@ -175,7 +176,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 	}
 
 	private void unsetReversal(ReadableDriveSpeedPayload msg) {
-		if (msg.speed() != 0) {
+		if (msg.speed() > DriveObject.LevelingSpeed) {
 			reversal[Hallway.BACK.ordinal()][Side.LEFT.ordinal()] = false;
 			reversal[Hallway.FRONT.ordinal()][Side.LEFT.ordinal()] = false;
 			reversal[Hallway.BACK.ordinal()][Side.RIGHT.ordinal()] = false;
@@ -254,7 +255,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 				break;
 			case STOPPED:
 			case STOPPED_NO_PENDING_CALLS:
-				if (msg.speed() != 0) {
+				if (msg.speed() > DriveObject.LevelingSpeed) {
 					newState = RT6States.MOVING;
 				}
 				break;			
@@ -367,18 +368,17 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 		}
 
 		private void updateState(ReadableDoorMotorPayload msg) {
-			RT10States previousState = state[msg.getHallway().ordinal()][msg
-					.getSide().ordinal()];
+			RT10States previousState = state[msg.getHallway().ordinal()][msg.getSide().ordinal()];
 			RT10States newState = previousState;
 			boolean warningIssued = false;
 
 			if (msg.command() == DoorCommand.NUDGE
-					&& !reversal[msg.getHallway().ordinal()][msg.getSide()
-							.ordinal()]) {
+					&& !(reversal[msg.getHallway().ordinal()][0]
+									||reversal[msg.getHallway().ordinal()][1])) {
 				newState = RT10States.DOORS_NUDGING_NO_REVERSAL;
 			} else if (msg.command() == DoorCommand.NUDGE
-					&& reversal[msg.getHallway().ordinal()][msg.getSide()
-							.ordinal()]) {
+					&& (reversal[msg.getHallway().ordinal()][0]
+							||reversal[msg.getHallway().ordinal()][1])) {
 				newState = RT10States.DOOR_NUDGING_AFTER_REVERSAL;
 			} else if (msg.command() == DoorCommand.STOP) {
 				newState = RT10States.DOORS_STOPPED;
@@ -399,6 +399,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 					}
 					break;
 				case DOOR_NUDGING_AFTER_REVERSAL:
+					
 					break;
 				case DOORS_STOPPED:
 					warningIssued = false;
@@ -605,29 +606,72 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 
 			switch (state) {
 			case IDLE:
-				if (msg.direction() == Direction.UP && downCarLantern == true) {
-					nextState = RT8_3States.WRONG_DIRECTION;
-				} else if (msg.direction() == Direction.DOWN
-						&& upCarLantern == true) {
+				if(msg.speed()>=DriveObject.FastSpeed && ((msg.direction()==Direction.UP && downCarLantern==true)||(msg.direction()==Direction.DOWN && upCarLantern==true))){
 					nextState = RT8_3States.WRONG_DIRECTION;
 				}
-
 				break;
-
 			case WRONG_DIRECTION:
-				if (upCarLantern == false && downCarLantern == false) {
-					nextState = RT8_3States.IDLE;
-				}
-				if (upCarLantern == true && msg.direction() == Direction.UP) {
-					nextState = RT8_3States.IDLE;
-				}
-				if (downCarLantern == true && msg.direction() == Direction.DOWN) {
+				if(msg.speed()<=DriveObject.FastSpeed){
 					nextState = RT8_3States.IDLE;
 				}
 				break;
+		}
+		
+				/*
+			
+			case MOVING_RIGHT_DIRECTION:
+			case MOVING_WRONG_DIRECTION:
+				if(msg.speed()==0 && downCarLantern == true){
+					nextState = RT8_3States.STOPPED_DOWN;
+				}
+				else if (msg.speed()==0 && upCarLantern == true){
+					nextState = RT8_3States.STOPPED_UP;
+				}
+				
+				break;
+			case STOPPED_UP:
+				if(!(currentFloor==1)&&msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.DOWN){
+					nextState = RT8_3States.MOVING_WRONG_DIRECTION;
+				}
+				else if (msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.UP){
+					nextState = RT8_3States.MOVING_RIGHT_DIRECTION;
+				}
+				
+				else if (msg.speed()==0 && downCarLantern == true){
+					nextState = RT8_3States.STOPPED_DOWN;
+				}
+				
+				break;
+			case STOPPED_DOWN:
+				if(!(currentFloor==8)&&msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.UP){
+					nextState = RT8_3States.MOVING_WRONG_DIRECTION;
+				}
+				else if (msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.DOWN){
+					nextState = RT8_3States.MOVING_RIGHT_DIRECTION;
+				}
+				
+				else if (msg.speed()==0 && upCarLantern == true){
+					nextState = RT8_3States.STOPPED_UP;
+				}
+				
+				break;
+
 			}
+			*/
 			if (nextState != state) {
 				switch (nextState) {
+				//case MOVING_RIGHT_DIRECTION:
+					//warning("MOVING_RIGHT_DIRECTION");
+					//break;
+				//case STOPPED_UP:
+					//warning("STOPPED_UP");
+					//break;
+				//case STOPPED_DOWN:
+					//warning("STOPPED_DOWN");
+					//break;
+				//case MOVING_WRONG_DIRECTION:
+					//warning("R-T.8.3 Violated: Lanterns did not match direction of travel");
+					//break;
 				case IDLE:
 					break;
 				case WRONG_DIRECTION:
