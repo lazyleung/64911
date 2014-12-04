@@ -697,7 +697,7 @@ public class Dispatcher extends simulator.framework.Controller{
         }
         log("mDesiredFloor f = "+Target+" Hall="+DesiredHallway);
         state = newState;
-        System.out.println(state);
+        //System.out.println(state);
         //report the current state
         setState(STATE_KEY, newState.toString());
         
