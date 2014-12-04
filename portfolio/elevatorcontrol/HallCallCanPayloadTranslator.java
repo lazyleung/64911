@@ -1,16 +1,19 @@
-package simulator.elevatorcontrol;
+//ECE649 FALL 2014
+//Group 11
+//Jonathan Leung/jkleung1
+//Eric Newhall/enewhall
+//Mengzhe Li/mzli
+//Ting Xu/tingx
 
-import java.util.BitSet;
+package simulator.elevatorcontrol;
 
 import simulator.framework.Direction;
 import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
-import simulator.payloads.translators.CanPayloadTranslator;
 
-public class HallCallCanPayloadTranslator extends BooleanCanTranslator {
+public class HallCallCanPayloadTranslator extends MyBooleanCanPayloadTranslator {
 	/**
      * CAN translator for messages from atfloor sensors
      * @param payload CAN payload object whose message is interpreted by this translator
@@ -18,8 +21,8 @@ public class HallCallCanPayloadTranslator extends BooleanCanTranslator {
      * @param hallway replication index
      */
     public HallCallCanPayloadTranslator(WriteableCanMailbox payload, int floor, Hallway hallway, Direction direction) {
-        super(payload, MessageDictionary.HALL_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway, direction), "HallCall" + ReplicationComputer.makeReplicationString(floor, hallway, direction));
-    }
+        super(payload);
+        }
 
     /**
      * CAN translator for messages from atfloor sensors
@@ -28,7 +31,7 @@ public class HallCallCanPayloadTranslator extends BooleanCanTranslator {
      * @param hallway replication index
      */
     public HallCallCanPayloadTranslator(ReadableCanMailbox payload, int floor, Hallway hallway, Direction direction) {
-        super(payload, MessageDictionary.HALL_CALL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(floor, hallway, direction), "HallCall" + ReplicationComputer.makeReplicationString(floor, hallway, direction));
-    }
+        super(payload);
+        }
 
 }

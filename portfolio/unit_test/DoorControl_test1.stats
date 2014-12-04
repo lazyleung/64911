@@ -1,49 +1,34 @@
 
 Simulator Parameters:
-Command line = -cf DoorControl.cf -mf DoorControl_test1.mf
-RandomSeed = 1415746090034
+Command line = -cf ../portfolio/unit_test/doorcontrol.cf -mf ../portfolio/unit_test/DoorControl_test1.mf
+RandomSeed = 1415931914795
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
 Real time rate = null
-Message File = DoorControl_test1.mf
-Controller File = DoorControl.cf
+Message File = ../portfolio/unit_test/DoorControl_test1.mf
+Controller File = ../portfolio/unit_test/doorcontrol.cf
 
 Assertion Results:
-@1.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@f28894df :: command ?== STOP PASSED
-@1.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@9b62a1dc :: getValue ?== STOP PASSED
-@2.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@57e8c091 :: command ?== OPEN PASSED
-@2.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@ce45db72 :: getValue ?== OPEN PASSED
-@3.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@bd5426c2 :: command ?== STOP PASSED
-@3.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@907d6dfc :: getValue ?== STOP PASSED
-@4.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@e74622dc :: command ?== STOP PASSED
-@4.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@cc5aad3a :: getValue ?== STOP PASSED
-@5.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@bc54e10a :: command ?== CLOSE PASSED
-@5.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@22286024 :: getValue ?== CLOSE PASSED
-@6.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@85c79805 :: command ?== STOP PASSED
-@6.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@7dd9e68b :: getValue ?== STOP PASSED
-@8.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@48fcc162 :: command ?== OPEN PASSED
-@8.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@b4fd56cc :: getValue ?== OPEN PASSED
-@9.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@dd9b3a6f :: command ?== STOP PASSED
-@9.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@b1d59362 :: getValue ?== STOP PASSED
-@9.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@d8768ca1 :: command ?== STOP PASSED
-@9.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@bf4aa43a :: getValue ?== STOP PASSED
-@11.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@caa43ac2 :: command ?== CLOSE PASSED
-@11.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@14ff5a48 :: getValue ?== CLOSE PASSED
-@13.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@4d8e00d5 :: command ?== OPEN PASSED
-@13.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@6147f4d5 :: getValue ?== OPEN PASSED
-@14.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@abd2f5ee :: command ?== STOP PASSED
-@14.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@59f05a6f :: getValue ?== STOP PASSED
-@15.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@3d682507 :: command ?== STOP PASSED
-@15.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@e8586ea1 :: getValue ?== STOP PASSED
-@17.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@27da39a8 :: command ?== NUDGE PASSED
-@17.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@4573a28e :: getValue ?== NUDGE PASSED
-@20.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@3de0903 :: command ?== STOP PASSED
-@20.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@9064280c :: getValue ?== STOP PASSED
+@1.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@494099fe :: command ?== STOP PASSED
+@2.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@e7d8b1fc :: command ?== OPEN PASSED
+@3.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@845556a2 :: command ?== STOP PASSED
+@4.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@63463984 :: command ?== STOP PASSED
+@9.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@f611206e :: command ?== CLOSE PASSED
+@11.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@80528d07 :: command ?== STOP PASSED
+@13.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@d3625c15 :: command ?== OPEN PASSED
+@14.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@e5fe1a26 :: command ?== STOP PASSED
+@15.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2a41e8f5 :: command ?== STOP PASSED
+@21.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@577148a2 :: command ?== CLOSE PASSED
+@23.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2c161ce6 :: command ?== OPEN PASSED
+@24.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@4a84e355 :: command ?== STOP PASSED
+@25.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@b28cd1 :: command ?== STOP PASSED
+@37.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@7c4f4c34 :: command ?== NUDGE PASSED
+@40.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@43c2f649 :: command ?== STOP PASSED
 
 
 ******************Summary******************
-Passed:  30
+Passed:  15
 Failed:  0
-Total :  30
+Total :  15
 

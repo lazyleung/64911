@@ -1,0 +1,25 @@
+
+Simulator Parameters:
+Command line = -cf Dispatcher.cf -mf Advanced_dispatcher_test2.mf
+RandomSeed = 1416809337093
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = Advanced_dispatcher_test2.mf
+Controller File = Dispatcher.cf
+
+Assertion Results:
+@0.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@4bdb699b :: getFloor ?== 1 PASSED
+@0.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@2107ebe1 :: getDirection ?== STOP PASSED
+@0.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@26544ec1 :: getHallway ?== NONE PASSED
+@10.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@690da5eb :: getFloor ?== 1 PASSED
+@10.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@6db3f829 :: getDirection ?== STOP PASSED
+@10.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@1d5a0305 :: getHallway ?== NONE PASSED
+
+
+******************Summary******************
+Passed:  6
+Failed:  0
+Total :  6
+

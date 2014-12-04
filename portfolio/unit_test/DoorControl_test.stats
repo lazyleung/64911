@@ -1,0 +1,34 @@
+
+Simulator Parameters:
+Command line = -cf ../portfolio/unit_test/doorcontrol.cf -mf ../portfolio/unit_test/DoorControl_test.mf
+RandomSeed = 1415931911462
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = ../portfolio/unit_test/DoorControl_test.mf
+Controller File = ../portfolio/unit_test/doorcontrol.cf
+
+Assertion Results:
+@1.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@36253dfc :: command ?== STOP PASSED
+@2.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@65bfc9a0 :: command ?== OPEN PASSED
+@3.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@da93b3ad :: command ?== STOP PASSED
+@4.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@fd30e9d3 :: command ?== STOP PASSED
+@9.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@85f79aa5 :: command ?== CLOSE PASSED
+@10.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@10a01b20 :: command ?== STOP PASSED
+@12.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@fba32872 :: command ?== OPEN PASSED
+@13.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@53e2d5b7 :: command ?== STOP PASSED
+@13.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@9e346ad2 :: command ?== STOP PASSED
+@19.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@8ecafc81 :: command ?== CLOSE PASSED
+@21.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@318e8410 :: command ?== OPEN PASSED
+@22.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@a78fe587 :: command ?== STOP PASSED
+@23.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@f277a0d0 :: command ?== STOP PASSED
+@28.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@70203b80 :: command ?== NUDGE PASSED
+@32.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1bec48f3 :: command ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  15
+Failed:  0
+Total :  15
+

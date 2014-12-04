@@ -1,0 +1,116 @@
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli 
+;Ting Xu/tingx
+
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+
+; initialize
+0.0s I DRIVE_PERIOD               F                                            DriveSpeed = STOP 0
+0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID    DoorClosed FRONT LEFT = true
+0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID   DoorClosed FRONT RIGHT = true
+0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT = true
+0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID    DoorClosed BACK RIGHT = true
+0s I LEVEL_SENSOR_PERIOD  	      N LEVEL_SENSOR_[UP]_CAN_ID    		       Leveling UP = true
+0s I LEVEL_SENSOR_PERIOD          N LEVEL_SENSOR_[DOWN]_CAN_ID  		       Leveling DOWN = true
+0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                          CarWeight = 0
+0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][BACK]_CAN_ID                  AtFloor 1 BACK = true
+0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                 AtFloor 1 FRONT = true
+0s I CAR_LEVEL_POSITION_PERIOD    N CAR_LEVEL_POSITION_CAN_ID                  CarLevelPosition = 0
+
+; Assert initial conditions, direct state of DoorControl to initial state
+0.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.0
+0.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
+0.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+0.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+0.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID     DoorOpened BACK LEFT = true
+1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = true
+1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
+1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorOpened FRONT RIGHT = true
+1.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT = false
+1.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID     DoorClosed BACK RIGHT = false
+1.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID     DoorClosed FRONT LEFT = false
+1.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorClosed FRONT RIGHT = false
+2.2s A N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT : getValue == true
+2.2s A N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT : getValue == true
+2.2s A N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT : getValue == true
+2.2s A N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT : getValue == true
+
+
+;#arc '8c/1a'
+3.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 BACK STOP
+
+
+;#Expected output: DoorMotor[b,r] = CLOSE
+;#arc '8c/2a'
+2.6s A N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT : getValue == true
+2.6s A N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT : getValue == false
+2.6s A N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT : getValue == false
+2.6s A N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT : getValue == false
+2.6s A N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT : getValue == false
+3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
+3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == BACK
+6.23s A F DoorMotor FRONT LEFT : command  == CLOSE
+6.23s A F DoorMotor FRONT RIGHT : command  == CLOSE
+6.23s A F DoorMotor BACK LEFT : command  == CLOSE
+6.23s A F DoorMotor BACK RIGHT : command  == CLOSE
+
+
+;#arc '8c/2b'
+8.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT = true
+8.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID     DoorClosed BACK RIGHT = true
+8.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID     DoorClosed FRONT LEFT = true
+8.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorClosed FRONT RIGHT = true
+8.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID     DoorOpened BACK LEFT = false
+8.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = false
+8.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
+8.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorOpened FRONT RIGHT = false
+8.0s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[UP]_CAN_ID      Leveling UP = false
+8.0s I LEVEL_SENSOR_PERIOD  N LEVEL_SENSOR_[DOWN]_CAN_ID    Leveling DOWN = false
+8.0s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][BACK]_CAN_ID                  AtFloor 1 BACK = false
+8.0s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][FRONT]_CAN_ID                  AtFloor 1 FRONT = false
+
+;#Expected output: Drive = slow, up
+;#arc '8c/3a'
+8.5s A F Drive : speed == SLOW
+8.5s A F Drive : direction == UP
+
+;#arc '8c/4'
+8.5s I DRIVE_PERIOD         F                               DriveSpeed = UP 0.25
+9.0s I DRIVE_PERIOD         F                               DriveSpeed = UP 2.0
+
+;Expected Output: Dive = Fast UP
+;#arc '8c/4b'
+9.5s A F Drive : speed == FAST
+9.5s A F Drive : direction == UP
+
+;#arc '8c/5'
+10.0s I CAR_LEVEL_POSITION_PERIOD N CAR_LEVEL_POSITION_CAN_ID                  CarLevelPosition = 4950
+10.0s I DRIVE_PERIOD              F                                            DriveSpeed = UP 0.24
+10.5s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][BACK]_CAN_ID                  AtFloor 1 BACK = false
+10.5s I AT_FLOOR_PERIOD           N AT_FLOOR_[1][FRONT]_CAN_ID                 AtFloor 1 FRONT = false
+10.5s I AT_FLOOR_PERIOD           N AT_FLOOR_[2][BACK]_CAN_ID                  AtFloor 2 BACK = true
+10.5s I DRIVE_PERIOD              F                                            DriveSpeed = UP 0.05
+
+11.0s I LEVEL_SENSOR_PERIOD       N LEVEL_SENSOR_[UP]_CAN_ID      Leveling UP = true
+11.0s I LEVEL_SENSOR_PERIOD       N LEVEL_SENSOR_[DOWN]_CAN_ID    Leveling DOWN = true
+
+11.3s I DRIVE_PERIOD              F                                            DriveSpeed = STOP 0.0
+
+
+;#Expected output: DoorMotor[b,r] = Open
+;                  Drive = STOP, STOP
+;#arc '8c/6a'
+11.5s A F DoorMotor BACK LEFT : command  == OPEN
+11.5s A F DoorMotor BACK RIGHT : command == OPEN
+11.5s A F Drive : speed == STOP
+11.5s A F Drive : direction == STOP
+
+;#arc '8c/6b'
+12s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID      DoorClosed BACK LEFT = false
+12s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID     DoorClosed BACK RIGHT = false

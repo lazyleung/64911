@@ -376,11 +376,11 @@ attempts to enter the car as the doors begin to close. </h3>
 <ol start="1" type="1">
   <li>Doors begin closing. </li>
   <li>Passenger attempts to enter the car.</li>
-  <li>Doors switch to nudge speed and finish closing. </li>
+  <li>Doors open. </li>
 </ol>
 <h3> Post-Conditions: </h3>
 <ul type="disc">
-  <li>Doors are fully closed. </li>
+  <li>Doors are opened. </li>
   <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>.</li>
 </ul>
 
@@ -408,17 +408,12 @@ attempts to exit the car as the doors begin to close. </h3>
 </ol>
 <h3> Post-Conditions: </h3>
 <ul type="disc">
-  <li>Doors are fully open. </li>
+  <li>Doors are opened. </li>
   <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>.
   </li>
 </ul>
 
 <h3> Sequence Diagram: </h3>
-<p> <a href="header.png"><img src="header.png" alt="header"
- style="width: 451; height: 94;"></a> </p>
- <br>
- <br>
-
 <p> <a href="sd5b.png"><img src="sd5b.png" alt="5B"
  style="border: 0px solid ; width: 749px; height: 398px;"></a> </p>
 <div align="center">
@@ -513,14 +508,13 @@ direction), with enabled pickup in hallway <b>b</b>. </li>
 <h3> Scenario: </h3>
 <ol>
 <li>Door[b,r] are opened</li>
-<li>Door[b,r] are closed</li>
 <li>CarLantern[f,b] are turned off</li>
 </ol>
 <h3> Post-Conditions: </h3>
 <ul>
 <li>Elevator is stopped at floor f, and AtFloor[f,b] was last received as True.</li>
 <li>Dispatcher intends direction Stop, with enabled pickup in hallway b.</li>
-<li>Door[b,r] are closed</li>
+<li>Door[b,r] are opened</li>
 <li>Both Car Lanterns are off.</li>
 </ul>
 

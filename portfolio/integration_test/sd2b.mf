@@ -9,7 +9,7 @@
 
 ;intialize
 0.0s I DRIVE_PERIOD                 F                                           DriveSpeed = STOP 0
-0.0s I CAR_BUTTON_CONTROL_PERIOD    F                                           CarCall 2 BACK = false
+0.0s I CAR_BUTTON_CONTROL_PERIOD    F                                           CarCall 1 FRONT = false
 0.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
 0.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
 0.0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
@@ -18,20 +18,24 @@
 0.0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
 0.0s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
 
+0.1s I DISPATCHER_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK STOP
+
 ;#arc '2b/1'
-1.0s A F DoorMotor FRONT LEFT : command  == NUDGE
-1.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
+5.1s A F DoorMotor FRONT LEFT : command  == CLOSE
+5.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
 
 ;#arc '2b/2a'
 ;#arc '2b/2b'
-2.0s I CAR_BUTTON_CONTROL_PERIOD F CarCall 2 BACK = true
+6.0s I CAR_BUTTON_CONTROL_PERIOD F CarCall 1 FRONT = true
 
 ;#arc '2b/2c'
-2.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
-2.5s I DISPATCHER_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK STOP
+6.5s A N CAR_CALL_[1][FRONT]_CAN_ID MyBoolean : getValue == true
+6.5s I DISPATCHER_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 FRONT STOP
 
 ;#arc '2b/3a'
-3.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
+7.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
+; Need to change desired floor to make doormotor stay in STOP
+7.0s I DISPATCHER_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK STOP
 
 ;#arc '2b/3c'
-3.5s A F DoorMotor FRONT LEFT : command  == STOP
+7.5s A F DoorMotor FRONT LEFT : command  == STOP

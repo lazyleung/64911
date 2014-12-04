@@ -14,13 +14,12 @@
 #DEFINE CARBTN_PER 100ms
 
 ;set input initial value
-0.0s I CARBTN_PER F CarCall 2 BACK = false
+0.0s I CAR_BUTTON_CONTROL_PERIOD F CarCall 2 BACK = false
 0.0s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = false
 
 ;#state 'S9.1 IDLE'
 0.2s A F CarLight 2 BACK : lighted == false
 0.2s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
-0.2s A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == false
 
 ;#transition 'T9.1'
 1.0s I CARBTN_PER F CarCall 2 BACK = true
@@ -32,8 +31,7 @@
 ;Generic BooleanCanPayloadTranslator: CarCall[2,BACK] = true
 
 1.5s A F CarLight 2 BACK : lighted == true
-1.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
-1.5s A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
+1.5s A N CAR_CALL_[2][BACK]_CAN_ID MyBoolean : getValue == true
 
 ;#transition 'T9.1'
 ;car arrives at floor but car call button is still pressed
@@ -45,8 +43,7 @@
 ;Generic BooleanCanPayloadTranslator: CarCall[2,BACK] = true
 
 2.5s A F CarLight 2 BACK : lighted == true
-2.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
-2.5s A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
+2.5s A N CAR_CALL_[2][BACK]_CAN_ID MyBoolean : getValue == true
 
 ;#transition 'T9.2'
 3.0s I CARBTN_PER F CarCall 2 BACK = false
@@ -57,5 +54,4 @@
 ;Generic BooleanCanPayloadTranslator: CarCall[2,BACK] = false
 
 3.5s A F CarLight 2 BACK : lighted == false
-3.5s A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
-3.5s A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == false
+3.5s A N CAR_CALL_[2][BACK]_CAN_ID MyBoolean : getValue == false

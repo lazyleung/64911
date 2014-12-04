@@ -15,7 +15,7 @@
 
 ;set input initial value
 0.0s I DRIVE_PERIOD                 F                                            DriveSpeed = STOP 0
-0.0s I CAR_LEVEL_POSITION_PERIOD    N CAR_LEVEL_POSITION_CAN_ID                  CarLevelPosition = 500
+0.0s I CAR_LEVEL_POSITION_PERIOD    N CAR_LEVEL_POSITION_CAN_ID                  CarLevelPosition = 5000
 0.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                       DesiredFloor = 2 STOP BACK
 0.0s I EMERGENCY_BRAKE_PERIOD       N EMERGENCY_BRAKE_CAN_ID                     SafetySensor = false
 0.0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                          CarWeight = 0
@@ -34,8 +34,6 @@
 ;#state 'S6.1 STOP'
 0.2s A F Drive : speed == STOP
 0.2s A F Drive : direction == STOP
-0.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
-0.2s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
 0.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.0
 0.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
 
@@ -46,8 +44,6 @@
 ;#state 'S6.3 LEVEL_UP'
 1.5s A F Drive : speed == LEVEL
 1.5s A F Drive : direction == UP
-1.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
-1.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
 1.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 0.05
 1.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
   
@@ -58,8 +54,6 @@
 ;#state 'S6.7 STOP'
 2.5s A F Drive : speed == STOP
 2.5s A F Drive : direction == STOP
-2.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
-2.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
 2.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.0
 2.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
 
@@ -70,8 +64,6 @@
 ;#state 'S6.5 LEVEL_DOWN'
 3.5s A F Drive : speed == LEVEL
 3.5s A F Drive : direction == DOWN
-3.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
-3.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == DOWN
 3.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed <= 0.05
 3.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == DOWN
 
@@ -82,7 +74,5 @@
 ;#state 'S6.7 STOP'
 4.5s A F Drive : speed == STOP
 4.5s A F Drive : direction == STOP
-4.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
-4.5s A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
 4.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.0
 4.5s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP

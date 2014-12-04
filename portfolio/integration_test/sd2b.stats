@@ -1,18 +1,18 @@
 
 Simulator Parameters:
-Command line = -cf ../portfolio/integration_test/sd2b.cf -mf ../portfolio/integration_test/sd2b.mf
-RandomSeed = 1413507255837
+Command line = -mf sd2b.mf -cf sd2b.cf
+RandomSeed = 1416865518165
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
 Real time rate = null
-Message File = ../portfolio/integration_test/sd2b.mf
-Controller File = ../portfolio/integration_test/sd2b.cf
+Message File = sd2b.mf
+Controller File = sd2b.cf
 
 Assertion Results:
-@1.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1925e413 :: command ?== NUDGE PASSED
-@2.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@ddbd9c6b :: getValue ?== true PASSED
-@3.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@b6e71653 :: command ?== STOP PASSED
+@5.1s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@d1e57ffa :: command ?== CLOSE PASSED
+@6.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@63877555 :: getValue ?== true PASSED
+@7.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@3854161 :: command ?== STOP PASSED
 
 
 ******************Summary******************
