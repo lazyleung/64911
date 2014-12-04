@@ -130,7 +130,18 @@ public class LanternControl extends Controller{
 		if(c != -1){
 			currentFloor = c;
 		}
-		DesiredDirection = computeDesiredDirection(mDesiredFloor.getFloor());
+		if (c == 1){
+			DesiredDirection = Direction.UP;
+		} else if (c == 8) {
+			DesiredDirection = Direction.DOWN;
+		} else if (mDesiredFloor.getFloor() > currentFloor){
+			DesiredDirection = Direction.UP;
+		} else if (mDesiredFloor.getFloor() < currentFloor) {
+			DesiredDirection = Direction.DOWN;
+		} else {
+			DesiredDirection = mDesiredFloor.getDirection();//computeDesiredDirection(mDesiredFloor.getFloor());
+		}
+
 		log("DesiredDirectoin = " +DesiredDirection);
 		switch (lanternState){
 			case OFF:
