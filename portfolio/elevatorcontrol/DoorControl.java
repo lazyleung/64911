@@ -125,7 +125,7 @@ public class DoorControl extends Controller
         switch(doorState){
             case OPEN:
                 doOpen();
-                if(mCarWeight.getValue() < Elevator.MaxCarCapacity && countdown <= 0 && (mAtFloor.getCurrentFloor() != mDesiredFloor.getFloor())){
+                if(mCarWeight.getValue() < Elevator.MaxCarCapacity && countdown <= 0 )){
                     //#transition 'T5.2'
                     if(reversal == false)
                         newState = State.CLOSING;
