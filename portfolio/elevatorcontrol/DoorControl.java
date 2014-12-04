@@ -148,7 +148,7 @@ public class DoorControl extends Controller
                 doClosed();
                 //#transition 'T5.5'
                 if(mAtFloor.isAtFloor(floor, hallway) 
-                	&& ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (hallway==mDesiredFloor.getHallway() && floor==mDesiredFloor.getFloor() && mDriveSpeed.getSpeed()==0 && mDriveSpeed.getDirection() == Direction.STOP))){
+                	&& ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || ((hallway==mDesiredFloor.getHallway()||mDesiredFloor.getHallway()==Hallway.BOTH) && floor==mDesiredFloor.getFloor() && mDriveSpeed.getSpeed()==0 && mDriveSpeed.getDirection() == Direction.STOP))){
                     newState = State.OPENING;
                 }
                 break;
