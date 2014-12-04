@@ -19,6 +19,7 @@ import simulator.framework.Side;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
+import simulator.framework.Elevator;
 
 public class Dispatcher extends simulator.framework.Controller{
     //store the period for the controller
@@ -53,7 +54,6 @@ public class Dispatcher extends simulator.framework.Controller{
     
     //receive mCarWeight message
     private ReadableCanMailbox networkCarWeight;
-    @SuppressWarnings("unused")
     private CarWeightCanPayloadTranslator mCarWeight;
     
     //received mCarCall message
@@ -62,7 +62,7 @@ public class Dispatcher extends simulator.framework.Controller{
     private int[] CarCallFloors = {1, 1, 2, 3, 4, 5, 6, 7, 7, 8};
     private Hallway[] CarCallHallways = {Hallway.FRONT, Hallway.BACK, Hallway.BACK, Hallway.FRONT, Hallway.FRONT, Hallway.FRONT, Hallway.FRONT, Hallway.FRONT, Hallway.BACK, Hallway.FRONT};
     
-    
+	
     //received mDriveSpeed message
     private DriveSpeedCanPayloadTranslator mDriveSpeed;
     
@@ -162,6 +162,10 @@ public class Dispatcher extends simulator.framework.Controller{
         mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeight);
         canInterface.registerTimeTriggered(networkCarWeight);
         
+		ReadableCanMailbox networkCarWeightIn = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_WEIGHT_CAN_ID);
+		mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeightIn);
+		canInterface.registerTimeTriggered(networkCarWeightIn);
+		
         //outputs
         networkDesiredFloor = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
@@ -524,11 +528,11 @@ public class Dispatcher extends simulator.framework.Controller{
                 newState = State.STATE_DISPATCH_DOWN;
             }
             //#transition 'T11.4'
-            else if ((closestFloorUp != -1) && (closestFloorUp == closestHallCallUp)) {
+            else if ((closestFloorUp != -1) && (closestFloorUp == closestHallCallUp) && (mCarWeight.getValue() < Elevator.MaxCarCapacity)) {
                 newState = State.STATE_SERVICE_HALLCALL_UP;
             }
             //#transition 'T11.5'
-            else if (((closestFloorUp == -1) && (farthestHallCallUp != -1)) || ((closestFloorUp != -1) && (farthestHallCallUp != -1) && (closestFloorUp == farthestHallCallUp) && (  carCallDirectionUp != Direction.UP  ))){
+            else if (((closestFloorUp == -1) && (farthestHallCallUp != -1) && (mCarWeight.getValue() < Elevator.MaxCarCapacity)) || ((closestFloorUp != -1) && (farthestHallCallUp != -1) && (closestFloorUp == farthestHallCallUp) && (  carCallDirectionUp != Direction.UP  ))){
                 newState = State.STATE_SERVICE_HALLCALL_DOWN;
             } 
             //#transition 'T11.7'
@@ -551,11 +555,11 @@ public class Dispatcher extends simulator.framework.Controller{
                 newState = State.STATE_DISPATCH_UP;
             }
             //#transition 'T11.9'
-            else if ((closestFloorDown != -1) && (closestFloorDown == closestHallCallDown)) {
+            else if ((closestFloorDown != -1) && (closestFloorDown == closestHallCallDown) && (mCarWeight.getValue() < Elevator.MaxCarCapacity)) {
                 newState = State.STATE_SERVICE_HALLCALL_DOWN;
             }
             //#transition 'T11.14'
-            else if (((closestFloorDown == -1) && (farthestHallCallDown != -1)) || ( (closestFloorDown != -1) && (farthestHallCallDown != -1) && (closestFloorDown == farthestHallCallDown) && (carCallDirectionDown != Direction.DOWN))) {
+            else if (((closestFloorDown == -1) && (farthestHallCallDown != -1) && (mCarWeight.getValue() < Elevator.MaxCarCapacity)) || ((closestFloorDown != -1) && (farthestHallCallDown != -1) && (closestFloorDown == farthestHallCallDown) && (carCallDirectionDown != Direction.DOWN))) {
                 newState = State.STATE_SERVICE_HALLCALL_UP;
             }
             //#transition 'T11.12'
@@ -703,7 +707,7 @@ public class Dispatcher extends simulator.framework.Controller{
         }
         log("mDesiredFloor f = "+Target+" Hall="+DesiredHallway);
         state = newState;
-        System.out.println(state);
+       // System.out.println(state);
         //report the current state
         setState(STATE_KEY, newState.toString());
         
