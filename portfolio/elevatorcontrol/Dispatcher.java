@@ -25,7 +25,7 @@ public class Dispatcher extends simulator.framework.Controller{
     private SimTime period;
     
     //amount of time to stop as a floor.
-    private final int dwellTime = 7;
+    private final double dwellTime = 0.5;
     
     //received mAtFloor messages
     private ReadableCanMailbox[] networkAtFloors = new ReadableCanMailbox[10];
@@ -234,7 +234,14 @@ public class Dispatcher extends simulator.framework.Controller{
         int closestFloor = -1;
         int farthestFloor = -1;
         
-        boolean AllDoorClosed = mDoorClosedFrontLeft.getValue() && mDoorClosedBackLeft.getValue() && mDoorClosedFrontRight.getValue() && mDoorClosedBackRight.getValue();
+        boolean AllDoorClosed;
+		if (DesiredHallway.equals(Hallway.FRONT)){
+			AllDoorClosed = mDoorClosedFrontRight.getValue() && mDoorClosedFrontLeft.getValue();
+		} else if (DesiredHallway.equals(Hallway.BACK)){
+			AllDoorClosed =  mDoorClosedBackRight.getValue() && mDoorClosedBackLeft.getValue();
+		} else {
+			AllDoorClosed = mDoorClosedFrontLeft.getValue() && mDoorClosedBackLeft.getValue() && mDoorClosedFrontRight.getValue() && mDoorClosedBackRight.getValue();
+		}
         boolean atFloor = false;
         
         for (int i = 0; i < mAtFloors.length; i++){
@@ -276,7 +283,6 @@ public class Dispatcher extends simulator.framework.Controller{
                     if ((HallCallFloors[i] >= curFloor) && (HallCallDirections[i].equals(Direction.DOWN)) && mHallCalls[i].getValue()){
                         farthestHallCall = HallCallFloors[i];
                         farthestHallCallHall = HallCallHallways[i];
-                        log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         // floor 7 has two possible landings. need to make desiredHall Both if necessary.
                         if ((farthestHallCall == 7) && (i+2 < HallCallFloors.length) && (HallCallFloors[i+2]==7)){
                             if (mHallCalls[i+2].getValue()){
@@ -600,29 +606,39 @@ public class Dispatcher extends simulator.framework.Controller{
             }
             break;
         case STATE_WAIT_UP:
-        	countdown = countdown - period.getFracSeconds();
+			if (AllDoorClosed){
+				countdown = countdown - period.getFracSeconds();
+        	} else {
+				countdown = dwellTime;
+			}
         	if(countdown < 0){
             	countdown = -1;
             }
         	mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
         	
         	//#transition 'T11.6'
-        	if (((closestFloorUp <= closestCarCallUp) && (closestFloorUp != -1)) || (countdown <= 0)){
-        		newState = State.STATE_DISPATCH_UP;
+        	//if (((closestFloorUp <= closestCarCallUp) && (closestFloorUp != -1)) && (countdown <= 0)){
+        	if (countdown <= 0){
+				newState = State.STATE_DISPATCH_UP;
         	} else {
         		newState = State.STATE_WAIT_UP;
         	}
             break;
         case STATE_WAIT_DOWN:
-        	countdown = countdown - period.getFracSeconds();
-        	if(countdown < 0){
+        	if (AllDoorClosed){
+				countdown = countdown - period.getFracSeconds();
+        	} else {
+				countdown = dwellTime;
+			}
+			if(countdown < 0){
             	countdown = -1;
             }
         	mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
         	
         	//#transition 'T11.11'
-        	if (((closestFloorDown >= closestCarCallDown) && (closestFloorDown != -1) && (closestCarCallDown != -1)) || (countdown <= 0)){
-        		newState = State.STATE_DISPATCH_DOWN;
+        	//if (((closestFloorDown >= closestCarCallDown) && (closestFloorDown != -1) && (closestCarCallDown != -1)) && (countdown <= 0)){
+        	if (countdown <= 0){
+				newState = State.STATE_DISPATCH_DOWN;
         	} else {
         		newState = State.STATE_WAIT_DOWN;
         	}
@@ -687,7 +703,7 @@ public class Dispatcher extends simulator.framework.Controller{
         }
         log("mDesiredFloor f = "+Target+" Hall="+DesiredHallway);
         state = newState;
-        //System.out.println(state);
+        System.out.println(state);
         //report the current state
         setState(STATE_KEY, newState.toString());
         
