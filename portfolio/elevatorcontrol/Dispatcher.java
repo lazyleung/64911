@@ -69,11 +69,6 @@ public class Dispatcher extends simulator.framework.Controller{
     //send mDesiredFloor messages
     private WriteableCanMailbox networkDesiredFloor;
     private DesiredFloorCanPayloadTranslator mDesiredFloor;
-    //send mDesiredDwell messages
-    //private WriteableCanMailbox networkDesiredDwellFront;
-    //private WriteableCanMailbox networkDesiredDwellBack;
-    //private DesiredDwellCanPayloadTranslator mDesiredDwellFront;
-    //private DesiredDwellCanPayloadTranslator mDesiredDwellBack;
     
     //enumerate states
     private enum State {
@@ -172,13 +167,6 @@ public class Dispatcher extends simulator.framework.Controller{
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
         canInterface.sendTimeTriggered(networkDesiredFloor, period);
         
-        //networkDesiredDwellFront = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.FRONT));
-        //mDesiredDwellFront = new DesiredDwellCanPayloadTranslator(networkDesiredDwellFront);
-        //canInterface.sendTimeTriggered(networkDesiredDwellFront, period);
-        //networkDesiredDwellBack = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.BACK));
-        //mDesiredDwellBack = new DesiredDwellCanPayloadTranslator(networkDesiredDwellBack);
-        //canInterface.sendTimeTriggered(networkDesiredDwellBack, period);
-        
         Target = 1;
         DesiredHallway = Hallway.BOTH;
         
@@ -232,13 +220,6 @@ public class Dispatcher extends simulator.framework.Controller{
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
         canInterface.sendTimeTriggered(networkDesiredFloor, period);
         
-        //networkDesiredDwellFront = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.FRONT));
-        //mDesiredDwellFront = new DesiredDwellCanPayloadTranslator(networkDesiredDwellFront);
-        //canInterface.sendTimeTriggered(networkDesiredDwellFront, period);
-        //networkDesiredDwellBack = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID+ReplicationComputer.computeReplicationId(Hallway.BACK));
-        //mDesiredDwellBack = new DesiredDwellCanPayloadTranslator(networkDesiredDwellBack);
-        //canInterface.sendTimeTriggered(networkDesiredDwellBack, period);
-        
         Target = 1;
         DesiredHallway = Hallway.BOTH;
         
@@ -266,7 +247,7 @@ public class Dispatcher extends simulator.framework.Controller{
         
         
         // if we are actually at a floor to make next dispatching decision.
-        if ((curFloor > 0) && (mDriveSpeed.getSpeed() == 0)){
+        if ((curFloor > 0) && (mDriveSpeed.getSpeed() == 0) && (state == State.STATE_DISPATCH_UP || state == State.STATE_DISPATCH_DOWN)){
                 int closestHallCall = -1;
                 int closestCarCall = -1;
                 int farthestHallCall = -1;
@@ -536,16 +517,6 @@ public class Dispatcher extends simulator.framework.Controller{
             newState = State.STATE_DISPATCH_UP;
             break;
         case STATE_DISPATCH_UP:
-		
-			System.out.println("closestHallCallUp " + closestHallCallUp);
-			System.out.println("closestFloorUp " + closestFloorUp);
-			System.out.println("farthestHallCallUp " + farthestHallCallUp);
-		System.out.println("closestHallwayUp " + closestHallwayUp);
-		System.out.println("farthestHallwayUp " + farthestHallwayUp);
-		System.out.println("closestCarCallUp " + closestCarCallUp);
-		
-		
-		
         	countdown = dwellTime;
         	HallCallUpFloor = closestHallCallUp;
         	HallCallUpHall = closestHallwayUp;
@@ -668,7 +639,7 @@ public class Dispatcher extends simulator.framework.Controller{
             break;
         case STATE_SERVICE_CARCALL_UP:
         	countdown = dwellTime;
-        	Target = closestFloorUp;
+		Target = closestFloorUp;
         	DesiredDirection = Direction.UP;
         	DesiredHallway = closestHallwayUp;
         	mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
@@ -726,7 +697,7 @@ public class Dispatcher extends simulator.framework.Controller{
         }
         log("mDesiredFloor f = "+Target+" Hall="+DesiredHallway);
         state = newState;
-        
+        System.out.println(state);
         //report the current state
         setState(STATE_KEY, newState.toString());
         
