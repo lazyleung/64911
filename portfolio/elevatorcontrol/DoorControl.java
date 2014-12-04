@@ -41,8 +41,7 @@ public class DoorControl extends Controller
     private double countdown;
     private State doorState;
     private boolean verbose;
-    private boolean reversal;
-    
+  
     private final Hallway hallway;
     private final Side side;
     private int floor;
@@ -70,8 +69,7 @@ public class DoorControl extends Controller
         this.side = side;
         this.period = period;
         this.verbose = verbose;
-        this.reversal = false;
-
+      
         this.floor = 1;
         this.countdown = 0;
         this.dwell = 5.0;
@@ -127,11 +125,8 @@ public class DoorControl extends Controller
                 doOpen();
                 if(mCarWeight.getValue() < Elevator.MaxCarCapacity && countdown <= 0 ){
                     //#transition 'T5.2'
-                    if(reversal == false)
+                  
                         newState = State.CLOSING;
-                    //#transition 'T5.6'
-                    else
-                        newState = State.NUDGE;
                 }
                 break;
             case CLOSING:
@@ -159,13 +154,7 @@ public class DoorControl extends Controller
                     newState = State.OPEN;
                 }
                 break;
-            case NUDGE:
-                doNudge();
-                //#transition 'T5.7'
-                if(mDoorClosed.getValue()){
-                   newState = State.CLOSED; 
-                }
-                break;
+         
         }
 
         if(doorState == newState){
@@ -200,17 +189,12 @@ public class DoorControl extends Controller
     private void doClosing(){
         //#state 'S5.3 CLOSING'
         doorMotor.set(DoorCommand.CLOSE);
-        reversal = true;
     }
 
     private void doClosed(){
         //#state 'S5.4 CLOSED'
         doorMotor.set(DoorCommand.STOP);
-        reversal = false;
     }
 
-    private void doNudge(){
-        //#state 'S5.4 NUDGE'
-        doorMotor.set(DoorCommand.NUDGE);
-    }
+  
 }
