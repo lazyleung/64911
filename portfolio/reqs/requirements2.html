@@ -3215,42 +3215,70 @@ shall be set to None .<br>
 
     <tr>
       <td style="vertical-align: top;">T11.1<br> </td>
-      <td style="vertical-align: top;">mDoorClosed[b, r] == False &amp;&amp; mAtFloor[f, b] == True &amp;&amp; curFloor == Target &amp;&amp; ClosestFloor.f != -1</td>
+      <td style="vertical-align: top;">True</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.2</td>
-      <td style="vertical-align: top;">mDoorClosed[b, r] == False &amp;&amp; mAtFloor[f, b] == True &amp;&amp; curFloor == Target &amp;&amp; ClosestFloor.f == -1 &amp;&amp; FarthestFloor != -1</td>
+      <td style="vertical-align: top;">closestFloor == -1 && farthestFloor == -1</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.3</td>
-      <td style="vertical-align: top;">true</td>
+      <td style="vertical-align: top;">closestFloor == -1 && farthestFloor == -1</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.4</td>
-      <td style="vertical-align: top;">true</td>
+      <td style="vertical-align: top;">closestFloor = closestHallCall</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.5<br> </td>
-      <td style="vertical-align: top;">mDoorClosed[b, r] == False &amp;&amp; mAtFloor[f, b] == True &amp;&amp; curFloor == Target &amp;&amp; ClosestFloor.f != -1</td>
+      <td style="vertical-align: top;">mAtFloor.f == true && Target == curFloor && !mDoorClosed</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.6</td>
-      <td style="vertical-align: top;">mDoorClosed[b, r] == False &amp;&amp; mAtFloor[f, b] == True &amp;&amp; curFloor == Target &amp;&amp; ClosestFloor.f == -1 &amp;&amp; FarthestFloor.f != -1</td>
+      <td style="vertical-align: top;">closestFloor == closestCarCall || countdown <= 0</td>
     </tr>
      <tr>
       <td style="vertical-align: top;">T11.7<br> </td>
-      <td style="vertical-align: top;">(mAtFloor[f,b] == False for all f) &amp;&amp; mDoorClosed[b, r] == False</td>
+      <td style="vertical-align: top;">closestFloor == closestCarCall</td>
     </tr>
      <tr>
       <td style="vertical-align: top;">T11.8<br> </td>
-      <td style="vertical-align: top;">(mAtFloor[f,b] == False for all f) &amp;&amp; mDoorClosed[b, r] == False</td>
+      <td style="vertical-align: top;">mAtFloor.f == true && Target == curFloor && !mDoorClosed</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.9<br></td>
+      <td style="vertical-align: top;">closestFloor == closestHallCall </td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.10<br> </td>
+      <td style="vertical-align: top;">mAtFloor.f == true && Target == curFloor && !mDoorClosed</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.11<br> </td>
+      <td style="vertical-align: top;">closestFloor == closestCarCall || countdown <= 0</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.12<br> </td>
+      <td style="vertical-align: top;">closestFloor == closestCarCall</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.13<br> </td>
+      <td style="vertical-align: top;">mAtFloor.f == true && Target == curFloor && !mDoorClosed</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.14<br> </td>
+      <td style="vertical-align: top;">closestFloor == -1 && farthestFloor != -1</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.15<br> </td>
+      <td style="vertical-align: top;">closestFloor == -1 && farthestFloor != -1</td>
     </tr>
   </tbody>
 </table>
 
 <br>
 
-<table style="text-align: left; width: 750px;" border="1"
+<table style="text-align: left; width: 950px;" border="1"
  cellpadding="2" cellspacing="2">
   <tbody>
     <tr>
@@ -3262,29 +3290,49 @@ shall be set to None .<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">S11.1 INIT<br> </td>
+      <td style="vertical-align: top;">S11.1 <br>INIT<br> </td>
       <td style="vertical-align: top;">Initial State</td>
-      <td style="vertical-align: top;">Target=1, DesiredHall=NONE, mDesiredFloor.f=Target, DesiredDirection=STOP, mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+      <td style="vertical-align: top;">countdown=WAIT_TIME <br>Target=1<br> DesiredHall=NONE<br> DesiredDirection=STOP<br> mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
     <tr>
-      <td style="vertical-align: top;">S11.2 GOTO_CLOSET_FLOOR<br> </td>
-      <td style="vertical-align: top;">Stop at next floor in same direction</td>
-      <td style="vertical-align: top;">Target=ClosestFloor.f, DesiredDirection=closestDirection, DesiredHall=ClosestFloor.b, mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+      <td style="vertical-align: top;">S11.2 <br>DISPATCH_UP<br> </td>
+      <td style="vertical-align: top;">Look for a floor above the current floor to go to, if none are found change state and look down</td>
+      <td style="vertical-align: top;">countdown=WAIT_TIME <br> <br>
     </tr>
     <tr>
-      <td style="vertical-align: top;">S11.3 GOTO_FARTHEET_FLOOR<br> </td>
-      <td style="vertical-align: top;">Stop at floor with intention of reversing direction</td>
-      <td style="vertical-align: top;">Target=FarthestFloor.f, DesiredHall=FarthestFloor.b, DesiredDirection=farthestDirection, mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+      <td style="vertical-align: top;">S11.3 <br>DISPATCH_DOWN<br> </td>
+      <td style="vertical-align: top;">Look for a floor below the current floor to go to, if none are found change state and look up</td>
+      <td style="vertical-align: top;">countdown=WAIT_TIME <br>
     </tr>
     <tr>
-      <td style="vertical-align: top;">S11.4 IDLE<br> </td>
-      <td style="vertical-align: top;">Idle</td>
-      <td style="vertical-align: top;">mDesiredFloor=[Target,DesiredHall,DesiredDirection]<br>
+      <td style="vertical-align: top;">S11.4 <br>SERVICE_HALLCALL_UP<br> </td>
+      <td style="vertical-align: top;">The dispatcher waits for a hall call above the current floor to be serviced before making new decisions</td>
+      <td style="vertical-align: top;">countdown=WAIT_TIME <br> DesiredDirection=UP<br>mDesiredFloor=closestHallCall<br>
     </tr>
     <tr>
-      <td style="vertical-align: top;">S11.5 EMERGENCY<br> </td>
-      <td style="vertical-align: top;">Direct to Lobby,NONE,STOP</td>
-      <td style="vertical-align: top;">Target=1, DesiredHall=NONE, DesiredDirection=STOP, mDesiredFloor=[1,NONE,DesiredDirection]<br>
+      <td style="vertical-align: top;">S11.5 <br>SERVICE_HALLCALL_DOWN<br> </td>
+      <td style="vertical-align: top;">The dispatcher waits for a hall call below the current floor to be serviced before making new decisions</td>
+      <td style="vertical-align: top;">countdown=WAIT_TIME <br> DesiredDirection=DOWN<br>mDesiredFloor=closestHallCall<br>
+    </tr>
+<tr>
+      <td style="vertical-align: top;">S11.6 <br>SERVICE_CARCALL_UP<br> </td>
+      <td style="vertical-align: top;">The dispatcher waits for a car call above the current floor to be serviced before making new decisions</td>
+      <td style="vertical-align: top;">countdown=WAIT_TIME<br> DesiredDirection=UP<br>mDesiredFloor=closestCarCall
+    </tr>
+<tr>
+      <td style="vertical-align: top;">S11.7 <br>SERVICE_CARCALL_DOWN<br> </td>
+      <td style="vertical-align: top;">The dispatcher waits for a car call below the current floor to be serviced before making new decisions</td>
+      <td style="vertical-align: top;">countdown=WAIT_TIME<br> DesiredDirection=DOWN<br>mDesiredFloor=closestCarCall
+    </tr>
+<tr>
+      <td style="vertical-align: top;">S11.8 <br>WAIT_UP<br> </td>
+      <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a floor above the current floor</td>
+      <td style="vertical-align: top;">countdown = (countdown - period.getFracSeconds())<br>
+    </tr>
+<tr>
+      <td style="vertical-align: top;">S11.9 <br>WAIT_DOWN<br> </td>
+      <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a below above the current floor</td>
+      <td style="vertical-align: top;">countdown = (countdown - period.getFracSeconds())<br>
     </tr>
   </tbody>
 </table>
