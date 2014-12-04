@@ -710,21 +710,7 @@ Requirements/Constraints</b></u></td>
       </td>
     </tr>
 	 <tr>
-      <td style="vertical-align: top;">11.11.1 If AtFloor AND mDoorClosed[b,r] false AND mDoorClosed[b,r] false AND ClosestFloor.f = -1 AND FarthestFloor.f != -1 -> Target = FarthestFloor.f<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">~<br>
-      </td>
-      <td style="vertical-align: top;">~<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-    </tr>
-    tr>
-      <td style="vertical-align: top;">11.11.2 If AtFloor AND mDoorClosed[b,r] false AND mDoorClosed[b,r] false AND ClosestFloor.f = -1 AND FarthestFloor.f != -1 -> DesiredDirection = FarthestFloor.d<br>
+      <td style="vertical-align: top;">11.11 If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f == -1 then CurrentDirection shall be set to OppositeDirection <br>
       </td>
       <td style="vertical-align: top;">~<br>
       </td>
@@ -737,22 +723,7 @@ Requirements/Constraints</b></u></td>
       <td style="vertical-align: top;"><br>
       </td>
     </tr>
-    
-    <tr>
-      <td style="vertical-align: top;">11.11.3 If AtFloor AND mDoorClosed[b,r] false AND mDoorClosed[b,r] false AND ClosestFloor.f = -1 AND FarthestFloor.f != -1 -> DesiredHall = FarthestFloor.b<br>
-      </td>
-      <td style="vertical-align: top;">~<br>
-      </td>
-      <td style="vertical-align: top;">~<br>
-      </td>
-      <td style="vertical-align: top;">~<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-    </tr>
-	
+   
 	
 		 <tr>
       <td style="vertical-align: top;">11.12.1 If !AtFloor AND mDoorClosed[b,r] false -> Target = 1<br>
@@ -770,6 +741,20 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">11.12.2 If !AtFloor AND mDoorClosed[b,r] false -> mDesiredFloor.b = NONE<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+   <tr>
+      <td style="vertical-align: top;">11.13 If closestFloor == ClosestHallCall AND mAtFloor(closestFloor) == true then the dispatcher shall wait until closestCarCall != -1  <br>
       </td>
       <td style="vertical-align: top;">~<br>
       </td>
