@@ -25,7 +25,7 @@ public class Dispatcher extends simulator.framework.Controller{
     private SimTime period;
     
     //amount of time to stop as a floor.
-    private final int dwellTime = 45;
+    private final int dwellTime = 8;
     
     //received mAtFloor messages
     private ReadableCanMailbox[] networkAtFloors = new ReadableCanMailbox[10];
@@ -247,7 +247,7 @@ public class Dispatcher extends simulator.framework.Controller{
         
         
         // if we are actually at a floor to make next dispatching decision.
-        if ((curFloor > 0) && (mDriveSpeed.getSpeed() == 0) && (state == State.STATE_DISPATCH_UP || state == State.STATE_DISPATCH_DOWN)){
+        if ((curFloor > 0) && (mDriveSpeed.getSpeed() == 0) && (state == State.STATE_DISPATCH_UP || state == State.STATE_DISPATCH_DOWN || state == State.STATE_WAIT_UP ||state == State.STATE_WAIT_DOWN)){
                 int closestHallCall = -1;
                 int closestCarCall = -1;
                 int farthestHallCall = -1;
@@ -617,7 +617,7 @@ public class Dispatcher extends simulator.framework.Controller{
         	mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
         	
         	//#transition 'T11.6'
-        	if (((closestFloorUp == closestCarCallUp) && (closestFloorUp != -1)) || (countdown <= 0)){
+        	if (closestCarCallUp != -1 || countdown <= 0){
         		newState = State.STATE_DISPATCH_UP;
         	} else {
         		newState = State.STATE_WAIT_UP;
@@ -631,7 +631,7 @@ public class Dispatcher extends simulator.framework.Controller{
         	mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
         	
         	//#transition 'T11.11'
-        	if (((closestFloorDown == closestCarCallDown) && (closestFloorDown != -1)) || (countdown <= 0)){
+        	if (closestCarCallDown != -1 || countdown <= 0){
         		newState = State.STATE_DISPATCH_DOWN;
         	} else {
         		newState = State.STATE_WAIT_DOWN;
