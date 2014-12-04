@@ -266,7 +266,7 @@ public class Dispatcher extends simulator.framework.Controller{
         
         
         // if we are actually at a floor to make next dispatching decision.
-        if ((curFloor > 0) && (!AllDoorClosed)){
+        if ((curFloor > 0) && (mDriveSpeed.getSpeed() == 0)){
                 int closestHallCall = -1;
                 int closestCarCall = -1;
                 int farthestHallCall = -1;
@@ -280,7 +280,7 @@ public class Dispatcher extends simulator.framework.Controller{
                 // search from cur floor upwards, for closest hallcall wanting to go in same direction, or farthest hallcall in opposite direction.
                 for (int i = 0; i < HallCallFloors.length; i++){
                     // stop at first one found.
-                    if ((HallCallFloors[i] > curFloor) && HallCallDirections[i].equals(Direction.UP) && mHallCalls[i].getValue() && (closestHallCall == -1)){
+                    if ((HallCallFloors[i] >= curFloor) && HallCallDirections[i].equals(Direction.UP) && mHallCalls[i].getValue() && (closestHallCall == -1)){
                         
                         closestHallCall = HallCallFloors[i];
                         closestHallCallHall = HallCallHallways[i];
@@ -292,7 +292,7 @@ public class Dispatcher extends simulator.framework.Controller{
                     }
                     log("HallCall["+HallCallFloors[i]+"]["+HallCallHallways[i]+"]["+HallCallDirections[i]+"] = "+mHallCalls[i].getValue());
                     // keep trying until the very end for a hallcall that is going down.
-                    if ((HallCallFloors[i] > curFloor) && (HallCallDirections[i].equals(Direction.DOWN)) && mHallCalls[i].getValue()){
+                    if ((HallCallFloors[i] >= curFloor) && (HallCallDirections[i].equals(Direction.DOWN)) && mHallCalls[i].getValue()){
                         farthestHallCall = HallCallFloors[i];
                         farthestHallCallHall = HallCallHallways[i];
                         log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -311,7 +311,7 @@ public class Dispatcher extends simulator.framework.Controller{
                 }
                 // search from cur floor upwards, for closest carcall.
                 for (int i = 0; i < CarCallFloors.length; i++){
-                    if ((CarCallFloors[i] > curFloor) && mCarCalls[i].getValue() && (closestCarCall == -1)){
+                    if ((CarCallFloors[i] >= curFloor) && mCarCalls[i].getValue() && (closestCarCall == -1)){
                         closestCarCall = CarCallFloors[i];
                         closestCarCallHall = CarCallHallways[i];
                         if (closestCarCall == 7){
@@ -323,6 +323,10 @@ public class Dispatcher extends simulator.framework.Controller{
                     log("Carall["+CarCallFloors[i]+"]["+CarCallHallways[i]+"] = "+mCarCalls[i].getValue());
                 }
                 
+				if ((farthestHallCall == closestCarCall) && ((closestCarCallHall.equals(Hallway.BOTH)) || (!farthestHallCallHall.equals(closestCarCallHall)))){
+					farthestHallCallHall = Hallway.BOTH;
+				}
+				
                 for (int i = 0; i < HallCallFloors.length; i++){
                 	if (i < CarCallFloors.length){
                 		if ((CarCallFloors[i] > closestCarCall) && mCarCalls[i].getValue()){
@@ -391,7 +395,7 @@ public class Dispatcher extends simulator.framework.Controller{
                 farthestHallCallHall = Hallway.NONE;
                 closestHallway = Hallway.NONE;
                 for (int i = HallCallFloors.length-1; i >= 0; i--){
-                    if ((HallCallFloors[i] < curFloor) && HallCallDirections[i].equals(Direction.DOWN) && mHallCalls[i].getValue() && (closestHallCall == -1)){
+                    if ((HallCallFloors[i] <= curFloor) && HallCallDirections[i].equals(Direction.DOWN) && mHallCalls[i].getValue() && (closestHallCall == -1)){
                         closestHallCall = HallCallFloors[i];
                         closestHallCallHall = HallCallHallways[i];
                         if (closestHallCall == 7){
@@ -402,7 +406,7 @@ public class Dispatcher extends simulator.framework.Controller{
                     }
                 }
                 for (int i =  HallCallFloors.length-1; i >= 0; i--){
-                    if ((HallCallFloors[i] < curFloor) && (HallCallDirections[i].equals(Direction.UP)) && mHallCalls[i].getValue()){
+                    if ((HallCallFloors[i] <= curFloor) && (HallCallDirections[i].equals(Direction.UP)) && mHallCalls[i].getValue()){
                         farthestHallCall = HallCallFloors[i];
                         farthestHallCallHall = HallCallHallways[i];
                         if (farthestHallCall == 7){
@@ -426,7 +430,7 @@ public class Dispatcher extends simulator.framework.Controller{
                 
                 // search from cur floor downwards, for closest carcall.
                 for (int i = CarCallFloors.length-1; i >= 0; i--){
-                    if ((CarCallFloors[i] < curFloor) && mCarCalls[i].getValue() && (closestCarCall == -1)){
+                    if ((CarCallFloors[i] <= curFloor) && mCarCalls[i].getValue() && (closestCarCall == -1)){
                         closestCarCall = CarCallFloors[i];
                         closestCarCallHall = CarCallHallways[i];
                         if (closestCarCall == 7){
@@ -455,6 +459,9 @@ public class Dispatcher extends simulator.framework.Controller{
                 	carCallDirectionDown = Direction.STOP;
                 }
                 
+				if ((farthestHallCall == closestCarCall) && ((closestCarCallHall.equals(Hallway.BOTH)) || (!farthestHallCallHall.equals(closestCarCallHall)))){
+					farthestHallCallHall = Hallway.BOTH;
+				}
                 
                 // set the closest Floor and Hallway based on carcalls and hallcalls
                 if (closestHallCall == -1){
@@ -500,11 +507,12 @@ public class Dispatcher extends simulator.framework.Controller{
                 farthestHallwayDown = farthestHallCallHall;
                 closestCarCallDown = closestCarCall;
         }
-
+		
+		
         switch (state){
         case STATE_INIT:
             Target = 1;
-            DesiredHallway = Hallway.BOTH;
+            DesiredHallway = Hallway.NONE;
             DesiredDirection = Direction.STOP;
             countdown = dwellTime;
             mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
@@ -528,12 +536,22 @@ public class Dispatcher extends simulator.framework.Controller{
             newState = State.STATE_DISPATCH_UP;
             break;
         case STATE_DISPATCH_UP:
+		
+			System.out.println("closestHallCallUp " + closestHallCallUp);
+			System.out.println("closestFloorUp " + closestFloorUp);
+			System.out.println("farthestHallCallUp " + farthestHallCallUp);
+		System.out.println("closestHallwayUp " + closestHallwayUp);
+		System.out.println("farthestHallwayUp " + farthestHallwayUp);
+		System.out.println("closestCarCallUp " + closestCarCallUp);
+		
+		
+		
         	countdown = dwellTime;
         	HallCallUpFloor = closestHallCallUp;
         	HallCallUpHall = closestHallwayUp;
         	HallCallDownFloor = farthestHallCallUp;
         	HallCallDownHall = farthestHallwayUp;
-            mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
+            mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
             //#transition 'T11.3'
             if ((closestFloorUp == -1) && (farthestHallCallUp == -1)){
                 newState = State.STATE_DISPATCH_DOWN;
@@ -560,7 +578,7 @@ public class Dispatcher extends simulator.framework.Controller{
         	HallCallDownHall = closestHallwayDown;
         	HallCallUpFloor = farthestHallCallDown;
         	HallCallUpHall = farthestHallwayDown;
-            mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
+            mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
             //#transition 'T11.2'
             if ((closestFloorDown == -1) && (farthestHallCallDown == -1)){
                 newState = State.STATE_DISPATCH_UP;
@@ -625,7 +643,7 @@ public class Dispatcher extends simulator.framework.Controller{
         	if(countdown < 0){
             	countdown = -1;
             }
-        	mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
+        	mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
         	
         	//#transition 'T11.6'
         	if (((closestFloorUp == closestCarCallUp) && (closestFloorUp != -1)) || (countdown <= 0)){
@@ -639,7 +657,7 @@ public class Dispatcher extends simulator.framework.Controller{
         	if(countdown < 0){
             	countdown = -1;
             }
-        	mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
+        	mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
         	
         	//#transition 'T11.11'
         	if (((closestFloorDown == closestCarCallDown) && (closestFloorDown != -1)) || (countdown <= 0)){
