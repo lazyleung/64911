@@ -25,7 +25,7 @@ public class Dispatcher extends simulator.framework.Controller{
     private SimTime period;
     
     //amount of time to stop as a floor.
-    private final int dwellTime = 8;
+    private final int dwellTime = 7;
     
     //received mAtFloor messages
     private ReadableCanMailbox[] networkAtFloors = new ReadableCanMailbox[10];
@@ -247,7 +247,7 @@ public class Dispatcher extends simulator.framework.Controller{
         
         
         // if we are actually at a floor to make next dispatching decision.
-        if ((curFloor > 0) && (mDriveSpeed.getSpeed() == 0) && (state == State.STATE_DISPATCH_UP || state == State.STATE_DISPATCH_DOWN || state == State.STATE_WAIT_UP ||state == State.STATE_WAIT_DOWN)){
+        if ((curFloor > 0) && (mDriveSpeed.getSpeed() == 0) && (state == State.STATE_WAIT_DOWN || state == State.STATE_WAIT_UP || state == State.STATE_DISPATCH_UP || state == State.STATE_DISPATCH_DOWN)){
                 int closestHallCall = -1;
                 int closestCarCall = -1;
                 int farthestHallCall = -1;
@@ -296,7 +296,12 @@ public class Dispatcher extends simulator.framework.Controller{
                         closestCarCall = CarCallFloors[i];
                         closestCarCallHall = CarCallHallways[i];
                         if (closestCarCall == 7){
-                            if ((i+1 < CarCallFloors.length) && mCarCalls[i+1].getValue()){
+                            if ((i+1 < CarCallFloors.length) && mCarCalls[i+1].getValue() && CarCallFloors[i+1] == 7){
+                                closestCarCallHall = Hallway.BOTH;
+                            }
+                        }
+						if (closestCarCall == 1){
+                            if ((i+1 < CarCallFloors.length) && mCarCalls[i+1].getValue() && CarCallFloors[i+1] == 1){
                                 closestCarCallHall = Hallway.BOTH;
                             }
                         }
@@ -419,7 +424,7 @@ public class Dispatcher extends simulator.framework.Controller{
                                 closestCarCallHall = Hallway.BOTH;
                             }
                         } else if (closestCarCall == 1){
-                            if ((i-1 >= 0) && mCarCalls[i-1].getValue()){
+                            if ((i-1 >= 0) && mCarCalls[i-1].getValue() && CarCallFloors[i-1] == 1){
                                 closestCarCallHall = Hallway.BOTH;
                             }
                         }
@@ -532,7 +537,7 @@ public class Dispatcher extends simulator.framework.Controller{
                 newState = State.STATE_SERVICE_HALLCALL_UP;
             }
             //#transition 'T11.5'
-            else if (((closestFloorUp == -1) && (farthestHallCallUp != -1)) || ( (closestFloorUp != -1) && (farthestHallCallUp != -1) && (closestFloorUp == farthestHallCallUp))){
+            else if (((closestFloorUp == -1) && (farthestHallCallUp != -1)) || ((closestFloorUp != -1) && (farthestHallCallUp != -1) && (closestFloorUp == farthestHallCallUp) && (  carCallDirectionUp != Direction.UP  ))){
                 newState = State.STATE_SERVICE_HALLCALL_DOWN;
             } 
             //#transition 'T11.7'
@@ -559,7 +564,7 @@ public class Dispatcher extends simulator.framework.Controller{
                 newState = State.STATE_SERVICE_HALLCALL_DOWN;
             }
             //#transition 'T11.14'
-            else if (((closestFloorDown == -1) && (farthestHallCallDown != -1)) || ( (closestFloorDown != -1) && (farthestHallCallDown != -1) && (closestFloorDown == farthestHallCallDown))) {
+            else if (((closestFloorDown == -1) && (farthestHallCallDown != -1)) || ( (closestFloorDown != -1) && (farthestHallCallDown != -1) && (closestFloorDown == farthestHallCallDown) && (carCallDirectionDown != Direction.DOWN))) {
                 newState = State.STATE_SERVICE_HALLCALL_UP;
             }
             //#transition 'T11.12'
@@ -617,7 +622,7 @@ public class Dispatcher extends simulator.framework.Controller{
         	mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
         	
         	//#transition 'T11.6'
-        	if (closestCarCallUp != -1 || countdown <= 0){
+        	if (((closestFloorUp <= closestCarCallUp) && (closestFloorUp != -1)) || (countdown <= 0)){
         		newState = State.STATE_DISPATCH_UP;
         	} else {
         		newState = State.STATE_WAIT_UP;
@@ -631,7 +636,7 @@ public class Dispatcher extends simulator.framework.Controller{
         	mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
         	
         	//#transition 'T11.11'
-        	if (closestCarCallDown != -1 || countdown <= 0){
+        	if (((closestFloorDown >= closestCarCallDown) && (closestFloorDown != -1)) || (countdown <= 0)){
         		newState = State.STATE_DISPATCH_DOWN;
         	} else {
         		newState = State.STATE_WAIT_DOWN;
