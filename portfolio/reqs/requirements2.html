@@ -3160,14 +3160,14 @@ below Lobby (1). </li>
 <ul>
   <li>AtFloor: a boolean for which if any mAtFloor is true. </li>
   <li>CurFloor: an integer Floor number for which mAtFloor is true. </li>
-  <li>ClosestFloor[f,b,d]: the floor number f, hallway b, and direction d with (mCarCall[f,b] true) or (mHallCall[f,b,mDriveSpeed.d] true), that is closest to CurFloor and is in the direction of CurrentDirection. b is BOTH if there are pending calls at both hallways. d is CurrentDirection. [-1,NONE, STOP] is no such f,b exist. </li>
-<li>FarthestFloor[f,b,d]: the floor number f, hallway b, and direction d with (mHallCall[f,b,OppositeDirection] true), that is farthest away from CurFloor and is in the current direction of CurrentDirection. b is BOTH if there are pending calls at both hallways. d is OppositeDirection. [-1,NONE, STOP] is no such f,b exist. </li>
-<li>CurrentDirection: {UP, DOWN, STOP} The direction of travel as determined by mDrivespeed. However, CurrentDirection will be set to oppositeDirection if both CloesestFloor and FarthestFloor = -1.</li>
+  <li>ClosestHallCall: the floor and hallway for which there is a hall call in the direction of mDesiredDirection that is closest to the elevators current floor</li>
+  <li>ClosestCarCall: the floor and hallway for which there is a car call in the direction of mDesiredDirection that is closest to the elevators current floor</li>
+  <li>ClosestFloor[f,b,d]: the closer floor of ClosestHallCall and ClosestCarHall, or [-1,NONE, STOP] is no such f,b exist. </li>
+  <li>CurrentDirection: {UP, DOWN, STOP} The direction of travel as determined by mDrivespeed. However, CurrentDirection will be set to oppositeDirection if both CloesestFloor and FarthestFloor = -1.</li>
   <li>OppositeDirection: {UP, DOWN, STOP} The direction opposite to CurrentDirection.</li>
-    <li>Target: an integer Floor number for desired Floor, initialized to
-Lobby = 1. </li>
-<li>DesiredHall: the intented hallway at the next stop, initialized to NONE.</li>
-    <li>DesiredDirection: the intented direction after next stop, initialized to STOP. </li>
+  <li>Target: an integer Floor number for desired Floor, initialized to Lobby = 1. </li>
+  <li>DesiredHall: the intented hallway at the next stop, initialized to NONE.</li>
+  <li>DesiredDirection: the intented direction after next stop, initialized to STOP. </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 11.1&nbsp;&nbsp;&nbsp; Target shall be a valid Floor number from 1 ..
@@ -3183,20 +3183,15 @@ d) shall not be Down when f = 1.
 11.7&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 1, then CurrentDirection shall be set to UP.<br>
 11.8&nbsp;&nbsp;&nbsp; If AtFloor AND CurFloor = 8, then CurrentDirection shall be set to DOWN.<br>
 11.9&nbsp;&nbsp;&nbsp; If AtFloor = false, then CurrentDirection shall be set to mDriveSpeed.d<br>
-11.10&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f != -1 then<br>
+11.10&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f != -1 <br>
 &nbsp;&nbsp; 11.10.1&nbsp; Target shall be set to ClosestFloor.f<br>
 &nbsp;&nbsp; 11.10.2&nbsp; DesiredDirection shall be set to ClosestFloor.d<br>
 &nbsp;&nbsp; 11.10.3&nbsp; DesiredHall should be set to ClosestFloor.b<br>
-11.11&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f == -1 AND FarthestFloor.f != -1; then,<br>
-&nbsp;&nbsp; 11.11.1&nbsp; Target shall be set to FarthestFloor.f<br>
-&nbsp;&nbsp; 11.11.2&nbsp; DesiredDirection shall be set to FarthestFloor.d<br>
-&nbsp;&nbsp; 11.11.3&nbsp; DesiredHall should be set to FarthestFloor.b<br>
-11.12&nbsp;&nbsp;&nbsp; If AtFloor = false AND any mDoorClosed [b, r]
-is False (which means doors are not
-closed between floors!); then<br>
+11.11&nbsp;&nbsp;&nbsp; If AtFloor AND mDoorClosed[b,r] = false AND ClosestFloor.f == -1 then CurrentDirection shall be set to OppositeDirection <br>
+11.12&nbsp;&nbsp;&nbsp; If AtFloor = false AND any mDoorClosed [b, r] is False (which means doors are not closed between floors!); then<br>
 &nbsp;&nbsp; 11.12.1&nbsp; Target shall be set to 1<br>
-&nbsp;&nbsp; 11.12.2&nbsp; mDesiredFloor.b
-shall be set to None .<br>
+&nbsp;&nbsp; 11.12.2&nbsp; mDesiredFloor.b shall be set to None .<br>
+11.13&nbsp;&nbsp;&nbsp; If closestFloor == ClosestHallCall AND mAtFloor(closestFloor) == true then the dispatcher shall wait until closestCarCall != -1
 &nbsp; &nbsp;
 <p><a href="statechart11smart.png"><img
  alt="statechart11smart.png" src="statechart11smart.png"
@@ -3369,16 +3364,15 @@ completed by Ting Xu (tingx)<br>
       </td>
         <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.10.3<br>
       </td>
-      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.11.1<br>
-      </td>
-      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.11.2<br>
-      </td>
-         <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.11.3<br>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.11<br>
       </td>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.12.1<br>
       </td>
 <td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.12.2<br>
       </td>
+<td style="vertical-align: top; background-color: rgb(204, 204, 204);">11.13<br>
+      </td>
+
     </tr>
     <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.1 INIT<br>
@@ -3389,7 +3383,7 @@ completed by Ting Xu (tingx)<br>
       </td>
         <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -3409,21 +3403,14 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-	<td style="vertical-align: top;"><br>
-      </td>
+	
     </tr>
-    <tr>
-      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.2 GOTO_CLOSET_FLOOR<br>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.2 DISPATCH_UP<br>
       </td>
-      <td style="vertical-align: top;">X<br>
+      <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
+      <td style="vertical-align: top;"><br>
       </td>
         <td style="vertical-align: top;"><br>
       </td>
@@ -3433,53 +3420,55 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+          <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-	<td style="vertical-align: top;"><br>
-      </td>
+	
     </tr>
-
-<tr>
-      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.3 GOTO_FARTHEST_FLOOR<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-    <td style="vertical-align: top;"><br>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.3 DISPATCH_DOWN<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
+          <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
+      <td style="vertical-align: top;"><br>
       </td>
-	<td style="vertical-align: top;">X<br>
-      </td>
-       <td style="vertical-align: top;"><br>
-      </td>
-	<td style="vertical-align: top;"><br>
-      </td>
+	
     </tr>
-
-    <tr>
-      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.4 IDLE<br>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.4 SERVICE_HALLCALL_UP<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -3491,9 +3480,32 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
       <td style="vertical-align: top;">X<br>
       </td>
+          <td style="vertical-align: top;">X<br>
+      </td>
       <td style="vertical-align: top;"><br>
+      </td>
+	
+    </tr>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.5 SERVICE_HALLCALL_DOWN<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -3503,46 +3515,145 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-	<td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+          <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+	
+    </tr>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.6 SERVICE_CARCALL_UP<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+          <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+	
+    </tr>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.7 SERVICE_CARCALL_DOWN<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+          <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+	
+    </tr>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.8 WAIT_UP<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
           <td style="vertical-align: top;"><br>
       </td>
-	<td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
+	
     </tr>
-
-        <tr>
-      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.5 EMERGENCY<br>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S11.9 WAIT_DOWN<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+          <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-             <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-	<td style="vertical-align: top;">X<br>
-      </td>
+	
     </tr>
+  
     
     <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">Transitions</span><br>
@@ -3573,8 +3684,7 @@ completed by Ting Xu (tingx)<br>
       </td>
 	<td style="vertical-align: top;"><br>
       </td>
-        <td style="vertical-align: top;"><br>
-      </td>
+      
     </tr>
     <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.1<br>
@@ -3585,30 +3695,29 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
         <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
+      <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-	<td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
+      </td>
+	<td style="vertical-align: top;">X<br>
       </td>
         <td style="vertical-align: top;"><br>
-      </td>
-	<td style="vertical-align: top;"><br>
       </td>
     </tr>
-    <tr>
+    
+  <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.2<br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -3621,65 +3730,67 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+        <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
-      </td>
-         <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-         <td style="vertical-align: top;"><br>
-      </td>
       <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+	<td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;"><br>
       </td>
     </tr>
-    <tr>
+  <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.3<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
         <td style="vertical-align: top;"><br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
       <td style="vertical-align: top;">X<br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-	<td style="vertical-align: top;"><br>
-      </td>
-        <td style="vertical-align: top;"><br>
+	<td style="vertical-align: top;">X<br>
       </td>
         <td style="vertical-align: top;"><br>
       </td>
     </tr>
-        <tr>
+  <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.4<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-            <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -3689,30 +3800,29 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
+	<td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-	<td style="vertical-align: top;"><br>
-      </td>
-            <td style="vertical-align: top;"><br>
-      </td>
-            <td style="vertical-align: top;"><br>
+        <td style="vertical-align: top;"><br>
       </td>
     </tr>
-
-    <tr>
+  <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.5<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
         <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -3722,22 +3832,12 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;">X<br>
+	<td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-	<td style="vertical-align: top;"><br>
-      </td>
-        <td style="vertical-align: top;"><br>
-      </td>
-        <td style="vertical-align: top;"><br>
+        <td style="vertical-align: top;">X<br>
       </td>
     </tr>
-   <tr>
+  <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.6<br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -3750,26 +3850,24 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+        <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-       <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;">X<br>
+	<td style="vertical-align: top;">X<br>
       </td>
-       <td style="vertical-align: top;">X<br>
-      </td>
-       <td style="vertical-align: top;"><br>
-      </td>
-	<td style="vertical-align: top;"><br>
+        <td style="vertical-align: top;">X<br>
       </td>
     </tr>
-   <tr>
+  <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.7<br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -3782,26 +3880,24 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-       <td style="vertical-align: top;"><br>
-      </td>
-       <td style="vertical-align: top;"><br>
-      </td>
-       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
 	<td style="vertical-align: top;">X<br>
       </td>
+        <td style="vertical-align: top;"><br>
+      </td>
     </tr>
-   <tr>
+  <tr>
       <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.8<br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -3814,23 +3910,231 @@ completed by Ting Xu (tingx)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-       <td style="vertical-align: top;"><br>
-      </td>
-       <td style="vertical-align: top;"><br>
-      </td>
-       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
 	<td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.9<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+	<td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.10<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+	<td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.11<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+	<td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.12<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+	<td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.13<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+	<td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.14<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+	<td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  <tr>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T11.15<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+        <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+	<td style="vertical-align: top;">X<br>
+      </td>
+        <td style="vertical-align: top;"><br>
       </td>
     </tr>
 
