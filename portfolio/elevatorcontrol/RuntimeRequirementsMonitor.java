@@ -7,7 +7,6 @@ import simulator.framework.Elevator;
 import simulator.framework.Hallway;
 import simulator.framework.RuntimeMonitor;
 import simulator.framework.Side;
-import simulator.framework.Speed;
 import simulator.payloads.AtFloorPayload.ReadableAtFloorPayload;
 import simulator.payloads.CarCallPayload.ReadableCarCallPayload;
 import simulator.payloads.CarLanternPayload.ReadableCarLanternPayload;
@@ -373,8 +372,9 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 			boolean warningIssued = false;
 
 			if (msg.command() == DoorCommand.NUDGE
-					&& !(reversal[msg.getHallway().ordinal()][0]
-									||reversal[msg.getHallway().ordinal()][1])) {
+					&& !reversal[msg.getHallway().ordinal()][0]
+					&& !reversal[msg.getHallway().ordinal()][1]) {
+
 				newState = RT10States.DOORS_NUDGING_NO_REVERSAL;
 			} else if (msg.command() == DoorCommand.NUDGE
 					&& (reversal[msg.getHallway().ordinal()][0]
