@@ -9,21 +9,21 @@
 package simulator.elevatorcontrol;
 
 import jSimPack.SimTime;
-import simulator.elevatormodules.*;
-import simulator.payloads.DoorOpenPayload.ReadableDoorOpenPayload;
-import simulator.payloads.DoorClosedPayload.ReadableDoorClosedPayload;
-import simulator.payloads.DoorReversalPayload.ReadableDoorReversalPayload;
-import simulator.payloads.AtFloorPayload.ReadableAtFloorPayload;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
-import simulator.payloads.translators.IntegerCanPayloadTranslator;
-import simulator.payloads.*;
-import simulator.payloads.DoorMotorPayload;
-import simulator.payloads.DoorMotorPayload.WriteableDoorMotorPayload;
+import simulator.elevatormodules.CarWeightCanPayloadTranslator;
+import simulator.elevatormodules.DoorClosedCanPayloadTranslator;
+import simulator.elevatormodules.DoorOpenedCanPayloadTranslator;
+import simulator.elevatormodules.DoorReversalCanPayloadTranslator;
+import simulator.framework.Controller;
+import simulator.framework.Direction;
+import simulator.framework.DoorCommand;
+import simulator.framework.Elevator;
+import simulator.framework.Hallway;
+import simulator.framework.ReplicationComputer;
+import simulator.framework.Side;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
-import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.elevatorcontrol.*;
-import simulator.framework.*;
+import simulator.payloads.DoorMotorPayload;
+import simulator.payloads.DoorMotorPayload.WriteableDoorMotorPayload;
 
 public class DoorControl extends Controller
 {
@@ -53,13 +53,12 @@ public class DoorControl extends Controller
     //network interface
     private DoorOpenedCanPayloadTranslator mDoorOpen;   
     private DoorClosedCanPayloadTranslator mDoorClosed;
-    private DoorReversalCanPayloadTranslator mDoorReversal;
+    private DoorReversalCanPayloadTranslator mDoorReversalL;
+    private DoorReversalCanPayloadTranslator mDoorReversalR;
 
     private DriveSpeedCanPayloadTranslator mDriveSpeed;
-    private DesiredFloorCanPayloadTranslator mDesiredFloor;
-    private IntegerCanPayloadTranslator mDesiredDwell;   
+    private DesiredFloorCanPayloadTranslator mDesiredFloor;  
     private CarWeightCanPayloadTranslator mCarWeight;
-    private DoorMotorCanPayloadTranslator mDoorMotor;
 
     private Utility.AtFloorArray    mAtFloor;
 
@@ -75,7 +74,7 @@ public class DoorControl extends Controller
 
         this.floor = 1;
         this.countdown = 0;
-        this.dwell = 0;
+        this.dwell = 5.0;
         this.doorState = State.CLOSED;
 
         //define physical objects
@@ -91,9 +90,13 @@ public class DoorControl extends Controller
         mDoorClosed = new DoorClosedCanPayloadTranslator(networkDoorClosedIn,hallway,side);
         canInterface.registerTimeTriggered(networkDoorClosedIn);
         
-        ReadableCanMailbox networkDoorReversalIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_REVERSAL_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
-        mDoorReversal = new DoorReversalCanPayloadTranslator(networkDoorReversalIn,hallway,side);
-        canInterface.registerTimeTriggered(networkDoorReversalIn);
+        ReadableCanMailbox networkDoorReversalLIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_REVERSAL_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,Side.LEFT));
+        mDoorReversalL = new DoorReversalCanPayloadTranslator(networkDoorReversalLIn,hallway,Side.LEFT);
+        canInterface.registerTimeTriggered(networkDoorReversalLIn);
+
+        ReadableCanMailbox networkDoorReversalRIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_REVERSAL_SENSOR_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,Side.RIGHT));
+        mDoorReversalR = new DoorReversalCanPayloadTranslator(networkDoorReversalRIn,hallway,Side.RIGHT);
+        canInterface.registerTimeTriggered(networkDoorReversalRIn);
 
         ReadableCanMailbox networkDriveSpeedIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DRIVE_SPEED_CAN_ID);
             mDriveSpeed = new DriveSpeedCanPayloadTranslator(networkDriveSpeedIn);
@@ -103,19 +106,9 @@ public class DoorControl extends Controller
             mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloorIn);
             canInterface.registerTimeTriggered(networkDesiredFloorIn);
 
-        ReadableCanMailbox networkDesiredDwellIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID);
-            mDesiredDwell = new IntegerCanPayloadTranslator(networkDesiredDwellIn);
-            canInterface.registerTimeTriggered(networkDesiredDwellIn);
-
         ReadableCanMailbox networkCarWeightIn = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_WEIGHT_CAN_ID);
             mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeightIn);
             canInterface.registerTimeTriggered(networkCarWeightIn);
-
-        //define network objects (outputs)
-        WriteableCanMailbox networkDoorMotorOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway,side));
-        mDoorMotor = new DoorMotorCanPayloadTranslator(networkDoorMotorOut, hallway, side);
-        mDoorMotor.set(DoorCommand.STOP);
-        canInterface.sendTimeTriggered(networkDoorMotorOut,period);
 
         mAtFloor = new Utility.AtFloorArray(canInterface);
 
@@ -144,7 +137,7 @@ public class DoorControl extends Controller
             case CLOSING:
                 doClosing();
                 //#transition 'T5.4'
-                if(mDoorReversal.getValue()){
+                if(mDoorReversalL.getValue() || mDoorReversalR.getValue() || mCarWeight.getValue() >= Elevator.MaxCarCapacity){
                     newState = State.OPENING;
                 //#transition 'T5.3'    
                 }else if(mDoorClosed.getValue()){
@@ -154,7 +147,8 @@ public class DoorControl extends Controller
             case CLOSED:
                 doClosed();
                 //#transition 'T5.5'
-                if(mAtFloor.isAtFloor(floor, hallway) && ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (floor==mDesiredFloor.getFloor() && mDriveSpeed.getSpeed()==0 && mDriveSpeed.getDirection() == Direction.STOP))){
+                if(mAtFloor.isAtFloor(floor, hallway) 
+                	&& ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) || (hallway==mDesiredFloor.getHallway() && floor==mDesiredFloor.getFloor() && mDriveSpeed.getSpeed()==0 && mDriveSpeed.getDirection() == Direction.STOP))){
                     newState = State.OPENING;
                 }
                 break;
@@ -181,7 +175,7 @@ public class DoorControl extends Controller
         }
 
         doorState = newState;
-        setState(STATE_KEY,newState.toString());
+        //setState(STATE_KEY,newState.toString());
 
         timer.start(period);
     
@@ -190,16 +184,12 @@ public class DoorControl extends Controller
     private void doOpening(){
         //#state 'S5.1 OPENING'
         doorMotor.set(DoorCommand.OPEN);
-        mDoorMotor.set(DoorCommand.OPEN);
-        dwell = mDesiredDwell.getValue();
         countdown = dwell;
     }
 
     private void doOpen(){
         //#state 'S5.2 OPEN'
         doorMotor.set(DoorCommand.STOP);
-        mDoorMotor.set(DoorCommand.STOP);
-        dwell = mDesiredDwell.getValue();
         countdown = countdown - period.getFracSeconds();
         if(countdown < 0){
         	countdown = -1;
@@ -210,23 +200,17 @@ public class DoorControl extends Controller
     private void doClosing(){
         //#state 'S5.3 CLOSING'
         doorMotor.set(DoorCommand.CLOSE);
-        mDoorMotor.set(DoorCommand.CLOSE);
-        dwell = mDesiredDwell.getValue();
         reversal = true;
     }
 
     private void doClosed(){
         //#state 'S5.4 CLOSED'
         doorMotor.set(DoorCommand.STOP);
-        mDoorMotor.set(DoorCommand.STOP);
-        dwell = mDesiredDwell.getValue();
         reversal = false;
     }
 
     private void doNudge(){
         //#state 'S5.4 NUDGE'
         doorMotor.set(DoorCommand.NUDGE);
-        mDoorMotor.set(DoorCommand.NUDGE);
-        dwell = mDesiredDwell.getValue();
     }
 }
