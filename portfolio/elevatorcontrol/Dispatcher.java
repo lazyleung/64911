@@ -503,21 +503,6 @@ public class Dispatcher extends simulator.framework.Controller{
             countdown = dwellTime;
             mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
 
-            /*
-            //#transition 'T11.1'
-            if ((!AllDoorClosed) && atFloor && (curFloor == Target) && (closestFloor != -1)){
-                newState = State.STATE_GOTO_CLOSEST_FLOOR;
-            }
-            //#transition 'T11.2'
-            else if ((!AllDoorClosed) && atFloor && (curFloor == Target) && (closestFloor == -1) && (farthestFloor != -1)){
-                newState = State.STATE_GOTO_FARTHEST_FLOOR;
-            }
-            //#transition 'T11.8'
-            else if (notAtFloor && (!AllDoorClosed)){
-                newState = State.STATE_EMERGENCY;
-            } else {
-                newState = State.STATE_INIT;
-            }*/
             //#transition 'T11.1'
             newState = State.STATE_DISPATCH_UP;
             break;
@@ -636,7 +621,7 @@ public class Dispatcher extends simulator.framework.Controller{
         	mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
         	
         	//#transition 'T11.11'
-        	if (((closestFloorDown >= closestCarCallDown) && (closestFloorDown != -1)) || (countdown <= 0)){
+        	if (((closestFloorDown >= closestCarCallDown) && (closestFloorDown != -1) && (closestCarCallDown != -1)) || (countdown <= 0)){
         		newState = State.STATE_DISPATCH_DOWN;
         	} else {
         		newState = State.STATE_WAIT_DOWN;
