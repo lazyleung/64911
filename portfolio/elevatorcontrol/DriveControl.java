@@ -19,8 +19,12 @@ import simulator.payloads.CanMailbox.WriteableCanMailbox;
 
 public class DriveControl extends Controller implements TimeSensitive {
 
+    private final double initWaitTime = 0.1;
+    private double countdown = initWaitTime;
+
     // States
     public static enum State {
+        INIT,
         STOP,
         FAST_DOWN,
         SLOW_DOWN,
@@ -149,8 +153,8 @@ public class DriveControl extends Controller implements TimeSensitive {
         mAtFloor = new Utility.AtFloorArray(canInterface);
         // Every floor & hallway Message
     
-        // initialize the controller to the STOP state
-        currentState = State.STOP;
+        // initialize the controller to the INIT state
+        currentState = State.INIT;
         doStop();
 
         // start a timer to interrupt based on the period
@@ -188,8 +192,20 @@ public class DriveControl extends Controller implements TimeSensitive {
 
         log("Executing state " + currentState);
         State nextState = currentState;
+        //System.out.println(mDesiredFloor.getFloor()+" "+desiredDirection);
         switch (currentState) {
+	     case INIT:
+	         doInit();
+                countdown = countdown - period.getFracSeconds();
+                if(countdown<0){
+		     countdown = -1;
+                  }
+	         if(countdown<0){
+                   nextState = State.STOP;
+                }
+	         break;
             case STOP:
+                countdown = initWaitTime;
                 doStop();
                 if(doorClosed == true && mCarWeight.getValue() < Elevator.MaxCarCapacity && desiredDirection == Direction.UP && mEmergencyBrake.getValue() != true) { //#transition 'T6.1'
                     log("T6.1");
@@ -206,6 +222,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 }
                 break;
             case FAST_DOWN:
+                countdown = initWaitTime;
                 doFastDown();
                 if(mEmergencyBrake.getValue() == true || commitPoint == CommitPoint.REACHED || desiredDirection == Direction.UP) { //#transition 'T6.14'
                     log("T6.14");
@@ -213,6 +230,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 }
                 break;
             case SLOW_DOWN:
+                countdown = initWaitTime;
                 doSlowDown();
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.UP) { //#transition 'T6.8'
                     log("T6.8");
@@ -226,6 +244,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 }
                 break;
             case LEVEL_DOWN:
+                countdown = initWaitTime;
                 doLevelDown();
                 if(mEmergencyBrake.getValue() == true || (mLevelU.getValue() == true && mLevelD.getValue() == true && DriveObject.LevelingSpeed >= localSpeed.speed())) { //#transition 'T6.7'
                     log("T6.7");
@@ -233,6 +252,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 }
                 break;
             case FAST_UP:
+                countdown = initWaitTime;
                 doFastUp();
                 if(mEmergencyBrake.getValue() == true || commitPoint == CommitPoint.REACHED || desiredDirection == Direction.DOWN) { //#transition 'T6.12'
                     log("T6.12");
@@ -240,6 +260,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 }
                 break;
             case SLOW_UP:
+                countdown = initWaitTime;
                 doSlowUp();
                 if(mEmergencyBrake.getValue() == true || desiredDirection == Direction.DOWN) { //#transition 'T6.4'
                     log("T6.4");
@@ -253,6 +274,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                 }
                 break;
             case LEVEL_UP:
+                countdown = initWaitTime;
                 doLevelUp();
                 if(mEmergencyBrake.getValue() == true || (mLevelU.getValue() == true && mLevelD.getValue() == true && DriveObject.LevelingSpeed >= localSpeed.speed())) { //#transition 'T6.3'
                     log("T6.3");
@@ -273,13 +295,18 @@ public class DriveControl extends Controller implements TimeSensitive {
         if (currentState != nextState) {
             log ("Transition from " + currentState + " --> " + nextState);
         }
-        currentState = nextState;
+//	 System.out.println(currentState);
 
+        currentState = nextState;
         // we start the timer to interrupt us again at the next period
         timer.start(period);
     }
 
     // Actions for STOP state
+
+    private void doInit() {
+        localDrive.set(Speed.STOP, Direction.STOP);   
+   } 
     private void doStop() {
         localDrive.set(Speed.STOP, Direction.STOP);
         // mDrive is set in timerExpired
