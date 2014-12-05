@@ -671,8 +671,8 @@ public class Dispatcher extends simulator.framework.Controller{
             break;
         case STATE_SERVICE_CARCALL_UP:
         	countdown = dwellTime;
-		Target = closestFloorUp;
-        	DesiredDirection = Direction.UP;
+            Target = closestFloorUp;
+        	DesiredDirection = carCallDirectionUp;
         	DesiredHallway = closestHallwayUp;
         	mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
         	
@@ -692,7 +692,7 @@ public class Dispatcher extends simulator.framework.Controller{
         case STATE_SERVICE_CARCALL_DOWN:
         	countdown = dwellTime;
         	Target = closestFloorDown;
-        	DesiredDirection = Direction.DOWN;
+        	DesiredDirection = carCallDirectionDown;
         	DesiredHallway = closestHallwayDown;
         	mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
         	
