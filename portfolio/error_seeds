@@ -1,0 +1,4 @@
+1417729458006 uppeak_final  -- car stuck at first floor
+1000000       uppeak_final  -- car does not open door for floor 7 back (70s)
+1417730900938 normal_final  -- door reversal not canceled(1120s)
+1417798953946 uppeak_final  -- car not level at beginning, stuck at first floor
