@@ -27,6 +27,7 @@ public class Dispatcher extends simulator.framework.Controller{
     
     //amount of time to stop as a floor.
     private final double dwellTime = 0.5;
+    private final int fullCarCapacity = 13500; //Car Weight at 9 people, the car cannot let in any additional passenger therefore servicing hallcalls is useless.
     
     //received mAtFloor messages
     private ReadableCanMailbox[] networkAtFloors = new ReadableCanMailbox[10];
@@ -337,7 +338,15 @@ public class Dispatcher extends simulator.framework.Controller{
                 	carCallDirectionUp = Direction.STOP;
                 }
                 
+                //Do not service hall calls when the car is full
+                if(!(mCarWeight.getValue() < fullCarCapacity)){
+					closestHallCall = -1;
+					farthestHallCall = -1;
+
+				}
+
                 // set the closest Floor and Hallway based on carcalls and hallcalls
+
                 if (closestHallCall == -1){  // no closestHall
                     closestFloor = closestCarCall;
                     closestHallway = closestCarCallHall;
@@ -459,6 +468,12 @@ public class Dispatcher extends simulator.framework.Controller{
 					farthestHallCallHall = Hallway.BOTH;
 				}
                 
+                //Do not service hall calls when the car is full
+				if(!(mCarWeight.getValue() < fullCarCapacity)){
+					closestHallCall = -1;
+					farthestHallCall = -1;
+				}
+
                 // set the closest Floor and Hallway based on carcalls and hallcalls
                 if (closestHallCall == -1){
                     closestFloor = closestCarCall;
@@ -492,6 +507,8 @@ public class Dispatcher extends simulator.framework.Controller{
                         }
                     }
                 }
+
+
                 farthestFloor = farthestHallCall;
                 log("farthestHallCall= "+farthestHallCall);
                 
@@ -508,7 +525,6 @@ public class Dispatcher extends simulator.framework.Controller{
         switch (state){
         case STATE_INIT:
             Target = 1;
-            DesiredHallway = Hallway.NONE;
             DesiredDirection = Direction.STOP;
             countdown = dwellTime;
             mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
@@ -528,16 +544,19 @@ public class Dispatcher extends simulator.framework.Controller{
                 newState = State.STATE_DISPATCH_DOWN;
             }
             //#transition 'T11.4'
-            else if ((closestFloorUp != -1) && (closestFloorUp == closestHallCallUp) && (mCarWeight.getValue() < Elevator.MaxCarCapacity)) {
+            else if ((closestFloorUp != -1) && (closestFloorUp == closestHallCallUp) && (mCarWeight.getValue() < fullCarCapacity)) {
                 newState = State.STATE_SERVICE_HALLCALL_UP;
             }
             //#transition 'T11.5'
-            else if (((closestFloorUp == -1) && (farthestHallCallUp != -1) && (mCarWeight.getValue() < Elevator.MaxCarCapacity)) || ((closestFloorUp != -1) && (farthestHallCallUp != -1) && (closestFloorUp == farthestHallCallUp) && (  carCallDirectionUp != Direction.UP  ))){
+            else if (((closestFloorUp == -1) && (farthestHallCallUp != -1) && (mCarWeight.getValue() < fullCarCapacity)) || ((closestFloorUp != -1) && (farthestHallCallUp != -1) && (closestFloorUp == farthestHallCallUp) && (  carCallDirectionUp != Direction.UP  ))){
                 newState = State.STATE_SERVICE_HALLCALL_DOWN;
             } 
             //#transition 'T11.7'
-            else if ((closestFloorUp != -1) && (closestFloorUp != closestHallCallUp)) {
+            else if ((closestFloorUp != -1) && ((closestFloorUp != closestHallCallUp) || (mCarWeight.getValue() >= fullCarCapacity))) {
                 newState = State.STATE_SERVICE_CARCALL_UP;
+                //System.out.println("Target: "+Target+" "+DesiredDirection+" "+DesiredHallway);
+                //System.out.println("Closest CarCall Up: "+closestCarCallUp);
+
             }
             else {
                 newState = State.STATE_DISPATCH_UP;
@@ -555,16 +574,19 @@ public class Dispatcher extends simulator.framework.Controller{
                 newState = State.STATE_DISPATCH_UP;
             }
             //#transition 'T11.9'
-            else if ((closestFloorDown != -1) && (closestFloorDown == closestHallCallDown) && (mCarWeight.getValue() < Elevator.MaxCarCapacity)) {
+            else if ((closestFloorDown != -1) && (closestFloorDown == closestHallCallDown) && (mCarWeight.getValue() < fullCarCapacity)) {
                 newState = State.STATE_SERVICE_HALLCALL_DOWN;
             }
             //#transition 'T11.14'
-            else if (((closestFloorDown == -1) && (farthestHallCallDown != -1) && (mCarWeight.getValue() < Elevator.MaxCarCapacity)) || ((closestFloorDown != -1) && (farthestHallCallDown != -1) && (closestFloorDown == farthestHallCallDown) && (carCallDirectionDown != Direction.DOWN))) {
+            else if (((closestFloorDown == -1) && (farthestHallCallDown != -1) && (mCarWeight.getValue() < fullCarCapacity)) || ((closestFloorDown != -1) && (farthestHallCallDown != -1) && (closestFloorDown == farthestHallCallDown) && (carCallDirectionDown != Direction.DOWN))) {
                 newState = State.STATE_SERVICE_HALLCALL_UP;
             }
             //#transition 'T11.12'
-            else if ((closestFloorDown != -1) && (closestHallCallDown != closestFloorDown)) {
+            else if ((closestFloorDown != -1) && ((closestHallCallDown != closestFloorDown) || (mCarWeight.getValue() >= fullCarCapacity))) {
                 newState = State.STATE_SERVICE_CARCALL_DOWN;
+                //System.out.println("Target: "+Target+" "+DesiredDirection+" "+DesiredHallway);
+                //System.out.println("Closest CarCall Down: "+closestCarCallDown);
+
             } else {
                 newState = State.STATE_DISPATCH_DOWN;
             }
@@ -707,7 +729,7 @@ public class Dispatcher extends simulator.framework.Controller{
         }
         log("mDesiredFloor f = "+Target+" Hall="+DesiredHallway);
         state = newState;
-       // System.out.println(state);
+        //System.out.println(state);
         //report the current state
         setState(STATE_KEY, newState.toString());
         
