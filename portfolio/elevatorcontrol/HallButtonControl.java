@@ -175,7 +175,7 @@ public class HallButtonControl extends simulator.framework.Controller{
             mHallCall.set(true);
 
         //#transition 'T8.2'
-       if (mAtFloor.getValue() && (mDesiredFloor.getDirection() == direction) && (mDesiredFloor.getFloor() == floor)){
+       if ((!mDoorClosedRight.getValue() && !mDoorClosedLeft.getValue())&& mAtFloor.getValue() && (mDesiredFloor.getDirection() == direction)){
                 newState = State.STATE_IDLE;
         } else {
                 newState = State.STATE_REGISTER_CALL;
