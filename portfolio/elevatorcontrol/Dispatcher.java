@@ -532,7 +532,7 @@ public class Dispatcher extends simulator.framework.Controller{
 
             //#transition 'T11.24'
             if ((!atFloor) && anyDoorOpen){
-                newState = Stata.STATE_EMERGENCY;
+                newState = State.STATE_EMERGENCY;
             }
             //#transition 'T11.1'
             else {
