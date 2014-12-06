@@ -3193,12 +3193,12 @@ d) shall not be Down when f = 1.
 &nbsp;&nbsp; 11.12.2&nbsp; mDesiredFloor.b shall be set to None .<br>
 11.13&nbsp;&nbsp;&nbsp; If closestFloor == ClosestHallCall AND mAtFloor(closestFloor) == true then the dispatcher shall wait until closestCarCall != -1
 &nbsp; &nbsp;
-<p><a href="statechart11smart.png"><img
- alt="statechart11smart.png" src="statechart11smart.png"
- style="border: 0px solid ; width: 755px; height: 461px;"></a><br>
+<p><a href="finaldispatcher.png"><img
+ alt="finaldispatcher.png" src="finaldispatcher.png"
+ style="border: 0px solid ; width: 920px; height: 730px;"></a><br>
 </p>
 
-<table style="text-align: left; width: 650px;" border="1"
+<table style="text-align: left; width: 920px;" border="1"
  cellpadding="2" cellspacing="2">
   <tbody>
     <tr>
@@ -3210,63 +3210,99 @@ d) shall not be Down when f = 1.
 
     <tr>
       <td style="vertical-align: top;">T11.1<br> </td>
-      <td style="vertical-align: top;">True</td>
+      <td style="vertical-align: top;">!(anyDoorOpen && (!atFloor))</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.2</td>
-      <td style="vertical-align: top;">closestFloor == -1 && farthestFloor == -1</td>
+      <td style="vertical-align: top;">closestFloorDown == -1 && farthestHallCallDown == -1</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.3</td>
-      <td style="vertical-align: top;">closestFloor == -1 && farthestFloor == -1</td>
+      <td style="vertical-align: top;">closestFloorUp == -1 && farthestHallCallUp == -1</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.4</td>
-      <td style="vertical-align: top;">closestFloor = closestHallCall</td>
+      <td style="vertical-align: top;">closestFloorUp != -1 && closestFloorUp == closestHallCallUp && mCarWeight &lt; fullCarCapacity)</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.5<br> </td>
-      <td style="vertical-align: top;">mAtFloor.f == true && Target == curFloor && !mDoorClosed</td>
+      <td style="vertical-align: top;">true</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.6</td>
-      <td style="vertical-align: top;">closestFloor == closestCarCall || countdown <= 0</td>
+      <td style="vertical-align: top;">!AllDoorClosed && Target == curFloor && atFloor</td>
     </tr>
      <tr>
       <td style="vertical-align: top;">T11.7<br> </td>
-      <td style="vertical-align: top;">closestFloor == closestCarCall</td>
+      <td style="vertical-align: top;">countdown &lt;= 0</td>
     </tr>
      <tr>
       <td style="vertical-align: top;">T11.8<br> </td>
-      <td style="vertical-align: top;">mAtFloor.f == true && Target == curFloor && !mDoorClosed</td>
+      <td style="vertical-align: top;">closestFloorDown != -1 && closestFloorDown == closestHallCallDown && mCarWeight &lt; fullCarCapacity</td>
     </tr>
  <tr>
       <td style="vertical-align: top;">T11.9<br></td>
-      <td style="vertical-align: top;">closestFloor == closestHallCall </td>
+      <td style="vertical-align: top;">true</td>
     </tr>
  <tr>
       <td style="vertical-align: top;">T11.10<br> </td>
-      <td style="vertical-align: top;">mAtFloor.f == true && Target == curFloor && !mDoorClosed</td>
+      <td style="vertical-align: top;">mAtFloor.f == true && Target == curFloor && !AllDoorClosed</td>
     </tr>
  <tr>
       <td style="vertical-align: top;">T11.11<br> </td>
-      <td style="vertical-align: top;">closestFloor == closestCarCall || countdown <= 0</td>
+      <td style="vertical-align: top;">countdown &lt;= 0</td>
     </tr>
  <tr>
       <td style="vertical-align: top;">T11.12<br> </td>
-      <td style="vertical-align: top;">closestFloor == closestCarCall</td>
+      <td style="vertical-align: top;">(closestFloorUp == -1 && farthestHallCallUp != -1 && mCarWeight &lt; fullCarCapacity) || (closestFloorUp != -1 && farthestHallCallUp != -1 && closestFloorUp == farthestHallCallUp && carCallDirectionUp != UP)</td>
     </tr>
  <tr>
       <td style="vertical-align: top;">T11.13<br> </td>
-      <td style="vertical-align: top;">mAtFloor.f == true && Target == curFloor && !mDoorClosed</td>
+      <td style="vertical-align: top;">(closestFloorDown == -1 && farthestHallCallDown != -1 && mCarWeight.getValue() &lt; fullCarCapacity) || (closestFloorDown != -1 && farthestHallCallDown != -1 && closestFloorDown == farthestHallCallDown && carCallDirectionDown != DOWN)</td>
     </tr>
  <tr>
       <td style="vertical-align: top;">T11.14<br> </td>
-      <td style="vertical-align: top;">closestFloor == -1 && farthestFloor != -1</td>
+      <td style="vertical-align: top;">closestFloorUp != -1 && (closestFloorUp != closestHallCallUp || mCarWeight &gt;= fullCarCapacity)</td>
     </tr>
  <tr>
       <td style="vertical-align: top;">T11.15<br> </td>
-      <td style="vertical-align: top;">closestFloor == -1 && farthestFloor != -1</td>
+      <td style="vertical-align: top;">true</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T11.16</td>
+      <td style="vertical-align: top;">mAtFloor.f == true && Target == curFloor && !AllDoorClosed</td>
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">T11.17<br> </td>
+      <td style="vertical-align: top;">closestFloorDown != -1 && (closestHallCallDown != closestFloorDown || mCarWeight >= fullCarCapacity)</td>
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">T11.18<br> </td>
+      <td style="vertical-align: top;">true</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.19<br></td>
+      <td style="vertical-align: top;">mAtFloor.f == true && Target == curFloor && !mDoorClosed</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.20<br> </td>
+      <td style="vertical-align: top;">!atFloor && anyDoorOpen</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.21<br> </td>
+      <td style="vertical-align: top;">!atFloor && anyDoorOpen</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.22<br> </td>
+      <td style="vertical-align: top;">!atFloor && anyDoorOpen</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.23<br> </td>
+      <td style="vertical-align: top;">!atFloor && anyDoorOpen</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.24<br> </td>
+      <td style="vertical-align: top;">!atFloor && anyDoorOpen</td>
     </tr>
   </tbody>
 </table>
@@ -3320,13 +3356,13 @@ d) shall not be Down when f = 1.
       <td style="vertical-align: top;">countdown=WAIT_TIME<br> DesiredDirection=DOWN<br>mDesiredFloor=closestCarCall
     </tr>
 <tr>
-      <td style="vertical-align: top;">S11.8 <br>WAIT_UP<br> </td>
-      <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a floor above the current floor</td>
+      <td style="vertical-align: top;">S11.12 <br>WAIT_HALLCALL_DOWN<br> </td>
+      <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a floor below or equal to the current floor</td>
       <td style="vertical-align: top;">countdown = (countdown - period.getFracSeconds())<br>
     </tr>
 <tr>
-      <td style="vertical-align: top;">S11.9 <br>WAIT_DOWN<br> </td>
-      <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a below above the current floor</td>
+      <td style="vertical-align: top;">S11.13 <br>WAIT_HALLCALL_UP<br> </td>
+      <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a below above or equal to the current floor</td>
       <td style="vertical-align: top;">countdown = (countdown - period.getFracSeconds())<br>
     </tr>
   </tbody>
