@@ -353,7 +353,7 @@
         <dia:color val="#0000ff"/>
       </dia:attribute>
       <dia:attribute name="text">
-        <dia:string>#2. Passenger makes a car call#</dia:string>
+        <dia:string>#3a. Passenger makes a car call#</dia:string>
       </dia:attribute>
       <dia:attribute name="type">
         <dia:enum val="0"/>
@@ -383,7 +383,7 @@
         <dia:color val="#0000ff"/>
       </dia:attribute>
       <dia:attribute name="text">
-        <dia:string>#3a. CarCall[g,c]=true#</dia:string>
+        <dia:string>#3b. CarCall[g,c]=true#</dia:string>
       </dia:attribute>
       <dia:attribute name="type">
         <dia:enum val="0"/>
@@ -871,17 +871,17 @@
     </dia:object>
     <dia:object type="UML - Message" version="0" id="O29">
       <dia:attribute name="obj_pos">
-        <dia:point val="20,17.4"/>
+        <dia:point val="20,17"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.9499,16.325;37.0512,17.8501"/>
+        <dia:rectangle val="19.95,15.9;60.05,17.4"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
-        <dia:point val="20,17.4"/>
-        <dia:point val="37,17.45"/>
+        <dia:point val="20,17"/>
+        <dia:point val="60,17"/>
       </dia:attribute>
       <dia:attribute name="text_colour">
         <dia:color val="#000000"/>
@@ -890,13 +890,13 @@
         <dia:color val="#000000"/>
       </dia:attribute>
       <dia:attribute name="text">
-        <dia:string>#3b. mCarCall[g,c]=true#</dia:string>
+        <dia:string>#3c. mCarCall[g,c]=true#</dia:string>
       </dia:attribute>
       <dia:attribute name="type">
         <dia:enum val="0"/>
       </dia:attribute>
       <dia:attribute name="text_pos">
-        <dia:point val="28.5,16.975"/>
+        <dia:point val="41.0501,16.55"/>
       </dia:attribute>
     </dia:object>
     <dia:object type="UML - Message" version="0" id="O30">
@@ -920,7 +920,7 @@
         <dia:color val="#0000ff"/>
       </dia:attribute>
       <dia:attribute name="text">
-        <dia:string>#1a. DoorMotor[b,r]=Close#</dia:string>
+        <dia:string>#1. DoorMotor[b,r]=Close#</dia:string>
       </dia:attribute>
       <dia:attribute name="type">
         <dia:enum val="0"/>
@@ -950,7 +950,7 @@
         <dia:color val="#000000"/>
       </dia:attribute>
       <dia:attribute name="text">
-        <dia:string>#1b. mDoorClosed[b,r]=True#</dia:string>
+        <dia:string>#2a. mDoorClosed[b,r]=True#</dia:string>
       </dia:attribute>
       <dia:attribute name="type">
         <dia:enum val="0"/>
@@ -980,7 +980,7 @@
         <dia:color val="#0000ff"/>
       </dia:attribute>
       <dia:attribute name="text">
-        <dia:string>#1c. DoorMotor[b,r]=Stop#</dia:string>
+        <dia:string>#2b. DoorMotor[b,r]=Stop#</dia:string>
       </dia:attribute>
       <dia:attribute name="type">
         <dia:enum val="0"/>
@@ -1120,7 +1120,7 @@
         <dia:color val="#000000"/>
       </dia:attribute>
       <dia:attribute name="text">
-        <dia:string>#3c. mDesiredFloor = [g,c]#</dia:string>
+        <dia:string>#3d. mDesiredFloor = [g,c]#</dia:string>
       </dia:attribute>
       <dia:attribute name="type">
         <dia:enum val="0"/>

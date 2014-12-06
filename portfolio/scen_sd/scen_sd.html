@@ -208,8 +208,12 @@ has not yet exited the car. </li>
 <h3> Scenario: </h3>
 <ol start="1" type="1">
    <li>Door[b,r] begins to close</li>
-   <li>Passenger presses the car call button for the current floor</li>
    <li>Door[b,r] completes closing</li>
+   <li>Passenger presses the car call button for the current floor [f,b]</li>
+   <li>CarLight[f,b] turns on</li>
+   <li>Door[b,r] begins to open</li>
+   <li>Door[b,r] completes opening</li>
+
 </ol>
 <h3> Post-Conditions: </h3>
 <ul type="disc">
@@ -218,7 +222,7 @@ has not yet exited the car. </li>
 </ul>	
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd2b.png"><img src="sd2b.png" alt="2B"
- style="border: 0px solid ; width: 1082; height: 341;"></a> </p>
+ style="border: 0px solid ; width: 1262; height: 382;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 
