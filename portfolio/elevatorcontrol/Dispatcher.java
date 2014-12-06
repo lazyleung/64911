@@ -278,7 +278,7 @@ public class Dispatcher extends simulator.framework.Controller{
                         closestHallCall = HallCallFloors[i];
                         closestHallCallHall = HallCallHallways[i];
                         if (closestHallCall == 7){
-                            if ((i+2 < HallCallFloors.length) && mHallCalls[i+2].getValue()){
+                            if ((i+2 < HallCallFloors.length) && mHallCalls[i+2].getValue() && HallCallFloors[i+2] == 7){
                                 closestHallCallHall = Hallway.BOTH;
                             }
                         }
@@ -404,7 +404,8 @@ public class Dispatcher extends simulator.framework.Controller{
                         closestHallCall = HallCallFloors[i];
                         closestHallCallHall = HallCallHallways[i];
                         if (closestHallCall == 7){
-                            if (mHallCalls[i-2].getValue()){
+                            // Implicit assumption that i -2 is within bounds
+                            if (mHallCalls[i-2].getValue() && HallCallFloors[i-2] == 7){
                                 closestHallCallHall = Hallway.BOTH;
                             }
                         }
