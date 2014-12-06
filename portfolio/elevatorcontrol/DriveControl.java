@@ -198,10 +198,11 @@ public class DriveControl extends Controller implements TimeSensitive {
 	         doInit();
                 countdown = countdown - period.getFracSeconds();
                 if(countdown<0){
-		     countdown = -1;
-                  }
-	         if(countdown<0){
-                   nextState = State.STOP;
+                    countdown = -1;
+                }
+	            if(countdown<0){
+                    log("T6.15");
+                    nextState = State.STOP;
                 }
 	         break;
             case STOP:

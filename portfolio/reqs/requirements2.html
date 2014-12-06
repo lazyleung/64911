@@ -1558,6 +1558,7 @@ a mnemonic value of None. </li>
 car's acceleration profile, current speed, and distance from the floor
 f, to determine whether or not the car can still stop at the next
 floor. </li>
+  <li>Countdown, counter used to give the whole system time to init before moving. </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 6.1&nbsp;&nbsp;&nbsp; Drive shall have been commanded to Stop whenever
@@ -1756,7 +1757,7 @@ Down<br>
 6.13&nbsp;&nbsp;mDrive shall be set to Drive.<br>
 
 <br>
-<p> <img style="width: 672; height: 348px;" alt="DriveControl Statechart" src="DriveControl_state_diagram.png"><br clear="left"> </p>
+<p> <img style="width: 657; height: 345px;" alt="DriveControl Statechart" src="DriveControl_state_diagram.png"><br clear="left"> </p>
 <table style="text-align: left; width: 525px; height: 172px;" border="1" cellpadding="2" cellspacing="2">
   <tbody>
     <tr>
@@ -1819,6 +1820,10 @@ Down<br>
     <tr>
       <td style="vertical-align: top;">T6.14</td>
       <td style="vertical-align: top;">mEmergencyBrake == true || CommitPoint[f] == Reached || DesiredDirection == Up</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">T6.15</td>
+      <td style="vertical-align: top;">countdown &lt; 0</td>
     </tr>
   </tbody>
 </table>
@@ -1892,6 +1897,15 @@ Down<br>
       <td style="vertical-align: top;">Car is going fast, down</td>
       <td style="vertical-align: top;">
         Drive = {Fast, Down} <br>
+        mDrive = Drive <br>
+        mDriveSpeed = DriveSpeed <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S6.8 INIT<br> </td>
+      <td style="vertical-align: top;">Car is waiting for all controls to init</td>
+      <td style="vertical-align: top;">
+        Drive = {Stop, Stop} <br>
         mDrive = Drive <br>
         mDriveSpeed = DriveSpeed <br>
       </td>
