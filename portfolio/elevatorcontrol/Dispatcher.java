@@ -532,7 +532,7 @@ public class Dispatcher extends simulator.framework.Controller{
 
             //#transition 'T11.24'
             if ((!atFloor) && anyDoorOpen){
-                newState = STATE_EMERGENCY;
+                newState = Stata.STATE_EMERGENCY;
             }
             //#transition 'T11.1'
             else {
@@ -628,7 +628,7 @@ public class Dispatcher extends simulator.framework.Controller{
             }
             //#transition 'T11.21'
             else if ((!atFloor) && anyDoorOpen){
-                newState = STATE_EMERGENCY;
+                newState = State.STATE_EMERGENCY;
             }
             else {
                 newState = State.STATE_INFLIGHT_HALLCALL_UP;
@@ -644,7 +644,7 @@ public class Dispatcher extends simulator.framework.Controller{
             }
             //#transition 'T11.22'
             else if ((!atFloor) && anyDoorOpen){
-                newState = STATE_EMERGENCY;
+                newState = State.STATE_EMERGENCY;
             }
             else {
                 newState = State.STATE_INFLIGHT_HALLCALL_DOWN;
@@ -706,7 +706,7 @@ public class Dispatcher extends simulator.framework.Controller{
             }
             //#transition 'T11.20'
             else if ((!atFloor) && anyDoorOpen){
-                newState = STATE_EMERGENCY;
+                newState = State.STATE_EMERGENCY;
             }
             else {
                 newState = State.STATE_INFLIGHT_CARCALL_UP;
@@ -732,7 +732,7 @@ public class Dispatcher extends simulator.framework.Controller{
             }
             //#transition 'T11.23'
             else if ((!atFloor) && anyDoorOpen){
-                newState = STATE_EMERGENCY;
+                newState = State.STATE_EMERGENCY;
             }
             else {
                 newState = State.STATE_INFLIGHT_CARCALL_DOWN;
