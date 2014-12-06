@@ -188,7 +188,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 	}
 
 	private static enum RT7States {
-		DOORS_CLOSED, DOORS_OPEN, DOORS_OPEN_NO_PENDING_CALLS
+		IDLE,DOORS_OPEN_NO_PENDING_CALLS
 	}
 
 	private static enum RT8_1States {
@@ -288,7 +288,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 		RT7States state;
 
 		public RT7StateMachine() {
-			state = RT7States.DOORS_CLOSED;
+			state = RT7States.IDLE;
 		}
 
 		public void receive(ReadableDoorClosedPayload msg) {
@@ -304,41 +304,27 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 			RT7States newState = previousState;
 			
 			switch(state){
-			case DOORS_CLOSED:
+			case IDLE:
 				if (!msg.isClosed()
 						&& currentFloor > 0
 						&& currentFloor <= 8
-						&& (mCarCalls[currentFloor - 1][msg.getHallway().ordinal()]
-								|| mHallCalls[currentFloor - 1][msg.getHallway().ordinal()][0]
-								|| mHallCalls[currentFloor - 1][msg.getHallway().ordinal()][1])) {
-					// For now direction does not matter. as long as there is a hall
-					// call placed the car can stop at that hallway.
-					newState = RT7States.DOORS_OPEN;
-				} else if (!msg.isClosed()
-						&& currentFloor > 0
-						&& currentFloor <= 8
-						&& (!mCarCalls[currentFloor - 1][msg.getHallway().ordinal()]
-								&& !mHallCalls[currentFloor - 1][msg.getHallway().ordinal()][0]
-								&& !mHallCalls[currentFloor - 1][msg.getHallway().ordinal()][1])) {
+						&& (!carLights[currentFloor - 1][msg.getHallway().ordinal()].lighted()
+								&& !hallLights[currentFloor - 1][msg.getHallway().ordinal()][0].lighted()
+								&& !hallLights[currentFloor - 1][msg.getHallway().ordinal()][1].lighted())) {
 					// For now direction does not matter. as long as there is a hall
 					// call placed the car can stop at that hallway.
 					newState = RT7States.DOORS_OPEN_NO_PENDING_CALLS;
 				}
 				break;
-			case DOORS_OPEN:
 			case DOORS_OPEN_NO_PENDING_CALLS:
-				if (msg.isClosed()) {
-					newState = RT7States.DOORS_CLOSED;
-				}
+					newState = RT7States.IDLE;
 				break;
 
 			}
 
 			if (newState != previousState) {
 				switch (newState) {
-				case DOORS_CLOSED:
-					break;
-				case DOORS_OPEN:
+				case IDLE:
 					break;
 				case DOORS_OPEN_NO_PENDING_CALLS:
 					warning("R-T.7 Violated: Car doors open at Floor "
