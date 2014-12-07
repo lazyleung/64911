@@ -2627,7 +2627,7 @@ None
 8.1 &nbsp;&nbsp; If HallCall[f, b, d](True, then: <br>
 &nbsp;&nbsp;&nbsp; 8.1.1&nbsp; mHallCall[f, b, d] shall be set to true<br>
 &nbsp;&nbsp;&nbsp; 8.1.2&nbsp; HallLight[f, b, d] shall be set to true<br>
-8.2 &nbsp;&nbsp; If mAtFloor[f, b](True) AND (mDesiredFloor[f,d,b](True) OR mDesiredFloor[f,BOTH,b](True)), then: <br>
+8.2 &nbsp;&nbsp; If mAtFloor[f, b](True) AND (mDesiredFloor[f,d,b](True) OR mDesiredFloor[f,BOTH,b](True)) AND !mDoorClosed[b,*](True)</td>, then: <br>
 &nbsp;&nbsp;&nbsp; 8.2.1&nbsp; mHallCall[f, b, d] shall be set to false;<br>
 &nbsp;&nbsp;&nbsp; 8.2.2&nbsp; HallLight[f, b, d] shall be set to false;<br>
 <br>
@@ -2651,7 +2651,8 @@ None
     </tr>
     <tr>
       <td style="vertical-align: top;">T8.2</td>
-      <td style="vertical-align: top;">mAtFloor[f, b](True) AND (mDesiredFloor[f,BOTH,d](True) OR mDesiredFloor[f,b,d](True))</td>
+      <td style="vertical-align: top;">mAtFloor[f, b](True) AND (mDesiredFloor[f,BOTH,d](True) OR mDesiredFloor[f,b,d](True)) AND !mDoorClosed[b,*](True)</td>
+
     </tr>
   </tbody>
 </table>
