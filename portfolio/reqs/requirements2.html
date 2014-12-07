@@ -2324,7 +2324,6 @@ pair of bulbs as a single actuator.</li>
 <h3> Output Interface: </h3>
 <ul>
   <li>CarLantern[d] </li>
-  <li>mCarLantern[d] </li>
 </ul>
 <h3> State: </h3>
 <ul>
@@ -2337,12 +2336,8 @@ descriptions. </li>
 7.1&nbsp;&nbsp;&nbsp; Both CarLanterns[d] shall not be On at the same
 time.
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
-7.2 If DesiredDirection = d, then </br>
- &nbsp;&nbsp;&nbsp;7.2.1 CarLantern[d] shall be set to On </br>
- &nbsp;&nbsp;&nbsp;7.2.2 mCarLantern[d] shall be set to True</br>
-7.3 If DesiredDirection != d Then</br>
- &nbsp;&nbsp;&nbsp;7.3.1 CarLantern[d] shall be set to Off </br>
- &nbsp;&nbsp;&nbsp;7.3.2 mCarLantern[d] shall be set to False</br>
+7.2 If DesiredDirection = d, then CarLantern[d] shall be set to On </br>
+7.3 If DesiredDirection != d Then CarLantern[d] shall be set to Off </br>
 
 <p> <img style="width: 386px; height: 334px;" alt="Lantern Statechart" src="LanternControl_state_diagram.png"><br clear="left"> </p>
 <table style="text-align: left; width: 525px; height: 172px;" border="1" cellpadding="2" cellspacing="2">
@@ -2404,13 +2399,9 @@ completed by Mengzhe Li (mzli)<br>
 	<tr>
         <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">States</span><br>
         </td>
-        <td style="vertical-align: top; background-color: rgb(204, 204, 204);">R7.2.1<br>
+        <td style="vertical-align: top; background-color: rgb(204, 204, 204);">R7.2<br>
         </td>
-        <td style="vertical-align: top; background-color: rgb(204, 204, 204);">R7.2.2<br>
-        </td>
-	    <td style="vertical-align: top; background-color: rgb(204, 204, 204);">R7.3.1<br>
-        </td>
-        <td style="vertical-align: top; background-color: rgb(204, 204, 204);">R7.3.2<br>
+	    <td style="vertical-align: top; background-color: rgb(204, 204, 204);">R7.3<br>
         </td>
     </tr>
     <tr>
@@ -2418,24 +2409,17 @@ completed by Mengzhe Li (mzli)<br>
         </td>
         <td style="vertical-align: top;"><br>
         </td>
-        <td style="vertical-align: top;"><br>
-        </td>
         <td style="vertical-align: top;">X<br>
         </td>
-        <td style="vertical-align: top;">X<br>
-        </td>
+        
     </tr>
     <tr>
         <td style="vertical-align: top; background-color: rgb(204, 204, 204);">S7.2:&nbsp; ON<br>
         </td>
         <td style="vertical-align: top;">X<br>
         </td>
-        <td style="vertical-align: top;">X<br>
-        </td>
         <td style="vertical-align: top;"><br>
         </td>
-        <td style="vertical-align: top;"><br>
-         </td>
     </tr>
     <tr>
         <td style="vertical-align: top; background-color: rgb(204, 204, 204);"><span style="font-weight: bold;">Transitions</span><br>
@@ -2446,10 +2430,6 @@ completed by Mengzhe Li (mzli)<br>
         </td>
         <td style="vertical-align: top;">X<br>
         </td>
-        <td style="vertical-align: top;">X<br>
-        </td>
-        <td style="vertical-align: top;"><br>
-        </td>
         <td style="vertical-align: top;"><br>
         </td>
     </tr>
@@ -2457,10 +2437,6 @@ completed by Mengzhe Li (mzli)<br>
         <td style="vertical-align: top; background-color: rgb(204, 204, 204);">T7.2<br>
         </td>
         <td style="vertical-align: top;"><br>
-        </td>
-        <td style="vertical-align: top;"><br>
-        </td>
-        <td style="vertical-align: top;">X<br>
         </td>
         <td style="vertical-align: top;">X<br>
         </td>
