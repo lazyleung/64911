@@ -3,7 +3,6 @@
 ; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli), Ting Xu (tingx)
 ;
 DoorControl doorcontrol.cf DoorControl_test1.mf
-DoorControl doorcontrol.cf DoorControl_test.mf
 CarButtonControl CarButtonControl.cf CarButtonControl_1.mf
 DriveControl drivecontrol.cf drivecontrol_test1.mf
 DriveControl drivecontrol.cf drivecontrol_test2.mf
