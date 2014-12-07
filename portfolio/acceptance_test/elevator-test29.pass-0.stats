@@ -1,0 +1,78 @@
+
+Simulator Parameters:
+Command line = -pf ../portfolio/acceptance_test/test29.pass -b 200 -fs 5.0
+RandomSeed = 1417929392864
+CanNetworkBitTime = 5000 ns
+Effective Can Bitrate = 199999.99999999997
+Run Time = null
+Real time rate = null
+Acceptance Test File = ../portfolio/acceptance_test/test29.pass
+
+STATISTICS FOR ELEVATOR SIMULATION PASSENGER DELIVERY
+-----------------------------------------------------
+
+
+These passengers were delivered:
+Passenger 1: INJECTED AT 4.0s and DELIVERED in 39.876s
+  Satisfaction score: 100.0
+Passenger 7: INJECTED AT 31.0s and DELIVERED in 30.36s
+  Satisfaction score: 100.0
+Passenger 12: INJECTED AT 51.0s and DELIVERED in 67.503s
+  Satisfaction score: 100.0
+Passenger 3: INJECTED AT 16.0s and DELIVERED in 104.243s
+  Satisfaction score: 100.0
+Passenger 14: INJECTED AT 61.0s and DELIVERED in 60.891s
+  Satisfaction score: 100.0
+Passenger 16: INJECTED AT 78.0s and DELIVERED in 58.329s
+  Satisfaction score: 100.0
+Passenger 19: INJECTED AT 95.0s and DELIVERED in 58.201s
+  Satisfaction score: 100.0
+Passenger 10: INJECTED AT 46.0s and DELIVERED in 125.469s
+  Satisfaction score: 100.0
+Passenger 0: INJECTED AT 3.0s and DELIVERED in 170.162s
+  Satisfaction score: 100.0
+Passenger 5: INJECTED AT 20.0s and DELIVERED in 196.625s
+  Satisfaction score: 100.0
+Passenger 9: INJECTED AT 39.0s and DELIVERED in 195.8s
+  Satisfaction score: 100.0
+Passenger 8: INJECTED AT 38.0s and DELIVERED in 214.466s
+  Satisfaction score: 100.0
+Passenger 4: INJECTED AT 17.0s and DELIVERED in 236.004s
+  Satisfaction score: 100.0
+Passenger 2: INJECTED AT 14.0s and DELIVERED in 239.826s
+  Satisfaction score: 90.0
+    @153.520000000: 0.90 Repeated hall call press
+Passenger 6: INJECTED AT 30.0s and DELIVERED in 239.916s
+  Satisfaction score: 100.0
+Passenger 11: INJECTED AT 49.0s and DELIVERED in 222.082s
+  Satisfaction score: 100.0
+Passenger 13: INJECTED AT 60.0s and DELIVERED in 212.322s
+  Satisfaction score: 100.0
+Passenger 18: INJECTED AT 88.0s and DELIVERED in 218.414s
+  Satisfaction score: 100.0
+Passenger 15: INJECTED AT 70.0s and DELIVERED in 238.226s
+  Satisfaction score: 100.0
+Passenger 17: INJECTED AT 83.0s and DELIVERED in 226.687s
+  Satisfaction score: 100.0
+
+Passenger Delivery Summary
+Delivered: 20
+Stranded: 0
+Total: 20
+
+Deliver Stats (lower is better):
+Average_delivery_time: 157.770
+Maximum_delivery_time:  239.916
+Delivery_performance_score:  870.996
+
+Satisfaction Stats (higher is better):
+Average_satisfaction_score: 99.500
+Min_satisfaction_score:  90.000
+Satisfaction_performance_score:  488.000
+
+
+
+
+Network Utilization Summary:
+Recent: 56.15 % Max: 56.15 %  Overall:  56.15 %
+
