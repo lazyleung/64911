@@ -2357,7 +2357,7 @@ time.
     </tr>
     <tr>
       <td style="vertical-align: top;">T7.2</td>
-      <td style="vertical-align: top;">DesiredDirection != d </td>
+      <td style="vertical-align: top;">DesiredDirection != d</td>
     </tr>
   </tbody>
 </table>
@@ -2374,7 +2374,7 @@ time.
     </tr>
     <tr>
       <td style="vertical-align: top;">S7.1 OFF<br> </td>
-      <td style="vertical-align: top;">Car lanterns is off</td>
+      <td style="vertical-align: top;">Both car lanterns are off</td>
       <td style="vertical-align: top;">
         CarLantern[d] = Off <br>
         mCarLantern[d] = Off <br>
@@ -2382,7 +2382,7 @@ time.
     </tr>
     <tr>
       <td style="vertical-align: top;">S7.2 ON<br> </td>
-      <td style="vertical-align: top;">Car lantern is on</td>
+      <td style="vertical-align: top;">Down lantern is on and Up lantern is off</td>
       <td style="vertical-align: top;">
         CarLantern[d] = On <br>
         mCarLantern[d] = On <br>
@@ -3049,8 +3049,6 @@ below Lobby (1). </li>
 <h3> State: </h3>
 <ul>
   <li>AtFloor: a boolean for which if any mAtFloor is true. </li>
-  <li>AllDoorClosed: a boolean for if all the doors at the serviced [floor,hallway] is closed</li>
-  <li>AnyDoorOpen:  a boolean for if any of the four doors are (not closed).</li>
   <li>CurFloor: an integer Floor number for which mAtFloor is true. </li>
   <li>ClosestHallCallUp[f,b]: the closest floor and hallway for which there is a hall call going up, and above or equal to CurFloor. [-1, NONE] if none exist. </li>
   <li>ClosestHallCallDown[f,b]: the closest floor and hallway for which there is a hall call going down, and below or equal to CurFloor. [-1, NONE] if none exist.</li>
@@ -3065,7 +3063,7 @@ below Lobby (1). </li>
   <li>ClosestHallCall[f,b]: the closestHallCall to service from CurFloor, will be either ClosestHallCallUp or ClosestHallCallDown. [-1, NONE] if none exist.</li>
   <li>FarthestHallCall[f,b]: the farthestHallCall to service from CurFloor, will be either FarthestHallCallUp or FarthestHallCallDown. [-1, NONE] if none exist.</li>
   <li>CarCallDirection: the DesiredDirection after servicing a carCall, computed based on whether there are more pending calls past that floor.</li>
-  <li>HallCallDirection: the DesiredDirection after servicing a hallCall, computed based on whether the hallCall is for up or down direction.<li>
+  <li>HallCallDirection: the DesiredDirection after servicing a hallCall, computed based on whether the hallCall is for up or down direction.</li>
   <li>Target: an integer Floor number for desired Floor, initialized to Lobby = 1. </li>
   <li>DesiredHall: the intented hallway at the next stop, initialized to NONE.</li>
   <li>DesiredDirection: the intented direction after next stop, initialized to STOP. </li>
@@ -3082,12 +3080,12 @@ d) shall not be Down when f = 1.
 11.4&nbsp;&nbsp;&nbsp; mDesiredFloor.f shall be set to Target.<br>
 11.5&nbsp;&nbsp;&nbsp; mDesiredFloor.d shall be set to DesiredDirection.<br>
 11.6&nbsp;&nbsp;&nbsp; mDesiredFloor.b shall be set to DesiredHall.<br>
-11.7&nbsp;&nbsp;&nbsp; if ClosestFloorUp.f == -1 AND FarthestHallCallUp.f == -1
+11.7&nbsp;&nbsp;&nbsp; if ClosestFloorUp.f == -1 AND FarthestHallCallUp.f == -1<br>
 &nbsp;&nbsp; 11.7.1&nbsp; ClosestFloor should be set to ClosestFloorDown.<br>
 &nbsp;&nbsp; 11.7.2&nbsp; FarthestHallCall should be set to FarthestHallCallDown.<br>
 &nbsp;&nbsp; 11.7.3&nbsp; ClosestCarCall should be set to ClosestCarCallDown.<br>
 &nbsp;&nbsp; 11.7.4&nbsp; ClosestHallCall should be set to ClosestHallCallDown.<br>
-11.8&nbsp;&nbsp;&nbsp; if ClosestFloorDown.f == -1 AND FarthestHallCallDown.f == -1
+11.8&nbsp;&nbsp;&nbsp; if ClosestFloorDown.f == -1 AND FarthestHallCallDown.f == -1<br>
 &nbsp;&nbsp; 11.8.1&nbsp; ClosestFloor should be set to ClosestFloorUp.<br>
 &nbsp;&nbsp; 11.8.2&nbsp; FarthestHallCall should be set to FarthestHallCallUp.<br>
 &nbsp;&nbsp; 11.8.3&nbsp; ClosestCarCall should be set to ClosestCarCallUp.<br>
