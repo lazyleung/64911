@@ -3090,21 +3090,22 @@ d) shall not be Down when f = 1.
 &nbsp;&nbsp; 11.8.2&nbsp; FarthestHallCall should be set to FarthestHallCallUp.<br>
 &nbsp;&nbsp; 11.8.3&nbsp; ClosestCarCall should be set to ClosestCarCallUp.<br>
 &nbsp;&nbsp; 11.8.4&nbsp; ClosestHallCall should be set to ClosestHallCallUp.<br>
-11.9&nbsp;&nbsp;&nbsp; If AtFloor AND ClosestFloor.f != -1 AND ClosestCarCall != ClosestHallCall<br>
+11.9&nbsp;&nbsp;&nbsp; If AtFloor AND ClosestFloor.f != -1 AND ClosestCarCall.f != ClosestHallCall.f<br>
 &nbsp;&nbsp; 11.9.1&nbsp; Target shall be set to ClosestFloor.f<br>
 &nbsp;&nbsp; 11.9.2&nbsp; DesiredDirection shall be set to CarCallDirection<br>
 &nbsp;&nbsp; 11.9.3&nbsp; DesiredHall should be set to ClosestFloor.b<br>
-11.10&nbsp;&nbsp;&nbsp; If AtFloor AND ClosestFloor.f != -1 AND ClosestCarCall == ClosestHallCall<br>
+11.10&nbsp;&nbsp;&nbsp; If AtFloor AND ClosestFloor.f != -1 AND ClosestFloor.f == ClosestHallCall.f<br>
 &nbsp;&nbsp; 11.10.1&nbsp; Target shall be set to ClosestFloor.f<br>
 &nbsp;&nbsp; 11.10.2&nbsp; DesiredDirection shall be set to HallCallDirection<br>
 &nbsp;&nbsp; 11.10.3&nbsp; DesiredHall should be set to ClosestFloor.b<br>
-11.11&nbsp;&nbsp;&nbsp; If AtFloor AND ClosestFloor.f == -1 AND FarthestHallCall != -1 AND mCarWeight < maxCarCapacity<br>
+11.11&nbsp;&nbsp;&nbsp; If AtFloor AND ClosestFloor.f == -1 AND FarthestHallCall.f != -1 AND mCarWeight < maxCarCapacity<br>
 &nbsp;&nbsp; 11.11.1&nbsp; Target shall be set to FarthestFloor.f<br>
 &nbsp;&nbsp; 11.11.2&nbsp; DesiredDirection shall be set to HallCallDirection<br>
 &nbsp;&nbsp; 11.11.3&nbsp; DesiredHall should be set to FarthestFloor.b<br>
 11.12&nbsp;&nbsp;&nbsp; If AtFloor = false AND any mDoorClosed [b, r] is False (which means doors are not closed between floors!); then<br>
 &nbsp;&nbsp; 11.12.1&nbsp; Target shall be set to 1<br>
-&nbsp;&nbsp; 11.12.2&nbsp; mDesiredFloor.b shall be set to None .<br>
+&nbsp;&nbsp; 11.12.2&nbsp; DesiredDirection shall be set to STOP.<br>
+&nbsp;&nbsp; 11.12.3&nbsp; DesiredHallway shall be set to NONE.<br>
 
 <p><a href="finaldispatcher.png"><img
  alt="finaldispatcher.png" src="finaldispatcher.png"
