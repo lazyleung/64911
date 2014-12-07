@@ -1,0 +1,116 @@
+; 18649 Fall 2014
+; Group 11
+; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli), Ting Xu (tingx)
+; final_dispatcher_test1.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+
+;Test for Dispatcher
+;This test does not test for any time sensitive conditions
+
+#DEFINE PERIOD 100ms
+;set input initial value
+0.0s I CAR_BUTTON_CONTROL_PERIOD F CarCall 2 BACK = false
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+0.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+
+;#state 'S11.1 INIT'
+0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+
+;#transition 'T11.1'
+0.8s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
+1.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+1.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][BACK]_CAN_ID AtFloor 1 BACK = true
+
+
+;#state 'S11.2 DISPATCH_UP'
+1.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+1.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+1.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+
+;#transition 'T11.4'
+1.3s I HALL_BUTTON_CONTROL_PERIOD N HALL_CALL_[2][BACK][UP]_CAN_ID HallCall 2 BACK UP = true
+
+;#state 'S11.4 SERVICE_HALLCALL_UP'
+1.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
+1.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
+1.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == BACK
+
+;#transition 'T11.5'
+;true
+
+;#state 'S11.10 INFLIGHT_HALLCALL_UP'
+1.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
+1.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
+1.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == BACK
+
+;#transition 'T11.6' 
+2.1s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+2.1s I HALL_BUTTON_CONTROL_PERIOD N HALL_CALL_[2][BACK][UP]_CAN_ID HallCall 2 BACK UP = false
+2.3s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
+2.3s I AT_FLOOR_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = false
+2.3s I AT_FLOOR_PERIOD N AT_FLOOR_[1][BACK]_CAN_ID AtFloor  1 BACK = false
+2.3s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor  2 BACK = true
+
+
+;#state 'S11.15 SERVICED_HALLCALL_UP'
+2.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
+2.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
+2.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+
+
+;#transition 'T11.25'
+3.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+3.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+3.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+3.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+
+;#state 'S11.13 WAIT_HALLCALL_UP'
+3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
+3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
+3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+
+
+;#transition 'T11.7'
+;wait 0.5s
+
+;#state 'S11.2 DISPATCH_UP'
+3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
+3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
+3.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+
+
+;#transition 'T11.4'
+3.4s I HALL_BUTTON_CONTROL_PERIOD N HALL_CALL_[3][FRONT][UP]_CAN_ID HallCall 3 FRONT UP = true
+3.4s I HALL_BUTTON_CONTROL_PERIOD N HALL_CALL_[2][BACK][UP]_CAN_ID HallCall 2 BACK UP = false
+
+;#state 'S11.4 SERVICE_HALLCALL_UP'
+3.8s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
+3.8s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
+3.8s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
+
+
+;#transition 'T11.5'
+;true
+
+
+;#state 'S11.10 INFLIGHT_HALLCALL_UP'
+4.0s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
+4.0s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
+4.0s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
+
+
+;#transition 'T11.21'
+4.3s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = false
+4.3s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
+
+
+;#state 'S11.14 EMERGENCY'
+5.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+5.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+5.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
