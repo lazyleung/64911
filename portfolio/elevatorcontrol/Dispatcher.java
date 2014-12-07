@@ -87,6 +87,8 @@ public class Dispatcher extends simulator.framework.Controller{
         STATE_INFLIGHT_CARCALL_UP,
         STATE_INFLIGHT_CARCALL_DOWN,
         STATE_EMERGENCY,
+        STATE_SERVICED_HALLCALL_UP,
+        STATE_SERVICED_HALLCALL_DOWN,
     }
     
     private State state = State.STATE_INIT;
@@ -545,7 +547,8 @@ public class Dispatcher extends simulator.framework.Controller{
         	HallCallUpHall = closestHallwayUp;
         	HallCallDownFloor = farthestHallCallUp;
         	HallCallDownHall = farthestHallwayUp;
-            mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
+            DesiredHallway = Hallway.NONE;
+            mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
             //#transition 'T11.3'
             if ((closestFloorUp == -1) && (farthestHallCallUp == -1)){
                 newState = State.STATE_DISPATCH_DOWN;
@@ -559,11 +562,8 @@ public class Dispatcher extends simulator.framework.Controller{
                 newState = State.STATE_SERVICE_HALLCALL_DOWN;
             } 
             //#transition 'T11.14'
-            else if ((closestFloorUp != -1) && ((closestFloorUp != closestHallCallUp) || (mCarWeight.getValue() >= fullCarCapacity))) {
+            else if ((closestFloorUp != -1) && (closestFloorUp != closestHallCallUp)) {
                 newState = State.STATE_SERVICE_CARCALL_UP;
-                //System.out.println("Target: "+Target+" "+DesiredDirection+" "+DesiredHallway);
-                //System.out.println("Closest CarCall Up: "+closestCarCallUp);
-
             }
             else {
                 newState = State.STATE_DISPATCH_UP;
@@ -575,7 +575,8 @@ public class Dispatcher extends simulator.framework.Controller{
         	HallCallDownHall = closestHallwayDown;
         	HallCallUpFloor = farthestHallCallDown;
         	HallCallUpHall = farthestHallwayDown;
-            mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
+            DesiredHallway = Hallway.NONE;
+            mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
             //#transition 'T11.2'
             if ((closestFloorDown == -1) && (farthestHallCallDown == -1)){
                 newState = State.STATE_DISPATCH_UP;
@@ -589,11 +590,8 @@ public class Dispatcher extends simulator.framework.Controller{
                 newState = State.STATE_SERVICE_HALLCALL_UP;
             }
             //#transition 'T11.17'
-            else if ((closestFloorDown != -1) && ((closestHallCallDown != closestFloorDown) || (mCarWeight.getValue() >= fullCarCapacity))) {
+            else if ((closestFloorDown != -1) && (closestHallCallDown != closestFloorDown)) {
                 newState = State.STATE_SERVICE_CARCALL_DOWN;
-                //System.out.println("Target: "+Target+" "+DesiredDirection+" "+DesiredHallway);
-                //System.out.println("Closest CarCall Down: "+closestCarCallDown);
-
             } else {
                 newState = State.STATE_DISPATCH_DOWN;
             }
@@ -624,7 +622,7 @@ public class Dispatcher extends simulator.framework.Controller{
                 
             //#transition 'T11.6'
             if ((!AllDoorClosed) && (Target == curFloor) && (atFloor)) {
-                newState = State.STATE_WAIT_HALLCALL_UP;
+                newState = State.STATE_SERVICED_HALLCALL_UP;
             }
             //#transition 'T11.21'
             else if ((!atFloor) && anyDoorOpen){
@@ -640,7 +638,7 @@ public class Dispatcher extends simulator.framework.Controller{
             
             //#transition 'T11.10'
             if ((!AllDoorClosed) && (Target == curFloor) && (atFloor)) {
-                newState = State.STATE_WAIT_HALLCALL_DOWN;
+                newState = State.STATE_SERVICED_HALLCALL_DOWN;
             }
             //#transition 'T11.22'
             else if ((!atFloor) && anyDoorOpen){
@@ -650,16 +648,36 @@ public class Dispatcher extends simulator.framework.Controller{
                 newState = State.STATE_INFLIGHT_HALLCALL_DOWN;
             }
             break;
-        case STATE_WAIT_HALLCALL_UP:
-			if (AllDoorClosed){
-				countdown = countdown - period.getFracSeconds();
-        	} else {
-				countdown = dwellTime;
-			}
-        	if(countdown < 0){
-            	countdown = -1;
+        case STATE_SERVICED_HALLCALL_UP:
+            countdown = dwellTime;
+            DesiredHallway = Hallway.NONE;
+            mDesiredFloor.set(Target,DesiredDirection,DesiredHallway);
+                
+            //#transition 'T11.25'
+            if (AllDoorClosed){
+                newState = State.STATE_WAIT_HALLCALL_UP;
+            } else {
+                newState = State.STATE_SERVICED_HALLCALL_UP;
             }
-        	mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
+            break;
+        case STATE_SERVICED_HALLCALL_DOWN:
+            countdown = dwellTime;
+            DesiredHallway = Hallway.NONE;
+            mDesiredFloor.set(Target,DesiredDirection,DesiredHallway);
+            
+            //#transition 'T11.26'
+            if (AllDoorClosed){
+                newState = State.STATE_WAIT_HALLCALL_DOWN;
+            } else {
+                newState = State.STATE_SERVICED_HALLCALL_DOWN;
+            }
+            break;
+        case STATE_WAIT_HALLCALL_UP:
+            countdown = countdown - period.getFracSeconds();
+            if (countdown < 0){
+                countdown = -1;
+            }
+        	mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
         	
         	//#transition 'T11.7'
         	if (countdown <= 0){
@@ -669,15 +687,11 @@ public class Dispatcher extends simulator.framework.Controller{
         	}
             break;
         case STATE_WAIT_HALLCALL_DOWN:
-        	if (AllDoorClosed){
-				countdown = countdown - period.getFracSeconds();
-        	} else {
-				countdown = dwellTime;
-			}
-			if(countdown < 0){
-            	countdown = -1;
+            countdown = countdown - period.getFracSeconds();
+            if (countdown < 0){
+                countdown = -1;
             }
-        	mDesiredFloor.set(Target, DesiredDirection, Hallway.NONE);
+        	mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
         	
         	//#transition 'T11.11'
         	if (countdown <= 0){
