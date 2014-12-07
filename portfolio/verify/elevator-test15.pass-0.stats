@@ -1,7 +1,7 @@
 
 Simulator Parameters:
 Command line = -pf ../portfolio/acceptance_test/test15.pass -b 200 -fs 5.0 -monitor RuntimeRequirementsMonitor
-RandomSeed = 1417922066988
+RandomSeed = 1417924512489
 CanNetworkBitTime = 5000 ns
 Effective Can Bitrate = 199999.99999999997
 Run Time = null
@@ -14,46 +14,46 @@ STATISTICS FOR ELEVATOR SIMULATION PASSENGER DELIVERY
 
 
 These passengers were delivered:
-Passenger 0: INJECTED AT 4.0s and DELIVERED in 34.229s
+Passenger 0: INJECTED AT 4.0s and DELIVERED in 36.996s
   Satisfaction score: 100.0
-Passenger 1: INJECTED AT 14.0s and DELIVERED in 59.281s
+Passenger 1: INJECTED AT 14.0s and DELIVERED in 62.603s
   Satisfaction score: 100.0
-Passenger 2: INJECTED AT 22.0s and DELIVERED in 96.519s
+Passenger 2: INJECTED AT 22.0s and DELIVERED in 90.422s
   Satisfaction score: 100.0
-Passenger 3: INJECTED AT 29.0s and DELIVERED in 90.942s
+Passenger 3: INJECTED AT 29.0s and DELIVERED in 84.578s
   Satisfaction score: 100.0
-Passenger 13: INJECTED AT 73.0s and DELIVERED in 63.868s
+Passenger 9: INJECTED AT 58.0s and DELIVERED in 72.302s
   Satisfaction score: 100.0
-Passenger 11: INJECTED AT 71.0s and DELIVERED in 66.952s
+Passenger 11: INJECTED AT 71.0s and DELIVERED in 61.022s
   Satisfaction score: 100.0
-Passenger 9: INJECTED AT 58.0s and DELIVERED in 81.038s
+Passenger 13: INJECTED AT 73.0s and DELIVERED in 60.775s
   Satisfaction score: 100.0
-Passenger 5: INJECTED AT 40.0s and DELIVERED in 113.896s
+Passenger 12: INJECTED AT 72.0s and DELIVERED in 75.6s
   Satisfaction score: 100.0
-Passenger 12: INJECTED AT 72.0s and DELIVERED in 83.695s
+Passenger 5: INJECTED AT 40.0s and DELIVERED in 109.505s
   Satisfaction score: 100.0
-Passenger 10: INJECTED AT 67.0s and DELIVERED in 104.968s
+Passenger 16: INJECTED AT 90.0s and DELIVERED in 75.822s
   Satisfaction score: 100.0
-Passenger 16: INJECTED AT 90.0s and DELIVERED in 83.65s
+Passenger 10: INJECTED AT 67.0s and DELIVERED in 100.093s
   Satisfaction score: 100.0
-Passenger 7: INJECTED AT 49.0s and DELIVERED in 140.923s
+Passenger 7: INJECTED AT 49.0s and DELIVERED in 134.97s
   Satisfaction score: 100.0
-Passenger 8: INJECTED AT 51.0s and DELIVERED in 192.77s
+Passenger 8: INJECTED AT 51.0s and DELIVERED in 185.388s
   Satisfaction score: 90.0
-    @207.100000000: 0.90 Repeated hall call press
-Passenger 15: INJECTED AT 83.0s and DELIVERED in 196.459s
+    @200.900000000: 0.90 Repeated hall call press
+Passenger 15: INJECTED AT 83.0s and DELIVERED in 188.996s
   Satisfaction score: 100.0
-Passenger 6: INJECTED AT 47.0s and DELIVERED in 233.811s
+Passenger 6: INJECTED AT 47.0s and DELIVERED in 226.809s
   Satisfaction score: 100.0
-Passenger 18: INJECTED AT 100.0s and DELIVERED in 196.019s
+Passenger 4: INJECTED AT 34.0s and DELIVERED in 255.739s
   Satisfaction score: 100.0
-Passenger 14: INJECTED AT 77.0s and DELIVERED in 220.636s
+Passenger 14: INJECTED AT 77.0s and DELIVERED in 213.954s
   Satisfaction score: 100.0
-Passenger 4: INJECTED AT 34.0s and DELIVERED in 265.526s
+Passenger 18: INJECTED AT 100.0s and DELIVERED in 192.8s
   Satisfaction score: 100.0
-Passenger 17: INJECTED AT 93.0s and DELIVERED in 241.972s
+Passenger 17: INJECTED AT 93.0s and DELIVERED in 236.328s
   Satisfaction score: 100.0
-Passenger 19: INJECTED AT 110.0s and DELIVERED in 247.754s
+Passenger 19: INJECTED AT 110.0s and DELIVERED in 242.313s
   Satisfaction score: 100.0
 
 Passenger Delivery Summary
@@ -62,9 +62,9 @@ Stranded: 0
 Total: 20
 
 Deliver Stats (lower is better):
-Average_delivery_time: 140.745
-Maximum_delivery_time:  265.526
-Delivery_performance_score:  828.508
+Average_delivery_time: 135.351
+Maximum_delivery_time:  255.739
+Delivery_performance_score:  797.142
 
 Satisfaction Stats (higher is better):
 Average_satisfaction_score: 99.500
@@ -78,8 +78,14 @@ Network Utilization Summary:
 Recent: 56.15 % Max: 56.15 %  Overall:  56.15 %
 
 Monitors Warning Results: 
-RuntimeMonitor generated 0 warnings.
+RuntimeMonitor generated 2 warnings.
 
 Monitors Summmary Results: 
-null
+0 RT6 Warnings
+2 RT7 Warnings
+0 RT8.1 Warnings
+0 RT8.2 Warnings
+0 RT8.3 Warnings
+0 RT9 Warnings
+0 RT10 Warnings
 

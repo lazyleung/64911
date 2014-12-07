@@ -1,7 +1,7 @@
 
 Simulator Parameters:
 Command line = -pf ../portfolio/acceptance_test/test17.pass -b 200 -fs 5.0 -monitor RuntimeRequirementsMonitor
-RandomSeed = 1417922079781
+RandomSeed = 1417924524985
 CanNetworkBitTime = 5000 ns
 Effective Can Bitrate = 199999.99999999997
 Run Time = null
@@ -14,47 +14,48 @@ STATISTICS FOR ELEVATOR SIMULATION PASSENGER DELIVERY
 
 
 These passengers were delivered:
-Passenger 2: INJECTED AT 18.0s and DELIVERED in 32.5s
+Passenger 2: INJECTED AT 18.0s and DELIVERED in 32.911s
   Satisfaction score: 100.0
-Passenger 0: INJECTED AT 6.0s and DELIVERED in 65.332s
+Passenger 3: INJECTED AT 24.0s and DELIVERED in 47.093s
   Satisfaction score: 100.0
-Passenger 3: INJECTED AT 24.0s and DELIVERED in 48.451s
+Passenger 0: INJECTED AT 6.0s and DELIVERED in 66.706s
   Satisfaction score: 100.0
-Passenger 10: INJECTED AT 69.0s and DELIVERED in 57.806s
+Passenger 10: INJECTED AT 69.0s and DELIVERED in 57.524s
   Satisfaction score: 100.0
-Passenger 7: INJECTED AT 50.0s and DELIVERED in 95.174s
+Passenger 7: INJECTED AT 50.0s and DELIVERED in 94.657s
   Satisfaction score: 100.0
-Passenger 17: INJECTED AT 99.0s and DELIVERED in 64.487s
+Passenger 17: INJECTED AT 99.0s and DELIVERED in 64.027s
   Satisfaction score: 100.0
-Passenger 8: INJECTED AT 55.0s and DELIVERED in 128.34s
+Passenger 1: INJECTED AT 16.0s and DELIVERED in 167.057s
   Satisfaction score: 100.0
-Passenger 4: INJECTED AT 34.0s and DELIVERED in 150.443s
+Passenger 8: INJECTED AT 55.0s and DELIVERED in 129.215s
   Satisfaction score: 100.0
-Passenger 1: INJECTED AT 16.0s and DELIVERED in 170.436s
+Passenger 15: INJECTED AT 91.0s and DELIVERED in 95.205s
   Satisfaction score: 100.0
-Passenger 15: INJECTED AT 91.0s and DELIVERED in 97.007s
+Passenger 6: INJECTED AT 44.0s and DELIVERED in 143.912s
   Satisfaction score: 100.0
-Passenger 12: INJECTED AT 83.0s and DELIVERED in 109.463s
+Passenger 4: INJECTED AT 34.0s and DELIVERED in 155.021s
   Satisfaction score: 100.0
-Passenger 6: INJECTED AT 44.0s and DELIVERED in 149.677s
-  Satisfaction score: 80.0
-    @189.284000000: 0.80 Failed to exit car at 2,BACK
-Passenger 9: INJECTED AT 62.0s and DELIVERED in 146.226s
+Passenger 9: INJECTED AT 62.0s and DELIVERED in 137.565s
   Satisfaction score: 100.0
-Passenger 18: INJECTED AT 100.0s and DELIVERED in 146.4s
+Passenger 12: INJECTED AT 83.0s and DELIVERED in 133.829s
+  Satisfaction score: 25.0
+    @196.400000000: 0.50 Car passed passenger's destination floor without servicing it
+    @206.970000000: 0.50 Expected to move DOWN but moved UP
+Passenger 18: INJECTED AT 100.0s and DELIVERED in 137.351s
   Satisfaction score: 90.0
-    @208.100000000: 0.90 Repeated hall call press
-Passenger 13: INJECTED AT 87.0s and DELIVERED in 176.833s
+    @199.520000000: 0.90 Repeated hall call press
+Passenger 13: INJECTED AT 87.0s and DELIVERED in 167.87s
   Satisfaction score: 100.0
-Passenger 14: INJECTED AT 90.0s and DELIVERED in 193.508s
+Passenger 14: INJECTED AT 90.0s and DELIVERED in 184.738s
   Satisfaction score: 100.0
-Passenger 5: INJECTED AT 41.0s and DELIVERED in 259.497s
+Passenger 5: INJECTED AT 41.0s and DELIVERED in 250.396s
   Satisfaction score: 100.0
-Passenger 11: INJECTED AT 77.0s and DELIVERED in 224.938s
+Passenger 11: INJECTED AT 77.0s and DELIVERED in 215.857s
   Satisfaction score: 100.0
-Passenger 16: INJECTED AT 96.0s and DELIVERED in 223.023s
+Passenger 19: INJECTED AT 108.0s and DELIVERED in 201.618s
   Satisfaction score: 100.0
-Passenger 19: INJECTED AT 108.0s and DELIVERED in 211.314s
+Passenger 16: INJECTED AT 96.0s and DELIVERED in 213.877s
   Satisfaction score: 100.0
 
 Passenger Delivery Summary
@@ -63,14 +64,14 @@ Stranded: 0
 Total: 20
 
 Deliver Stats (lower is better):
-Average_delivery_time: 137.543
-Maximum_delivery_time:  259.497
-Delivery_performance_score:  809.668
+Average_delivery_time: 134.821
+Maximum_delivery_time:  250.396
+Delivery_performance_score:  789.682
 
 Satisfaction Stats (higher is better):
-Average_satisfaction_score: 98.500
-Min_satisfaction_score:  80.000
-Satisfaction_performance_score:  474.000
+Average_satisfaction_score: 95.750
+Min_satisfaction_score:  25.000
+Satisfaction_performance_score:  408.000
 
 
 
@@ -82,5 +83,11 @@ Monitors Warning Results:
 RuntimeMonitor generated 2 warnings.
 
 Monitors Summmary Results: 
-null
+0 RT6 Warnings
+2 RT7 Warnings
+0 RT8.1 Warnings
+0 RT8.2 Warnings
+0 RT8.3 Warnings
+0 RT9 Warnings
+0 RT10 Warnings
 

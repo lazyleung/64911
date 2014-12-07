@@ -1,7 +1,7 @@
 
 Simulator Parameters:
 Command line = -pf ../portfolio/acceptance_test/test30.pass -b 200 -fs 5.0 -monitor RuntimeRequirementsMonitor
-RandomSeed = 1417922181262
+RandomSeed = 1417924624174
 CanNetworkBitTime = 5000 ns
 Effective Can Bitrate = 199999.99999999997
 Run Time = null
@@ -14,45 +14,45 @@ STATISTICS FOR ELEVATOR SIMULATION PASSENGER DELIVERY
 
 
 These passengers were delivered:
-Passenger 0: INJECTED AT 7.0s and DELIVERED in 33.871s
+Passenger 0: INJECTED AT 7.0s and DELIVERED in 35.196s
   Satisfaction score: 100.0
-Passenger 1: INJECTED AT 14.0s and DELIVERED in 63.109s
+Passenger 4: INJECTED AT 27.0s and DELIVERED in 50.389s
   Satisfaction score: 100.0
-Passenger 4: INJECTED AT 27.0s and DELIVERED in 51.932s
+Passenger 1: INJECTED AT 14.0s and DELIVERED in 65.12s
   Satisfaction score: 100.0
-Passenger 16: INJECTED AT 97.0s and DELIVERED in 45.017s
+Passenger 16: INJECTED AT 97.0s and DELIVERED in 45.119s
   Satisfaction score: 100.0
-Passenger 3: INJECTED AT 23.0s and DELIVERED in 138.964s
+Passenger 3: INJECTED AT 23.0s and DELIVERED in 138.497s
   Satisfaction score: 100.0
-Passenger 15: INJECTED AT 90.0s and DELIVERED in 89.706s
+Passenger 13: INJECTED AT 82.0s and DELIVERED in 97.417s
   Satisfaction score: 100.0
-Passenger 18: INJECTED AT 106.0s and DELIVERED in 73.819s
+Passenger 10: INJECTED AT 70.0s and DELIVERED in 110.174s
   Satisfaction score: 100.0
-Passenger 13: INJECTED AT 82.0s and DELIVERED in 99.242s
+Passenger 15: INJECTED AT 90.0s and DELIVERED in 91.234s
   Satisfaction score: 100.0
-Passenger 10: INJECTED AT 70.0s and DELIVERED in 111.244s
+Passenger 18: INJECTED AT 106.0s and DELIVERED in 75.717s
   Satisfaction score: 100.0
-Passenger 2: INJECTED AT 21.0s and DELIVERED in 202.277s
+Passenger 2: INJECTED AT 21.0s and DELIVERED in 195.139s
   Satisfaction score: 100.0
-Passenger 9: INJECTED AT 63.0s and DELIVERED in 178.729s
+Passenger 17: INJECTED AT 99.0s and DELIVERED in 134.288s
   Satisfaction score: 100.0
-Passenger 8: INJECTED AT 54.0s and DELIVERED in 189.692s
+Passenger 7: INJECTED AT 46.0s and DELIVERED in 189.219s
   Satisfaction score: 100.0
-Passenger 17: INJECTED AT 99.0s and DELIVERED in 146.362s
+Passenger 9: INJECTED AT 63.0s and DELIVERED in 173.861s
   Satisfaction score: 100.0
-Passenger 7: INJECTED AT 46.0s and DELIVERED in 200.53s
+Passenger 8: INJECTED AT 54.0s and DELIVERED in 184.044s
   Satisfaction score: 100.0
-Passenger 12: INJECTED AT 78.0s and DELIVERED in 188.62s
+Passenger 12: INJECTED AT 78.0s and DELIVERED in 180.76s
   Satisfaction score: 100.0
-Passenger 6: INJECTED AT 39.0s and DELIVERED in 245.089s
+Passenger 6: INJECTED AT 39.0s and DELIVERED in 237.945s
   Satisfaction score: 100.0
-Passenger 5: INJECTED AT 33.0s and DELIVERED in 268.931s
+Passenger 5: INJECTED AT 33.0s and DELIVERED in 261.389s
   Satisfaction score: 100.0
-Passenger 11: INJECTED AT 73.0s and DELIVERED in 247.267s
+Passenger 11: INJECTED AT 73.0s and DELIVERED in 239.281s
   Satisfaction score: 100.0
-Passenger 19: INJECTED AT 107.0s and DELIVERED in 215.121s
+Passenger 19: INJECTED AT 107.0s and DELIVERED in 206.86s
   Satisfaction score: 100.0
-Passenger 14: INJECTED AT 86.0s and DELIVERED in 258.083s
+Passenger 14: INJECTED AT 86.0s and DELIVERED in 250.985s
   Satisfaction score: 100.0
 
 Passenger Delivery Summary
@@ -61,9 +61,9 @@ Stranded: 0
 Total: 20
 
 Deliver Stats (lower is better):
-Average_delivery_time: 152.380
-Maximum_delivery_time:  268.931
-Delivery_performance_score:  878.452
+Average_delivery_time: 148.132
+Maximum_delivery_time:  261.389
+Delivery_performance_score:  853.916
 
 Satisfaction Stats (higher is better):
 Average_satisfaction_score: 100.000
@@ -80,5 +80,11 @@ Monitors Warning Results:
 RuntimeMonitor generated 2 warnings.
 
 Monitors Summmary Results: 
-null
+0 RT6 Warnings
+2 RT7 Warnings
+0 RT8.1 Warnings
+0 RT8.2 Warnings
+0 RT8.3 Warnings
+0 RT9 Warnings
+0 RT10 Warnings
 

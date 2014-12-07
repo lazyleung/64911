@@ -1,7 +1,7 @@
 
 Simulator Parameters:
 Command line = -pf ../portfolio/acceptance_test/test10.pass -b 200 -fs 5.0 -monitor RuntimeRequirementsMonitor
-RandomSeed = 1417922031868
+RandomSeed = 1417924478948
 CanNetworkBitTime = 5000 ns
 Effective Can Bitrate = 199999.99999999997
 Run Time = null
@@ -14,48 +14,48 @@ STATISTICS FOR ELEVATOR SIMULATION PASSENGER DELIVERY
 
 
 These passengers were delivered:
-Passenger 0: INJECTED AT 1.0s and DELIVERED in 39.139s
+Passenger 0: INJECTED AT 1.0s and DELIVERED in 39.115s
   Satisfaction score: 100.0
-Passenger 2: INJECTED AT 19.0s and DELIVERED in 56.679s
+Passenger 2: INJECTED AT 19.0s and DELIVERED in 56.003s
   Satisfaction score: 100.0
-Passenger 3: INJECTED AT 25.0s and DELIVERED in 88.063s
+Passenger 3: INJECTED AT 25.0s and DELIVERED in 87.131s
   Satisfaction score: 90.0
     @57.080000000: 0.90 Repeated hall call press
-Passenger 9: INJECTED AT 49.0s and DELIVERED in 82.265s
+Passenger 9: INJECTED AT 49.0s and DELIVERED in 80.857s
   Satisfaction score: 100.0
-Passenger 16: INJECTED AT 77.0s and DELIVERED in 71.605s
+Passenger 16: INJECTED AT 77.0s and DELIVERED in 70.777s
   Satisfaction score: 100.0
-Passenger 11: INJECTED AT 61.0s and DELIVERED in 105.918s
+Passenger 11: INJECTED AT 61.0s and DELIVERED in 105.167s
   Satisfaction score: 100.0
-Passenger 6: INJECTED AT 37.0s and DELIVERED in 130.058s
+Passenger 6: INJECTED AT 37.0s and DELIVERED in 129.258s
   Satisfaction score: 100.0
-Passenger 18: INJECTED AT 85.0s and DELIVERED in 98.895s
+Passenger 18: INJECTED AT 85.0s and DELIVERED in 98.291s
   Satisfaction score: 100.0
-Passenger 15: INJECTED AT 69.0s and DELIVERED in 149.655s
+Passenger 15: INJECTED AT 69.0s and DELIVERED in 149.058s
   Satisfaction score: 100.0
-Passenger 5: INJECTED AT 30.0s and DELIVERED in 206.224s
+Passenger 4: INJECTED AT 28.0s and DELIVERED in 208.507s
   Satisfaction score: 100.0
-Passenger 4: INJECTED AT 28.0s and DELIVERED in 209.53s
+Passenger 5: INJECTED AT 30.0s and DELIVERED in 208.468s
   Satisfaction score: 100.0
-Passenger 10: INJECTED AT 52.0s and DELIVERED in 221.296s
+Passenger 10: INJECTED AT 52.0s and DELIVERED in 220.558s
   Satisfaction score: 100.0
-Passenger 14: INJECTED AT 67.0s and DELIVERED in 223.673s
+Passenger 14: INJECTED AT 67.0s and DELIVERED in 223.236s
   Satisfaction score: 100.0
-Passenger 1: INJECTED AT 9.0s and DELIVERED in 282.701s
+Passenger 13: INJECTED AT 64.0s and DELIVERED in 228.152s
   Satisfaction score: 100.0
-Passenger 13: INJECTED AT 64.0s and DELIVERED in 228.986s
+Passenger 1: INJECTED AT 9.0s and DELIVERED in 284.648s
   Satisfaction score: 100.0
-Passenger 19: INJECTED AT 91.0s and DELIVERED in 216.426s
+Passenger 19: INJECTED AT 91.0s and DELIVERED in 216.102s
   Satisfaction score: 100.0
-Passenger 7: INJECTED AT 45.0s and DELIVERED in 262.857s
+Passenger 8: INJECTED AT 46.0s and DELIVERED in 261.121s
   Satisfaction score: 100.0
-Passenger 8: INJECTED AT 46.0s and DELIVERED in 263.489s
+Passenger 7: INJECTED AT 45.0s and DELIVERED in 263.249s
   Satisfaction score: 100.0
-Passenger 12: INJECTED AT 62.0s and DELIVERED in 283.487s
+Passenger 12: INJECTED AT 62.0s and DELIVERED in 283.365s
   Satisfaction score: 100.0
-Passenger 17: INJECTED AT 78.0s and DELIVERED in 287.512s
+Passenger 17: INJECTED AT 78.0s and DELIVERED in 287.475s
   Satisfaction score: 90.0
-    @307.700000000: 0.90 Repeated hall call press
+    @307.300000000: 0.90 Repeated hall call press
 
 Passenger Delivery Summary
 Delivered: 20
@@ -63,9 +63,9 @@ Stranded: 0
 Total: 20
 
 Deliver Stats (lower is better):
-Average_delivery_time: 175.423
-Maximum_delivery_time:  287.512
-Delivery_performance_score:  989.204
+Average_delivery_time: 175.027
+Maximum_delivery_time:  287.475
+Delivery_performance_score:  987.583
 
 Satisfaction Stats (higher is better):
 Average_satisfaction_score: 99.000
@@ -82,5 +82,11 @@ Monitors Warning Results:
 RuntimeMonitor generated 2 warnings.
 
 Monitors Summmary Results: 
-null
+0 RT6 Warnings
+2 RT7 Warnings
+0 RT8.1 Warnings
+0 RT8.2 Warnings
+0 RT8.3 Warnings
+0 RT9 Warnings
+0 RT10 Warnings
 
