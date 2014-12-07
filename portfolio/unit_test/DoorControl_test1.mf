@@ -1,5 +1,5 @@
   ; Unit test for DoorControll
-  ; Ting Xu
+  ; Eric Newhall
 
   #INCLUDE defines.mf ;include CAN id and period definitions
 
@@ -32,7 +32,7 @@
 
   ;transition 'T5.2'
   ;countdown > 0  
-  ;check that doors did not close too early
+  ;check that doors didn't close too early
   4.0s A F DoorMotor FRONT LEFT : command  == STOP
   
   ;state 'S5.3 CLOSING'
@@ -44,58 +44,44 @@
   10s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
  
   ;state 'S5.4 CLOSED'
-  11.5s A F DoorMotor FRONT LEFT : command  == STOP
+  10.5s A F DoorMotor FRONT LEFT : command  == STOP
 
   ;transition 'T5.5'
-  12.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
+  11.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT UP
 
   ;state 'S5.1 OPENING'
-  13.0s A F DoorMotor FRONT LEFT : command  == OPEN
+  12.0s A F DoorMotor FRONT LEFT : command  == OPEN
 
   ;transition 'T5.1'
-  13.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
-  13.5s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
+  12.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
+  12.5s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
 
   ;state 'S5.2 OPEN'
-  14.0s A F DoorMotor FRONT LEFT : command  == STOP
+  13.0s A F DoorMotor FRONT LEFT : command  == STOP
 
+  13.1s I DISPATCHER_PERIOD          N DESIRED_FLOOR_CAN_ID                     DesiredFloor = 2 FRONT UP
+    
   ;transition 'T5.2'
   ;countdown <= 0  
-  ;check that doors did not close too early
-  15.5s A F DoorMotor FRONT LEFT : command  == STOP
+  ;check that doors didn't start closing too early
+  13.5s A F DoorMotor FRONT LEFT : command  == STOP
 
-  16.0s I DISPATCHER_PERIOD      N DESIRED_FLOOR_CAN_ID       DesiredFloor = 3 FRONT UP
     
   ;state 'S5.3 CLOSING'
-  21.5s A F DoorMotor FRONT LEFT : command  == CLOSE
+  19.5s A F DoorMotor FRONT LEFT : command  == CLOSE
 
   ;transition 'T5.4'
-  22s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
-  22s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
-  22s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = true
+  20s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
+  20s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
+  20s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = true
 
   ;state 'S5.1 OPENING'
-  23.0s A F DoorMotor FRONT LEFT : command  == OPEN
-    
- ;transition 'T5.1'
-  23.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
-  23.5s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
+  21.0s A F DoorMotor FRONT LEFT : command  == OPEN
+
+  ;transition 'T5.1'
+  21.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
+  21.5s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
 
   ;state 'S5.2 OPEN'
-  24.0s A F DoorMotor FRONT LEFT : command  == STOP
+  22.0s A F DoorMotor FRONT LEFT : command  == STOP
 
-  ;transition 'T5.6'
-  25.0s A F DoorMotor FRONT LEFT : command  == STOP
-    
-  ;state 'S5.5 NUDGE'
-  37.5s A F DoorMotor FRONT LEFT : command  == NUDGE
-
-  38s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 FRONT UP
-
-
-  ;transition 'T5.7'
-  39s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
-  39s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
- 
-  ;state 'S5.4 CLOSED'
-  40.5s A F DoorMotor FRONT LEFT : command  == STOP
