@@ -619,47 +619,6 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 				break;
 		}
 		
-				/*
-			
-			case MOVING_RIGHT_DIRECTION:
-			case MOVING_WRONG_DIRECTION:
-				if(msg.speed()==0 && downCarLantern == true){
-					nextState = RT8_3States.STOPPED_DOWN;
-				}
-				else if (msg.speed()==0 && upCarLantern == true){
-					nextState = RT8_3States.STOPPED_UP;
-				}
-				
-				break;
-			case STOPPED_UP:
-				if(!(currentFloor==1)&&msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.DOWN){
-					nextState = RT8_3States.MOVING_WRONG_DIRECTION;
-				}
-				else if (msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.UP){
-					nextState = RT8_3States.MOVING_RIGHT_DIRECTION;
-				}
-				
-				else if (msg.speed()==0 && downCarLantern == true){
-					nextState = RT8_3States.STOPPED_DOWN;
-				}
-				
-				break;
-			case STOPPED_DOWN:
-				if(!(currentFloor==8)&&msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.UP){
-					nextState = RT8_3States.MOVING_WRONG_DIRECTION;
-				}
-				else if (msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.DOWN){
-					nextState = RT8_3States.MOVING_RIGHT_DIRECTION;
-				}
-				
-				else if (msg.speed()==0 && upCarLantern == true){
-					nextState = RT8_3States.STOPPED_UP;
-				}
-				
-				break;
-
-			}
-			*/
 			if (nextState != state) {
 				switch (nextState) {
 				case IDLE:
