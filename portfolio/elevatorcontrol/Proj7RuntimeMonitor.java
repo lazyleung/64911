@@ -11,24 +11,14 @@ import simulator.framework.Hallway;
 import simulator.framework.Harness;
 import simulator.framework.RuntimeMonitor;
 import simulator.framework.Side;
+import simulator.payloads.AtFloorPayload.ReadableAtFloorPayload;
 import simulator.payloads.CarWeightPayload.ReadableCarWeightPayload;
 import simulator.payloads.DoorClosedPayload.ReadableDoorClosedPayload;
 import simulator.payloads.DoorMotorPayload.ReadableDoorMotorPayload;
 import simulator.payloads.DoorOpenPayload.ReadableDoorOpenPayload;
 import simulator.payloads.DriveSpeedPayload.ReadableDriveSpeedPayload;
 
-/**
- * This monitoring class gives you a starting point for the performance checks
- * you will do in project 7.
- *
- * This monitor detects the number of stops where the car becomes overweight
- * when the door are open.  Each stop counted at most once, unless the doors
- * close completely and then reopen at the same floor.
- *
- * See the documentation of simulator.framework.RuntimeMonitor for more details.
- * 
- * @author Justin Ray
- */
+
 public class Proj7RuntimeMonitor extends RuntimeMonitor {
 
     DoorStateMachine doorState = new DoorStateMachine();
@@ -43,6 +33,9 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
     boolean weightChanged = false;
     boolean checkWeightChange = false;
     boolean doorOpened = false;
+    boolean doorOpening = false;
+	protected int currentFloor = MessageDictionary.NONE;
+
     public Proj7RuntimeMonitor() {
     }
 
@@ -51,7 +44,7 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
         String[] arr = new String[3];
         arr[0] = "Overweight Count = " + overWeightCount;
         arr[1] = "Wasted Openings Count = " + wastedOpeningsCount;
-        arr[2] = "Door Reversl Time = " + doorReverslTime;
+        arr[2] = "Door Reversal Time = " + doorReverslTime;
         return arr;
     }
 
@@ -65,11 +58,40 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
      * these are called by the logic in the message receiving methods and the
      * state machines
      **************************************************************************/
+    private void updateCurrentFloor(ReadableAtFloorPayload lastAtFloor) {
+		if (lastAtFloor.getFloor() == currentFloor) {
+			// the atFloor message is for the currentfloor, so check both sides
+			// to see if they a
+			if (!atFloors[lastAtFloor.getFloor() - 1][Hallway.BACK.ordinal()]
+					.value()
+					&& !atFloors[lastAtFloor.getFloor() - 1][Hallway.FRONT
+							.ordinal()].value()) {
+				// both sides are false, so set to NONE
+				currentFloor = MessageDictionary.NONE;
+			}
+			// otherwise at least one side is true, so leave the current floor
+			// as is
+		} else {
+			if (lastAtFloor.value()) {
+				currentFloor = lastAtFloor.getFloor();
+			}
+		}
+	}
     /**
      * Called once when the door starts opening
      * @param hallway which door the event pertains to
      */
     private void doorOpening(Hallway hallway) {
+    	doorOpening = true; 	
+    	if(doorOpening && (!carLights[currentFloor - 1][0].lighted()
+				&& !carLights[currentFloor - 1][1].lighted()
+				&& !hallLights[currentFloor - 1][0][0].lighted()
+				&& !hallLights[currentFloor - 1][1][0].lighted()
+				&& !hallLights[currentFloor - 1][0][1].lighted()
+				&& !hallLights[currentFloor - 1][1][1].lighted())){
+        	wastedOpeningsCount++;
+        	System.out.println("wasted opening!");
+        }
     }
 
     /**
@@ -111,14 +133,13 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
             doorReverslTime += stopwatch.getAccumulatedTime().getFracSeconds();
             isReversal = false;
         }
-        if(doorOpened && !weightChanged){
-        	wastedOpeningsCount++;
-        }
         checkWeightChange = false;
 		weightChanged = false;
 		doorOpened = false;
     }
 
+    
+    
     /**
      * Called once when the doors are fully open
      * @param hallway which door the event pertains to
@@ -144,6 +165,9 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
      * 
      * These mostly forward messages to the appropriate state machines
      **************************************************************************/
+	public void receive(ReadableAtFloorPayload msg) {
+		updateCurrentFloor(msg);
+	}
     @Override
     public void receive(ReadableDoorClosedPayload msg) {
         doorState.receive(msg);
