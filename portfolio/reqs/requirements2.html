@@ -1012,26 +1012,19 @@ positions at all times.<br>
 5.5&nbsp;&nbsp;&nbsp; If CarWeight(x) &gt;= MaxCarCapacity, the doors
 shall open completely until the car is no longer overloaded.
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
-5.6 &nbsp;&nbsp; If any ((mAtFloor[mDesiredFloor.f, b] = True or (mHallCall[mAtFloor.f, b, DesiredDirection] = True) , and (mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop)))
-then: <br>
-&nbsp;&nbsp;&nbsp; 5.6.1&nbsp; DoorMotor[b, r] shall be commanded to
-Open; <br>
+5.6 &nbsp;&nbsp; If any ((mAtFloor[mDesiredFloor.f, b] = True and (mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop))) then: <br>
+&nbsp;&nbsp;&nbsp; 5.6.1&nbsp; DoorMotor[b, r] shall be commanded to Open; <br>
 &nbsp;&nbsp;&nbsp; 5.6.2&nbsp; CountDown shall be set to Dwell.<br>
 
 5.7 &nbsp;&nbsp; If mDoorOpened[b, r] is True, then<br>
 &nbsp;&nbsp;&nbsp; 5.7.1&nbsp; DoorMotor[b,r] shall be commanded to
 Stop.<br>
 &nbsp;&nbsp;&nbsp; 5.7.2&nbsp; CountDown shall be decremented.<br>
-5.8&nbsp; If mDoorClosed[b, r] is True, then DoorMotor[b,r] should be
-commanded to Stop.<br>
-5.9 When Reversal = false and CountDown &lt;= 0 AND mCarWeight &lt; MaxCarCapacity, DoorMotor[b,r] should be commanded
-to Close.<br>
-5.10 If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorOpened[b, r] is
-False, DoorMotor[b, r] shall be commanded to Open.<br>
+5.8&nbsp; If mDoorClosed[b, r] is True, then DoorMotor[b,r] should be commanded to Stop.<br>
+5.9 When CountDown &lt;= 0 AND mCarWeight &lt; MaxCarCapacity, DoorMotor[b,r] should be commanded to Close.<br>
+5.10 If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorOpened[b, r] is False, DoorMotor[b, r] shall be commanded to Open.<br>
 5.11 mDoorMotor[b,r] shall be set to the current value of DoorMotor[b,r]<br>
 5.12 If mDoorReversal[b,*] is true and mDoorMotor = Close, then DoorMotor[b,*] shall be commanded to Open.<br>
-5.13 When Reversal = true and CountDown &lt;= 0 AND mCarWeight &lt; MaxCarCapacity, DoorMotor[b,r] should be commanded to Nudge.<br>
-
 
 <p> <img style="width: 550px; height: 283x;" alt="DoorControl Statechart" src="DoorControl_state_diagram.png"><br clear="left"> </p>
 <table style="text-align: left; width: 800px; height: 172px;" border="1" cellpadding="2" cellspacing="2">
@@ -1046,7 +1039,7 @@ False, DoorMotor[b, r] shall be commanded to Open.<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">T5.2</td>
-      <td style="vertical-align: top;">Reversal = false and mCarWeight &lt; MaxCarCapacity and CountDown &lt;= 0 and mDesiredFloor.f != mAtFloor.f</td>
+      <td style="vertical-align: top;">mCarWeight &lt; MaxCarCapacity and CountDown &lt;= 0 and mDesiredFloor.f != mAtFloor.f</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T5.3</td>
@@ -1060,16 +1053,6 @@ False, DoorMotor[b, r] shall be commanded to Open.<br>
       <td style="vertical-align: top;">T5.5<br>
       </td>
       <td style="vertical-align: top;">mCarWeight &gt;= MaxCarCapacity or ((mAtFloor[mDesiredFloor.f, b] = True or (mHallCall[mAtFloor.f, b,DesiredDirection] = True) , and (mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop)))</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">T5.6<br>
-      </td>
-      <td style="vertical-align: top;">Reversal = true and mCarWeight &lt; MaxCarCapacity and CountDown &lt;= 0 and mDesiredFloor.f != mAtFloor.f</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">T5.7<br>
-      </td>
-      <td style="vertical-align: top;">mDoorClosed[b,r] = Closed </td>
     </tr>
   </tbody>
 </table>
@@ -1109,7 +1092,6 @@ False, DoorMotor[b, r] shall be commanded to Open.<br>
         DoorMotor[b,r] = Close <br>
 	    mDoorMotor[b,r] = Close <br>
 	    CountDown = CountDown <br>
-      	Reversal = true<br>
 	</td>
     </tr>
   <tr>
@@ -1118,16 +1100,6 @@ False, DoorMotor[b, r] shall be commanded to Open.<br>
       <td style="vertical-align: top;">
         DoorMotor[b,r] = Stop <br>
 	    mDoorMotor[b,r] = Stop <br>
-	    CountDown = CountDown <br>
-	Reversal = false
-      </td>
-    </tr>
-   <tr>
-      <td style="vertical-align: top;">S5.5 NUDGE<br> </td>
-      <td style="vertical-align: top;">Car doors detected an object and switch to nudge speed</td>
-      <td style="vertical-align: top;">
-        DoorMotor[b,r] = Nudge <br>
-	    mDoorMotor[b,r] = Nudge <br>
 	    CountDown = CountDown <br>
       </td>
     </tr>
@@ -1181,10 +1153,6 @@ completed by Mengzhe Li (mzli)<br>
 	  <td
  style="vertical-align: top; background-color: rgb(204, 204, 204);">R5.12<br>
       </td>
-      <td
- style="vertical-align: top; background-color: rgb(204, 204, 204);">R5.13<br>
-      </td>
-
     </tr>
     <tr>
       <td
@@ -1208,8 +1176,6 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
     </tr>
     <tr>
       <td
@@ -1229,8 +1195,6 @@ completed by Mengzhe Li (mzli)<br>
       <td style="vertical-align: top;"><br>
 	  </td>
       <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -1257,8 +1221,6 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
 	  </tr>
 	  <tr>
       <td
@@ -1282,35 +1244,8 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
 	  </tr>
-    <tr>
- <td
- style="vertical-align: top; background-color: rgb(204, 204, 204);">S5.5:&nbsp; NUDGE<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-	  </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-	  </tr>
-    <tr>
+     <tr>
       <td
  style="vertical-align: top; background-color: rgb(204, 204, 204);"><span
  style="font-weight: bold;">Transitions</span><br>
@@ -1318,8 +1253,6 @@ completed by Mengzhe Li (mzli)<br>
       <td style="vertical-align: top;"><br>
       </td>
 	   <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -1358,8 +1291,6 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
     </tr>
     <tr>
       <td
@@ -1379,8 +1310,6 @@ completed by Mengzhe Li (mzli)<br>
       <td style="vertical-align: top;"><br>
 	  </td>
       <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -1406,8 +1335,6 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
     </tr>
     <tr>
       <td
@@ -1426,8 +1353,6 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
 	  </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
       <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
@@ -1454,57 +1379,8 @@ completed by Mengzhe Li (mzli)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
     </tr>
  <tr>
-      <td
- style="vertical-align: top; background-color: rgb(204, 204, 204);">T5.6</td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-	  </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-    </tr>
- <tr>
-      <td
- style="vertical-align: top; background-color: rgb(204, 204, 204);">T5.7</td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-	  </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-    </tr>
   </tbody>
 </table>
 <h2><a name="drivecontrol"></a> 6. DriveControl </h2>
