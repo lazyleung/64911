@@ -38,6 +38,14 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 	protected int currentFloor = MessageDictionary.NONE;
 	protected Hallway currentHallway = Hallway.NONE;
 	protected boolean reversal[][] = new boolean[2][2];
+	
+	protected int RT6Count = 0;
+	protected int RT7Count = 0;
+	protected int RT8_1Count = 0;
+	protected int RT8_2Count = 0;
+	protected int RT8_3Count = 0;
+	protected int RT9Count = 0;
+	protected int RT10Count = 0;
 
 	@Override
 	public void timerExpired(Object callbackData) {
@@ -47,7 +55,14 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 	@Override
 	protected String[] summarize() {
 		// no outputs
-		String[] arr = new String[1];
+		String[] arr = new String[7];
+		arr[0] = RT6Count+" RT6 Warnings";
+		arr[1] = RT7Count+" RT7 Warnings";
+		arr[2] = RT8_1Count+" RT8.1 Warnings";
+		arr[3] = RT8_2Count+" RT8.2 Warnings";
+		arr[4] = RT8_3Count+" RT8.3 Warnings";
+		arr[5] = RT9Count+" RT9 Warnings";
+		arr[6] = RT10Count+" RT10 Warnings";
 		return arr;
 	}
 
@@ -63,7 +78,6 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 			int floor = msg.getFloor();
 			mHallCalls[floor - 1][msg.getHallway().ordinal()][msg
 					.getDirection().ordinal()] = true;
-			//warning("Hallcall: floor "+floor+"Hallway "+msg.getHallway());
 		}
 	}
 
@@ -121,7 +135,6 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 		mCarCalls[currentFloor-1][msg.getHallway().ordinal()]=carLights[currentFloor-1][msg.getHallway().ordinal()].lighted();
 		mHallCalls[currentFloor-1][msg.getHallway().ordinal()][0]=hallLights[currentFloor-1][msg.getHallway().ordinal()][0].lighted();
 		mHallCalls[currentFloor-1][msg.getHallway().ordinal()][1]=hallLights[currentFloor-1][msg.getHallway().ordinal()][1].lighted();
-		//warning("Floor served: floor "+currentFloor+" hallway: "+msg.getHallway());
 
 
 	}
@@ -272,6 +285,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 						warning("R-T.6 Violated: Car stopped at Floor "
 								+ currentFloor
 								+ " when there is no pending calls");
+						RT6Count++;
 						warningIssued = true;
 					}
 					break;
@@ -292,9 +306,6 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 		}
 
 		public void receive(ReadableDoorClosedPayload msg) {
-			if (!msg.isClosed()) {
-				// warning("door open!");
-			}
 			updateState(msg);
 
 		}
@@ -330,6 +341,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 					warning("R-T.7 Violated: Car doors open at Floor "
 							+ currentFloor + " " + msg.getHallway()
 							+ " when there is no pending calls");
+					RT7Count++;
 					break;
 				}
 			}
@@ -381,6 +393,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 								+ " "
 								+ msg.getSide()
 								+ " Car doors are nudging when no door reversals have occured");
+						RT10Count++;
 						warningIssued = true;
 					}
 					break;
@@ -449,6 +462,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 					break;
 				case STOPPED_NO_FAST:
 					warning("R-T.9 Violated: Car is not reaching fast speed");
+					RT9Count++;
 					break;
 				}
 			}
@@ -507,6 +521,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 					break;
 				case OPEN_OFF:
 					warning("R-T.8.1 Violated: Lanterns off while call is pending ");
+					RT8_1Count++;
 					break;
 				}
 			}
@@ -564,6 +579,7 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 					break;
 				case LANTERNS_CHANGED:
 					warning("R-T.8.2 Violated: Lanterns changed while doors open");
+					RT8_2Count++;
 					break;
 				}
 			}
@@ -603,65 +619,13 @@ public class RuntimeRequirementsMonitor extends RuntimeMonitor {
 				break;
 		}
 		
-				/*
-			
-			case MOVING_RIGHT_DIRECTION:
-			case MOVING_WRONG_DIRECTION:
-				if(msg.speed()==0 && downCarLantern == true){
-					nextState = RT8_3States.STOPPED_DOWN;
-				}
-				else if (msg.speed()==0 && upCarLantern == true){
-					nextState = RT8_3States.STOPPED_UP;
-				}
-				
-				break;
-			case STOPPED_UP:
-				if(!(currentFloor==1)&&msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.DOWN){
-					nextState = RT8_3States.MOVING_WRONG_DIRECTION;
-				}
-				else if (msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.UP){
-					nextState = RT8_3States.MOVING_RIGHT_DIRECTION;
-				}
-				
-				else if (msg.speed()==0 && downCarLantern == true){
-					nextState = RT8_3States.STOPPED_DOWN;
-				}
-				
-				break;
-			case STOPPED_DOWN:
-				if(!(currentFloor==8)&&msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.UP){
-					nextState = RT8_3States.MOVING_WRONG_DIRECTION;
-				}
-				else if (msg.speed()>DriveObject.LevelingSpeed && msg.direction()==Direction.DOWN){
-					nextState = RT8_3States.MOVING_RIGHT_DIRECTION;
-				}
-				
-				else if (msg.speed()==0 && upCarLantern == true){
-					nextState = RT8_3States.STOPPED_UP;
-				}
-				
-				break;
-
-			}
-			*/
 			if (nextState != state) {
 				switch (nextState) {
-				//case MOVING_RIGHT_DIRECTION:
-					//warning("MOVING_RIGHT_DIRECTION");
-					//break;
-				//case STOPPED_UP:
-					//warning("STOPPED_UP");
-					//break;
-				//case STOPPED_DOWN:
-					//warning("STOPPED_DOWN");
-					//break;
-				//case MOVING_WRONG_DIRECTION:
-					//warning("R-T.8.3 Violated: Lanterns did not match direction of travel");
-					//break;
 				case IDLE:
 					break;
 				case WRONG_DIRECTION:
 					warning("R-T.8.3 Violated: Lanterns did not match direction of travel");
+					RT8_3Count++;
 					break;
 				}
 			}
