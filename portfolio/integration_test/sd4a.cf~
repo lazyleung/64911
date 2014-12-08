@@ -10,4 +10,3 @@ DoorControl FRONT LEFT 10ms true
 DoorControl FRONT RIGHT 10ms true
 DoorControl BACK LEFT 10ms true
 DoorControl BACK RIGHT 10ms true
-Dispatcher 50ms true

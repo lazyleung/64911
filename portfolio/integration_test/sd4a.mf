@@ -5,7 +5,7 @@
 ;Mengzhe Li/mzli
 ;Ting Xu/tingx
 
-;sd1b.mf
+;sd4a.mf
 
 #INCLUDE defines.mf
 
@@ -15,9 +15,9 @@
 ;set input initial value
 0.0s I DRIVE_PERIOD                 F                                           DriveSpeed = UP 0.25
 0.0s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0.25 UP
-0.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 STOP BOTH
-0.0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 1
-0.0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[BACK]_CAN_ID               Integer = 1
+;0.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 STOP BOTH
+;0.0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 1
+;0.0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[BACK]_CAN_ID               Integer = 1
 0.0s I EMERGENCY_BRAKE_PERIOD       N EMERGENCY_BRAKE_CAN_ID                    SafetySensor = false
 0.0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
 0.0s I HOISTWAY_LIMIT_PERIOD        N HOISTWAY_LIMIT_[UP]_CAN_ID                HoistwayLimitSensor UP = false
@@ -48,6 +48,7 @@
 ;#arc '4A/3'
 2.5s I DRIVE_PERIOD                 F                                           DriveSpeed = STOP 0
 2.5s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
+2.5s I CAR_BUTTON_CONTROL_PERIOD    N CAR_CALL_[2][BACK]_CAN_ID                 MyBoolean = true
 
 3.0s A F DriveSpeed : speed == 0;
 
@@ -56,16 +57,27 @@
 4.0s A F DoorMotor BACK RIGHT : command == OPEN
 
 ;#arc '4A/4b'
-5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
-5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorOpened FRONT RIGHT = true
-5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID      DoorOpened BACK LEFT = true
-5.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = true
+5.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
+5.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID  DoorClosed FRONT RIGHT = false
+5.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID    DoorClosed BACK LEFT = false
+5.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID   DoorClosed BACK RIGHT = false
+5.0s I CAR_BUTTON_CONTROL_PERIOD    N CAR_CALL_[2][BACK]_CAN_ID                 MyBoolean = false
 
 ;#arc '4A/4c'
-6.0s A F DoorMotor FRONT LEFT : command == STOP
-6.0s A F DoorMotor FRONT RIGHT : command == STOP
-6.0s A F DoorMotor BACK LEFT : command == STOP
-6.0s A F DoorMotor BACK RIGHT : command == STOP
+5.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+
+;#arc '4A/4d'
+7.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
+7.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorOpened FRONT RIGHT = true
+7.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID      DoorOpened BACK LEFT = true
+7.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = true
+
+;#arc '4A/4e'
+10.8s A F DoorMotor FRONT LEFT : command == STOP
+10.8s A F DoorMotor FRONT RIGHT : command == STOP
+10.8s A F DoorMotor BACK LEFT : command == STOP
+10.8s A F DoorMotor BACK RIGHT : command == STOP
+
 
 ;#arc '4A/5'
 ;Passenger exits.
