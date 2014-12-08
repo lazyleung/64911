@@ -1,0 +1,98 @@
+; 18649 Fall 2014
+; Group 11
+; Eric Newhall (enewhall), Jonathan Leung (jkleung1), Mengzhe Li (mzli), Ting Xu (tingx)
+; final_dispatcher_test5.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+;set input initial value
+0.0s I CAR_BUTTON_CONTROL_PERIOD F CarCall 2 BACK = false
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+0.0s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+0.0s I AT_FLOOR_PERIOD N AT_FLOOR_[5][FRONT]_CAN_ID AtFloor 5 FRONT = true
+
+
+;#state 'S11.1 INIT'
+0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+0.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+
+;#transition 'T11.1'
+0.8s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
+1.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+1.0s I AT_FLOOR_PERIOD N AT_FLOOR_[1][BACK]_CAN_ID AtFloor 1 BACK = true
+
+
+
+;#state 'S11.2 DISPATCH_UP'
+1.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+1.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+1.2s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+
+1.4s I AT_FLOOR_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = false
+1.4s I AT_FLOOR_PERIOD N AT_FLOOR_[1][BACK]_CAN_ID AtFloor 1 BACK = false
+
+;#transition 'T11.3'
+;no calls
+
+;#state 'S11.3 DISPATCH_DOWN'
+1.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+1.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+1.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+
+;#transition 'T11.17'
+2.3s I CAR_BUTTON_CONTROL_PERIOD N CAR_CALL_[3][FRONT]_CAN_ID CarCall 3 FRONT = true
+
+;#state 'S11.7 SERVICE_CARCALL_DOWN'
+2.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
+2.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+2.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
+
+;#transition 'T11.18'
+;true
+
+;#state 'S11.8 INFLIGHT_CARCALL_DOWN'
+2.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
+2.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+2.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
+
+
+;#transition 'T11.19'
+3.1s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+3.1s I CAR_BUTTON_CONTROL_PERIOD N CAR_CALL_[3][FRONT]_CAN_ID CarCall 3 FRONT = false
+3.3s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+3.3s I AT_FLOOR_PERIOD N AT_FLOOR_[5][FRONT]_CAN_ID AtFloor 5 FRONT = false
+3.3s I AT_FLOOR_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor  3 FRONT = true
+
+;#state 'S11.3 DISPATCH_DOWN'
+3.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
+3.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+3.5s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
+
+
+;#transition 'T11.1'
+4.0s I CAR_BUTTON_CONTROL_PERIOD N CAR_CALL_[2][BACK]_CAN_ID CarCall 2 BACK = true
+
+;#state 'S11.17 SERVICE_CARCALL_DOWN'
+4.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
+4.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+4.6s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == BACK
+
+;#transition 'T11.18'
+;true
+
+;#state 'S11.9 INFLIGHT_CARCALL_DOWN'
+4.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
+4.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+4.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == BACK
+
+
+;#transition 'T11.23'
+6.3s I AT_FLOOR_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
+6.3s I DOOR_CLOSED_SENSOR_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+
+;#state 'S11.14 EMERGENCY'
+9.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+9.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+9.7s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
