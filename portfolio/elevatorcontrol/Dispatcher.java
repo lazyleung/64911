@@ -613,7 +613,7 @@ public class Dispatcher extends simulator.framework.Controller{
             DesiredHallway = HallCallDownHall; 
             mDesiredFloor.set(Target, DesiredDirection, DesiredHallway);
             
-            //#trnasition 'T11.9'
+            //#transition 'T11.9'
             newState = State.STATE_INFLIGHT_HALLCALL_DOWN;
             break;
         case STATE_INFLIGHT_HALLCALL_UP:
