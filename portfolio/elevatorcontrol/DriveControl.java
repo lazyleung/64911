@@ -201,7 +201,7 @@ public class DriveControl extends Controller implements TimeSensitive {
                     countdown = -1;
                 }
 	            if(countdown<0){
-                    log("T6.15");
+                    log("T6.15"); //#transition 'T6.15'
                     nextState = State.STOP;
                 }
 	         break;
