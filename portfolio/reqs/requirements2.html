@@ -3135,14 +3135,15 @@ below Lobby (1). </li>
   <li>ClosestFloorUp[f,b]: the closer floor of ClosestHallCallUp and ClosestCarHallUp, or [-1,NONE, STOP] is no such f,b exist. [-1, NONE] if none exist.</li>
   <li>ClosestFloorDown[f,b]: the closer floor of ClosestHallCallDown and ClosestCarHallDown, or [-1,NONE, STOP] is no such f,b exist. [-1, NONE] if none exist.</li>
   <li>FarthestHallCallUp[f,b]: the farthest floor and hallway for which there is a hall call going down, and above or equal to CurFloor. [-1, NONE] if none exist.</li>
-  <li>FarthestHallCallDown: the farthest floor and hallway for which there is a hall call going up, and below or equal to CurFloor. [-1, NONE] if none exist.</li>
+  <li>FarthestHallCallDown[f,b]: the farthest floor and hallway for which there is a hall call going up, and below or equal to CurFloor. [-1, NONE] if none exist.</li>
   <li>ClosestFloor[f,b]: the closest floor to service from CurFloor, will be either ClosestFloorUp or ClosestFloorDown. [-1, NONE] if none exist.</li>
   <li>ClosestCarCall[f,b]: the closestCarCall to service from CurFloor, will be either ClosestCarCallUp or ClosestCarCallDown. [-1, NONE] if none exist.</li>
   <li>ClosestHallCall[f,b]: the closestHallCall to service from CurFloor, will be either ClosestHallCallUp or ClosestHallCallDown. [-1, NONE] if none exist.</li>
   <li>FarthestHallCall[f,b]: the farthestHallCall to service from CurFloor, will be either FarthestHallCallUp or FarthestHallCallDown. [-1, NONE] if none exist.</li>
   <li>CarCallDirection: the DesiredDirection after servicing a carCall, computed based on whether there are more pending calls past that floor.</li>
   <li>HallCallDirection: the DesiredDirection after servicing a hallCall, computed based on whether the hallCall is for up or down direction.</li>
-  <li>Target: an integer Floor number for desired Floor, initialized to Lobby = 1. </li>
+  <li>HallCallHall: the DesiredHallway of the hall call to be serviced, computed based on ClosestHallCall.b or FarthestHallCall.b</li>
+    <li>Target: an integer Floor number for desired Floor, initialized to Lobby = 1. </li>
   <li>DesiredHall: the intented hallway at the next stop, initialized to NONE.</li>
   <li>DesiredDirection: the intented direction after next stop, initialized to STOP. </li>
   <li>Countdown: a countdown to wait before updating mDesiredFloor after passenger enter the car, to allow passenger to make the car call.</li>
@@ -3185,9 +3186,9 @@ d) shall not be Down when f = 1.
 &nbsp;&nbsp; 11.12.2&nbsp; DesiredDirection shall be set to STOP.<br>
 &nbsp;&nbsp; 11.12.3&nbsp; DesiredHallway shall be set to NONE.<br>
 
-<p><a href="finaldispatcher.png"><img
- alt="finaldispatcher.png" src="finaldispatcher.png"
- style="border: 0px solid ; width: 920px; height: 730px;"></a><br>
+<p><a href="finalDispatcher_v2.png"><img
+ alt="finalDispatcher_v2.png" src="finalDispatcher_v2.png"
+ style="border: 0px solid ; width: 1045px; height: 745px;"></a><br>
 </p>
 
 <table style="text-align: left; width: 920px;" border="1"
@@ -3202,7 +3203,7 @@ d) shall not be Down when f = 1.
 
     <tr>
       <td style="vertical-align: top;">T11.1<br> </td>
-      <td style="vertical-align: top;">!(anyDoorOpen && (!atFloor))</td>
+      <td style="vertical-align: top;">!((any mDoorClosed = false) && (!atFloor))</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">T11.2</td>
@@ -3226,7 +3227,7 @@ d) shall not be Down when f = 1.
     </tr>
      <tr>
       <td style="vertical-align: top;">T11.7<br> </td>
-      <td style="vertical-align: top;">countdown &lt;= 0</td>
+      <td style="vertical-align: top;">Countdown &lt;= 0</td>
     </tr>
      <tr>
       <td style="vertical-align: top;">T11.8<br> </td>
@@ -3242,7 +3243,7 @@ d) shall not be Down when f = 1.
     </tr>
  <tr>
       <td style="vertical-align: top;">T11.11<br> </td>
-      <td style="vertical-align: top;">countdown &lt;= 0</td>
+      <td style="vertical-align: top;">Countdown &lt;= 0</td>
     </tr>
  <tr>
       <td style="vertical-align: top;">T11.12<br> </td>
@@ -3296,6 +3297,16 @@ d) shall not be Down when f = 1.
       <td style="vertical-align: top;">T11.24<br> </td>
       <td style="vertical-align: top;">!atFloor && anyDoorOpen</td>
     </tr>
+       <tr>
+      <td style="vertical-align: top;">T11.25<br> </td>
+      <td style="vertical-align: top;">all mDoorClosed == true</td>
+    </tr>
+ <tr>
+      <td style="vertical-align: top;">T11.26<br> </td>
+      <td style="vertical-align: top;">all mDoorClosed == true</td>
+    </tr>
+      
+      
   </tbody>
 </table>
 
@@ -3320,17 +3331,17 @@ d) shall not be Down when f = 1.
     <tr>
       <td style="vertical-align: top;">S11.2 <br>DISPATCH_UP<br> </td>
       <td style="vertical-align: top;">Look for a floor above the current floor to go to, if none are found change state and look down</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME <br> <br>
+      <td style="vertical-align: top;">countdown=WAIT_TIME <br> mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S11.3 <br>DISPATCH_DOWN<br> </td>
       <td style="vertical-align: top;">Look for a floor below the current floor to go to, if none are found change state and look up</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME <br>
+      <td style="vertical-align: top;">countdown=WAIT_TIME <br> mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S11.4 <br>SERVICE_HALLCALL_UP<br> </td>
       <td style="vertical-align: top;">The dispatcher waits for a hall call above the current floor to be serviced before making new decisions</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME <br> DesiredDirection=UP<br>mDesiredFloor=closestHallCall<br>
+      <td style="vertical-align: top;">countdown=WAIT_TIME <br> DesiredDirection=UP<br>Target=closestHallCall<br> DesireHallway=HallCallHall<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S11.5 <br>SERVICE_HALLCALL_DOWN<br> </td>
@@ -3340,22 +3351,40 @@ d) shall not be Down when f = 1.
 <tr>
       <td style="vertical-align: top;">S11.6 <br>SERVICE_CARCALL_UP<br> </td>
       <td style="vertical-align: top;">The dispatcher waits for a car call above the current floor to be serviced before making new decisions</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME<br> DesiredDirection=UP<br>mDesiredFloor=closestCarCall
+      <td style="vertical-align: top;">countdown=WAIT_TIME <br> DesiredDirection=CarCallDirection<br>Target=closestFloor.f<br> DesireHallway=ClosestFloor.b<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
 <tr>
       <td style="vertical-align: top;">S11.7 <br>SERVICE_CARCALL_DOWN<br> </td>
       <td style="vertical-align: top;">The dispatcher waits for a car call below the current floor to be serviced before making new decisions</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME<br> DesiredDirection=DOWN<br>mDesiredFloor=closestCarCall
+      <td style="vertical-align: top;">countdown=WAIT_TIME <br> DesiredDirection=CarCallDirection<br>Target=ClosestFloor.f<br> DesireHallway=ClosestFloor.b<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
 <tr>
       <td style="vertical-align: top;">S11.12 <br>WAIT_HALLCALL_DOWN<br> </td>
       <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a floor below or equal to the current floor</td>
-      <td style="vertical-align: top;">countdown = (countdown - period.getFracSeconds())<br>
+      <td style="vertical-align: top;">countdown = countdown - period<br>mDesiredFloor = [Target, DesiredDirection, DesiredHallway] <br>
     </tr>
 <tr>
       <td style="vertical-align: top;">S11.13 <br>WAIT_HALLCALL_UP<br> </td>
       <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a below above or equal to the current floor</td>
-      <td style="vertical-align: top;">countdown = (countdown - period.getFracSeconds())<br>
+      <td style="vertical-align: top;">countdown = countdown - period<br>mDesiredFloor = [Target, DesiredDirection, DesiredHallway] <br>
+    </tr>
+      
+      <tr>
+      <td style="vertical-align: top;">S11.14 <br>EMERGENCY<br> </td>
+      <td style="vertical-align: top;">Direction the Elevator to [1, NONE, STOP]</td>
+      <td style="vertical-align: top;">Target = 1<br> DesiredDirection = STOP<br> DesiredHallway = NONE<br> mDesiredFloor = [Target, DesiredDirection, DesiredHallway]<br>
+    </tr>
+      
+      <tr>
+      <td style="vertical-align: top;">S11.13 <br>SERVICED_HALLCALL_UP<br> </td>
+      <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a below above or equal to the current floor</td>
+      <td style="vertical-align: top;">mDesiredFloor = [Target, DesiredDirection, DesiredHallway]<br>
+    </tr>
+      
+      <tr>
+      <td style="vertical-align: top;">S11.13 <br>SERVICED_HALLCALL_UP<br> </td>
+      <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a below above or equal to the current floor</td>
+      <td style="vertical-align: top;">mDesiredFloor = [Target, DesiredDirection, DesiredHallway]<br>
     </tr>
   </tbody>
 </table>
