@@ -1,18 +1,18 @@
 
 Simulator Parameters:
-Command line = -cf ../portfolio/integration_test/sd8b.cf -mf ../portfolio/integration_test/sd8b.mf
-RandomSeed = 1413507282205
+Command line = -cf sd8b.cf -mf sd8b.mf
+RandomSeed = 1418058354481
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
 Real time rate = null
-Message File = ../portfolio/integration_test/sd8b.mf
-Controller File = ../portfolio/integration_test/sd8b.cf
+Message File = sd8b.mf
+Controller File = sd8b.cf
 
 Assertion Results:
-@2.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@bd0b0fa5 :: getFloor ?== 1 PASSED
-@2.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@88343b52 :: getDirection ?== STOP PASSED
-@2.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@a7e79eeb :: getHallway ?== NONE PASSED
+@2.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@10c5430f :: getFloor ?== 1 PASSED
+@2.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@4aa73051 :: getDirection ?== STOP PASSED
+@2.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@6d8c1f30 :: getHallway ?== NONE PASSED
 
 
 ******************Summary******************

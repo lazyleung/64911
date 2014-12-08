@@ -53,9 +53,10 @@
 3.0s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed >= 0.25
 3.0s A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
+;arc '6A/2b'
 3.2s I DRIVE_PERIOD F DriveSpeed = UP 0.24
 
-;#arc '6A/2b'
+;#arc '6A/2c'
 3.5s I AT_FLOOR_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID                  AtFloor 2 BACK = true
 
 ;Expected Behavior: Drive = LEVEL, UP
