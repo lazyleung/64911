@@ -10,3 +10,4 @@ DoorControl FRONT RIGHT 10ms true
 DoorControl BACK LEFT 10ms true
 DoorControl BACK RIGHT 10ms true
 LanternControl "LanternControl" UP 100ms true
+Dispatcher 50ms true
