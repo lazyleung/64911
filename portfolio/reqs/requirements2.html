@@ -1631,6 +1631,7 @@ Down<br>
 
 6.12&nbsp;&nbsp;mDriveSpeed shall be set to DriveSpeed.<br>
 6.13&nbsp;&nbsp;mDrive shall be set to Drive.<br>
+6.14&nbsp;&nbsp;If countdown is less than or equal to zero then Drive shall be commanded to {Stop, Stop}<br>
 
 <br>
 <p> <img style="width: 657; height: 345px;" alt="DriveControl Statechart" src="DriveControl_state_diagram.png"><br clear="left"> </p>
@@ -1721,6 +1722,7 @@ Down<br>
         Drive = {Stop, Stop} <br>
         mDrive = Drive <br>
         mDriveSpeed = DriveSpeed <br>
+        countdown = initWaitTime <br>
       </td>
     </tr>
     <tr>
@@ -1730,6 +1732,7 @@ Down<br>
         Drive = {Slow, Up} <br>
         mDrive = Drive <br>
         mDriveSpeed = DriveSpeed <br>
+        countdown = initWaitTime <br>
       </td>
     </tr>
     <tr>
@@ -1739,7 +1742,7 @@ Down<br>
         Drive = {Level, Up} <br>
         mDrive = Drive <br>
         mDriveSpeed = DriveSpeed <br>
-      </td>
+        countdown = initWaitTime <br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S6.4 SLOW_DOWN<br> </td>
@@ -1748,6 +1751,7 @@ Down<br>
         Drive = {Slow, Down} <br>
         mDrive = Drive <br>
         mDriveSpeed = DriveSpeed <br>
+        countdown = initWaitTime <br>
       </td>
     </tr>
     <tr>
@@ -1757,6 +1761,7 @@ Down<br>
         Drive = {Level, Down} <br>
         mDrive = Drive <br>
         mDriveSpeed = DriveSpeed <br>
+        countdown = initWaitTime <br>
       </td>
     </tr>
     <tr>
@@ -1766,6 +1771,7 @@ Down<br>
         Drive = {Fast, Up} <br>
         mDrive = Drive <br>
         mDriveSpeed = DriveSpeed <br>
+        countdown = initWaitTime <br>
       </td>
     </tr>
     <tr>
@@ -1775,6 +1781,7 @@ Down<br>
         Drive = {Fast, Down} <br>
         mDrive = Drive <br>
         mDriveSpeed = DriveSpeed <br>
+        countdown = initWaitTime <br>
       </td>
     </tr>
     <tr>
@@ -1784,6 +1791,7 @@ Down<br>
         Drive = {Stop, Stop} <br>
         mDrive = Drive <br>
         mDriveSpeed = DriveSpeed <br>
+        countdown = countdown - period.getFracSeconds<br>
       </td>
     </tr>
   </tbody>
@@ -1797,7 +1805,7 @@ completed by Eric Newhall (enewhall)<br>
       <td
  style="vertical-align: top; background-color: rgb(204, 204, 204);"><br>
       </td>
-      <td colspan="8" rowspan="1"
+      <td colspan="9" rowspan="1"
  style="vertical-align: top; background-color: rgb(204, 204, 204);">Requirements<br>
       </td>
     </tr>
@@ -1830,6 +1838,9 @@ completed by Eric Newhall (enewhall)<br>
 <td
  style="vertical-align: top; background-color: rgb(204, 204, 204);">R6.13<br>
       </td>
+<td
+ style="vertical-align: top; background-color: rgb(204, 204, 204);">R6.14<br>
+      </td>
     </tr>
     <tr>
       <td
@@ -1850,6 +1861,8 @@ completed by Eric Newhall (enewhall)<br>
  <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
     </tr>
     <tr>
@@ -1872,6 +1885,8 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
     <tr>
       <td
@@ -1892,6 +1907,8 @@ completed by Eric Newhall (enewhall)<br>
  <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
     </tr>
     <tr>
@@ -1915,6 +1932,8 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
     <tr>
  <tr>
@@ -1937,6 +1956,8 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
 <tr>
       <td
@@ -1957,6 +1978,8 @@ completed by Eric Newhall (enewhall)<br>
  	<td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
     </tr>
 <tr>
@@ -1979,8 +2002,34 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
     <tr>
+  <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 204, 204);">S6.8:&nbsp; INIT<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+    </tr>
+<tr>
       <td
  style="vertical-align: top; background-color: rgb(204, 204, 204);"><span
  style="font-weight: bold;">Transitions</span><br>
@@ -2001,12 +2050,16 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
     <tr>
       <td
  style="vertical-align: top; background-color: rgb(204, 204, 204);">T6.1<br>
       </td>
       <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2043,6 +2096,8 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
   <tr>
       <td
@@ -2059,6 +2114,8 @@ completed by Eric Newhall (enewhall)<br>
       <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2085,12 +2142,16 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
   <tr>
       <td
  style="vertical-align: top; background-color: rgb(204, 204, 204);">T6.5<br>
       </td>
       <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2127,6 +2188,8 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
   <tr>
       <td
@@ -2143,6 +2206,8 @@ completed by Eric Newhall (enewhall)<br>
       <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2169,6 +2234,8 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
   <tr>
       <td
@@ -2181,6 +2248,8 @@ completed by Eric Newhall (enewhall)<br>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2211,6 +2280,8 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
   <tr>
       <td
@@ -2219,6 +2290,8 @@ completed by Eric Newhall (enewhall)<br>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2253,6 +2326,8 @@ completed by Eric Newhall (enewhall)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
   <tr>
       <td
@@ -2261,6 +2336,8 @@ completed by Eric Newhall (enewhall)<br>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2294,6 +2371,31 @@ completed by Eric Newhall (enewhall)<br>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 204, 204);">T6.15<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">X<br>
       </td>
     </tr>
   </tbody>
