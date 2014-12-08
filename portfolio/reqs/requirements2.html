@@ -3143,6 +3143,7 @@ below Lobby (1). </li>
   <li>CarCallDirection: the DesiredDirection after servicing a carCall, computed based on whether there are more pending calls past that floor.</li>
   <li>HallCallDirection: the DesiredDirection after servicing a hallCall, computed based on whether the hallCall is for up or down direction.</li>
   <li>HallCallHall: the DesiredHallway of the hall call to be serviced, computed based on ClosestHallCall.b or FarthestHallCall.b</li>
+    <li>HallCallFloor: the DesiredFloor of the hall call to be serviced, computed based on ClosestHallCall.f or FarthestHallCall.f</li>
     <li>Target: an integer Floor number for desired Floor, initialized to Lobby = 1. </li>
   <li>DesiredHall: the intented hallway at the next stop, initialized to NONE.</li>
   <li>DesiredDirection: the intented direction after next stop, initialized to STOP. </li>
@@ -3326,47 +3327,81 @@ d) shall not be Down when f = 1.
     <tr>
       <td style="vertical-align: top;">S11.1 <br>INIT<br> </td>
       <td style="vertical-align: top;">Initial State</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME <br>Target=1<br> DesiredHall=NONE<br> DesiredDirection=STOP<br> mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+      <td style="vertical-align: top;">Countdown=WAIT_TIME <br>Target=1<br> DesiredHall=NONE<br> DesiredDirection=STOP<br> mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S11.2 <br>DISPATCH_UP<br> </td>
       <td style="vertical-align: top;">Look for a floor above the current floor to go to, if none are found change state and look down</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME <br> mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+      <td style="vertical-align: top;">Countdown = WAIT_TIME<br>        	HallCallUpFloor = closestHallCallUp<br>
+        	HallCallUpHall = closestHallwayUp<br>
+        	HallCallDownFloor = farthestHallCallUp<br>
+        	HallCallDownHall = farthestHallwayUp<br>
+            DesiredHallway = Hallway.NONE<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
+      
     <tr>
       <td style="vertical-align: top;">S11.3 <br>DISPATCH_DOWN<br> </td>
       <td style="vertical-align: top;">Look for a floor below the current floor to go to, if none are found change state and look up</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME <br> mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+      <td style="vertical-align: top;">Countdown=WAIT_TIME <br> HallCallDownFloor = closestHallCallDown<br>
+        	HallCallDownHall = closestHallwayDown<br>
+        	HallCallUpFloor = farthestHallCallDown<br>
+        	HallCallUpHall = farthestHallwayDown<br>
+            DesiredHallway = NONE<br> mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S11.4 <br>SERVICE_HALLCALL_UP<br> </td>
       <td style="vertical-align: top;">The dispatcher waits for a hall call above the current floor to be serviced before making new decisions</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME <br> DesiredDirection=UP<br>Target=closestHallCall<br> DesireHallway=HallCallHall<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+      <td style="vertical-align: top;">Countdown=WAIT_TIME <br> DesiredDirection=UP<br>Target=HallCallFloor<br> DesireHallway=HallCallHall<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">S11.5 <br>SERVICE_HALLCALL_DOWN<br> </td>
       <td style="vertical-align: top;">The dispatcher waits for a hall call below the current floor to be serviced before making new decisions</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME <br> DesiredDirection=DOWN<br>mDesiredFloor=closestHallCall<br>
+      <td style="vertical-align: top;">Countdown=WAIT_TIME <br> DesiredDirection=DOWN<br>Target=HallCallFloor<br> DesireHallway=HallCallHall<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
 <tr>
       <td style="vertical-align: top;">S11.6 <br>SERVICE_CARCALL_UP<br> </td>
       <td style="vertical-align: top;">The dispatcher waits for a car call above the current floor to be serviced before making new decisions</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME <br> DesiredDirection=CarCallDirection<br>Target=closestFloor.f<br> DesireHallway=ClosestFloor.b<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+      <td style="vertical-align: top;">Countdown=WAIT_TIME <br> DesiredDirection=CarCallDirection<br>Target=closestFloor.f<br> DesireHallway=ClosestFloor.b<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
 <tr>
       <td style="vertical-align: top;">S11.7 <br>SERVICE_CARCALL_DOWN<br> </td>
       <td style="vertical-align: top;">The dispatcher waits for a car call below the current floor to be serviced before making new decisions</td>
-      <td style="vertical-align: top;">countdown=WAIT_TIME <br> DesiredDirection=CarCallDirection<br>Target=ClosestFloor.f<br> DesireHallway=ClosestFloor.b<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+      <td style="vertical-align: top;">Countdown = WAIT_TIME <br> DesiredDirection=CarCallDirection<br>Target=ClosestFloor.f<br> DesireHallway=ClosestFloor.b<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
     </tr>
+      
+      <tr>
+      <td style="vertical-align: top;">S11.8 <br>INFLIGHT_CARCALL_UP<br> </td>
+      <td style="vertical-align: top;">The dispatcher waits for a car call to arrive at carcall destination</td>
+      <td style="vertical-align: top;">CountDown = WAIT_TIME<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+    </tr>
+      
+         <tr>
+      <td style="vertical-align: top;">S11.9 <br>INFLIGHT_CARCALL_DOWN<br> </td>
+      <td style="vertical-align: top;">The dispatcher waits for a car call to arrive at carcall destination</td>
+      <td style="vertical-align: top;">CountDown = WAIT_TIME<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+    </tr>
+      
+          <tr>
+      <td style="vertical-align: top;">S11.10 <br>INFLIGHT_HALLCALL_UP<br> </td>
+      <td style="vertical-align: top;">The dispatcher waits for a car call to arrive at hallcall destination</td>
+      <td style="vertical-align: top;">CountDown = WAIT_TIME<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+    </tr>
+      
+         <tr>
+      <td style="vertical-align: top;">S11.11 <br>INFLIGHT_HALLCALL_DOWN<br> </td>
+      <td style="vertical-align: top;">The dispatcher waits for a car call to arrive at hallcall destination</td>
+      <td style="vertical-align: top;">CountDown = WAIT_TIME<br>mDesiredFloor=[Target,DesiredHall,desiredDirection]<br>
+    </tr>
+      
 <tr>
       <td style="vertical-align: top;">S11.12 <br>WAIT_HALLCALL_DOWN<br> </td>
       <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a floor below or equal to the current floor</td>
-      <td style="vertical-align: top;">countdown = countdown - period<br>mDesiredFloor = [Target, DesiredDirection, DesiredHallway] <br>
+      <td style="vertical-align: top;">Countdown = Countdown - period<br>mDesiredFloor = [Target, DesiredDirection, DesiredHallway] <br>
     </tr>
 <tr>
       <td style="vertical-align: top;">S11.13 <br>WAIT_HALLCALL_UP<br> </td>
       <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a below above or equal to the current floor</td>
-      <td style="vertical-align: top;">countdown = countdown - period<br>mDesiredFloor = [Target, DesiredDirection, DesiredHallway] <br>
+      <td style="vertical-align: top;">Countdown = Countdown - period<br>mDesiredFloor = [Target, DesiredDirection, DesiredHallway] <br>
     </tr>
       
       <tr>
@@ -3376,15 +3411,15 @@ d) shall not be Down when f = 1.
     </tr>
       
       <tr>
-      <td style="vertical-align: top;">S11.13 <br>SERVICED_HALLCALL_UP<br> </td>
+      <td style="vertical-align: top;">S11.15 <br>SERVICED_HALLCALL_UP<br> </td>
       <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a below above or equal to the current floor</td>
-      <td style="vertical-align: top;">mDesiredFloor = [Target, DesiredDirection, DesiredHallway]<br>
+      <td style="vertical-align: top;">CountDown = WAIT_TIME<br>DesiredHallway = NONE<br>mDesiredFloor = [Target, DesiredDirection, DesiredHallway]<br>
     </tr>
       
       <tr>
-      <td style="vertical-align: top;">S11.13 <br>SERVICED_HALLCALL_UP<br> </td>
+      <td style="vertical-align: top;">S11.16 <br>SERVICED_HALLCALL_UP<br> </td>
       <td style="vertical-align: top;">Wait for the passenger to enter the car and press a car call button for a below above or equal to the current floor</td>
-      <td style="vertical-align: top;">mDesiredFloor = [Target, DesiredDirection, DesiredHallway]<br>
+      <td style="vertical-align: top;">CountDown = WAIT_TIME<br>DesiredHallway = NONE<br>mDesiredFloor = [Target, DesiredDirection, DesiredHallway]<br>
     </tr>
   </tbody>
 </table>
