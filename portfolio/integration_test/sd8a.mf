@@ -16,7 +16,9 @@
 0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID    DoorClosed BACK RIGHT = true
 0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                          CarWeight = 0
 0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][BACK]_CAN_ID                  AtFloor 1 BACK = true
-0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                 AtFloor 1 FRONT = true
+  0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                 AtFloor 1 FRONT = true
+  0.0s I LEVEL_SENSOR_PERIOD          N LEVEL_SENSOR_[UP]_CAN_ID                   Leveling UP = true
+0.0s I LEVEL_SENSOR_PERIOD          N LEVEL_SENSOR_[DOWN]_CAN_ID                 Leveling DOWN = true
 
 ; Assert initial conditions, direct state of DoorControl to initial state
 0.2s A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.0
@@ -38,7 +40,7 @@
 2.2s A N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT : getValue == true
 
 
-;#arc '8a/1a'
+;#arc '8a/1'
 3.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 BACK STOP
 
 
@@ -68,11 +70,13 @@
 8.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
 8.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID     DoorOpened FRONT RIGHT = false
 
+;arc '8a/2c'
+8.2s A F DoorMotor FRONT LEFT : command  == STOP
 
-;#Expected output: Drive = level, down
-;#arc '8a/3a'
-8.2s A F Drive : speed == LEVEL
-8.2s A F Drive : direction == DOWN
+;#Expected output: Drive = slow, down
+;#arc '8a/3'
+8.9s A F Drive : speed == SLOW
+8.9s A F Drive : direction == UP
 
 
 ;#arc '8a/4'
@@ -92,3 +96,7 @@
 ;#arc '8a/5b'
 10s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT = false
 10s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID     DoorClosed BACK RIGHT = false
+
+;#arc '8a/6'
+11.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 5 BACK STOP
+
