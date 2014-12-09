@@ -13,8 +13,10 @@ DriveControl drivecontrol.cf drivecontrol_test6.mf
 DriveControl drivecontrol.cf drivecontrol_test7.mf
 HallButtonControl HallButtonControl.cf HallButtonControlTest1.mf
 LanternControl LanternControl.cf LanternControlUnitTest.mf
-Dispatcher Dispatcher.cf Advanced_dispatcher_test1.mf
-Dispatcher Dispatcher.cf Advanced_dispatcher_test2.mf
-Dispatcher Dispatcher.cf Advanced_dispatcher_test3.mf
+Dispatcher Dispatcher.cf final_dispatcher_test1.mf
+Dispatcher Dispatcher.cf final_dispatcher_test2.mf
+Dispatcher Dispatcher.cf final_dispatcher_test3.mf
+Dispatcher Dispatcher.cf final_dispatcher_test4.mf
+Dispatcher Dispatcher.cf final_dispatcher_test5.mf
 
 CarPositionControl CarPositionControl.cf CarPositionControl_1.mf
