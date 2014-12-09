@@ -1,3 +1,12 @@
+/*
+ECE649 FALL 2014
+Group 11
+Jonathan Leung/jkleung1
+Eric Newhall/enewhall
+Mengzhe Li/mzli 
+Ting Xu/tingx
+*/
+
 package simulator.elevatorcontrol;
 
 import jSimPack.SimTime;
