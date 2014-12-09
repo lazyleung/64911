@@ -1,0 +1,24 @@
+
+Simulator Parameters:
+Command line = -cf ../portfolio/integration_test/sd2a.cf -mf ../portfolio/integration_test/sd2a.mf
+RandomSeed = 1418095731801
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = ../portfolio/integration_test/sd2a.mf
+Controller File = ../portfolio/integration_test/sd2a.cf
+
+Assertion Results:
+@0.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@ceab6409 :: getValue ?== true PASSED
+@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@62104c09 :: command ?== CLOSE PASSED
+@7.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@394f6d1 :: command ?== STOP PASSED
+@9.5s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@3db00a81 :: getValue ?== true PASSED
+@10.0s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@cd8ed1e9 :: isLighted ?== true PASSED
+
+
+******************Summary******************
+Passed:  5
+Failed:  0
+Total :  5
+
