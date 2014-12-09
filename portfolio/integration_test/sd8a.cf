@@ -4,6 +4,8 @@
 ;Eric Newhall/enewhall
 ;Mengzhe Li/mzli 
 ;Ting Xu/tingx
+;sd8a.cf
+;Modules tested: DoorControl Dispatcher
 
 DriveControl 10ms true
 DoorControl FRONT LEFT 10ms true

@@ -4,5 +4,7 @@
 ;Eric Newhall/enewhall
 ;Mengzhe Li/mzli 
 ;Ting Xu/tingx
+;sd6a.cf
+;Module tested: DriveControl 
 
 DriveControl 10ms true

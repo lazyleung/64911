@@ -1,3 +1,8 @@
-;Eric Newhall
+; Unit Test for HallButtonControl
+; Eric NewHall, Jonathan Leung, Mengzhe Li, Ting Xu
+; enewhall, jkleung1, mzli, tingx
+; 18649 Fall 2014
+; Group 11
+; Module tested: LanternControl 
 
 LanternControl "LanternControl" UP 200ms true

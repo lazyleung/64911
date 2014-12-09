@@ -4,5 +4,6 @@
 ; enewhall, jkleung1, mzli, tingx
 ; Integration test for sd1a
 ; sd1a1.cf
+; Module tested: HallButtonControl
 
 HallButtonControl 100ms 4 FRONT UP true

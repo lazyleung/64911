@@ -4,6 +4,8 @@
 ;Eric Newhall/enewhall
 ;Mengzhe Li/mzli 
 ;Ting Xu/tingx
+;sd4a.cf
+;Module tested: CarPositionControl, DoorControl, Dispatcher 
 
 CarPositionControl 50ms true
 DoorControl FRONT LEFT 10ms true

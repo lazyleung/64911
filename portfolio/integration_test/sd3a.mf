@@ -3,6 +3,7 @@
   ; Group 11
   ; Ting Xu
   ; Eric Newhall, Jonathan Leung, Mengzhe Li
+  ; sd3a.mf
 
   #INCLUDE defines.mf ;include CAN id and period definitions
 

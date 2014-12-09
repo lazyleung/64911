@@ -2,6 +2,8 @@
 ; Eric Newhall
 ; Group 11
 ; Ting Xu (tingx) Jonathan Leung (jkleung1), Mengzhe Li (mzli) 
+; sd7b.cf
+; Module tested: DoorControl LanternControl 
 
 DoorControl FRONT LEFT 10ms true
 LanternControl UP 100ms true

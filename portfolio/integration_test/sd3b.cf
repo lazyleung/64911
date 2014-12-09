@@ -4,6 +4,8 @@
 ;Eric Newhall/enewhall
 ;Mengzhe Li/mzli 
 ;Ting Xu/tingx
+;sd3b.cf
+;Module tested: DoorControl
 
 DoorControl FRONT LEFT 10ms true
 DoorControl FRONT RIGHT 10ms true

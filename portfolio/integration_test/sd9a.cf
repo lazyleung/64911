@@ -4,8 +4,9 @@
 ;Eric Newhall/enewhall
 ;Mengzhe Li/mzli 
 ;Ting Xu/tingx
+;sd9a.cf
+;Modules tested: DoorControl
 
-;Dispatcher  50ms true
 DoorControl FRONT LEFT 10ms true
 DoorControl FRONT RIGHT 10ms true
 DoorControl BACK LEFT 10ms true

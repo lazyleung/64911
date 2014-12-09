@@ -4,6 +4,8 @@
 ;Eric Newhall/enewhall
 ;Mengzhe Li/mzli 
 ;Ting Xu/tingx
+;sd1c.cf
+;Module tested: HallButtonControl DoorControl 
 
 HallButtonControl 100ms 2 BACK UP true
 HallButtonControl 100ms 2 BACK DOWN true

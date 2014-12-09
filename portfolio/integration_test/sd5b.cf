@@ -2,7 +2,7 @@
 ; Eric Newhall
 ; Group 11
 ; Ting Xu (tingx) Jonathan Leung (jkleung1), Mengzhe Li (mzli) 
-; CarButtonControl.cf
+; sd5b.cf
 ; Module tested: DoorControl
 
 DoorControl FRONT LEFT 100ms true

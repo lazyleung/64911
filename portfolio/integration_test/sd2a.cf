@@ -4,6 +4,8 @@
 ;Eric Newhall/enewhall
 ;Mengzhe Li/mzli 
 ;Ting Xu/tingx
+;sd2a.cf
+;Module tested: DoorControl, CarButtonControl 
 
 DoorControl FRONT LEFT 10ms true
 CarButtonControl 100ms 2 BACK true

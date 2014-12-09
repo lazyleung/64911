@@ -1,5 +1,11 @@
-  ; Integreation Test for SD7B
-  ; Eric Newhall
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli 
+;Ting Xu/tingx
+;sd7b.mf
+
 
   #INCLUDE defines.mf ;include CAN id and period definitions
 

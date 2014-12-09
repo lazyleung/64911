@@ -2,6 +2,7 @@
 ; Eric NewHall, Jonathan Leung, Mengzhe Li, Ting Xu
 ; 18649 Fall 2014
 ; Group 11
+; HallButtonControlTest1.mf
 
 #INCLUDE defines.mf ;include CAN id and period definitions
 

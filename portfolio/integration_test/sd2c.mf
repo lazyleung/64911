@@ -1,5 +1,10 @@
-  ; Integreation Test for SD2c
-  ; Eric Newhall
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli 
+;Ting Xu/tingx
+;sd2c.mf
 
   #INCLUDE defines.mf ;include CAN id and period definitions
 
