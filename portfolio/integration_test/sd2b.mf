@@ -24,18 +24,32 @@
 5.1s A F DoorMotor FRONT LEFT : command  == CLOSE
 5.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
 
-;#arc '2b/2a'
-;#arc '2b/2b'
-6.0s I CAR_BUTTON_CONTROL_PERIOD F CarCall 1 FRONT = true
 
-;#arc '2b/2c'
-6.5s A N CAR_CALL_[1][FRONT]_CAN_ID MyBoolean : getValue == true
-6.5s I DISPATCHER_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 FRONT STOP
+;#arc '2b/2a'
+6.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
+
+;#arc '2b/2b'
+6.5s A F DoorMotor FRONT LEFT : command  == STOP
 
 ;#arc '2b/3a'
-7.0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
-; Need to change desired floor to make doormotor stay in STOP
-7.0s I DISPATCHER_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK STOP
+;#arc '2b/3b'
+7.0s I CAR_BUTTON_CONTROL_PERIOD F CarCall 1 FRONT = true
 
 ;#arc '2b/3c'
-7.5s A F DoorMotor FRONT LEFT : command  == STOP
+7.5s A N CAR_CALL_[1][FRONT]_CAN_ID MyBoolean : getValue == true
+
+;#arc '2b/4a'
+;#arc '2b/4b'
+8.0s A F CarLight 1 FRONT : isLighted == true
+
+;#arc '2b/4c'
+8.5s I DISPATCHER_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 FRONT STOP
+
+;#arc '2b/5a'
+9.1s A F DoorMotor FRONT LEFT : command  == OPEN
+
+;#arc '2b/6a'
+9.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
+
+;#arc '2b/6b'
+10.5s A F DoorMotor FRONT LEFT : command  == STOP
