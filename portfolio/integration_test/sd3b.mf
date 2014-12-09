@@ -38,7 +38,7 @@
 0.2s A N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID     DoorClosed BACK LEFT : getValue == false
 0.2s A N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID    DoorClosed BACK RIGHT : getValue == false
 
-;#arc '3A/1'
+;#arc '3B/1'
 ;Passenger Enters
 1.0s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 STOP BOTH
 1.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
@@ -46,7 +46,7 @@
 1.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID      DoorOpened BACK LEFT = true
 1.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = true
 
-;#arc '3A/2'
+;#arc '3B/2'
 6.5s A F DoorMotor FRONT LEFT : command == CLOSE
 6.5s A F DoorMotor FRONT RIGHT : command == CLOSE
 6.5s A F DoorMotor BACK LEFT : command == CLOSE
@@ -57,22 +57,22 @@
 7.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID      DoorOpened BACK LEFT = false
 7.1s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = false
 
-;#arc '3A/3'
+;#arc '3B/3'
 8.0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 15000
 
-;#arc '3A/4a'
+;#arc '3B/4a'
 8.5s A F DoorMotor FRONT LEFT : command == OPEN
 8.5s A F DoorMotor FRONT RIGHT : command == OPEN
 8.5s A F DoorMotor BACK LEFT : command == OPEN
 8.5s A F DoorMotor BACK RIGHT : command == OPEN
 
-;#arc '3A/4b'
+;#arc '3B/4b'
 9.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
 9.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID    DoorOpened FRONT RIGHT = true
 9.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID      DoorOpened BACK LEFT = true
 9.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID     DoorOpened BACK RIGHT = true
 
-;#arc '3A/4c'
+;#arc '3B/4c'
 10.0s A F DoorMotor FRONT LEFT : command == STOP
 10.0s A F DoorMotor FRONT RIGHT : command == STOP
 10.0s A F DoorMotor BACK LEFT : command == STOP

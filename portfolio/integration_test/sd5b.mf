@@ -22,23 +22,23 @@
   1.5s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = false
   1.5s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 2 FRONT UP
 
-  ;#arc '5A/1a'
+  ;#arc '5B/1a'
   7.0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
   7.2s A F DoorMotor FRONT LEFT : command  == CLOSE
 
-  ;#arc '5A/2a'
+  ;#arc '5B/2a'
   ;Passenger Attempts to Exit
 
-  ;#arc '5A/2b'
+  ;#arc '5B/2b'
   7.5s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = true
 
-  ;#arc '5A/3a'
+  ;#arc '5B/3a'
   8.0s A F DoorMotor FRONT LEFT : command  == OPEN
 
-  ;#arc '5A/3b'
+  ;#arc '5B/3b'
   ; Make doormotor stay in stop
   8.5s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 15000
   8.5s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = true
  
-  ;#arc '5A/3c'
+  ;#arc '5B/3c'
   9.0s A F DoorMotor FRONT LEFT : command  == STOP
