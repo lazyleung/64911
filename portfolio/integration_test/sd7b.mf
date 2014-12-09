@@ -13,7 +13,7 @@
   0s I DOOR_OPENED_SENSOR_PERIOD    N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID     DoorOpened FRONT LEFT = false
   0s I DOOR_CLOSED_SENSOR_PERIOD    N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID   DoorClosed FRONT LEFT = true
   0s I DOOR_REVERSAL_NETWORK_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
-  0s I AT_FLOOR_PERIOD              N AT_FLOOR_[1][FRONT]_CAN_ID                AtFloor 1 FRONT = true
+  0s I AT_FLOOR_PERIOD              N AT_FLOOR_[3][FRONT]_CAN_ID                AtFloor 3 FRONT = true
   0s I DRIVE_CONTROL_PERIOD         N DRIVE_SPEED_CAN_ID                        DriveSpeed = 0 STOP
   0s I WEIGHT_PERIOD                N CAR_WEIGHT_CAN_ID                         CarWeight = 0
   0s I DISPATCHER_PERIOD            N DESIRED_DWELL_[FRONT]_CAN_ID              Integer = 2 
@@ -22,7 +22,7 @@
   0.2s A F CarLantern UP : lighted  == false
   0.2s A F CarLantern DOWN : lighted  == false
 
-  0.3s I DISPATCHER_PERIOD      N DESIRED_FLOOR_CAN_ID    DesiredFloor = 1 FRONT STOP
+  0.3s I DISPATCHER_PERIOD      N DESIRED_FLOOR_CAN_ID    DesiredFloor = 3 FRONT STOP
     
   ;arc '7B/1a'  
   1.0s A F DoorMotor FRONT LEFT : command  == OPEN
@@ -37,7 +37,7 @@
   2.0s A F DoorMotor FRONT LEFT : command  == STOP
 
   ;arc '7B/2a'
-  3.5s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 1 FRONT STOP
+  3.5s I DISPATCHER_PERIOD            N DESIRED_FLOOR_CAN_ID                      DesiredFloor = 3 FRONT STOP
  
   ;arc '7B/2b'
   4.0s A F CarLantern UP : lighted  == false
