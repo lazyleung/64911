@@ -338,25 +338,29 @@ include all information listed in the project handouts.<br>
       </td>
       <td style="vertical-align: top;"><a href="Dispatcher.cf">Dispatcher.cf</a><br>
       </td>
-      <td style="vertical-align: top;"><a href="Advanced_dispatcher_test1.mf">Advanced_dispatcher_test1.mf</a><br>
+      <td style="vertical-align: top;"><a href="final_dispatcher_test1.mf">final_dispatcher_test1.mf</a><br>
       </td>
       <td style="vertical-align: top;">
         S11.1 INIT<br>
-        S11.2 GOTO_CLOSEST_FLOOR<br>
-        S11.3 GOTO_FARTHEST_FLOOR<br>
-        S11.4 IDLE<br>
-        S11.5 EMERGENCY<br>
+        S11.2 DISPATCH_UP<br>
+        S11.4 SERVICE_HALLCALL_UP<br>
+        S11.10 INFLIGHT_HALLCALL_UP<br>
+        S11.13 WAIT_HALLCALL_UP<br>
+        S11.14 EMERGENCY<br>
+        S11.15 SERVICED_HALLCALL_UP<br>
         T11.1<br>
-        T11.3<br>
         T11.4<br>
+        T11.5<br>
         T11.6<br>
         T11.7<br>
+          T11.21<br>
+          T11.25<br>
   </td>
-      <td style="vertical-align: top;">18<br>
+      <td style="vertical-align: top;">30<br>
       </td>
       <td style="vertical-align: top;">0<br>
       </td>
-      <td style="vertical-align: top;"><a href="Advanced_dispatcher_test1.stats">Advanced_dispatcher_test1.stats</a><br>
+      <td style="vertical-align: top;"><a href="final_dispatcher_test1.stats">final_dispatcher_test1.stats</a><br>
       </td>
       <td style="vertical-align: top;">None<br>
       </td>
@@ -366,18 +370,18 @@ include all information listed in the project handouts.<br>
       </td>
       <td style="vertical-align: top;"><a href="Dispatcher.cf">Dispatcher.cf</a><br>
       </td>
-      <td style="vertical-align: top;"><a href="Advanced_dispatcher_test2.mf">Advanced_dispatcher_test2.mf</a><br>
+      <td style="vertical-align: top;"><a href="final_dispatcher_test2.mf">final_dispatcher_test2.mf</a><br>
       </td>
       <td style="vertical-align: top;">
         S11.1 INIT<br>
-        S11.3 EMERGENCY<br>
-        T11.8<br>
+        S11.14 EMERGENCY<br>
+        T11.24<br>
   </td>
-      <td style="vertical-align: top;">6<br>
+      <td style="vertical-align: top;">3<br>
       </td>
       <td style="vertical-align: top;">0<br>
       </td>
-      <td style="vertical-align: top;"><a href="Advanced_dispatcher_test2.stats">Advanced_dispatcher_test2.stats</a><br>
+      <td style="vertical-align: top;"><a href="final_dispatcher_test2.stats">final_dispatcher_test2.stats</a><br>
       </td>
       <td style="vertical-align: top;">None<br>
       </td>
@@ -388,23 +392,26 @@ include all information listed in the project handouts.<br>
       </td>
       <td style="vertical-align: top;"><a href="Dispatcher.cf">Dispatcher.cf</a><br>
       </td>
-      <td style="vertical-align: top;"><a href="Advanced_dispatcher_test3.mf">Advanced_dispatcher_test3.mf</a><br>
+      <td style="vertical-align: top;"><a href="final_dispatcher_test3.mf">final_dispatcher_test3.mf</a><br>
       </td>
       <td style="vertical-align: top;">
         S11.1 INIT<br>
-        S11.2 GOTO_FARTHEST_FLOOR<br>
-        S11.3 GOTO_CLOSEST_FLOOR<br>
-        S11.4 IDLE<br>
-        T11.2<br>
-        T11.4<br>
-        T11.6<br>
+        S11.2 DISPATCH_UP<br>
+        S11.6 SERVICE_CARCALL_UP<br>
+        S11.8 INFLIGHT_CARCALL_UP<br>
+        S11.14 EMERGENCY<br>
+        T11.1<br>
+        T11.14<br>
+        T11.15<br>
+        T11.16<br>
+        T11.24<br>
 
   </td>
       <td style="vertical-align: top;">12<br>
       </td>
       <td style="vertical-align: top;">0<br>
       </td>
-      <td style="vertical-align: top;"><a href="Advanced_dispatcher_test3.stats">Advanced_dispatcher_test3.stats</a><br>
+      <td style="vertical-align: top;"><a href="final_dispatcher_test3.stats">final_dispatcher_test3.stats</a><br>
       </td>
       <td style="vertical-align: top;">None<br>
       </td>
