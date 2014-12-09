@@ -1,0 +1,35 @@
+
+Simulator Parameters:
+Command line = -cf ../portfolio/unit_test/drivecontrol.cf -mf ../portfolio/unit_test/drivecontrol_test4.mf
+RandomSeed = 1418164307584
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = ../portfolio/unit_test/drivecontrol_test4.mf
+Controller File = ../portfolio/unit_test/drivecontrol.cf
+
+Assertion Results:
+@0.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@bb3a0c25 :: speed ?== STOP PASSED
+@0.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@d203c6d4 :: direction ?== STOP PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@6ad5edf5 :: getSpeed ?== 0.0 PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@94c0a8ef :: getDirection ?== STOP PASSED
+@1.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@e3b15773 :: speed ?== SLOW PASSED
+@1.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@67ef1990 :: direction ?== DOWN PASSED
+@1.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@44b2c8bb :: getSpeed ?<= 0.25 PASSED
+@1.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@4b9f1f16 :: getDirection ?== DOWN PASSED
+@2.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@220e321b :: speed ?== LEVEL PASSED
+@2.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@6e4075ba :: direction ?== DOWN PASSED
+@2.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@d2add9ba :: getSpeed ?<= 0.05 PASSED
+@2.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@1df0efac :: getDirection ?== DOWN PASSED
+@3.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@62720c19 :: speed ?== STOP PASSED
+@3.2s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@1cae354e :: direction ?== STOP PASSED
+@3.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@a2dab5d1 :: getSpeed ?== 0.0 PASSED
+@3.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@a884cb8f :: getDirection ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  16
+Failed:  0
+Total :  16
+

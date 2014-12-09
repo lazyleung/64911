@@ -1,0 +1,31 @@
+
+Simulator Parameters:
+Command line = -cf ../portfolio/unit_test/doorcontrol.cf -mf ../portfolio/unit_test/DoorControl_test1.mf
+RandomSeed = 1418164279214
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = ../portfolio/unit_test/DoorControl_test1.mf
+Controller File = ../portfolio/unit_test/doorcontrol.cf
+
+Assertion Results:
+@1.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@e5e48d65 :: command ?== STOP PASSED
+@2.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@899241af :: command ?== OPEN PASSED
+@3.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@8e7e164b :: command ?== STOP PASSED
+@4.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@897ee124 :: command ?== STOP PASSED
+@9.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@3e8b4258 :: command ?== CLOSE PASSED
+@10.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@ee932653 :: command ?== STOP PASSED
+@12.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@44b78b :: command ?== OPEN PASSED
+@13.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@a7c6cc78 :: command ?== STOP PASSED
+@13.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@6fd27be7 :: command ?== STOP PASSED
+@19.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@318484e9 :: command ?== CLOSE PASSED
+@21.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@28070205 :: command ?== OPEN PASSED
+@22.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@9345a6dd :: command ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  12
+Failed:  0
+Total :  12
+
