@@ -1,3 +1,11 @@
+;ECE649 FALL 2014
+;Group 11
+;Jonathan Leung/jkleung1
+;Eric Newhall/enewhall
+;Mengzhe Li/mzli 
+;Ting Xu/tingx
+
+
 ;Downpeak final acceptance test
 ;Time   Arrival     Departure
 60s     7   BACK    1   FRONT
