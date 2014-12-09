@@ -139,15 +139,15 @@ to resolve the issue.&nbsp; This should be a specific list, such as
       </td>
       <td style="vertical-align: top;">9/24/2014<br>
       </td>
-      <td style="vertical-align: top;">N/A<br>
+      <td style="vertical-align: top;">9/24/2014<br>
       </td>
-      <td style="vertical-align: top;">N/A<br>
+      <td style="vertical-align: top;">enewhall<br>
       </td>
       <td style="vertical-align: top;">SD2B<br>
       </td>
       <td style="vertical-align: top;">Does not refelct what signals are actually being sent. CarButtonControl needs to turn on the car light and then turn it off once the passenger stops pushing button.<br>
       </td>
-      <td style="vertical-align: top;">N/A<br>
+      <td style="vertical-align: top;">Our interpretation of the requirements was wrong<br>
       </td>
       <td style="vertical-align: top;">SD2B<br>
       </td>
@@ -159,7 +159,7 @@ to resolve the issue.&nbsp; This should be a specific list, such as
       </td>
       <td style="vertical-align: top;">9/25/2014<br>
       </td>
-      <td style="vertical-align: top;">Eric Newhall<br>
+      <td style="vertical-align: top;">enewhall<br>
       </td>
       <td style="vertical-align: top;">SD7A<br>
       </td>
@@ -469,7 +469,7 @@ to resolve the issue.&nbsp; This should be a specific list, such as
         </td>
         <td style="vertical-align: top;">11/13/2014<br>
         </td>
-        <td style="vertical-align: top;">Ongoing<br>
+        <td style="vertical-align: top;">11/13/2014<br>
         </td>
         <td style="vertical-align: top;">jkleung1<br>
         </td>
@@ -675,6 +675,110 @@ to resolve the issue.&nbsp; This should be a specific list, such as
         <td style="vertical-align: top;">
             DoorControl Code
         </td>
+    </tr>
+	
+	<tr>
+        <td style="vertical-align: top;">30<br>
+        </td>
+        <td style="vertical-align: top;">12/4/2014<br>
+        </td>
+        <td style="vertical-align: top;">12/4/2014<br>
+		</td>
+		<td style="vertical-align: top;">mzli<br>
+        </td>
+		<td style="vertical-align: top;">Dispatcher<br>
+        </td>
+        <td style="vertical-align: top;">Dispatcher waits with doors open but a passenger will not make a car call until the doors are closed.  Also, dispatcher will move in wrong direction after servicing a hall call in some cases.<br>
+        </td>
+        <td style="vertical-align: top;">Added additional states to the dispatcher to allow it to service hall and car calls differents and wait with doors closed instead of open.<br>
+        </td>
+        <td style="vertical-align: top;">
+              Dispatcher requirements<br>
+            Dispatcher statechart<br>
+            Dispatcher requirements to sc traceability<br>
+            Dispatcher requirements to sd traceability<br>
+            Dispatcher requirements to constraints traceability<br>
+            Dispatcher code<br>
+            Dispatcher sc to code traceability<br>
+            Advanced_dispatcher_test1.mf<br>
+            Advanced_dispatcher_test2.mf<br>
+            Advanced_dispatcher_test3.mf<br>
+        </td>
+
+	<tr>
+        <td style="vertical-align: top;">31<br>
+        </td>
+        <td style="vertical-align: top;">12/4/2014<br>
+        </td>
+        <td style="vertical-align: top;">12/4/2014<br>
+		</td>
+		<td style="vertical-align: top;">enewhall<br>
+        </td>
+		<td style="vertical-align: top;">Lantern Control<br>
+        </td>
+        <td style="vertical-align: top;">Lantern control sends mCarLantern even though the message was removed<br>
+        </td>
+        <td style="vertical-align: top;">Lantern Control now only sends physical messages<br>
+        </td>
+        <td style="vertical-align: top;">
+            Lantern Control requirements<br>
+            Lantern Control requirements to sc traceability<br>
+            Lantern Control requirements to sd traceability<br>
+            Lantern Control requirements to constraints traceability<br>
+            Lantern Control code<br>
+            LanternControlUnitTest.mf<br>
+        </td>
+	</tr>
+
+<tr>
+        <td style="vertical-align: top;">32<br>
+        </td>
+        <td style="vertical-align: top;">12/4/2014<br>
+        </td>
+        <td style="vertical-align: top;">12/4/2014<br>
+		</td>
+		<td style="vertical-align: top;">jkleung1<br>
+        </td>
+		<td style="vertical-align: top;">Drive Control<br>
+        </td>
+        <td style="vertical-align: top;">It is possible for drive control to attempt to move to floor zero at initialization<br>
+        </td>
+        <td style="vertical-align: top;">An additional state was added so that drive control waits at initialization before attempting to move<br>
+        </td>
+        <td style="vertical-align: top;">
+            Drive Control requirements<br>
+            Drive Control statechart<br>
+            Drive Control requirements to sc traceability<br>
+            Drive Control requirements to sc traceability<br>
+            Drive Control requirements to sd traceability<br>
+            Drive Control requirements to constraints traceability<br>
+            Drive Control code<br>
+            Drive Control unit tests<br>
+        </td>
+	</tr>
+
+<tr>
+        <td style="vertical-align: top;">33<br>
+        </td>
+        <td style="vertical-align: top;">12/5/2014<br>
+        </td>
+        <td style="vertical-align: top;">12/5/2014<br>
+		</td>
+		<td style="vertical-align: top;">tingx<br>
+        </td>
+		<td style="vertical-align: top;">Runtime Requirements Monitor<br>
+        </td>
+        <td style="vertical-align: top;"> RT8.3 gives false warning <br>
+        </td>
+        <td style="vertical-align: top;"> Statechart for RT8.3 was changed to only have 2 states and use mCarLantern and mDriveSpeed to test for violations<br>
+        </td>
+        <td style="vertical-align: top;">
+            RuntimeRequirementsMonitor.java<br>
+            Verify.html<br>
+        </td>
+	</tr>
+
+
 
   </tbody>
 </table>
