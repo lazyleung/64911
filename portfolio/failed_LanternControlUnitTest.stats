@@ -1,0 +1,25 @@
+
+Simulator Parameters:
+Command line = -cf ../portfolio/unit_test/LanternControl.cf -mf ../portfolio/unit_test/LanternControlUnitTest.mf
+RandomSeed = 1418160444634
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = ../portfolio/unit_test/LanternControlUnitTest.mf
+Controller File = ../portfolio/unit_test/LanternControl.cf
+
+Assertion Results:
+@2.0s:  FAILED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@1746f8c1 :: lighted ?== false FAILED
+@2.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@c2395035 :: getValue ?== false PASSED
+@6.0s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@d92aaad9 :: lighted ?== true PASSED
+@6.0s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@79b6be48 :: getValue ?== true PASSED
+@11.0s:  FAILED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@9d5b946f :: lighted ?== false FAILED
+@11.0s:  FAILED simulator.payloads.CanMailbox$ReadableCanMailbox@b25ead23 :: getValue ?== false FAILED
+
+
+******************Summary******************
+Passed:  3
+Failed:  3
+Total :  6
+
