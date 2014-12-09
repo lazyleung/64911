@@ -1,4 +1,4 @@
-SD1A.1 sd1a1.cf sd1a1.mf
+SD1A sd1a1.cf sd1a1.mf
 SD1B sd1b.cf sd1b.mf
 SD1C sd1c.cf sd1c.mf
 SD2A sd2a.cf sd2a.mf
